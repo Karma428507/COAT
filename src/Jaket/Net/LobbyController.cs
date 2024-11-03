@@ -40,7 +40,8 @@ public class LobbyController
     /// <summary> Scales health to increase difficulty. </summary>
     public static void ScaleHealth(ref float health) => health *= 1f + Mathf.Min(Lobby?.MemberCount - 1 ?? 1, 1) * PPP;
     /// <summary> Whether the given lobby is created via Multikill. </summary>
-    public static bool IsMultikillLobby(Lobby lobby) => lobby.Data.Any(pair => pair.Key == "mk_lobby");
+    public static bool IsLobbyIncompatible(Lobby lobby) => lobby.Data.Any(pair => pair.Key == "mk_lobby") && !lobby.Data.Any(pair => pair.Key == "COAT");
+    public static bool IsLobbyModdedOnly(Lobby lobby) => lobby.Data.Any(pair => pair.Key == "mk_lobby") && lobby.Data.Any(pair => pair.Key == "COAT");
 
     /// <summary> Creates the necessary listeners for proper work. </summary>
     public static void Load()
@@ -58,7 +59,7 @@ public class LobbyController
                 LeaveLobby();
                 Bundle.Hud2NS("lobby.banned");
             }
-            if (IsMultikillLobby(Lobby.Value))
+            if (IsLobbyIncompatible(Lobby.Value))
             {
                 LeaveLobby();
                 Bundle.Hud2NS("lobby.mk");
@@ -101,7 +102,12 @@ public class LobbyController
 
             Lobby?.SetJoinable(true);
             Lobby?.SetPrivate();
+
+            // lobby identification stuff
             Lobby?.SetData("jaket", "true");
+            Lobby?.SetData("COAT", "true");
+            Lobby?.SetData("mk_lobby", "true");
+
             Lobby?.SetData("name", $"{SteamClient.Name}'s Lobby");
             Lobby?.SetData("level", MapMap(Scene));
             Lobby?.SetData("pvp", "True");
