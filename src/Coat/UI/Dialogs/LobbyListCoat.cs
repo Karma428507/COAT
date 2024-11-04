@@ -41,7 +41,7 @@ public class LobbyListCoat : CanvasSingleton<LobbyListCoat>
 
             create = UIB.Button("", table, new(100f, -116f, 184f, 40f, new(0f, 1f)), clicked: Create);
 
-            UIB.IconButton("Y", table, Icon(292f, 68f), blue, clicked: Toggle);
+            UIB.IconButton("X", table, Icon(292f, 68f), blue, clicked: Toggle);
             content = UIB.Scroll("List", table, new(0f, 232f, 624f, 544f, new(.5f, 0f), new(.5f, 0f))).content;
         });
         Refresh();
@@ -60,8 +60,8 @@ public class LobbyListCoat : CanvasSingleton<LobbyListCoat>
 
     public void Create()
     {
-        Tools.LoadScn("uk_construct");
-        LobbyController.CreateLobby();
+        LoadScn("uk_construct");
+        LobbyController.CreateLobbyCoat();
     }
 
     /// <summary> Rebuilds the lobby list to match the list on Steam servers. </summary>
@@ -83,7 +83,7 @@ public class LobbyListCoat : CanvasSingleton<LobbyListCoat>
         float y = -24f;
         foreach (var lobby in lobbies)
         {
-            var name = "[COAT] " + lobby.GetData("name");
+            var name = " [COAT] " + lobby.GetData("name");
             var r = Btn(y += 48f) with { Width = 624f };
 
             if (search != "")

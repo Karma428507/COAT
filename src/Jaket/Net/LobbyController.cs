@@ -32,8 +32,8 @@ public class LobbyController
     public static bool CheatsAllowed => Lobby?.GetData("cheats") == "True";
     /// <summary> Whether mods are allowed in this lobby. </summary>
     public static bool ModsAllowed => true/*Lobby?.GetData("mods") == "True"*/;
-    /// <summary> To see if the server is using Coat</summary>
-    public static bool UsingCoat => Lobby?.GetData("COAT") == "true";
+    /// <summary> To see if the server is using Coat </summary>
+    public static bool UsingCoat => Lobby?.GetData("Karma.Coat") == "true";
     /// <summary> Whether bosses must be healed after death in this lobby. </summary>
     public static bool HealBosses => Lobby?.GetData("heal-bosses") == "True";
     /// <summary> Number of percentages that will be added to the boss's health for each player. </summary>
@@ -41,8 +41,10 @@ public class LobbyController
 
     /// <summary> Scales health to increase difficulty. </summary>
     public static void ScaleHealth(ref float health) => health *= 1f + Mathf.Min(Lobby?.MemberCount - 1 ?? 1, 1) * PPP;
+    /// <summary> Whether the given lobby is using Coat </summary>
+    public static bool IsCoatLobby(Lobby lobby) => lobby.Data.Any(pair => pair.Key == "Karma.Coat");
     /// <summary> Whether the given lobby is created via Multikill. </summary>
-    public static bool IsMultikillLobby(Lobby lobby) => lobby.Data.Any(pair => pair.Key == "mk_lobby");
+    public static bool IsMultikillLobby(Lobby lobby) => lobby.Data.Any(pair => pair.Key == "mk_lobby") && !IsCoatLobby(lobby);
 
     /// <summary> Creates the necessary listeners for proper work. </summary>
     public static void Load()
@@ -125,8 +127,16 @@ public class LobbyController
             Lobby = task.Result;
 
             Lobby?.SetJoinable(true);
-            Lobby?.SetPublic();
-            Lobby?.SetData("coat", "true");
+            Lobby?.SetPrivate();
+
+            Lobby?.SetData("Karma.Coat", "true");
+
+            // coat lobbies are incompatible with normal jaket lobbies
+            // this is a jank fix that prevents normal jaket users from joining them
+            // this is done because jaket only checks if "mk_lobby" is present to determine if 
+            // a lobby is a jaket lobby instead of checking for "jaket" which is what it should do
+            Lobby?.SetData("mk_lobby", "true");
+
             Lobby?.SetData("name", $"{SteamClient.Name}'s Lobby");
             Lobby?.SetData("level", MapMap(Scene));
             Lobby?.SetData("pvp", "True");
@@ -218,7 +228,7 @@ public class LobbyController
         SteamMatchmaking.LobbyList.RequestAsync().ContinueWith(task =>
         {
             FetchingLobbies = false;
-            done(task.Result.Where(l => l.Data.Any(p => p.Key == "coat")).ToArray());
+            done(task.Result.Where(l => l.Data.Any(p => p.Key == "Karma.Coat")).ToArray());
         });
     }
 
