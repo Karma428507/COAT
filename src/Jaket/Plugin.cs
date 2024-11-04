@@ -13,7 +13,7 @@ using Jaket.Sprays;
 using Jaket.World;
 
 /// <summary> Bootloader class needed to avoid destroying the mod by the game. </summary>
-[BepInPlugin("xzxADIxzx.Jaket", "Jaket", Version.CURRENT)]
+[BepInPlugin("Karma", "Coat", Version.CURRENT)]
 public class PluginLoader : BaseUnityPlugin
 {
     private void Awake() => Events.InternalSceneLoaded = () =>
@@ -37,7 +37,7 @@ public class Plugin : MonoBehaviour
     private void Start()
     {
         Log.Load();
-        Log.Info("Loading jaket...");
+        Log.Info("Loading Coat...");
 
         Events.Load();
         Events.OnMainMenuLoaded += Init;

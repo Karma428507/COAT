@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
+using Coat.UI.Dialogs;
+
 using Jaket.UI.Dialogs;
 using Jaket.UI.Fragments;
 using Jaket.World;
@@ -32,6 +34,8 @@ public class UI
         Chat.Build("Chat", true, hide: () => Chat.Instance.Field?.gameObject.SetActive(Chat.Shown = false), woh: true);
         LobbyTab.Build("Lobby Tab", true);
         LobbyList.Build("Lobby List", true);
+        LobbyListCoat.Build("Coat Lobby List", true);
+        LobbyGameList.Build("Coat Game Modes", true);
         PlayerList.Build("Player List", true);
         Settings.Build("Settings", true);
         SpraySettings.Build("Spray Settings", true);
