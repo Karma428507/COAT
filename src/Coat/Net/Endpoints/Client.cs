@@ -1,4 +1,4 @@
-namespace Jaket.Net.Endpoints;
+namespace Coat.Net.Endpoints;
 
 using Steamworks;
 using Steamworks.Data;
@@ -8,8 +8,7 @@ using Jaket.IO;
 using Jaket.Net.Types;
 using Jaket.Sprays;
 using Jaket.World;
-using Jaket.UI.Dialogs;
-
+/*
 /// <summary> Client endpoint processing socket events and host packets. </summary>
 public class Client : Endpoint, IConnectionManager
 {
@@ -65,14 +64,6 @@ public class Client : Endpoint, IConnectionManager
         Listen(PacketType.CyberGrindAction, CyberGrind.LoadPattern);
 
         Listen(PacketType.Vote, r => Votes.UpdateVote(r.Id(), r.Byte()));
-
-        Listen(PacketType.COAT_Handshake, r =>
-        {
-            if (!LobbyController.UsingCoat)
-                return;
-
-            Chat.Instance.Receive($"Client: Handshake completed :3, ID: {r.Id()}");
-        });
     }
 
     public override void Update()
@@ -113,3 +104,4 @@ public class Client : Endpoint, IConnectionManager
 
     #endregion
 }
+*/

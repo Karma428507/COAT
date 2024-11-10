@@ -34,10 +34,10 @@ public class SteamPatch
         if (LobbyController.Offline) return;
 
         // #AtCyberGrind is a localization string for Cyber Grind, just "%difficulty% | Cyber Grind: Wave %wave%" without setting its values
-        if (key == "wave") value += " | Multiplayer via Jaket";
+        if (key == "wave") value += " | Multiplayer via Coat";
 
         // #AtStandardLevel is a localization string for other levels, just "%difficulty% | %level%" without setting its values
-        if (key == "level") value += " | Multiplayer via Jaket";
+        if (key == "level") value += " | Multiplayer via Coat";
 
         /* other steam_display values for ULTRAKILL include:
          * #AtMainMenu (displays "Main Menu" in your activity)

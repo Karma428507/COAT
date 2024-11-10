@@ -9,6 +9,7 @@ namespace Jaket;
 using HarmonyLib;
 using Steamworks;
 using System.Reflection;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -33,6 +34,30 @@ public static class Tools
     public static void CacheAccId() => AccId = Id.AccountId;
     /// <summary> Returns the name of the player with the given AccountId. </summary>
     public static string Name(uint id) => new Friend(id | 76561197960265728u).Name;
+
+    public async static Task<Texture2D> GetPFP(uint id)
+    {
+        var avatarResult = await SteamFriends.GetLargeAvatarAsync(id);
+        Texture2D texture;
+
+        if (avatarResult.HasValue)
+        {
+            if (avatarResult.Value.Width == 0 || avatarResult.Value.Height == 0)
+                return null;
+
+            texture = new Texture2D((int)avatarResult.Value.Width, (int)avatarResult.Value.Height,
+                TextureFormat.RGBA32, true);
+            texture.LoadRawTextureData(avatarResult.Value.Data);
+
+            return texture;
+        }
+        else
+        {
+            Debug.LogError("Failed to retrieve avatar.");
+        }
+
+        return null;
+    }
 
     #endregion
     #region scene

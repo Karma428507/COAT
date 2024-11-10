@@ -1,15 +1,16 @@
-namespace Jaket.UI.Dialogs;
+namespace Coat.UI.Dialogs;
 
 using UnityEngine;
 using UnityEngine.UI;
 
+using Jaket;
 using Jaket.Assets;
 using Jaket.Net;
+using Jaket.UI;
 using Jaket.World;
 
-using static Rect;
-using Coat.UI.Dialogs;
-
+using static Jaket.UI.Rect;
+/*
 /// <summary> Tab responsible for lobby management. </summary>
 public class LobbyTab : CanvasSingleton<LobbyTab>
 {
@@ -46,7 +47,7 @@ public class LobbyTab : CanvasSingleton<LobbyTab>
         {
             copy = UIB.Button("#lobby-tab.copy", table, Btn(68f), clicked: LobbyController.CopyCode);
             UIB.Button("#lobby-tab.join", table, Btn(116f), clicked: LobbyController.JoinByCode);
-            UIB.Button("#lobby-tab.list", table, Btn(164f), clicked: LoadBrowserList);
+            UIB.Button("#lobby-tab.list", table, Btn(164f), clicked: LobbyList.Instance.Toggle);
         });
         UIB.Table("Lobby Config", "#lobby-tab.config", transform, Tlw(384f + 422f / 2f, 422f), table =>
         {
@@ -84,14 +85,6 @@ public class LobbyTab : CanvasSingleton<LobbyTab>
 
         Version.Label(transform);
         Rebuild();
-    }
-
-    public void LoadBrowserList()
-    {
-        if (LobbyController.Lobby != null && LobbyController.UsingCoat)
-            LobbyListCoat.Instance.Toggle();
-        else
-            LobbyList.Instance.Toggle();
     }
 
     /// <summary> Toggles visibility of the lobby tab. </summary>
@@ -137,4 +130,4 @@ public class LobbyTab : CanvasSingleton<LobbyTab>
 
         transform.GetChild(3).gameObject.SetActive(LobbyController.Online && LobbyController.IsOwner);
     }
-}
+}*/

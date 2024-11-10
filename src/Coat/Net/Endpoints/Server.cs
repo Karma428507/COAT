@@ -1,4 +1,4 @@
-namespace Jaket.Net.Endpoints;
+namespace Coat.Net.Endpoints;
 
 using Steamworks;
 using Steamworks.Data;
@@ -8,8 +8,7 @@ using Jaket.IO;
 using Jaket.Net.Types;
 using Jaket.Sprays;
 using Jaket.World;
-using Jaket.UI.Dialogs;
-
+/*
 /// <summary> Host endpoint processing socket events and client packets. </summary>
 public class Server : Endpoint, ISocketManager
 {
@@ -131,14 +130,6 @@ public class Server : Endpoint, ISocketManager
                 Redirect(r, con);
             }
         });
-
-        Listen(PacketType.COAT_Handshake, (con, sender, r) =>
-        {
-            if (!LobbyController.UsingCoat)
-                return;
-
-            Chat.Instance.Receive($"Server: Handshake completed :3, ID: {r.Id()}");
-        });
     }
 
     public override void Update()
@@ -237,3 +228,4 @@ public class Server : Endpoint, ISocketManager
 
     #endregion
 }
+*/

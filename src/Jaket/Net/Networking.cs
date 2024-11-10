@@ -143,6 +143,8 @@ public class Networking
                 Chat.Instance.ReceiveTTS(GetTeamColor(member), member, message.Substring(5));
             else
                 Chat.Instance.Receive(GetTeamColor(member), member.Name.Replace("[", "\\["), message);
+
+            // Conditions if it's a Coat server
         };
     }
 

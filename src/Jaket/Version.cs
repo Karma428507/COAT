@@ -13,9 +13,9 @@ using static Jaket.UI.Rect;
 public class Version
 {
     /// <summary> Current version of the mod installed by the player. </summary>
-    public const string CURRENT = "1.3.42";
+    public const string CURRENT = "0.0.1";
     /// <summary> Repository of the mod, where the newest version will be taken from. </summary>
-    public const string REPO = "xzxADIxzx/Join-and-kill-em-together";
+    public const string REPO = "Karma428507/COAT";
     /// <summary> Json fragments preceding a tag and a name of the latest version of the mod. </summary>
     public const string TAG = "\"tag_name\": \"V", NAME = "\"name\": \"";
 

@@ -1,5 +1,8 @@
 namespace Jaket.UI.Elements;
 
+using Jaket.UI.Dialogs;
+using Steamworks;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,12 +15,13 @@ public class PlayerHeader
     /// <summary> Player name taken from Steam. </summary>
     public string Name;
     /// <summary> Component containing the name. </summary>
+    public Texture2D Image;
     public Text Text;
 
     /// <summary> Canvas containing header content. </summary>
     private Transform canvas;
     /// <summary> Health images that the player directly sees. </summary>
-    private RectTransform health, overhealth;
+    private RectTransform health, overhealth, PFP;
     /// <summary> Ellipsis indicating that the player is typing a message. </summary>
     private Text ellipsis;
 
@@ -25,14 +29,32 @@ public class PlayerHeader
     {
         Name = Name(id);
 
+        Image = Task.Run(async () => await Tools.GetPFP(id)).Result;
+
         float width = Name.Length * 14f + 16f;
         canvas = UIB.WorldCanvas("Header", parent, new(0f, 5f, 0f), build: canvas =>
         {
             UIB.Table("Name", canvas, Size(width, 40f), table => Text = UIB.Text(Name, table, Huge, size: 240));
             Text.transform.localScale /= 10f;
 
+
             var h = Size(160f, 4f) with { y = -30f };
-            UIB.Image("Background", canvas, h, black);
+            UIB.Image("Background", canvas, h, black, null, PFP);
+
+            if (Image != null)
+            {
+                PFP = UIB.Image(
+                    "PFP",
+                    canvas,
+                    h,
+                    sprite: Sprite.Create(
+                        Image,
+                        new Rect(0, 0, Image.width, Image.height),
+                        Vector2.zero)
+                ).rectTransform;
+
+                Chat.Instance.Receive($"Installed PFP, {id}");
+            }
 
             health = UIB.Image("Health", canvas, h, red).rectTransform;
             overhealth = UIB.Image("Overhealth", canvas, h, green).rectTransform;
