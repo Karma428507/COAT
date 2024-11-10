@@ -45,8 +45,10 @@ public class LobbyController
 
     /// <summary> Scales health to increase difficulty. </summary>
     public static void ScaleHealth(ref float health) => health *= 1f + Mathf.Min(Lobby?.MemberCount - 1 ?? 1, 1) * PPP;
+    /// <summary> Whether the given lobby is a coat lobby </summary>
+    public static bool IsCoatLobby(Lobby lobby) => lobby.Data.Any(pair => pair.Key == "Karma.Coat");
     /// <summary> Whether the given lobby is created via Multikill. </summary>
-    public static bool IsMultikillLobby(Lobby lobby) => lobby.Data.Any(pair => pair.Key == "mk_lobby");
+    public static bool IsMultikillLobby(Lobby lobby) => lobby.Data.Any(pair => pair.Key == "mk_lobby") && !IsCoatLobby(lobby);
 
     /// <summary> Creates the necessary listeners for proper work. </summary>
     public static void Load()
@@ -140,6 +142,12 @@ public class LobbyController
             Lobby?.SetData("cheats", "False");
             Lobby?.SetData("mods", "False");
             Lobby?.SetData("heal-bosses", "True");
+
+            // this is a hack needed to prevent normal jaket users and YAJF users from joining coat lobbies
+            Lobby?.SetData("mk_lobby", "true");
+
+            // this is a hack used to prevent any multikill users from potentially joining coat lobbies
+            Lobby?.SetData("jaket", "true");
         });
     }
 
@@ -225,7 +233,7 @@ public class LobbyController
         SteamMatchmaking.LobbyList.RequestAsync().ContinueWith(task =>
         {
             FetchingLobbies = false;
-            done(task.Result.Where(l => l.Data.Any(p => p.Key == "Karma.Coat")).ToArray());
+            done(task.Result.Where(l => IsCoatLobby(l)).ToArray());
         });
     }
 
