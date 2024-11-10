@@ -60,8 +60,10 @@ public class LobbyListCoat : CanvasSingleton<LobbyListCoat>
 
     public void Create()
     {
-        Tools.LoadScn("uk_construct");
-        LobbyController.CreateLobby();
+        // go to gamemode select to create a coat lobby, because coat is
+        // based on gamemodes
+        Toggle();
+        LobbyGameList.Instance.Toggle();
     }
 
     /// <summary> Rebuilds the lobby list to match the list on Steam servers. </summary>
