@@ -23,6 +23,8 @@ public class Administration
     public static List<uint> Banned = new();
     /// <summary> List of banned player sprays. </summary>
     public static List<uint> BannedSprays = new();
+    /// <summary< Id of last kicked player. </summary>
+    public static uint LastKicked = 0;
 
     private static Counter spam = new();
     private static Counter warnings = new();
@@ -43,6 +45,10 @@ public class Administration
             {
                 if (uint.TryParse(sid, out var id)) Banned.Add(id);
             });
+
+            LastKicked = 0;
+            if (uint.TryParse(LobbyController.Lobby?.GetData("kicked"), out var lastKicked)) 
+                LastKicked = lastKicked;
         };
         Events.OnLobbyEntered += () => { Banned.Clear(); entityBullets.Clear(); entities.Clear(); plushies.Clear(); };
         Events.EverySecond += spam.Clear;
@@ -67,6 +73,32 @@ public class Administration
         Banned.Add(id);
         LobbyController.Lobby?.SendChatString("#/k" + id);
         LobbyController.Lobby?.SetData("banned", string.Join(" ", Banned));
+    }
+
+    public static void COAT_Kick(uint id)
+    {
+        if (!LobbyController.IsOwner) return;
+
+        Networking.Send(PacketType.COAT_Kick, null, (data, size) => 
+        {
+            var con = Networking.FindCon(id);
+            Networking.Send(con, data, size);
+            con?.Flush();
+            Events.Post2(() => con?.Close());
+        });
+
+        LastKicked = id;
+        if (LobbyController.UsingCoat) LobbyController.Lobby?.SendChatString("#/l" + id);
+        LobbyController.Lobby?.SetData("kicked", LastKicked.ToString());
+    }
+
+    /// <summary> reset LastKicked on the server and the host's client </summary>
+    public static void COAT_ClearKicked()
+    {
+        if (!LobbyController.IsOwner) return;
+
+        LastKicked = 0;
+        LobbyController.Lobby?.DeleteData("kicked");
     }
 
     /// <summary> Whether the player is sending a large amount of data. </summary>

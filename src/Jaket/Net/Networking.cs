@@ -11,6 +11,7 @@ using Jaket.IO;
 using Jaket.Net.Endpoints;
 using Jaket.Net.Types;
 using Jaket.UI.Dialogs;
+using Discord;
 
 /// <summary> Class responsible for updating endpoints, transmitting packets and managing entities. </summary>
 public class Networking
@@ -46,6 +47,10 @@ public class Networking
             return list;
         }
     }
+
+    /// <summary> Whether or not things like join, leave, and chat messages can be printed for a certain player </summary>
+    private static bool UserMuted(uint id) =>
+        Administration.Banned.Contains(id) || Administration.LastKicked == id;
 
     /// <summary> Loads server, client and event listeners. </summary>
     public static void Load()
@@ -94,12 +99,13 @@ public class Networking
 
         Events.OnMemberJoin += member =>
         {
+            if (Administration.LastKicked == member.Id.AccountId) Administration.COAT_ClearKicked();
             if (!Administration.Banned.Contains(member.Id.AccountId)) Bundle.Msg("player.joined", member.Name);
         };
 
         Events.OnMemberLeave += member =>
         {
-            if (!Administration.Banned.Contains(member.Id.AccountId)) Bundle.Msg("player.left", member.Name);
+            if (!UserMuted(member.Id.AccountId)) Bundle.Msg("player.left", member.Name);
         };
 
         Events.OnMemberLeave += member =>
@@ -116,7 +122,9 @@ public class Networking
 
         SteamMatchmaking.OnChatMessage += (lobby, member, message) =>
         {
-            if (Administration.Banned.Contains(member.Id.AccountId)) return;
+            uint id = 0;
+
+            if (UserMuted(member.Id.AccountId)) return;
             if (message.Length > Chat.MAX_MESSAGE_LENGTH + 8) message = message.Substring(0, Chat.MAX_MESSAGE_LENGTH);
 
             if (message == "#/d")
@@ -128,8 +136,11 @@ public class Networking
                 });
             }
 
-            else if (message.StartsWith("#/k") && uint.TryParse(message.Substring(3), out uint id))
+            else if (message.StartsWith("#/k") && uint.TryParse(message.Substring(3), out id))
                 Bundle.Msg("player.banned", Name(id));
+
+            else if (message.StartsWith("#/l") && uint.TryParse(message.Substring(3), out id))
+                Bundle.Msg("player.kicked", Name(id));
 
             else if (message.StartsWith("#/s") && byte.TryParse(message.Substring(3), out byte team))
             {

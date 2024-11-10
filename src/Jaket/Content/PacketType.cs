@@ -38,5 +38,7 @@ public enum PacketType
     /// <summary> Player voted for an option. Voting can be different: skip of a cutscene, dialog or choice of an option. </summary>
     Vote,
 
-    COAT_Handshake
+    COAT_Handshake,
+
+    COAT_Kick
 }
