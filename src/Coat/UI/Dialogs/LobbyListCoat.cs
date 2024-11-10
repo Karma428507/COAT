@@ -85,7 +85,7 @@ public class LobbyListCoat : CanvasSingleton<LobbyListCoat>
         float y = -24f;
         foreach (var lobby in lobbies)
         {
-            var name = "[COAT] " + lobby.GetData("name");
+            var name = " [COAT] " + lobby.GetData("name");
             var r = Btn(y += 48f) with { Width = 624f };
 
             if (search != "")
