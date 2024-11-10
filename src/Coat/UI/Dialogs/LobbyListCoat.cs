@@ -95,10 +95,14 @@ public class LobbyListCoat : CanvasSingleton<LobbyListCoat>
                 name = name.Insert(index + "<color=#FFA500>".Length + search.Length, "</color>");
             }
 
+            bool unlimited = lobby.MaxMembers >= ushort.MaxValue;
             var b = UIB.Button(name, content, r, align: TextAnchor.MiddleLeft, clicked: () => LobbyController.JoinLobby(lobby));
 
-            var full = lobby.MemberCount <= 2 ? Green : lobby.MemberCount <= 4 ? Orange : Red;
-            var info = $"<color=#BBBBBB>{lobby.GetData("level")}</color> <color={full}>{lobby.MemberCount}/{lobby.MaxMembers}</color> ";
+            var full = unlimited? Green : (lobby.MemberCount <= 2 ? Green : lobby.MemberCount <= 4 ? Orange : Red);
+            var info = unlimited
+                ? $"<color=#BBBBBB>{lobby.GetData("level")}</color> <color={full}>{lobby.MemberCount}</color> "
+                : $"<color=#BBBBBB>{lobby.GetData("level")}</color> <color={full}>{lobby.MemberCount}/{lobby.MaxMembers}</color> ";
+
             UIB.Text(info, b.transform, r.Text, align: TextAnchor.MiddleRight);
         }
     }

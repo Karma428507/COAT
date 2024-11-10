@@ -48,7 +48,7 @@ public class LobbyTab : CanvasSingleton<LobbyTab>
             UIB.Button("#lobby-tab.join", table, Btn(116f), clicked: LobbyController.JoinByCode);
             UIB.Button("#lobby-tab.list", table, Btn(164f), clicked: LoadBrowserList);
         });
-        UIB.Table("Lobby Config", "#lobby-tab.config", transform, Tlw(384f + 422f / 2f, 422f), table =>
+        UIB.Table("Lobby Config", "#lobby-tab.config", transform, Tlw(384f + 490f / 2f, 490f), table =>
         {
             field = UIB.Field("#lobby-tab.name", table, Tgl(64f), cons: name => LobbyController.Lobby?.SetData("name", name));
             field.characterLimit = 28;
@@ -80,6 +80,20 @@ public class LobbyTab : CanvasSingleton<LobbyTab>
             });
 
             bosses = UIB.Toggle("#lobby-tab.heal-bosses", table, Tgl(398f), 20, allow => LobbyController.Lobby?.SetData("heal-bosses", allow.ToString()));
+
+            UIB.Text("MAX PLAYERS: ", table, Btn(438f), align: TextAnchor.MiddleLeft);
+            var MaxPlayers = UIB.Text("8", table, Btn(438f), align: TextAnchor.MiddleRight);
+
+            UIB.Slider("Max Players", table, Sld(466f), 16, value =>
+            {
+                if (LobbyController.Offline) return;
+
+                var l = LobbyController.Lobby.Value;
+                int maxPlayers = (value == 16)? ushort.MaxValue : (value + 1) * 2;
+
+                MaxPlayers.text = (value == 16)? "UNLIMITED" : maxPlayers.ToString();
+                l.MaxMembers = maxPlayers;
+            });
         });
 
         Version.Label(transform);
