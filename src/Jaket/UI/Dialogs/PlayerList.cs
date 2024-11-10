@@ -66,9 +66,17 @@ public class PlayerList : CanvasSingleton<PlayerList>
                 {
                     if (LobbyController.IsOwner)
                     {
-                        UIB.ProfileButton(member, table, Stn(y += 48f, -96f));
-                        UIB.IconButton("B", table, Icon(92f, y), red, clicked: () => Administration.Ban(member.Id.AccountId));
-                        UIB.IconButton("K", table, Icon(140f, y), yellow, clicked: () => Administration.COAT_Kick(member.Id.AccountId));
+                        if (LobbyController.UsingCoat)
+                        {
+                            UIB.ProfileButton(member, table, Stn(y += 48f, -96f));
+                            UIB.IconButton("B", table, Icon(92f, y), red, clicked: () => Administration.Ban(member.Id.AccountId));
+                            UIB.IconButton("K", table, Icon(140f, y), yellow, clicked: () => Administration.COAT_Kick(member.Id.AccountId));
+                        }
+                        else
+                        {
+                            UIB.ProfileButton(member, table, Stn(y += 48f, -48f));
+                            UIB.IconButton("X", table, Icon(140f, y), red, clicked: () => Administration.Ban(member.Id.AccountId));
+                        }
                     }
                     else UIB.ProfileButton(member, table, Btn(y += 48f));
                 }
