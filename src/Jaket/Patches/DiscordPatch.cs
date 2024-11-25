@@ -1,5 +1,6 @@
 namespace Jaket.Patches;
 
+using COAT;
 using Discord;
 using HarmonyLib;
 
@@ -14,7 +15,7 @@ public class DiscordPatch
     static void Activity(ref Activity ___cachedActivity)
     {
         // update the discord activity so everyone can know I've been working hard
-        if (LobbyController.Online) ___cachedActivity.State = "Playing multiplayer via Jaket";
+        if (LobbyController.Online) ___cachedActivity.State = COAT.DiscordDisplay();
     }
 
     [HarmonyPrefix]

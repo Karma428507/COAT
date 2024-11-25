@@ -37,6 +37,8 @@ public class LobbyController
     public static bool HealBosses => Lobby?.GetData("heal-bosses") == "True";
     /// <summary> Number of percentages that will be added to the boss's health for each player. </summary>
     public static float PPP;
+    /// <summary> Use later </summary>
+    public static bool IsCOATLobby => Lobby?.Data.Any(pair => pair.Key == "mk_lobby") == true;
 
     /// <summary> Scales health to increase difficulty. </summary>
     public static void ScaleHealth(ref float health) => health *= 1f + Math.Min(Lobby?.MemberCount - 1 ?? 1, 1) * PPP;
