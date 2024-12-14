@@ -52,4 +52,20 @@ public struct Rect
     public static Rect Deb(int x) => new(184f + 352f * x, 296f, 336f, 136f, new(0f, 0f), new(0f, 0f));
 
     #endregion
+
+    #region operators
+
+    public static Rect operator +(Rect a, Rect b) =>
+        new(a.x + b.x, a.y + b.y, a.Width + b.Width, a.Height + b.Height);
+
+    public static Rect operator -(Rect a, Rect b) =>
+        new(a.x - b.x, a.y - b.y, a.Width - b.Width, a.Height - b.Height);
+
+    public static Rect operator *(Rect a, Rect b) =>
+        new(a.x * b.x, a.y * b.y, a.Width * b.Width, a.Height * b.Height);
+
+    public static Rect operator /(Rect a, Rect b) =>
+        new (a.x / b.x, a.y / b.y, a.Width / b.Width, a.Height / b.Height);
+
+    #endregion
 }

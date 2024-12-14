@@ -11,6 +11,8 @@ using UnityEngine.Events;
 using Object = UnityEngine.Object;
 
 using Jaket.IO;
+using System.Threading.Tasks;
+using static UnityEngine.GraphicsBuffer;
 
 /// <summary> Set of different tools for simplifying life and systematization of code. </summary>
 public class Tools
@@ -119,6 +121,128 @@ public class Tools
     public static bool Within(Transform a, Transform b, float dst = 1f) => Within(a.position, b.position, dst);
     public static bool Within(GameObject a, Vector3 b, float dst = 1f) => Within(a.transform.position, b, dst);
     public static bool Within(GameObject a, GameObject b, float dst = 1f) => Within(a.transform.position, b.transform.position, dst);
+
+    #endregion
+    #region steam API
+
+    /// <summary>
+    /// Converts a member's pfp into a Texture2D
+    /// </summary>
+    public static async Task<Texture2D> GetSteamPFP(Friend member, Vector2 size, byte type)
+    {
+        RenderTexture resized = new RenderTexture();
+        Texture2D texture = null;
+        byte[] bytes;
+        uint[] RGBA;
+        Image? PFP;
+
+        // Find the optimal pfp or pfp specified by type
+        switch (type)
+        {
+            // small pfp
+            case 0:
+                PFP = await SteamFriends.GetSmallAvatarAsync(member.Id);
+                break;
+
+            // medium pfp
+            case 1:
+                PFP = await SteamFriends.GetMediumAvatarAsync(member.Id);
+                break;
+
+            // large pfp
+            case 2:
+                PFP = await SteamFriends.GetLargeAvatarAsync(member.Id);
+                break;
+
+            // optimal pfp
+            default:
+                PFP = await SteamFriends.GetSmallAvatarAsync(member.Id);
+
+                if (PFP != null && PFP.Value.Width >= size.x && PFP.Value.Height >= size.y)
+                    break;
+
+                PFP = await SteamFriends.GetMediumAvatarAsync(member.Id);
+
+                if (PFP != null && PFP.Value.Width >= size.x && PFP.Value.Height >= size.y)
+                    break;
+
+                PFP = await SteamFriends.GetLargeAvatarAsync(member.Id);
+                break;
+        }
+
+        if (PFP != null)
+        {
+            bytes = new byte[PFP.Value.Width * PFP.Value.Height * 4];
+            RGBA = new uint[PFP.Value.Width * PFP.Value.Height];
+            PFP.Value.Data.CopyTo(bytes, 0);
+
+            for (int i = 0; i < PFP.Value.Width * PFP.Value.Height; i++)
+            {
+                RGBA[i] |= bytes[(i * 4) + 0];
+                RGBA[i] |= (uint)(bytes[(i * 4) + 1] << 8);
+                RGBA[i] |= (uint)(bytes[(i * 4) + 2] << 16);
+                RGBA[i] |= (uint)(bytes[(i * 4) + 3] << 24);
+            }
+
+            // reverse
+            Array.Reverse(RGBA);
+            for (int i = 0; i < PFP.Value.Height; i++)
+                for (int j = 0; j < PFP.Value.Width / 2; j++)
+                    (RGBA[(i * PFP.Value.Height) + (PFP.Value.Width - j - 1)], RGBA[(i * PFP.Value.Height) + j]) = (RGBA[(i * PFP.Value.Height) + j], RGBA[(i * PFP.Value.Height) + (PFP.Value.Width - j - 1)]);
+
+            for (int i = 0; i < PFP.Value.Width * PFP.Value.Height; i++)
+            {
+                bytes[(i * 4) + 0] = (byte)RGBA[i];
+                bytes[(i * 4) + 1] = (byte)(RGBA[i] >> 8);
+                bytes[(i * 4) + 2] = (byte)(RGBA[i] >> 16);
+                bytes[(i * 4) + 3] = (byte)(RGBA[i] >> 24);
+            }
+
+            texture = new Texture2D((int)PFP.Value.Width, (int)PFP.Value.Height, TextureFormat.RGBA32, false);
+        }
+        else
+        {
+            bytes = new byte[50 * 50 * 4];
+            RGBA = new uint[50 * 50];
+
+            texture = new Texture2D(50, 50, TextureFormat.RGBA32, false);
+            for (int i = 0; i < 50; i++)
+            {
+                for (int j = 0; j < 50; j++)
+                    RGBA[i * 50 + j] = 0xFFFFFFFF;
+
+                RGBA[i * 50 + i] = 0xFF0000FF;
+                RGBA[i * 50 + (50 - i - 1)] = 0xFF0000FF;
+            }
+
+            for (int i = 0; i < 2500; i++)
+            {
+                bytes[(i * 4) + 0] = (byte)RGBA[i];
+                bytes[(i * 4) + 1] = (byte)(RGBA[i] >> 8);
+                bytes[(i * 4) + 2] = (byte)(RGBA[i] >> 16);
+                bytes[(i * 4) + 3] = (byte)(RGBA[i] >> 24);
+            }
+
+        }
+
+        // apply the bytes into the Texture2D
+        texture.LoadRawTextureData(bytes);
+        texture.Apply();
+
+        // check if there's a need to resize
+        if (texture.width != size.x || texture.height != size.y)
+        {
+            // resize
+            resized = new RenderTexture((int)size.x, (int)size.y, 24);
+            RenderTexture.active = resized;
+            Graphics.Blit(texture, resized);
+            texture = new Texture2D((int)size.x, (int)size.y);
+            texture.ReadPixels(new Rect(0, 0, size.x, size.y), 0, 0);
+            texture.Apply();
+        }
+
+        return texture;
+    }
 
     #endregion
 }

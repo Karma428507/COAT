@@ -3,14 +3,21 @@ namespace Jaket.UI.Dialogs;
 using Jaket.Assets;
 using Jaket.Content;
 using Jaket.Net;
+using Jaket.Net.Types;
 using Jaket.World;
-
+using Steamworks;
+using System.Collections.Generic;
+using ULTRAKILL.Cheats;
+using UnityEngine;
+using UnityEngine.UI;
 using static Pal;
 using static Rect;
 
 /// <summary> List of all players and teams. </summary>
 public class PlayerList : CanvasSingleton<PlayerList>
 {
+    private RectTransform content;
+
     private void Start()
     {
         UIB.Shadow(transform);
@@ -27,6 +34,12 @@ public class PlayerList : CanvasSingleton<PlayerList>
                 Rebuild();
             });
         });
+
+        UIB.Table("List", "#player-list.list", transform, Tlw(198f + 800 / 2f, 800f), table =>
+        {
+            content = UIB.Scroll("List", table, new Jaket.UI.Rect(0, -1, 336f, 800 - 90f)).content;
+        });
+
 
         Version.Label(transform);
         Rebuild();
@@ -47,30 +60,47 @@ public class PlayerList : CanvasSingleton<PlayerList>
     public void Rebuild()
     {
         // destroy old player list
-        if (transform.childCount > 3) Destroy(transform.GetChild(3).gameObject);
+        //if (transform.childCount > 3) Destroy(transform.GetChild(3).gameObject);
+        if (content.childCount > 0) foreach (Transform child in content) Destroy(child.gameObject);
         if (LobbyController.Offline) return;
 
-        float height = LobbyController.Lobby.Value.MemberCount * 48f + 48f;
-        UIB.Table("List", "#player-list.list", transform, Tlw(198f + height / 2f, height), table =>
+
+        float height = (LobbyController.Lobby.Value.MemberCount * 88) + 24f/* * 88f + 48f*/;
+        float y = 44f;
+
+        content.sizeDelta = new(336f, height - 28f);
+
+        foreach (var member in LobbyController.Lobby?.Members)
         {
-            float y = 20f;
-            foreach (var member in LobbyController.Lobby?.Members)
-            {
-                if (LobbyController.LastOwner == member.Id)
-                {
-                    UIB.ProfileButton(member, table, Stn(y += 48f, -48f));
-                    UIB.IconButton("★", table, Icon(140f, y), new(1f, .7f, .1f), new(1f, 4f), () => Bundle.Hud("player-list.owner"));
-                }
-                else
-                {
-                    if (LobbyController.IsOwner)
-                    {
-                        UIB.ProfileButton(member, table, Stn(y += 48f, -48f));
-                        UIB.IconButton("X", table, Icon(140f, y), red, clicked: () => Administration.Ban(member.Id.AccountId));
-                    }
-                    else UIB.ProfileButton(member, table, Btn(y += 48f));
-                }
-            }
-        });
+            UIB.Table(
+                "Player Info", content, new(0, y -= 88, 320f, 80f, new(.5f, 1f)), player => {
+                    string name = LobbyController.LastOwner == member.Id ? "★" + member.Name : member.Name;
+
+                    // Load the main compodents of the UI
+                    UIB.Button("", player, new(0, 0, 320f, 80f), Networking.GetTeam(member).Color(), 24);
+                    Image PFP = UIB.Image("PFP", player, new(-125, 0, 50, 50));
+                    UIB.Text(name, player, new(30, 12.5f, 230f, 30), align: TextAnchor.MiddleLeft);
+
+                    // Add the view button
+                    UIB.Button("View", player, new(110f, -12.5f, 75f, 40),
+                        Networking.GetTeam(member).Color(), 24,
+                        clicked: () => SteamFriends.OpenUserOverlay(member.Id, "steamid"));
+
+                    // Add a ban button for the owner
+                    if (LobbyController.IsOwner && LobbyController.LastOwner != member.Id)
+                        UIB.IconButton("X", player, Icon(45f, 52.5f), red, clicked: () => Administration.Ban(member.Id.AccountId));
+
+                    // To load in the PFPs
+                    LoadPFP(member, PFP);
+                });
+        }
+    }
+
+    public async void LoadPFP(Friend member, Image PFP)
+    {
+        Texture2D image = await Tools.GetSteamPFP(member, new(50, 50), 3);
+        PFP.sprite = Sprite.CreateSprite(image,
+                            new Rect(0, 0, 50, 50), new Vector2(0.5f, 0.5f), 100, 0,
+                            SpriteMeshType.FullRect, new(), true);
     }
 }
