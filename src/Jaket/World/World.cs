@@ -1,4 +1,4 @@
-namespace Jaket.World;
+/*namespace Jaket.World;
 
 using HarmonyLib;
 using System;
@@ -288,3 +288,4 @@ public class World
 
     #endregion
 }
+*/

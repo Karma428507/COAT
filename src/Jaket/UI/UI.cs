@@ -1,4 +1,4 @@
-namespace Jaket.UI;
+/*namespace Jaket.UI;
 
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -31,6 +31,7 @@ public class UI
 
         Chat.Build("Chat", true, true, hide: () => Chat.Instance.Field?.gameObject.SetActive(Chat.Shown = false));
         LobbyTab.Build("Lobby Tab", false, true);
+        GamemodeList.Build("Gamemode List", false, true);
         LobbyList.Build("Lobby List", false, true);
         PlayerList.Build("Player List", false, true);
         Settings.Build("Settings", false, true);
@@ -63,3 +64,4 @@ public class UI
         if (OptionsManager.Instance.paused) OptionsManager.Instance.UnPause();
     }
 }
+*/

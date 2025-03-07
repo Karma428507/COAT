@@ -1,4 +1,4 @@
-namespace Jaket.Net.Types;
+/*namespace Jaket.Net.Types;
 
 using System;
 using UnityEngine;
@@ -183,3 +183,4 @@ public class Doll : MonoBehaviour
 
     #endregion
 }
+*/

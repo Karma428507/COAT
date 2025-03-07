@@ -1,4 +1,4 @@
-﻿namespace Jaket.Patches;
+﻿/*namespace Jaket.Patches;
 
 using HarmonyLib;
 using UnityEngine.UI;
@@ -62,3 +62,4 @@ public class CyberDeathPatch
     [HarmonyPatch(nameof(FinalCyberRank.GameOver))]
     static bool GameOver() => LobbyController.Offline || CyberGrind.PlayersAlive() == 0;
 }
+*/

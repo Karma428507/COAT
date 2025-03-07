@@ -1,4 +1,4 @@
-namespace Jaket.Patches;
+/*namespace Jaket.Patches;
 
 using HarmonyLib;
 using System.Collections.Generic;
@@ -151,3 +151,4 @@ public class ActionPatch
         if (LobbyController.Online && LobbyController.IsOwner) World.SyncAction(__instance, 6);
     }
 }
+*/

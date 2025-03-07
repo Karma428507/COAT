@@ -1,4 +1,4 @@
-﻿namespace Jaket.World;
+﻿/*namespace Jaket.World;
 
 using UnityEngine;
 
@@ -76,3 +76,4 @@ public class CyberGrind
         else Movement.Instance.CyberRespawn();
     }
 }
+*/

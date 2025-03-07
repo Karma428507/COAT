@@ -1,4 +1,4 @@
-namespace Jaket.Commands;
+/*namespace Jaket.Commands;
 
 using System;
 using UnityEngine;
@@ -149,3 +149,4 @@ public class Commands
         Handler.Register("support", "Support the author by buying him a coffee", args => Application.OpenURL("https://www.buymeacoffee.com/adidev"));
     }
 }
+*/

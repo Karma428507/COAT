@@ -1,4 +1,4 @@
-namespace Jaket.Patches;
+/*namespace Jaket.Patches;
 
 using COAT;
 using Discord;
@@ -32,3 +32,4 @@ public class DiscordPatch
         Tools.Destroy(button.gameObject.AddComponent<ShopButton>()); // hacky
     }
 }
+*/

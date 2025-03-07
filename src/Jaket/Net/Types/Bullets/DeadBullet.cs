@@ -1,4 +1,4 @@
-namespace Jaket.Net.Types;
+/*namespace Jaket.Net.Types;
 
 using UnityEngine;
 
@@ -24,3 +24,4 @@ public class DeadBullet : Entity
     public override void Read(Reader r) { }
     public override void Write(Writer w) { }
 }
+*/

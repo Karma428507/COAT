@@ -1,4 +1,4 @@
-namespace Jaket.UI.Fragments;
+/*namespace Jaket.UI.Fragments;
 
 using UnityEngine;
 using UnityEngine.UI.Extensions;
@@ -132,3 +132,4 @@ public class EmojiWheel : CanvasSingleton<EmojiWheel>
         if (selected != 4) Movement.Instance.StartEmoji((byte)(Second ? selected + 6 : selected));
     }
 }
+*/

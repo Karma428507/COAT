@@ -12,22 +12,22 @@ using static Jaket.UI.Rect;
 public class Version
 {
     /// <summary> Current version of the mod installed by the player. </summary>
-    public const string CURRENT = "1.3.42";
+    public const string CURRENT = "0.0.1";
     /// <summary> Repository of the mod, where the newest version will be taken from. </summary>
-    public const string REPO = "xzxADIxzx/Join-and-kill-em-together";
+    public const string REPO = "Karma428507/COAT";
     /// <summary> Github API URL. I think it's not difficult to guess. </summary>
     public const string GITHUB_API = "https://api.github.com";
     /// <summary> Json fragments preceding a tag and a name of the latest version of the mod. </summary>
     public const string TAG = "\"tag_name\": \"V", NAME = "\"name\": \"";
 
     /// <summary> Notifies the player that their version of the mod doesn't match the host's one. </summary>
-    public static void Notify() => Bundle.Hud2NS("version.host-outdated");
+    //public static void Notify() => Bundle.Hud2NS("version.host-outdated");
 
     /// <summary> Checks for updates using Github and notifies the player about it. </summary>
-    public static void Check4Update() => Fetch((done, result) =>
-    {
-        if (done && Parse(result, out var latest, out var name) && latest != CURRENT) Bundle.Hud("version.outdated", false, CURRENT, latest, name);
-    });
+    //public static void Check4Update() => Fetch((done, result) =>
+    //{
+    //    if (done && Parse(result, out var latest, out var name) && latest != CURRENT) Bundle.Hud("version.outdated", false, CURRENT, latest, name);
+    //});
 
     /// <summary> Fetches a json file with all versions of the mod from GitHub. </summary>
     public static void Fetch(Action<bool, string> result)
@@ -53,9 +53,9 @@ public class Version
     }
 
     /// <summary> Adds the mod version to the bottom left edge of the screen. </summary>
-    public static void Label(Transform parent)
+    /*public static void Label(Transform parent)
     {
         var r = Blw(36f, 40f);
         UIB.Table("Version", parent, r, table => UIB.Text($"Jaket version is {CURRENT}", table, r.Text, Color.grey));
-    }
+    }*/
 }

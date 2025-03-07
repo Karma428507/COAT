@@ -1,4 +1,4 @@
-namespace Jaket.World;
+/*namespace Jaket.World;
 
 using HarmonyLib;
 using UnityEngine;
@@ -492,3 +492,4 @@ OPENING ALL DOORS... <color=#32CD32>DONE</color>";
         #endregion
     }
 }
+*/

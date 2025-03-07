@@ -1,4 +1,4 @@
-namespace Jaket.World;
+/*namespace Jaket.World;
 
 using System;
 using UnityEngine;
@@ -95,3 +95,4 @@ public class NetAction : WorldAction
         ));
     }
 }
+*/

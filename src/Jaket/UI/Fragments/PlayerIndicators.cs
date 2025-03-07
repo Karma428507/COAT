@@ -1,4 +1,4 @@
-namespace Jaket.UI.Fragments;
+/*namespace Jaket.UI.Fragments;
 
 using System.Collections.Generic;
 using UnityEngine;
@@ -88,3 +88,4 @@ public class PlayerIndicators : CanvasSingleton<PlayerIndicators>
         indicator.rectTransform.localEulerAngles = new Vector3(0f, 0f, 180f - angle + indicator.fillAmount * 180f);
     }
 }
+*/

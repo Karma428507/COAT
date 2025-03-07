@@ -1,4 +1,4 @@
-namespace Jaket.UI.Fragments;
+/*namespace Jaket.UI.Fragments;
 
 using UnityEngine;
 using UnityEngine.UI;
@@ -67,3 +67,4 @@ public class Skateboard : CanvasSingleton<Skateboard>
         speed.text = Bundle.Format("skateboard", ColorUtility.ToHtmlStringRGB(gradient.Evaluate(mm.SkateboardSpeed / 60f)), ((int)mm.SkateboardSpeed).ToString());
     }
 }
+*/

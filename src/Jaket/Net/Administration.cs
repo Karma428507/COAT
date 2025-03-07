@@ -1,4 +1,4 @@
-namespace Jaket.Net;
+/*namespace Jaket.Net;
 
 using HarmonyLib;
 using System.Collections.Generic;
@@ -129,3 +129,4 @@ public class Administration
         }
     }
 }
+*/

@@ -1,4 +1,4 @@
-namespace Jaket.Sprays;
+/*namespace Jaket.Sprays;
 
 using Steamworks.Data;
 using System;
@@ -129,3 +129,4 @@ public static class SprayDistributor
 
     #endregion
 }
+*/

@@ -1,4 +1,4 @@
-namespace Jaket.UI.Dialogs;
+/*namespace Jaket.UI.Dialogs;
 
 using Steamworks;
 using System.Collections;
@@ -258,3 +258,4 @@ public class Chat : CanvasSingleton<Chat>
 
     #endregion
 }
+*/

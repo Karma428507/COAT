@@ -1,4 +1,4 @@
-namespace Jaket.Content;
+/*namespace Jaket.Content;
 
 using HarmonyLib;
 using System.Collections.Generic;
@@ -97,3 +97,4 @@ public static class ItemExtensions
     /// <summary> Whether the item is placed on an altar. </summary>
     public static bool Placed(this ItemIdentifier itemId) => itemId.transform.parent?.gameObject.layer == 22; // item layer
 }
+*/

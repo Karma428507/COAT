@@ -1,4 +1,4 @@
-﻿using Jaket.Net;
+﻿/*using Jaket.Net;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -27,3 +27,4 @@ namespace COAT
         #endregion
     }
 }
+*/

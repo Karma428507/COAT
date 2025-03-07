@@ -1,4 +1,4 @@
-namespace Jaket.UI;
+/*namespace Jaket.UI;
 
 using Steamworks;
 using System;
@@ -35,7 +35,7 @@ public class UIB
         Events.OnLoaded += fix = () => Events.Post(() =>
         {
             HudMessageReceiver.Instance.text.font = DollAssets.FontTMP;
-            NewMovement.Instance.youDiedText.font = DollAssets.Font;
+            //NewMovement.Instance.youDiedText.font = DollAssets.Font;
 
             // fix the sorting order to display hud messages on top of other interface fragments
             if (!HudMessageReceiver.Instance.TryGetComponent<Canvas>(out _)) Component<Canvas>(HudMessageReceiver.Instance.gameObject, canvas =>
@@ -351,3 +351,4 @@ public class UIB
 
     #endregion
 }
+*/

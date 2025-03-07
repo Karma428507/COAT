@@ -1,4 +1,4 @@
-namespace Jaket.Net;
+/*namespace Jaket.Net;
 
 using HarmonyLib;
 using Steamworks;
@@ -36,6 +36,8 @@ public class Networking
     public static bool Loading;
     /// <summary> Whether multiplayer was used in the current level. </summary>
     public static bool WasMultiplayerUsed;
+    /// <summary> Whether multiplayer was used in the current level. </summary>
+    public static bool IsViewing = false;
 
     /// <summary> Loads server, client and event listeners. </summary>
     public static void Load()
@@ -68,6 +70,9 @@ public class Networking
 
         SteamMatchmaking.OnLobbyEntered += lobby =>
         {
+            if (IsViewing)
+                return;
+
             Clear(); // destroy all entities, since the player could join from another lobby
             if (LobbyController.IsOwner)
             {
@@ -144,6 +149,8 @@ public class Networking
     /// <summary> Core network logic should have been here, but in fact it is located in the server and client classes. </summary>
     private static void NetworkUpdate()
     {
+        
+
         // the player isn't connected to the lobby and the logic doesn't need to be updated
         if (LobbyController.Offline) return;
 
@@ -229,3 +236,4 @@ public class Networking
 
     #endregion
 }
+*/

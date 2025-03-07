@@ -1,4 +1,4 @@
-namespace Jaket.UI.Dialogs;
+/*namespace Jaket.UI.Dialogs;
 
 using UnityEngine;
 using UnityEngine.UI;
@@ -244,3 +244,4 @@ public class Settings : CanvasSingleton<Settings>
 
     #endregion
 }
+*/

@@ -1,13 +1,49 @@
-namespace Jaket.Net;
+/*namespace Jaket.Net;
 
 using Steamworks;
 using Steamworks.Data;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 using Jaket.Assets;
+using Jaket.Net;
+using Jaket.World;
 using Jaket.IO;
+
+public class SudoLobby
+{
+    public string name;
+    public byte type;
+    public bool pvp;
+    public bool cheats;
+    public bool modded;
+    public bool healBosses;
+
+    public SudoLobby(bool pvp, bool cheats, bool modded, bool healBosses)
+    {
+        name = $"{SteamClient.Name}'s Lobby";
+        type = 0;
+        this.pvp = pvp;
+        this.cheats = cheats;
+        this.modded = modded;
+        this.healBosses = healBosses;
+    }
+
+    public SudoLobby() : this(false, false, true, false) { }
+
+    public void Debug()
+    {
+        Log.Debug($"Sudo lobby {name}\n");
+        Log.Debug($"\tType: {type}\n");
+        Log.Debug($"\tPvP: {pvp}\n");
+        Log.Debug($"\tCheats: {cheats}\n");
+        Log.Debug($"\tMods: {modded}\n");
+        Log.Debug($"\tHeal: {healBosses}\n");
+    }
+}
 
 /// <summary> Lobby controller with several useful methods and properties. </summary>
 public class LobbyController
@@ -88,6 +124,7 @@ public class LobbyController
     #region control
 
     /// <summary> Asynchronously creates a new lobby with default settings and connects to it. </summary>
+    [Obsolete]
     public static void CreateLobby()
     {
         if (Lobby != null || CreatingLobby) return;
@@ -108,6 +145,37 @@ public class LobbyController
             Lobby?.SetData("cheats", "False");
             Lobby?.SetData("mods", "False");
             Lobby?.SetData("heal-bosses", "True");
+        });
+    }
+
+    /// <summary> Asynchronously creates a new lobby with default settings and connects to it. </summary>
+    public static void CreateLobby(SudoLobby sudoLobby)
+    {
+        if (Lobby != null || CreatingLobby) return;
+        Log.Debug("Creating a lobby...");
+
+        CreatingLobby = true;
+        SteamMatchmaking.CreateLobbyAsync(8).ContinueWith(task =>
+        {
+            CreatingLobby = false; IsOwner = true;
+            Lobby = task.Result;
+
+            sudoLobby.Debug();
+
+            Lobby?.SetJoinable(true);
+            switch (sudoLobby.type)
+            {
+                case 0: Lobby?.SetPrivate(); break;
+                case 1: Lobby?.SetFriendsOnly(); break;
+                case 2: Lobby?.SetPublic(); break;
+            }
+            Lobby?.SetData("jaket", "true");
+            Lobby?.SetData("name", sudoLobby.name);
+            Lobby?.SetData("level", MapMap(Tools.Scene));
+            Lobby?.SetData("pvp", sudoLobby.pvp ? "True" : "False");
+            Lobby?.SetData("cheats", sudoLobby.cheats ? "True" : "False");
+            Lobby?.SetData("mods", sudoLobby.modded ? "True" : "False");
+            Lobby?.SetData("heal-bosses", sudoLobby.healBosses ? "True" : "False");
         });
     }
 
@@ -156,6 +224,31 @@ public class LobbyController
         });
     }
 
+    public static IEnumerable<Friend> ViewLobby(Lobby lobby)
+    {
+        IEnumerable<Friend> returnValue = null;
+
+        if (Lobby?.Id == lobby.Id) { Bundle.Hud("lobby.join-yourself"); return null; }
+        Log.Debug("Joining a lobby...");
+
+        // leave the previous lobby before join the new, but don't load the main menu
+        if (Online) LeaveLobby(false);
+        
+        Networking.IsViewing = true;
+        lobby.Join().ContinueWith(task =>
+        {
+            if (task.Result == RoomEnter.Success)
+            {
+                returnValue = lobby.Members;
+                lobby.Leave();
+            }
+            else Log.Warning($"Couldn't join a lobby. Result is {task.Result}");
+        });
+        Networking.IsViewing = false;
+
+        return returnValue;
+    }
+
     #endregion
     #region codes
 
@@ -199,3 +292,4 @@ public class LobbyController
 
     #endregion
 }
+*/

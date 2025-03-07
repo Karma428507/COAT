@@ -1,4 +1,4 @@
-namespace Jaket.UI.Dialogs;
+﻿/*namespace Jaket.UI.Dialogs;
 
 using Steamworks.Data;
 using System;
@@ -11,9 +11,9 @@ using Jaket.World;
 
 using static Pal;
 using static Rect;
-using Jaket.UI.Elements;
-using ULTRAKILL.Cheats;
-using Steamworks;
+using UnityEngine.UI.Extensions;
+using COAT.Gamemodes;
+using System.Collections.Generic;
 
 /// <summary> Browser for public lobbies that receives the list via Steam API and displays it in the scrollbar. </summary>
 public class LobbyList : CanvasSingleton<LobbyList>
@@ -26,55 +26,74 @@ public class LobbyList : CanvasSingleton<LobbyList>
     private string search = "";
     /// <summary> Content of the lobby list. </summary>
     private RectTransform content;
+    private RectTransform optionList;
+    private Button newServer;
 
     /// <summary> Panels to organize the UI </summary>
     private UnityEngine.UI.Image filters;
     private UnityEngine.UI.Image lobbyList;
-    private UnityEngine.UI.Image friends;
     private UnityEngine.UI.Image misc;
 
     private void Start()
     {
-        UIB.Table("List"/*, "#lobby-list.name"*/, transform, Size(1400, 800f), table =>
+        UIB.Table("List", transform, Size(1400, 800f), table =>
         {
+            UIB.Image(name, table, new(0, 0, 1400f, 800f), null, fill: false);
+
             // Top row of buttons
             UIB.IconButton("X", table, new Jaket.UI.Rect(630f, 330f, 100f, 100f), red, clicked: Toggle);
+
             filters = UIB.Table("FilterPanel", table, new Jaket.UI.Rect(-60f, 330f, 1240f, 100f), list =>
             {
-                refresh = UIB.Button("", list, new(100f, 0, 184f, 40f, new(0f, 1f)), clicked: Refresh);
-                //UIB.Field("#lobby-list.search", list, new(392f, 0, 384f, 40f, new(0f, 1f)), cons: text =>
-                //{
-                //    search = text.Trim().ToLower();
-                //    Rebuild();
-                //});
+                UIB.Image(name, list, new(0, 0, 1240f, 100f), null, fill: false);
+
+                refresh = UIB.IconButton("Refresh", list, new Jaket.UI.Rect(-512, 0f, 200f, 86f), blue, clicked: Refresh);
+                UIB.Field("#lobby-list.search", list, new(96f, 0f, 1016f, 86f), cons: text =>
+                {
+                    search = text.Trim().ToLower();
+                    Rebuild();
+                });
             });
 
             // Body portion
             lobbyList = UIB.Table("LobbyList", table, new Jaket.UI.Rect(-180f, -60f, 1000f, 640f), list =>
             {
-                content = UIB.Scroll("List", list, new(0f, 0, 1000f, 640f/*, new(.5f, 0f), new(.5f, 0f)*/)).content;
+                UIB.Image(name, list, new(0, 0, 1000f, 640f), null, fill: false);
+                content = UIB.Scroll("List", list, new(0f, 0, 1000f, 640f)).content;
             });
 
-            
-            friends = UIB.Table("FriendList", table, new Jaket.UI.Rect(510f, 60f, 340f, 400f), list =>
+            UIB.Text("<size=25>Options</size>", table, new Jaket.UI.Rect(510f, 230, 340, 60), align: TextAnchor.MiddleCenter);
+
+            misc = UIB.Table("OptionList", table, new Jaket.UI.Rect(510f, -90f, 340, 580f), list =>
             {
+                float height = (4 * 88) + 24f;
+                float y = 0;
 
-            });
+                UIB.Image(name, list, new(0, 0, 340, 580f), null, fill: false);
 
-            // 560 - 800 = 240 - 20 = 220
-            misc = UIB.Table("OptionList", table, new Jaket.UI.Rect(510f, -270, 340f, 220), list =>
-            {
+                optionList = UIB.Scroll("List", list, new(0f, 0, 340f, 640f)).content;
+                optionList.sizeDelta = new(336f, height - 28f);
 
+                UIB.Button("Settings", optionList, new(0, y -= 88, 320f, 80f, new(.5f, 1f)),
+                    orange, 24, clicked: Settings.Instance.Toggle);
+
+                UIB.Button("Spray Settings", optionList, new(0, y -= 88, 320f, 80f, new(.5f, 1f)),
+                    green, 24, clicked: SpraySettings.Instance.Toggle);
+
+                UIB.Button("Load from code", optionList, new(0, y -= 88, 320f, 80f, new(.5f, 1f)),
+                    pink, 24, clicked: LobbyController.JoinByCode);
+
+                newServer = UIB.Button("New Server", optionList, new(0, y -= 88, 320f, 80f, new(.5f, 1f)),
+                    red, 24, clicked: () => { if (LobbyController.Offline) GamemodeList.Instance.Toggle(); });
             });
 
             //
 
             // Panel debugging
-            filters.color = UnityEngine.Color.white;
-            //lobbyList.color = UnityEngine.Color.white;
-            friends.color = UnityEngine.Color.white;
-            misc.color = UnityEngine.Color.white;
-        }).color = new(UnityEngine.Color.cyan.r, UnityEngine.Color.cyan.g, UnityEngine.Color.cyan.b, 100f);
+            filters.color = new UnityEngine.Color(0, 0, 0, 0);
+            lobbyList.color = new UnityEngine.Color(0, 0, 0, 0);
+            misc.color = new UnityEngine.Color(0, 0, 0, 0);
+        });
         Refresh();
     }
 
@@ -87,11 +106,20 @@ public class LobbyList : CanvasSingleton<LobbyList>
         Movement.UpdateState();
 
         if (Shown && transform.childCount > 0) Refresh();
+        
+        // fix later, idk how rn
+        //Tools.ObjFind("Main Menu (1)").SetActive(!Shown);
+        Rebuild();
     }
 
     /// <summary> Rebuilds the lobby list to match the list on Steam servers. </summary>
     public void Rebuild()
     {
+        if (LobbyController.Online)
+            newServer.image.GetComponentInChildren<Text>().color = newServer.image.color = UnityEngine.Color.gray;
+        else
+            newServer.image.GetComponentInChildren<Text>().color = newServer.image.color = UnityEngine.Color.red;
+
         refresh.GetComponentInChildren<Text>().text = Bundle.Get(LobbyController.FetchingLobbies ? "lobby-list.wait" : "lobby-list.refresh");
 
         // destroy old lobby entries if the search is completed
@@ -107,7 +135,7 @@ public class LobbyList : CanvasSingleton<LobbyList>
             return;
         }
 
-        float height = (lobbies.Length * 120) - 20;
+        float height = (lobbies.Length * 120);
         content.sizeDelta = new(1000f, height);
 
         float y = 60 * (lobbies.Length - 1);
@@ -116,29 +144,20 @@ public class LobbyList : CanvasSingleton<LobbyList>
             bool isMultikill = LobbyController.IsMultikillLobby(lobby);
             string serverName = isMultikill ? "[MULTIKILL] " + lobby.GetData("lobbyName") : lobby.GetData("name");
 
-            UIB.Table("LobbyEntry", content, new Jaket.UI.Rect(0, y, 1000, 100), entry =>
+            UIB.Table("LobbyEntry", content, new Jaket.UI.Rect(0, y, 960, 100), entry =>
             {
+                UIB.Image(name, entry, new(0, 0, 960, 100), blue, fill: false);
+
                 // text
                 var full = lobby.MemberCount <= 2 ? Green : lobby.MemberCount <= 4 ? Orange : Red;
                 var info = $"<color=#BBBBBB>{lobby.GetData("level")}</color> <color={full}>{lobby.MemberCount}/{lobby.MaxMembers}</color> ";
-                UIB.Text(info, entry, new(0, 30, 1000, 50), align: TextAnchor.MiddleRight);
-                UIB.Text($" <size=50>{serverName}</size>", entry, new(0, 20f, 1000, 50), align: TextAnchor.MiddleLeft);
-                UIB.Text("<color=#BBBBBB> TBD (most likely for filters)</color>", entry, new(0, -30, 1000, 50), align: TextAnchor.MiddleLeft);
+                UIB.Text(info, entry, new(0, 30, 960, 50), align: TextAnchor.MiddleRight);
+                UIB.Text($" <size=50>{serverName}</size>", entry, new(-100, 20, 740, 50), align: TextAnchor.MiddleLeft);
+                UIB.Text("<color=#BBBBBB> TBD (most likely for filters)</color>", entry, new(-100, -30, 740, 50), align: TextAnchor.MiddleLeft);
 
                 // buttons
-                UIB.Button("\0", entry, new Jaket.UI.Rect(0, 0, 1000, 100), null, 24, TextAnchor.UpperLeft,
-                    () =>
-                    {
-                        // Work on later
-                        foreach (Friend member in lobby.Members)
-                        {
 
-                            Log.Debug($"ID: {member.Id}");
-                            Log.Debug($"Name: {member.Name}");
-                        }
-                    });
-
-                UIB.Button("Play", entry, new Jaket.UI.Rect(380, -15, 200, 50), align: TextAnchor.MiddleCenter,
+                UIB.Button("Play", entry, new Jaket.UI.Rect(380, -15, 180, 50), align: TextAnchor.MiddleCenter,
                     clicked: () => { if (isMultikill) Bundle.Hud("lobby.mk"); else LobbyController.JoinLobby(lobby); });
             });
 
@@ -156,17 +175,5 @@ public class LobbyList : CanvasSingleton<LobbyList>
         });
         Rebuild();
     }
-
-    /// <summary> Displays the members of a selected lobby </summary>
-    public void DisplayMembers(Lobby lobby)
-    {
-        Log.Debug($"Member length: {lobby.MemberCount}");
-
-        foreach (Friend member in lobby.Members)
-        {
-            
-            Log.Debug($"ID: {member.Id}");
-            Log.Debug($"Name: {member.Name}");
-        }
-    }
 }
+*/

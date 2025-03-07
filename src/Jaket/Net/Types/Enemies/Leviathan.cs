@@ -1,4 +1,4 @@
-namespace Jaket.Net.Types;
+/*namespace Jaket.Net.Types;
 
 using UnityEngine;
 
@@ -102,3 +102,4 @@ public class Leviathan : Enemy
 
     #endregion
 }
+*/

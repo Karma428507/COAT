@@ -1,4 +1,4 @@
-namespace Jaket.UI;
+/*namespace Jaket.UI;
 
 using System;
 using UnityEngine.UI;
@@ -29,3 +29,4 @@ public class CanvasSingleton<T> : MonoSingleton<T> where T : CanvasSingleton<T>
         Events.OnLoaded += Check;
     }
 }
+*/

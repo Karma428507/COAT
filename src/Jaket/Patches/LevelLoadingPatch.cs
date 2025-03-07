@@ -1,4 +1,4 @@
-namespace Jaket.Patches;
+/*namespace Jaket.Patches;
 
 using HarmonyLib;
 using UnityEngine.UI;
@@ -65,3 +65,4 @@ public class RankPatch
         }
     }
 }
+*/

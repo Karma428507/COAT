@@ -1,4 +1,4 @@
-namespace Jaket.UI.Fragments;
+/*namespace Jaket.UI.Fragments;
 
 using System;
 using System.Collections.Generic;
@@ -83,3 +83,4 @@ public class InteractiveGuide : CanvasSingleton<InteractiveGuide>
         Movement.UpdateState();
     }
 }
+*/

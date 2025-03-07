@@ -1,4 +1,4 @@
-namespace Jaket.UI.Dialogs;
+/*namespace Jaket.UI.Dialogs;
 
 using Steamworks;
 using System;
@@ -159,3 +159,4 @@ public class SpraySettings : CanvasSingleton<SpraySettings>
         Rebuild();
     }
 }
+*/

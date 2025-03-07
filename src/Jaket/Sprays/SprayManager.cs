@@ -1,4 +1,4 @@
-namespace Jaket.Sprays;
+/*namespace Jaket.Sprays;
 
 using System.Collections.Generic;
 using System.IO;
@@ -112,3 +112,4 @@ public class SprayManager
         return Spawn(Tools.AccId, position, direction);
     }
 }
+*/

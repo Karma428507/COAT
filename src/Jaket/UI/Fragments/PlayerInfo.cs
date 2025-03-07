@@ -1,4 +1,4 @@
-namespace Jaket.UI.Fragments;
+/*namespace Jaket.UI.Fragments;
 
 using System.Collections.Generic;
 using UnityEngine.UI;
@@ -29,8 +29,8 @@ public class PlayerInfo : CanvasSingleton<PlayerInfo>
 
     private void UpdateMaterials()
     {
-        foreach (var img in root.GetComponentsInChildren<Image>()) img.material = HUDOptions.Instance.hudMaterial;
-        foreach (var txt in root.GetComponentsInChildren<Text>()) txt.material = HUDOptions.Instance.hudMaterial;
+        //foreach (var img in root.GetComponentsInChildren<Image>()) img.material = HUDOptions.Instance.hudMaterial;
+        //foreach (var txt in root.GetComponentsInChildren<Text>()) txt.material = HUDOptions.Instance.hudMaterial;
     }
 
     /// <summary> Toggles visibility of the information table. </summary>
@@ -69,3 +69,4 @@ public class PlayerInfo : CanvasSingleton<PlayerInfo>
         Events.Post2(UpdateMaterials);
     }
 }
+*/

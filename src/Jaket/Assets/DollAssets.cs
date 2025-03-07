@@ -1,4 +1,4 @@
-namespace Jaket.Assets;
+/*namespace Jaket.Assets;
 
 using System.IO;
 using TMPro;
@@ -193,3 +193,4 @@ public class DollAssets
         return HandTextures[(feedbacker ? 0 : 2) + (s == 0 ? (LobbyController.Offline ? 0 : 1) : s == 1 ? 1 : 0)];
     }
 }
+*/

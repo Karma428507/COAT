@@ -1,4 +1,4 @@
-namespace Jaket.Patches;
+/*namespace Jaket.Patches;
 
 using HarmonyLib;
 
@@ -16,3 +16,4 @@ public class ItemPatch
     [HarmonyPatch("PickUp")]
     static void PickUp(ItemIdentifier __instance) => __instance.GetComponent<Item>()?.PickUp();
 }
+*/

@@ -1,4 +1,4 @@
-namespace Jaket.UI.Elements;
+/*namespace Jaket.UI.Elements;
 
 using UnityEngine;
 
@@ -97,3 +97,4 @@ public class Pointer : MonoBehaviour
         }
     }
 }
+*/

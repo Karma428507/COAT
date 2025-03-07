@@ -1,4 +1,4 @@
-namespace Jaket.UI.Elements;
+/*namespace Jaket.UI.Elements;
 
 using UnityEngine;
 using UnityEngine.UI;
@@ -64,3 +64,4 @@ public class PlayerHeader
     /// <summary> Hides the canvas. </summary>
     public void Hide() => canvas.gameObject.SetActive(false);
 }
+*/

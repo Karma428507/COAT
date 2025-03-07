@@ -1,4 +1,4 @@
-namespace Jaket.UI.Dialogs;
+/*namespace Jaket.UI.Dialogs;
 
 using System.Collections.Generic;
 using System.Linq;
@@ -139,3 +139,4 @@ public class Debugging : CanvasSingleton<Debugging>
         }
     }
 }
+*/

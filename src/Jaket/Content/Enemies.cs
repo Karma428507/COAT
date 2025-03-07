@@ -1,4 +1,4 @@
-namespace Jaket.Content;
+/*namespace Jaket.Content;
 
 using System;
 using System.Collections.Generic;
@@ -181,3 +181,4 @@ public class Enemies
         if (target != NewMovement.Instance.transform) enemyId.target = new(target);
     });
 }
+*/

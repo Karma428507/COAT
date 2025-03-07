@@ -1,4 +1,4 @@
-namespace Jaket.Net;
+/*namespace Jaket.Net;
 
 using System.Collections.Generic;
 using UnityEngine;
@@ -115,3 +115,4 @@ public class Coins
         lr.startColor = lr.endColor = team.Color();
     }
 }
+*/

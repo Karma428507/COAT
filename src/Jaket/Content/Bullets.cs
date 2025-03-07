@@ -1,4 +1,4 @@
-namespace Jaket.Content;
+/*namespace Jaket.Content;
 
 using System;
 using System.Collections.Generic;
@@ -19,13 +19,13 @@ public class Bullets
     /// <summary> List of all synchronized damage types. </summary>
     public static string[] Types = new[]
     {
-        /* hitscan */ "revolver", "railcannon", "coin",
-        /* shotgun */ "shotgun", "shotgunzone", "chainsaw", "chainsawzone", "chainsawbounce", "chainsawprojectile", "hammer",
-        /* other */ "nail", "sawblade", "cannonball",
-        /* drill */ "harpoon", "drill", "drillpunch",
-        /* environmental*/ "explosion", "aftershock", "zapper",
-        /* melee */ "punch", "heavypunch", "ground slam", "hook",
-        /* parry */ "projectile", "enemy"
+        / * hitscan * / "revolver", "railcannon", "coin",
+        /* shotgun * / "shotgun", "shotgunzone", "chainsaw", "chainsawzone", "chainsawbounce", "chainsawprojectile", "hammer",
+        /* other * / "nail", "sawblade", "cannonball",
+        /* drill * / "harpoon", "drill", "drillpunch",
+        /* environmental* / "explosion", "aftershock", "zapper",
+        /* melee * / "punch", "heavypunch", "ground slam", "hook",
+        /* parry * / "projectile", "enemy"
     };
 
     /// <summary> Loads all bullets for future use. </summary>
@@ -243,3 +243,4 @@ public class Bullets
 
     #endregion
 }
+*/

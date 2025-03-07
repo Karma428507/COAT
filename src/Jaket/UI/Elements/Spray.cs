@@ -1,4 +1,4 @@
-namespace Jaket.UI.Elements;
+/*namespace Jaket.UI.Elements;
 
 using UnityEngine;
 using UnityEngine.UI;
@@ -78,3 +78,4 @@ public class Spray : MonoBehaviour
     public static float InCubic(float t) => t * t * t;
     public static float InOutCubic(float t) => t < 0.5 ? (InCubic(t * 2) / 2) : (1 - InCubic((1 - t) * 2) / 2);
 }
+*/

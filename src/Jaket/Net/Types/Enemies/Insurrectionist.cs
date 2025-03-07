@@ -1,4 +1,4 @@
-namespace Jaket.Net.Types;
+/*namespace Jaket.Net.Types;
 
 using HarmonyLib;
 using UnityEngine;
@@ -127,3 +127,4 @@ public class Insurrectionist : Enemy
 
     #endregion
 }
+*/

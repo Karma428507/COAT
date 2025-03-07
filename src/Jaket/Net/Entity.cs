@@ -1,4 +1,4 @@
-namespace Jaket.Net;
+/*namespace Jaket.Net;
 
 using System;
 using UnityEngine;
@@ -126,3 +126,4 @@ public abstract class Entity : MonoBehaviour
         public T Value => value?.Id == Id ? value : Networking.Entities.TryGetValue(Id, out var e) && e is T t ? value = t : null;
     }
 }
+*/

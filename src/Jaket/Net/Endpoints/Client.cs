@@ -1,4 +1,4 @@
-namespace Jaket.Net.Endpoints;
+/*namespace Jaket.Net.Endpoints;
 
 using Steamworks;
 using Steamworks.Data;
@@ -104,3 +104,4 @@ public class Client : Endpoint, IConnectionManager
 
     #endregion
 }
+*/

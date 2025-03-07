@@ -1,4 +1,4 @@
-namespace Jaket.Patches;
+/*namespace Jaket.Patches;
 
 using HarmonyLib;
 using ULTRAKILL.Cheats;
@@ -53,9 +53,9 @@ public class CommonPatch
     [HarmonyPatch(typeof(CheatsController), nameof(CheatsController.Update))]
     static bool CheatsMenu() => Cheats();
 
-    [HarmonyPrefix]
-    [HarmonyPatch(typeof(Noclip), nameof(Noclip.Update))]
-    static bool CheatsNoclip() => Cheats();
+    //[HarmonyPrefix]
+    //[HarmonyPatch(typeof(Noclip), nameof(Noclip.Update))]
+    //static bool CheatsNoclip() => Cheats();
 
     [HarmonyPrefix]
     [HarmonyPatch(typeof(Grenade), "Update")]
@@ -75,3 +75,4 @@ public class CommonPatch
         if (EmojiWheel.Shown) __instance.gameObject.SetActive(false);
     }
 }
+*/

@@ -1,4 +1,4 @@
-namespace Jaket.Net.Types;
+/*namespace Jaket.Net.Types;
 
 using Jaket.Content;
 using Jaket.IO;
@@ -71,3 +71,4 @@ public class Turret : Enemy
 
     #endregion
 }
+*/

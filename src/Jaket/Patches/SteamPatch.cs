@@ -1,4 +1,4 @@
-﻿namespace Jaket.Patches;
+﻿/*namespace Jaket.Patches;
 
 using HarmonyLib;
 using Steamworks;
@@ -46,6 +46,7 @@ public class SteamPatch
          * #UnknownLevel (displays "???" in your activity)
          * these have no additional localization values, so we cannot add "Multiplayer via Jaket" to them
          * for more info, check out SteamController.FetchSceneActivity(string scene)
-         */
+         * /
     }
 }
+*/

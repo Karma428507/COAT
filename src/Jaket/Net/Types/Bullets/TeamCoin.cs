@@ -1,4 +1,4 @@
-namespace Jaket.Net.Types;
+/*namespace Jaket.Net.Types;
 
 using UnityEngine;
 
@@ -385,3 +385,4 @@ public class TeamCoin : OwnableEntity
 
     #endregion
 }
+*/

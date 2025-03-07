@@ -1,4 +1,4 @@
-namespace Jaket.Sam;
+/*namespace Jaket.Sam;
 
 using System;
 using UnityEngine;
@@ -44,3 +44,4 @@ public class SamAPI
         catch (Exception) { } // in fact, anything can happen, that's why try catch is needed
     }
 }
+*/

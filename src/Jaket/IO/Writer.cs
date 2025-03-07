@@ -1,4 +1,4 @@
-namespace Jaket.IO;
+/*namespace Jaket.IO;
 
 using System;
 using System.Runtime.InteropServices;
@@ -90,3 +90,4 @@ public class Writer
 
     #endregion
 }
+*/

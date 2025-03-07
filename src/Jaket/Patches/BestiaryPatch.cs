@@ -1,4 +1,4 @@
-namespace Jaket.Patches;
+/*namespace Jaket.Patches;
 
 using HarmonyLib;
 using System;
@@ -45,3 +45,4 @@ public class BestiaryEntry
     /// <summary> Loads the V3 bestiary entry from the bundle. </summary>
     public static BestiaryEntry Load() => JsonUtility.FromJson<BestiaryEntry>(DollAssets.Bundle.LoadAsset<TextAsset>("V3-bestiary-entry").text);
 }
+*/

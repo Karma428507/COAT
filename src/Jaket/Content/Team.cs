@@ -1,4 +1,4 @@
-namespace Jaket.Content;
+/*namespace Jaket.Content;
 
 using UnityEngine;
 
@@ -27,3 +27,4 @@ public static class TeamExtensions
     /// <summary> Whether this team is allied with the player. </summary>
     public static bool Ally(this Team team) => team == Networking.LocalPlayer.Team || !LobbyController.PvPAllowed;
 }
+*/

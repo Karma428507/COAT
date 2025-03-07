@@ -1,4 +1,4 @@
-namespace Jaket.Net.Endpoints;
+/*namespace Jaket.Net.Endpoints;
 
 using Steamworks.Data;
 using System;
@@ -55,3 +55,4 @@ public abstract class Endpoint
     /// <summary> Packet listener that accepts the sender of the packet and the packet itself. </summary>
     public delegate void PacketListener(Connection con, uint sender, Reader r);
 }
+*/

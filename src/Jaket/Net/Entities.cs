@@ -1,4 +1,4 @@
-namespace Jaket.Net;
+/*namespace Jaket.Net;
 
 using System.Collections.Generic;
 using UnityEngine;
@@ -85,3 +85,4 @@ public class Entities
     /// <summary> Entity provider. </summary>
     public delegate Entity Prov();
 }
+*/

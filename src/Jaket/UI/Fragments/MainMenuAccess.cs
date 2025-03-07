@@ -1,4 +1,4 @@
-namespace Jaket.UI.Fragments;
+/*namespace Jaket.UI.Fragments;
 
 using UnityEngine;
 
@@ -18,8 +18,7 @@ public class MainMenuAccess : CanvasSingleton<MainMenuAccess>
         table = UIB.Rect("Access Table", transform, new(0f, -364f, 720f, 40f));
         table.gameObject.AddComponent<HudOpenEffect>();
 
-        UIB.Button("#lobby-tab.join", table, new(-182f, 0f, 356f, 40f), clicked: LobbyController.JoinByCode).targetGraphic.color = new(1f, .1f, .9f);
-        UIB.Button("#lobby-tab.list", table, new(182f, 0f, 356f, 40f), clicked: LobbyList.Instance.Toggle).targetGraphic.color = new(1f, .4f, .8f);
+        UIB.Button("#lobby-tab.list", table, new(0, 0f, 360f * 2, 40f), clicked: LobbyList.Instance.Toggle).targetGraphic.color = new(1f, .4f, .8f);
     }
 
     private void Update() => table.gameObject.SetActive(menu.activeSelf);
@@ -31,3 +30,4 @@ public class MainMenuAccess : CanvasSingleton<MainMenuAccess>
         if (Shown) (menu = Tools.ObjFind("Main Menu (1)")).transform.Find("Panel").transform.localPosition = new(0f, -292f, 0f);
     }
 }
+*/

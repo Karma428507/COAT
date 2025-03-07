@@ -1,12 +1,15 @@
 namespace Jaket;
 
+// TODO: fix the OnLobbyAction event and repair networking
+// Also put this in the coat folder :3
+
 using Steamworks;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-using Jaket.Net;
+//using Jaket.Net;
 
 /// <summary> List of events used by the mod. Some of them are combined into one for simplicity. </summary>
 public class Events : MonoSingleton<Events>
@@ -48,7 +51,7 @@ public class Events : MonoSingleton<Events>
         // interaction with the lobby affects many aspects of the game
         OnLobbyAction += OnTeamChanged.Fire;
         OnLobbyAction += OnWeaponChanged.Fire;
-        OnLobbyAction += () =>
+        /*OnLobbyAction += () =>
         {
             // update the discord & steam activity so everyone can know I've been working hard
             DiscordController.Instance.FetchSceneActivity(Tools.Scene);
@@ -56,7 +59,7 @@ public class Events : MonoSingleton<Events>
 
             // enable the ability of the game to run in the background, because multiplayer requires it
             Application.runInBackground = LobbyController.Online;
-        };
+        };*/
     }
 
     /// <summary> Posts the task for execution in the late update. </summary>
@@ -72,7 +75,7 @@ public class Events : MonoSingleton<Events>
     {
         InvokeRepeating("Dozen", 1f, 12f);
         InvokeRepeating("Second", 1f, 1f);
-        InvokeRepeating("Tick", 1f, Networking.SNAPSHOTS_SPACING);
+        //InvokeRepeating("Tick", 1f, Networking.SNAPSHOTS_SPACING);
     }
 
     private void LateUpdate()

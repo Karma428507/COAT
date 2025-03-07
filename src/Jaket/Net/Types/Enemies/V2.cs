@@ -1,4 +1,4 @@
-namespace Jaket.Net.Types;
+/*namespace Jaket.Net.Types;
 
 using UnityEngine;
 
@@ -66,3 +66,4 @@ public class V2 : SimpleEnemy
 
     #endregion
 }
+*/
