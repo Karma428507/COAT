@@ -2,6 +2,7 @@
 
 using Steamworks.Data;
 using System;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,6 +16,7 @@ using UnityEngine.UI.Extensions;
 using COAT.Gamemodes;
 using System.Collections.Generic;
 using COAT.UI.Menus;
+using UnityEngine.SceneManagement;
 
 /// <summary> Browser for public lobbies that receives the list via Steam API and displays it in the scrollbar. </summary>
 public class Home : CanvasSingleton<Home>
@@ -118,8 +120,17 @@ public class Home : CanvasSingleton<Home>
         // YOUR JOB IS TO TRY TO ENABLE THE MAIN MENU WHEN YOU EXIT OUT
         // THE FATE OF THE ENTIRE MOD RESTS ON THIS
 
+        // "This fix... an ugly fix" - whyis2plus2
+
+        var mainMenuScene = SceneManager.GetSceneByName("b3e7f2f8052488a45b35549efb98d902");
+        if (!mainMenuScene.isLoaded) return;
+
+        var mainCanvas = (from obj in mainMenuScene.GetRootGameObjects() where obj.name == "Canvas" select obj).First().transform;
+        var mainMenu = mainCanvas.Find("Main Menu (1)").gameObject;
+
+        mainMenu.SetActive(!Shown);
         //if (!Shown) Tools.ObjFind("Canvas/Main Menu (1)").SetActive(true);
-        if (!Shown) Tools.ObjFind("Main Menu (1)").SetActive(false);
+        //if (!Shown) Tools.ObjFind("Main Menu (1)").SetActive(false);
     }
 
     /// <summary> Rebuilds the lobby list to match the list on Steam servers. </summary>
