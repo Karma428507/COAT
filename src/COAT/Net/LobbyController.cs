@@ -1,4 +1,4 @@
-/*namespace Jaket.Net;
+namespace COAT.Net;
 
 using Steamworks;
 using Steamworks.Data;
@@ -8,9 +8,9 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
-using Jaket.Assets;
-using Jaket.Net;
-using Jaket.World;
+using COAT.Assets;
+//using COAT.Net;
+//using COAT.World;
 using Jaket.IO;
 
 public class SudoLobby
@@ -186,8 +186,8 @@ public class LobbyController
 
         if (Online) // free up resources allocated for packets that have not been sent
         {
-            Networking.Server.Close();
-            Networking.Client.Close();
+            //Networking.Server.Close();
+            //Networking.Client.Close();
             Pointers.Free();
 
             Lobby?.Leave();
@@ -197,7 +197,7 @@ public class LobbyController
         // load the main menu if the client has left the lobby
         if (!IsOwner && loadMainMenu) Tools.Load("Main Menu");
 
-        Networking.Clear();
+        //Networking.Clear();
         Events.OnLobbyAction.Fire();
     }
 
@@ -222,31 +222,6 @@ public class LobbyController
             }
             else Log.Warning($"Couldn't join a lobby. Result is {task.Result}");
         });
-    }
-
-    public static IEnumerable<Friend> ViewLobby(Lobby lobby)
-    {
-        IEnumerable<Friend> returnValue = null;
-
-        if (Lobby?.Id == lobby.Id) { Bundle.Hud("lobby.join-yourself"); return null; }
-        Log.Debug("Joining a lobby...");
-
-        // leave the previous lobby before join the new, but don't load the main menu
-        if (Online) LeaveLobby(false);
-        
-        Networking.IsViewing = true;
-        lobby.Join().ContinueWith(task =>
-        {
-            if (task.Result == RoomEnter.Success)
-            {
-                returnValue = lobby.Members;
-                lobby.Leave();
-            }
-            else Log.Warning($"Couldn't join a lobby. Result is {task.Result}");
-        });
-        Networking.IsViewing = false;
-
-        return returnValue;
     }
 
     #endregion
@@ -276,7 +251,7 @@ public class LobbyController
         SteamMatchmaking.LobbyList.RequestAsync().ContinueWith(task =>
         {
             FetchingLobbies = false;
-            done(task.Result.Where(l => l.Data.Any(p => p.Key == "jaket" || p.Key == "mk_lobby")).ToArray());
+            done(task.Result.ToArray());
         });
     }
 
@@ -292,4 +267,3 @@ public class LobbyController
 
     #endregion
 }
-*/

@@ -1,4 +1,4 @@
-namespace Jaket.UI;
+namespace COAT.UI;
 
 using UnityEngine;
 

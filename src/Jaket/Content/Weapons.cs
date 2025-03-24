@@ -1,5 +1,6 @@
-namespace Jaket.Content;
+/*namespace Jaket.Content;
 
+using COAT;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -80,3 +81,4 @@ public class Weapons
         foreach (Transform child in transform) FixLayer(child);
     }
 }
+*/

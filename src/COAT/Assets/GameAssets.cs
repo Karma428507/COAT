@@ -1,4 +1,4 @@
-namespace Jaket.Assets;
+namespace COAT.Assets;
 
 using UnityEngine;
 using UnityEngine.AddressableAssets;

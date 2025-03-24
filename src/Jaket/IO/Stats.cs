@@ -1,5 +1,6 @@
-namespace Jaket.IO;
+/*namespace Jaket.IO;
 
+using Jaket.src.COAT;
 using System;
 using System.Diagnostics;
 
@@ -40,3 +41,4 @@ public class Stats
     /// <summary> Measures the time of execution of entities logic. </summary>
     public static void MTE(Action action) => MeasureTime(ref EntityUpdate, action);
 }
+*/

@@ -1,4 +1,4 @@
-﻿namespace Jaket;
+﻿namespace COAT;
 
 using BepInEx;
 using BepInEx.Bootstrap;
@@ -7,11 +7,12 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-using Jaket.Assets;
+using COAT.Assets;
 using Jaket.Content;
 using Jaket.IO;
-//using Jaket.Net;
+using COAT.Net;
 using Jaket.Sprays;
+
 //using Jaket.World;
 
 /// <summary> Bootloader class needed to avoid destroying the mod by the game. </summary>
@@ -20,7 +21,7 @@ public class PluginLoader : BaseUnityPlugin
 {
     private void Awake() => SceneManager.sceneLoaded += (_, _) =>
     {
-        if (Plugin.Instance == null) Tools.Create<Plugin>("Jaket").Location = Info.Location;
+        if (Plugin.Instance == null) Tools.Create<Plugin>("COAT").Location = Info.Location;
     };
 }
 
@@ -47,44 +48,42 @@ public class Plugin : MonoBehaviour
         Log.Load();
         // note the fact that the mod is loading
         Log.Info("Loading COAT...");
-        Log.Error("Error, mental state protections activated! You must turn back");
-        Log.Info("Protection deactivated, time to delve in insanity :3");
 
         // adds an event listener to the scene loading
-        //Events.Load();
+        Events.Load();
         // interface components and assets bundle can only be loaded from the main menu
-        //Events.OnMainMenuLoaded += Init;
+        Events.OnMainMenuLoaded += Init;
     }
 
     private void OnApplicationQuit() => Log.Flush();
 
-    /*private void Init()
+    private void Init()
     {
         if (Initialized) return;
 
         // notify players about the availability of an update so that they no longer whine to me about something not working
-        Version.Check4Update();
-        Pointers.Allocate();
+        //Version.Check4Update();
+        /*Pointers.Allocate();
         Stats.StartRecord();
         Tools.CacheAccId();
 
-        Commands.Commands.Load();
+        Commands.Commands.Load();*/
         Bundle.Load();
-        Enemies.Load();
+        /*Enemies.Load();
         Weapons.Load();
         Bullets.Load();
-        Items.Load();
+        Items.Load();*/
         DollAssets.Load();
 
-        Administration.Load();
+        /*Administration.Load();*/
         LobbyController.Load();
-        Networking.Load();
+        /*Networking.Load();
         Entities.Load();
 
         World.World.Load();
         WorldActionsList.Load();
         Movement.Load();
-        SprayManager.Load();
+        SprayManager.Load();*/
 
         UI.UIB.Load();
         UI.UI.Load();
@@ -97,6 +96,6 @@ public class Plugin : MonoBehaviour
 
         // mark the plugin as initialized and log a message about it
         Initialized = true;
-        Log.Info("Jaket initialized!");
-    }*/
+        Log.Info("COAT initialized!");
+    }
 }

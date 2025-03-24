@@ -1,4 +1,4 @@
-namespace Jaket;
+namespace COAT;
 
 using HarmonyLib;
 using Steamworks;
@@ -30,7 +30,7 @@ public class Tools
     public static string Name(uint id) => new Friend(id | 76561197960265728u).Name;
 
     /// <summary> Shortcut needed in order to track statistics and errors. </summary>
-    public static void Send(Connection? con, IntPtr data, int size)
+    /*public static void Send(Connection? con, IntPtr data, int size)
     {
         if (con == null)
         {
@@ -40,7 +40,7 @@ public class Tools
 
         con.Value.SendMessage(data, size);
         Stats.Write += size;
-    }
+    }*/
 
     #endregion
     #region scene
@@ -178,24 +178,24 @@ public class Tools
 
             for (int i = 0; i < PFP.Value.Width * PFP.Value.Height; i++)
             {
-                RGBA[i] |= bytes[(i * 4) + 0];
-                RGBA[i] |= (uint)(bytes[(i * 4) + 1] << 8);
-                RGBA[i] |= (uint)(bytes[(i * 4) + 2] << 16);
-                RGBA[i] |= (uint)(bytes[(i * 4) + 3] << 24);
+                RGBA[i] |= bytes[i * 4 + 0];
+                RGBA[i] |= (uint)(bytes[i * 4 + 1] << 8);
+                RGBA[i] |= (uint)(bytes[i * 4 + 2] << 16);
+                RGBA[i] |= (uint)(bytes[i * 4 + 3] << 24);
             }
 
             // reverse
             Array.Reverse(RGBA);
             for (int i = 0; i < PFP.Value.Height; i++)
                 for (int j = 0; j < PFP.Value.Width / 2; j++)
-                    (RGBA[(i * PFP.Value.Height) + (PFP.Value.Width - j - 1)], RGBA[(i * PFP.Value.Height) + j]) = (RGBA[(i * PFP.Value.Height) + j], RGBA[(i * PFP.Value.Height) + (PFP.Value.Width - j - 1)]);
+                    (RGBA[i * PFP.Value.Height + (PFP.Value.Width - j - 1)], RGBA[i * PFP.Value.Height + j]) = (RGBA[i * PFP.Value.Height + j], RGBA[i * PFP.Value.Height + (PFP.Value.Width - j - 1)]);
 
             for (int i = 0; i < PFP.Value.Width * PFP.Value.Height; i++)
             {
-                bytes[(i * 4) + 0] = (byte)RGBA[i];
-                bytes[(i * 4) + 1] = (byte)(RGBA[i] >> 8);
-                bytes[(i * 4) + 2] = (byte)(RGBA[i] >> 16);
-                bytes[(i * 4) + 3] = (byte)(RGBA[i] >> 24);
+                bytes[i * 4 + 0] = (byte)RGBA[i];
+                bytes[i * 4 + 1] = (byte)(RGBA[i] >> 8);
+                bytes[i * 4 + 2] = (byte)(RGBA[i] >> 16);
+                bytes[i * 4 + 3] = (byte)(RGBA[i] >> 24);
             }
 
             texture = new Texture2D((int)PFP.Value.Width, (int)PFP.Value.Height, TextureFormat.RGBA32, false);
@@ -217,10 +217,10 @@ public class Tools
 
             for (int i = 0; i < 2500; i++)
             {
-                bytes[(i * 4) + 0] = (byte)RGBA[i];
-                bytes[(i * 4) + 1] = (byte)(RGBA[i] >> 8);
-                bytes[(i * 4) + 2] = (byte)(RGBA[i] >> 16);
-                bytes[(i * 4) + 3] = (byte)(RGBA[i] >> 24);
+                bytes[i * 4 + 0] = (byte)RGBA[i];
+                bytes[i * 4 + 1] = (byte)(RGBA[i] >> 8);
+                bytes[i * 4 + 2] = (byte)(RGBA[i] >> 16);
+                bytes[i * 4 + 3] = (byte)(RGBA[i] >> 24);
             }
 
         }

@@ -1,13 +1,12 @@
-namespace Jaket;
+namespace COAT;
 
 using System;
 using UnityEngine;
 using UnityEngine.Networking;
 
-using Jaket.Assets;
-using Jaket.UI;
+using COAT.Assets;
 
-using static Jaket.UI.Rect;
+using static COAT.UI.Rect;
 
 public class Version
 {

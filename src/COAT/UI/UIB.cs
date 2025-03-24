@@ -1,4 +1,6 @@
-/*namespace Jaket.UI;
+using COAT.UI;
+
+namespace COAT.UI;
 
 using Steamworks;
 using System;
@@ -9,12 +11,13 @@ using UnityEngine.UI.Extensions;
 using ScaleMode = UnityEngine.UI.CanvasScaler.ScaleMode;
 using ImageType = UnityEngine.UI.Image.Type;
 
-using Jaket.Assets;
+using COAT.Assets;
 using Jaket.Content;
-using Jaket.Net;
+//using Jaket.Net;
 
 using static Pal;
 using static Rect;
+using COAT;
 
 /// <summary> Class that builds the entire interface of the mod. </summary>
 public class UIB
@@ -34,7 +37,7 @@ public class UIB
         Action fix;
         Events.OnLoaded += fix = () => Events.Post(() =>
         {
-            HudMessageReceiver.Instance.text.font = DollAssets.FontTMP;
+            //HudMessageReceiver.Instance.text.font = DollAssets.FontTMP;
             //NewMovement.Instance.youDiedText.font = DollAssets.Font;
 
             // fix the sorting order to display hud messages on top of other interface fragments
@@ -215,7 +218,7 @@ public class UIB
     }
 
     /// <summary> Adds a command button with the appropriate color. </summary>
-    public static Button TeamButton(Team team, Transform parent, Rect r, Action clicked = null)
+    /*public static Button TeamButton(Team team, Transform parent, Rect r, Action clicked = null)
     {
         var img = Image(team.ToString(), parent, r, team.Color());
         if (team == Team.Pink) Text("UwU", img.transform, r.Text, Dark(pink));
@@ -224,11 +227,11 @@ public class UIB
             button.targetGraphic = img;
             button.onClick.AddListener(() => clicked());
         });
-    }
+    }*/
 
     /// <summary> Adds a button that opens the profile of the given member. </summary>
-    public static Button ProfileButton(Friend member, Transform parent, Rect r) =>
-        Button(member.Name, parent, r, Networking.GetTeam(member).Color(), 24, clicked: () => SteamFriends.OpenUserOverlay(member.Id, "steamid"));
+    //public static Button ProfileButton(Friend member, Transform parent, Rect r) =>
+    //    Button(member.Name, parent, r, Networking.GetTeam(member).Color(), 24, clicked: () => SteamFriends.OpenUserOverlay(member.Id, "steamid"));
 
     /// <summary> Adds a button that changes the given keybind. </summary>
     public static Button KeyButton(string name, KeyCode current, Transform parent, Rect r)
@@ -238,12 +241,12 @@ public class UIB
 
         var img = Table("Button", bind.transform, new(-64f, 0f, 128f, 32f, new(1f, .5f)), table =>
         {
-            key = Text(Dialogs.Settings.KeyName(current), table, Size(128f, 32f), size: 16);
+            //key = Text(Dialogs.Settings.KeyName(current), table, Size(128f, 32f), size: 16);
         });
         return Component<Button>(img.gameObject, button =>
         {
             button.targetGraphic = img;
-            button.onClick.AddListener(() => Dialogs.Settings.Instance.Rebind(name, key, img));
+            //button.onClick.AddListener(() => Dialogs.Settings.Instance.Rebind(name, key, img));
         });
     }
 
@@ -351,4 +354,3 @@ public class UIB
 
     #endregion
 }
-*/

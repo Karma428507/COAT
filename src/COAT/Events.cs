@@ -1,4 +1,4 @@
-namespace Jaket;
+namespace COAT;
 
 // TODO: fix the OnLobbyAction event and repair networking
 // Also put this in the coat folder :3

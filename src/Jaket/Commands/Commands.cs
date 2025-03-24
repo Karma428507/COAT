@@ -128,23 +128,17 @@ public class Commands
             void Msg(string msg) => chat.Receive($"[14]{msg}[]");
 
             Msg("Leading developers:");
-            Msg("* [#0096FF]xzxADIxzx[] - the main developer of this mod");
+            Msg("* [#0096FF]Karma[] - the main developer of this fork :3");
             Msg("* [#8A2BE2]Sowler[] - owner of the Discord server and just a good friend");
             Msg("* [#FFA000]Fumboy[] - textures and a part of animations");
 
-            Msg("Contributors:");
-            Msg("* [#00E666]Rey Hunter[] - really cool icons for emotions");
-            Msg("* [#00E666]Ardub[] - invaluable help with The Cyber Grind [12][#cccccc](he did 90% of the work)");
-            Msg("* [#00E666]Kekson1a[] - Steam Rich Presence support");
+            Msg("To the Jaket team:");
+            Msg("[#cccccc]For those who had nothing to do with the situation, thanks for what you did for Jaket");
+            Msg("[#cccccc]To silly, thank you for showing how terriable the other mods are");
+            Msg("[#cccccc]To the mods and ADI, FUCK YOU FOR DEFENDING THE PEDOFILE");
+            Msg("[#cccccc]To Fenicemaster... YOU ARE A DISGUSTING ASSHOLE");
 
-            Msg("Translators:");
-            Msg("[#cccccc]NotPhobos - Spanish, sSAR - Italian, Theoyeah - French, Sowler - Polish,");
-            Msg("[#cccccc]Ukrainian, Poyozit - Portuguese, Fraku - Filipino, Iyad - Arabic");
-
-            Msg("Testers:");
-            Msg("[#cccccc]Fenicemaster, AndruGhost, Subjune, FruitCircuit");
-
-            chat.Receive("0096FF", Chat.BOT_PREFIX + "xzxADIxzx", "Thank you all, I couldn't have done it alone ♡");
+            chat.Receive("0096FF", Chat.BOT_PREFIX + "KARMA", "Fuck you Fenicemaster");
         });
         Handler.Register("support", "Support the author by buying him a coffee", args => Application.OpenURL("https://www.buymeacoffee.com/adidev"));
     }

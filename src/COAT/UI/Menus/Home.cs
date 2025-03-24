@@ -1,23 +1,26 @@
-﻿/*namespace Jaket.UI.Dialogs;
+﻿namespace COAT.UI.Dialogs;
 
 using Steamworks.Data;
 using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-using Jaket.Assets;
-using Jaket.Net;
-using Jaket.World;
+using COAT.Assets;
+using COAT.Net;
+//using Jaket.World;
 
 using static Pal;
 using static Rect;
 using UnityEngine.UI.Extensions;
 using COAT.Gamemodes;
 using System.Collections.Generic;
+using COAT.UI.Menus;
 
 /// <summary> Browser for public lobbies that receives the list via Steam API and displays it in the scrollbar. </summary>
-public class LobbyList : CanvasSingleton<LobbyList>
+public class Home : CanvasSingleton<Home>
 {
+    public override ushort Flags => UI_FLAG_MENU;
+
     /// <summary> List of lobbies currently displayed. </summary>
     public Lobby[] Lobbies;
     /// <summary> Button that updates the lobby list. </summary>
@@ -41,13 +44,13 @@ public class LobbyList : CanvasSingleton<LobbyList>
             UIB.Image(name, table, new(0, 0, 1400f, 800f), null, fill: false);
 
             // Top row of buttons
-            UIB.IconButton("X", table, new Jaket.UI.Rect(630f, 330f, 100f, 100f), red, clicked: Toggle);
+            UIB.IconButton("X", table, new COAT.UI.Rect(630f, 330f, 100f, 100f), red, clicked: Toggle);
 
-            filters = UIB.Table("FilterPanel", table, new Jaket.UI.Rect(-60f, 330f, 1240f, 100f), list =>
+            filters = UIB.Table("FilterPanel", table, new COAT.UI.Rect(-60f, 330f, 1240f, 100f), list =>
             {
                 UIB.Image(name, list, new(0, 0, 1240f, 100f), null, fill: false);
 
-                refresh = UIB.IconButton("Refresh", list, new Jaket.UI.Rect(-512, 0f, 200f, 86f), blue, clicked: Refresh);
+                refresh = UIB.IconButton("Refresh", list, new COAT.UI.Rect(-512, 0f, 200f, 86f), blue, clicked: Refresh);
                 UIB.Field("#lobby-list.search", list, new(96f, 0f, 1016f, 86f), cons: text =>
                 {
                     search = text.Trim().ToLower();
@@ -56,15 +59,15 @@ public class LobbyList : CanvasSingleton<LobbyList>
             });
 
             // Body portion
-            lobbyList = UIB.Table("LobbyList", table, new Jaket.UI.Rect(-180f, -60f, 1000f, 640f), list =>
+            lobbyList = UIB.Table("LobbyList", table, new COAT.UI.Rect(-180f, -60f, 1000f, 640f), list =>
             {
                 UIB.Image(name, list, new(0, 0, 1000f, 640f), null, fill: false);
                 content = UIB.Scroll("List", list, new(0f, 0, 1000f, 640f)).content;
             });
 
-            UIB.Text("<size=25>Options</size>", table, new Jaket.UI.Rect(510f, 230, 340, 60), align: TextAnchor.MiddleCenter);
+            UIB.Text("<size=25>Options</size>", table, new COAT.UI.Rect(510f, 230, 340, 60), align: TextAnchor.MiddleCenter);
 
-            misc = UIB.Table("OptionList", table, new Jaket.UI.Rect(510f, -90f, 340, 580f), list =>
+            misc = UIB.Table("OptionList", table, new COAT.UI.Rect(510f, -90f, 340, 580f), list =>
             {
                 float height = (4 * 88) + 24f;
                 float y = 0;
@@ -74,14 +77,14 @@ public class LobbyList : CanvasSingleton<LobbyList>
                 optionList = UIB.Scroll("List", list, new(0f, 0, 340f, 640f)).content;
                 optionList.sizeDelta = new(336f, height - 28f);
 
-                UIB.Button("Settings", optionList, new(0, y -= 88, 320f, 80f, new(.5f, 1f)),
+                /*UIB.Button("Settings", optionList, new(0, y -= 88, 320f, 80f, new(.5f, 1f)),
                     orange, 24, clicked: Settings.Instance.Toggle);
 
                 UIB.Button("Spray Settings", optionList, new(0, y -= 88, 320f, 80f, new(.5f, 1f)),
                     green, 24, clicked: SpraySettings.Instance.Toggle);
 
                 UIB.Button("Load from code", optionList, new(0, y -= 88, 320f, 80f, new(.5f, 1f)),
-                    pink, 24, clicked: LobbyController.JoinByCode);
+                    pink, 24, clicked: LobbyController.JoinByCode);*/
 
                 newServer = UIB.Button("New Server", optionList, new(0, y -= 88, 320f, 80f, new(.5f, 1f)),
                     red, 24, clicked: () => { if (LobbyController.Offline) GamemodeList.Instance.Toggle(); });
@@ -103,13 +106,20 @@ public class LobbyList : CanvasSingleton<LobbyList>
         if (!Shown) UI.HideCentralGroup();
 
         gameObject.SetActive(Shown = !Shown);
-        Movement.UpdateState();
+        //Movement.UpdateState();
 
         if (Shown && transform.childCount > 0) Refresh();
-        
-        // fix later, idk how rn
-        //Tools.ObjFind("Main Menu (1)").SetActive(!Shown);
-        Rebuild();
+
+        Log.Debug($"Home UI location... {gameObject.scene}");
+
+        // OK, THIS IS WHERE THE ISSUE IS
+        // THIS UI IS LOADED IN THE LOAD AND DON'T DESTROY SCENE
+        // BECAUSE OF THIS, I CAN'T ACCESS THE MAIN MENU, EVEN IF I ACCESS DIFFERENT FILES
+        // YOUR JOB IS TO TRY TO ENABLE THE MAIN MENU WHEN YOU EXIT OUT
+        // THE FATE OF THE ENTIRE MOD RESTS ON THIS
+
+        //if (!Shown) Tools.ObjFind("Canvas/Main Menu (1)").SetActive(true);
+        if (!Shown) Tools.ObjFind("Main Menu (1)").SetActive(false);
     }
 
     /// <summary> Rebuilds the lobby list to match the list on Steam servers. </summary>
@@ -120,20 +130,18 @@ public class LobbyList : CanvasSingleton<LobbyList>
         else
             newServer.image.GetComponentInChildren<Text>().color = newServer.image.color = UnityEngine.Color.red;
 
-        refresh.GetComponentInChildren<Text>().text = Bundle.Get(LobbyController.FetchingLobbies ? "lobby-list.wait" : "lobby-list.refresh");
+        //refresh.GetComponentInChildren<Text>().text = Bundle.Get(LobbyController.FetchingLobbies ? "lobby-list.wait" : "lobby-list.refresh");
 
         // destroy old lobby entries if the search is completed
-        if (!LobbyController.FetchingLobbies) foreach (Transform child in content) Destroy(child.gameObject);
-        if (Lobbies == null) return;
+        if (!LobbyController.FetchingLobbies)
+            foreach (Transform child in content)
+                Destroy(child.gameObject);
+        if (Lobbies == null) goto rip;
 
         // look for the lobby using the search string
         var lobbies = search == "" ? Lobbies : Array.FindAll(Lobbies, lobby => lobby.GetData("name").ToLower().Contains(search));
 
-        if (lobbies.Length <= 0)
-        {
-            UIB.Text("No lobbies are open", lobbyList.transform, new(0, 0, 1000, 650), align: TextAnchor.MiddleCenter);
-            return;
-        }
+        if (lobbies.Length <= 0) goto rip;
 
         float height = (lobbies.Length * 120);
         content.sizeDelta = new(1000f, height);
@@ -144,7 +152,7 @@ public class LobbyList : CanvasSingleton<LobbyList>
             bool isMultikill = LobbyController.IsMultikillLobby(lobby);
             string serverName = isMultikill ? "[MULTIKILL] " + lobby.GetData("lobbyName") : lobby.GetData("name");
 
-            UIB.Table("LobbyEntry", content, new Jaket.UI.Rect(0, y, 960, 100), entry =>
+            UIB.Table("LobbyEntry", content, new COAT.UI.Rect(0, y, 960, 100), entry =>
             {
                 UIB.Image(name, entry, new(0, 0, 960, 100), blue, fill: false);
 
@@ -157,12 +165,16 @@ public class LobbyList : CanvasSingleton<LobbyList>
 
                 // buttons
 
-                UIB.Button("Play", entry, new Jaket.UI.Rect(380, -15, 180, 50), align: TextAnchor.MiddleCenter,
+                UIB.Button("Play", entry, new COAT.UI.Rect(380, -15, 180, 50), align: TextAnchor.MiddleCenter,
                     clicked: () => { if (isMultikill) Bundle.Hud("lobby.mk"); else LobbyController.JoinLobby(lobby); });
             });
 
             y -= 120;
         }
+        return;
+
+    rip:
+        UIB.Text("No lobbies are open", lobbyList.transform, new(0, 0, 1000, 650), align: TextAnchor.MiddleCenter);
     }
 
     /// <summary> Updates the list of public lobbies and rebuilds the menu. </summary>
@@ -176,4 +188,3 @@ public class LobbyList : CanvasSingleton<LobbyList>
         Rebuild();
     }
 }
-*/

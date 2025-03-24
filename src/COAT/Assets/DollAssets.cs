@@ -1,4 +1,4 @@
-/*namespace Jaket.Assets;
+namespace COAT.Assets;
 
 using System.IO;
 using TMPro;
@@ -7,9 +7,9 @@ using UnityEngine.Audio;
 using UnityEngine.Events;
 
 using Jaket.Content;
-using Jaket.Net;
-using Jaket.Net.Types;
-using Jaket.UI.Dialogs;
+//using Jaket.Net;
+//using Jaket.Net.Types;
+//using Jaket.UI.Dialogs;
 
 /// <summary> Class that works with the assets bundle of the mod. </summary>
 public class DollAssets
@@ -49,6 +49,7 @@ public class DollAssets
     public static void Load()
     {
         Bundle = LoadBundle();
+        goto FontStyle; // something here is crashing the game and idk what it is
 
         // cache the shader and the wing textures for future use
         Shader = AssetHelper.LoadPrefab("cb3828ada2cbefe479fed3b51739edf6").GetComponent<global::V2>().smr.material.shader;
@@ -59,7 +60,7 @@ public class DollAssets
         for (int i = 0; i < 5; i++)
         {
             var index = i; // C# sucks
-            LoadAsync<Texture>("V3-wings-" + ((Team)i).ToString(), tex => WingTextures[index] = tex);
+            //LoadAsync<Texture>("V3-wings-" + ((Team)i).ToString(), tex => WingTextures[index] = tex);
         }
 
         LoadAsync<Texture>("V3-hand", tex => HandTextures[1] = tex);
@@ -104,11 +105,12 @@ public class DollAssets
             Mixer = mix;
             Events.Post(() =>
             {
-                Networking.LocalPlayer.Voice.outputAudioMixerGroup = Mixer.FindMatchingGroups("Master")[0];
+                //Networking.LocalPlayer.Voice.outputAudioMixerGroup = Mixer.FindMatchingGroups("Master")[0];
             });
         });
 
-        // but the font must be loaded immediately, because it is needed to build the interface
+    // but the font must be loaded immediately, because it is needed to build the interface
+    FontStyle:
         Font = Bundle.LoadAsset<Font>("font.ttf");
         FontTMP = TMP_FontAsset.CreateFontAsset(Font);
     }
@@ -157,7 +159,7 @@ public class DollAssets
     };
 
     /// <summary> Creates a new player doll from the prefab. </summary>
-    public static RemotePlayer CreateDoll()
+    /*public static RemotePlayer CreateDoll()
     {
         // create a doll from the prefab obtained from the bundle
         var obj = Entities.Mark(Doll);
@@ -191,6 +193,5 @@ public class DollAssets
     {
         var s = feedbacker ? Settings.FeedColor : Settings.KnuckleColor;
         return HandTextures[(feedbacker ? 0 : 2) + (s == 0 ? (LobbyController.Offline ? 0 : 1) : s == 1 ? 1 : 0)];
-    }
+    }*/
 }
-*/

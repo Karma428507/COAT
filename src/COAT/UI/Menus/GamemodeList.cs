@@ -1,14 +1,14 @@
-﻿/*using System;
+﻿using System;
 using UnityEngine;
 using UnityEngine.UI;
 using COAT.Gamemodes;
-using Jaket.Assets;
-using Jaket.Net;
+using COAT.Assets;
+using COAT.Net;
 
 //using static Pal;
 //using static Rect;
 
-namespace Jaket.UI.Dialogs
+namespace COAT.UI.Dialogs
 {
     public class GamemodeList : CanvasSingleton<GamemodeList>
     {
@@ -24,6 +24,8 @@ namespace Jaket.UI.Dialogs
         private Transform gamemodeMenu;
 
         private GamemodeTypes selectedGamemode = GamemodeTypes.NormalCampain;
+
+        public override ushort Flags => UI_FLAG_MENU;
 
         private void Start()
         {
@@ -153,9 +155,8 @@ namespace Jaket.UI.Dialogs
 
             //if (Shown && transform.childCount > 0) Refresh();
 
-            Tools.ObjFind("Main Menu (1)").SetActive(!Shown);
+            //Tools.ObjFind("Main Menu (1)").SetActive(!Shown);
             Rebuild();
         }
     }
 }
-*/
