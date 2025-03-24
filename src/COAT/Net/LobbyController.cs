@@ -155,12 +155,14 @@ public class LobbyController
         Log.Debug("Creating a lobby...");
 
         CreatingLobby = true;
+
+        sudoLobby.Debug();
         SteamMatchmaking.CreateLobbyAsync(8).ContinueWith(task =>
         {
             CreatingLobby = false; IsOwner = true;
             Lobby = task.Result;
 
-            sudoLobby.Debug();
+            // sudoLobby.Debug();
 
             Lobby?.SetJoinable(true);
             switch (sudoLobby.type)
