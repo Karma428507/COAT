@@ -64,6 +64,8 @@ public class Tools
         // "This fix... an ugly fix" - whyis2plus2
         // "Better than what I could of done in the weekend" - 𒀭𒅗𒅈𒈠
 
+        string childPath = null;
+
         string currentScene = Scene switch
         {
             "Main Menu" => "b3e7f2f8052488a45b35549efb98d902",
@@ -76,7 +78,16 @@ public class Tools
         var scene = SceneManager.GetSceneByName(currentScene);
         if (!scene.isLoaded) return null;
 
-        return (from obj in scene.GetRootGameObjects() where obj.name == FirstChild select obj).First();
+        if (FirstChild.Contains('/'))
+        {
+            string[] children = FirstChild.Split('/', 2);
+
+            FirstChild = children[0];
+            childPath = children[1];
+        }
+
+        var result = (from obj in scene.GetRootGameObjects() where obj.name == FirstChild select obj).First();
+        return string.IsNullOrEmpty(childPath)? result : result.transform.Find(childPath).gameObject;
     }
 
     #endregion
