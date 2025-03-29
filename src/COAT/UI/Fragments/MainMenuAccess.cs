@@ -42,8 +42,13 @@ public class MainMenuAccess : CanvasSingleton<MainMenuAccess>
     public void Rebuild()
     {
         // Sets the parent for the leftside UI and remove the text
+<<<<<<< HEAD
         leftside = Tools.ObjFindByScene("Main Menu", "Canvas").transform.Find("Main Menu (1)/LeftSide").gameObject;
 
+=======
+        leftside = Tools.ObjFindByScene("Main Menu", "Canvas/Main Menu (1)/LeftSide");
+                
+>>>>>>> 79e9e67f132a19058c147f3db4c2ef561aaa1144
         // disable the V1 wake text
         leftside.transform.Find("Text (2)").gameObject.SetActive(false);
 

@@ -70,6 +70,7 @@ namespace COAT.UI.Menus
 
                 // gamemode settings menu
                 UIB.Image(name, table, new(225, 0, 400, 450), null, fill: false);
+                Rebuild();
 
             });
 
@@ -140,17 +141,14 @@ namespace COAT.UI.Menus
 
         public void Toggle()
         {
-            creationLobby = new SudoLobby();
-
-            if (!Shown)
-            {
-                UI.HideCentralGroup();
-            }
-
+            if (!Shown) UI.HideCentralGroup();
             gameObject.SetActive(Shown = !Shown);
+<<<<<<< HEAD
             //Movement.UpdateState();
             if (Shown)
                 Rebuild();
+=======
+>>>>>>> 79e9e67f132a19058c147f3db4c2ef561aaa1144
         }
     }
 }
@@ -161,13 +159,18 @@ public class ServerDiffifcultySelect : IMenuInterface
 
     public void Toggle()
     {
+<<<<<<< HEAD
         if (Tools.Scene != "Main Menu")
             return;
 
         loadViaServer = !Tools.ObjFindByScene("Main Menu", "Canvas").transform.Find("Difficulty Select (1)").gameObject.activeSelf;
         Tools.ObjFindByScene("Main Menu", "Canvas").transform.Find("Difficulty Select (1)").gameObject.SetActive(loadViaServer);
+=======
+        loadViaServer = !Tools.ObjFindByScene("Main Menu", "Canvas/Difficulty Select (1)").activeSelf;
+        Tools.ObjFindByScene("Main Menu", "Canvas/Difficulty Select (1)").SetActive(loadViaServer);
+>>>>>>> 79e9e67f132a19058c147f3db4c2ef561aaa1144
 
-        if (Tools.ObjFindByScene("Main Menu", "Canvas").transform.Find("Main Menu (1)").gameObject.activeSelf)
-            Tools.ObjFindByScene("Main Menu", "Canvas").transform.Find("Main Menu (1)").gameObject.SetActive(false);
+        if (Tools.ObjFindByScene("Main Menu", "Canvas/Main Menu (1)").activeSelf)
+            Tools.ObjFindByScene("Main Menu", "Canvas/Main Menu (1)").SetActive(false);
     }
 }

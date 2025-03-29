@@ -84,10 +84,17 @@ public class UI
     /// <summary> Pushes a menu onto the stack (will check flags) </summary>
     public static void PushStack(IMenuInterface Current)
     {
+<<<<<<< HEAD
         if (MenuStack.Count == 0 && Tools.Scene == "Main Menu")
             Tools.ObjFindByScene("Main Menu", "Canvas").transform.Find("Main Menu (1)").gameObject.SetActive(false);
         else if (MenuStack.Count != 0)
             MenuStack[^1].Toggle();
+=======
+        if (MenuStack.Count == 0)
+            Tools.ObjFindByScene("Main Menu", "Canvas/Main Menu (1)").SetActive(false);
+        else
+            MenuStack[MenuStack.Count - 1].Toggle();
+>>>>>>> 79e9e67f132a19058c147f3db4c2ef561aaa1144
 
         MenuStack.Add(Current);
         Current.Toggle();
@@ -102,10 +109,17 @@ public class UI
         MenuStack[^1].Toggle();
         MenuStack.RemoveAt(MenuStack.Count - 1);
 
+<<<<<<< HEAD
         if (MenuStack.Count == 0 && Tools.Scene == "Main Menu")
             Tools.ObjFindByScene("Main Menu", "Canvas").transform.Find("Main Menu (1)").gameObject.SetActive(true);
         else if (MenuStack.Count != 0)
             MenuStack[^1].Toggle();
+=======
+        if (MenuStack.Count == 0)
+            Tools.ObjFindByScene("Main Menu", "Canvas/Main Menu (1)").SetActive(true);
+        else
+            MenuStack[MenuStack.Count - 1].Toggle();
+>>>>>>> 79e9e67f132a19058c147f3db4c2ef561aaa1144
     }
 
     public static void PopAllStack()
