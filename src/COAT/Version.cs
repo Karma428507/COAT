@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 
 using COAT.Assets;
+using COAT.UI;
 
 using static COAT.UI.Rect;
 
@@ -52,9 +53,9 @@ public class Version
     }
 
     /// <summary> Adds the mod version to the bottom left edge of the screen. </summary>
-    /*public static void Label(Transform parent)
+    public static void Label(Transform parent)
     {
         var r = Blw(36f, 40f);
         UIB.Table("Version", parent, r, table => UIB.Text($"Jaket version is {CURRENT}", table, r.Text, Color.grey));
-    }*/
+    }
 }

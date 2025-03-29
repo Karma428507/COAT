@@ -1,17 +1,19 @@
-/*namespace Jaket.UI.Dialogs;
+namespace COAT.UI.Menus;
 
 using UnityEngine;
 using UnityEngine.UI;
 
-using Jaket.Assets;
-using Jaket.World;
+using COAT.Assets;
+using COAT.World;
 
 using static Pal;
 using static Rect;
 
 /// <summary> Global mod settings not related to the lobby. </summary>
-public class Settings : CanvasSingleton<Settings>
+public class Settings : CanvasSingleton<Settings>, IMenuInterface
 {
+    public override ushort Flags => 0;
+
     static PrefsManager pm => PrefsManager.Instance;
 
     #region general
@@ -140,7 +142,7 @@ public class Settings : CanvasSingleton<Settings>
                 pm.SetBool("jaket.disable-freeze", DisableFreezeFrames = _);
             }).isOn = DisableFreezeFrames;
 
-            UIB.Button("#settings.sprays", table, Btn(300f), clicked: SpraySettings.Instance.Toggle);
+            //UIB.Button("#settings.sprays", table, Btn(300f), clicked: SpraySettings.Instance.Toggle);
         });
         UIB.Table("Controls", "#settings.controls", transform, Tlw(360f + 576f / 2f, 576f), table =>
         {
@@ -244,4 +246,3 @@ public class Settings : CanvasSingleton<Settings>
 
     #endregion
 }
-*/

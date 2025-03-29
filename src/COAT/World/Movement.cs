@@ -13,6 +13,7 @@ using COAT.Net;
 //using Jaket.Net.Types;
 //using Jaket.Sprays;
 using COAT.UI;
+using COAT.UI.Menus;
 //using Jaket.UI.Dialogs;
 //using Jaket.UI.Elements;
 using COAT.UI.Fragments;
@@ -108,6 +109,7 @@ public class Movement : MonoSingleton<Movement>
                 // Escaping menus in game
                 // seperate statement due to other UI elements that can be opened
                 // I'll only be focusing on the main menu rn
+                UI.PopStack();
             }
         }
 
@@ -115,11 +117,11 @@ public class Movement : MonoSingleton<Movement>
         if (LobbyController.Offline) return;
 
         // Uncomment this when you're working on settings and other UI
-        /*if (Input.GetKeyDown(Settings.LobbyTab)) LobbyList.Instance.Toggle();
-        if (Input.GetKeyDown(Settings.PlayerList)) PlayerList.Instance.Toggle();
-        if (Input.GetKeyDown(Settings.Settingz)) Settings.Instance.Toggle();
+        //if (Input.GetKeyDown(Settings.LobbyTab)) LobbyList.Instance.Toggle();
+        if (Input.GetKeyDown(Settings.PlayerList)) UI.PushStack(PlayerList.Instance);
+        if (Input.GetKeyDown(Settings.Settingz)) UI.PushStack(Settings.Instance);
 
-        if (Input.GetKeyDown(Settings.ScrollUp)) Chat.Instance.ScrollMessages(true);
+        /*if (Input.GetKeyDown(Settings.ScrollUp)) Chat.Instance.ScrollMessages(true);
         if (Input.GetKeyDown(Settings.ScrollDown)) Chat.Instance.ScrollMessages(false);
 
         if (UI.Focused || Settings.Instance.Rebinding) return;
@@ -380,6 +382,8 @@ public class Movement : MonoSingleton<Movement>
     }
 
     #endregion
+    */
+
     #region toggling
 
     /// <summary> Updates the state machine: toggles movement, cursor and third-person camera. </summary>
@@ -393,12 +397,12 @@ public class Movement : MonoSingleton<Movement>
         if (nm.dead) return;
 
         nm.activated = fc.activated = gc.activated = !blocking;
-        cc.activated = !blocking && !EmojiWheel.Shown;
+        cc.activated = !blocking /*&& !EmojiWheel.Shown*/;
 
         if (blocking) fc.NoFist();
         else fc.YesFist();
 
-        OptionsManager.Instance.frozen = Instance.Emoji != 0xFF || InteractiveGuide.Shown;
+        OptionsManager.Instance.frozen = Instance.Emoji != 0xFF /*|| InteractiveGuide.Shown*/;
         Console.Instance.enabled = Instance.Emoji == 0xFF;
     }
 
@@ -427,7 +431,7 @@ public class Movement : MonoSingleton<Movement>
     }
 
     /// <summary> Triggers an emoji with the given id. </summary>
-    public void StartEmoji(byte id, bool updateState = true)
+    /*public void StartEmoji(byte id, bool updateState = true)
     {
         EmojiStart = Time.time;
         Emoji = id; // save id to sync it later
@@ -460,8 +464,8 @@ public class Movement : MonoSingleton<Movement>
 
         if (Emoji == 3) LobbyController.Lobby?.SendChatString("#/r" + Rps);
         StartEmoji(0xFF);
-    }
+    }*/
 
     #endregion
-    */
+    
 }

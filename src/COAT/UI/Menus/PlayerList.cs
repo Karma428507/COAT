@@ -1,10 +1,10 @@
-/*namespace Jaket.UI.Dialogs;
+namespace COAT.UI.Menus;
 
-using Jaket.Assets;
-using Jaket.Content;
-using Jaket.Net;
-using Jaket.Net.Types;
-using Jaket.World;
+using COAT.Assets;
+//using COAT.Content;
+using COAT.Net;
+//using COAT.Net.Types;
+using COAT.World;
 using Steamworks;
 using System.Collections.Generic;
 using ULTRAKILL.Cheats;
@@ -14,9 +14,11 @@ using static Pal;
 using static Rect;
 
 /// <summary> List of all players and teams. </summary>
-public class PlayerList : CanvasSingleton<PlayerList>
+public class PlayerList : CanvasSingleton<PlayerList>, IMenuInterface
 {
     private RectTransform content;
+
+    public override ushort Flags => 0;
 
     private void Start()
     {
@@ -41,7 +43,7 @@ public class PlayerList : CanvasSingleton<PlayerList>
             UIB.Table("List", "#player-list.list", table, new(512f, 0f, 336f, 760f), player =>
             {
                 UIB.Image(name, player, new(0, 0, 336f, 760f), null, fill: false);
-                content = UIB.Scroll("List", player, new Jaket.UI.Rect(0, -25, 336f, 760f - 50f)).content;
+                content = UIB.Scroll("List", player, new COAT.UI.Rect(0, -25, 336f, 760f - 50f)).content;
             });
 
             UIB.Table("List", "player settings", table, new(-178, 295, 1004f, 170), player =>
@@ -49,13 +51,13 @@ public class PlayerList : CanvasSingleton<PlayerList>
                 UIB.Image(name, player, new(0, 0, 1004f, 170f), null, fill: false);
 
                 float x = -24f;
-                foreach (Team team in System.Enum.GetValues(typeof(Team))) UIB.TeamButton(team, player, new(x += 64f, -130f, 56f, 56f, new(0f, 1f)), () =>
+                /*foreach (Team team in System.Enum.GetValues(typeof(Team))) UIB.TeamButton(team, player, new(x += 64f, -130f, 56f, 56f, new(0f, 1f)), () =>
                 {
                     Networking.LocalPlayer.Team = team;
                     Events.OnTeamChanged.Fire();
 
                     Rebuild();
-                });
+                });*/
             });
 
             UIB.Table("List", "server settings", table, new(-178, -95, 1004f, 570f), server =>
@@ -103,18 +105,19 @@ public class PlayerList : CanvasSingleton<PlayerList>
                         name = "★" + name;
 
                     // Load the main compodents of the UI
-                    UIB.Button("", player, new(0, 0, 320f, 80f), Networking.GetTeam(member).Color(), 24);
+                    UIB.Button("", player, new(0, 0, 320f, 80f),
+                        /*Networking.GetTeam(member).Color()*/ Color.white, 24);
                     Image PFP = UIB.Image("PFP", player, new(-125, 0, 50, 50));
                     UIB.Text(name, player, new(30, 12.5f, 230f, 30), align: TextAnchor.MiddleLeft);
 
                     // Add the view button
                     UIB.Button("View", player, new(110f, -12.5f, 75f, 40),
-                        Networking.GetTeam(member).Color(), 24,
+                        /*Networking.GetTeam(member).Color()*/ Color.white, 24,
                         clicked: () => SteamFriends.OpenUserOverlay(member.Id, "steamid"));
 
                     // Add a ban button for the owner
-                    if (LobbyController.IsOwner && LobbyController.LastOwner != member.Id)
-                        UIB.IconButton("X", player, Icon(45f, 52.5f), red, clicked: () => Administration.Ban(member.Id.AccountId));
+                    //if (LobbyController.IsOwner && LobbyController.LastOwner != member.Id)
+                    //    UIB.IconButton("X", player, Icon(45f, 52.5f), red, clicked: () => Administration.Ban(member.Id.AccountId));
 
                     // To load in the PFPs
                     LoadPFP(member, PFP);
@@ -130,4 +133,3 @@ public class PlayerList : CanvasSingleton<PlayerList>
                             SpriteMeshType.FullRect, new(), true);
     }
 }
-*/

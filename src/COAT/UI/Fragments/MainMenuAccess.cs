@@ -29,11 +29,21 @@ public class MainMenuAccess : CanvasSingleton<MainMenuAccess>
         Rebuild();
     }
 
+    /// <summary> Toggles visibility of the access table. </summary>
+    public void Toggle()
+    {
+        gameObject.SetActive(Shown = !Shown);
+        Log.Debug($"Toggle value: {Shown}");
+
+        Rebuild();
+    }
+
+    /// <summary> Creates the menu button </summary>
     public void Rebuild()
     {
         // Sets the parent for the leftside UI and remove the text
         leftside = Tools.ObjFindByScene("Main Menu", "Canvas").transform.Find("Main Menu (1)/LeftSide").gameObject;
-                
+
         // disable the V1 wake text
         leftside.transform.Find("Text (2)").gameObject.SetActive(false);
 
@@ -42,6 +52,8 @@ public class MainMenuAccess : CanvasSingleton<MainMenuAccess>
         multiplayerButton.name = "COAT Multiplayer";
         multiplayerButton.transform.localPosition = new(0f, -145f, 0f);
         multiplayerButton.GetComponentInChildren<TMP_Text>().text = "MULTIPLAYER";
+        multiplayerButton.GetComponentInChildren<TMP_Text>().color = Color.red;
+        multiplayerButton.GetComponentInChildren<Image>().color = Color.red;
         multiplayerButton.GetComponentInChildren<Button>().onClick = new();
         multiplayerButton.GetComponentInChildren<Button>().onClick.AddListener(() => UI.PushStack(Home.Instance));
 
@@ -54,29 +66,5 @@ public class MainMenuAccess : CanvasSingleton<MainMenuAccess>
         // I would set the position to this but is sends the table very far away
         //table.gameObject.transform.position = new(210, -180f, 0f);
         table.gameObject.AddComponent<HudOpenEffect>();
-    }
-
-    //private void Update() => table.gameObject.SetActive(menu.activeSelf);
-
-    /// <summary> Toggles visibility of the access table. </summary>
-    public void Toggle()
-    {
-        gameObject.SetActive(Shown = !Shown);
-        Log.Debug($"Toggle value: {Shown}");
-
-        Rebuild();
-
-        // did this because of a bug
-        /*if (Shown) {
-            Log.Debug("This is active...");
-            Tools.ObjFind("Main Menu (1)").SetActive(true);
-        }*/
-    }
-
-    private void LoadCoatMenu()
-    {
-        //Tools.ObjFind("Main Menu (1)").SetActive(false);
-        //Home.Instance.Toggle();
-        UI.PushStack(Home.Instance);
     }
 }

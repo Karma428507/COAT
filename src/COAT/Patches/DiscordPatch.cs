@@ -18,7 +18,9 @@ public class DiscordPatch
         if (LobbyController.Online) ___cachedActivity.State = "Playing multiplayer via COAT :3";
     }
 
-    [HarmonyPrefix]
+    // Maybe bring this back...
+    // But with the UI revamp, we could just add the link inside one of the menus
+    /*[HarmonyPrefix]
     [HarmonyPatch(typeof(ShopZone), "Start")]
     static void Button(ShopZone __instance)
     {
@@ -30,5 +32,5 @@ public class DiscordPatch
 
         // add ControllerPointer so that the button can be clicked
         Tools.Destroy(button.gameObject.AddComponent<ShopButton>()); // hacky
-    }
+    }*/
 }

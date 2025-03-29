@@ -149,7 +149,8 @@ namespace COAT.UI.Menus
 
             gameObject.SetActive(Shown = !Shown);
             //Movement.UpdateState();
-            Rebuild();
+            if (Shown)
+                Rebuild();
         }
     }
 }
@@ -160,6 +161,9 @@ public class ServerDiffifcultySelect : IMenuInterface
 
     public void Toggle()
     {
+        if (Tools.Scene != "Main Menu")
+            return;
+
         loadViaServer = !Tools.ObjFindByScene("Main Menu", "Canvas").transform.Find("Difficulty Select (1)").gameObject.activeSelf;
         Tools.ObjFindByScene("Main Menu", "Canvas").transform.Find("Difficulty Select (1)").gameObject.SetActive(loadViaServer);
 

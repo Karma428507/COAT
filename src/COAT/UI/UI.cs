@@ -23,14 +23,12 @@ internal struct Stack
 /// <summary> Class that loads and manages the interface of the mod. </summary>
 public class UI
 {
-    public static Dictionary<string, object> MenuDict = new Dictionary<string, object>();
-
     /// <summary> Whether the player is focused on a input field. </summary>
     public static bool Focused => Focus != null && Focus.TryGetComponent<InputField>(out var f) && f.isActiveAndEnabled;
     /// <summary> Whether the player is in any of Jaket dialog. </summary>
-    //public static bool AnyDialog => Chat.Shown || LobbyTab.Shown || LobbyList.Shown || PlayerList.Shown || Settings.Shown || SpraySettings.Shown || (OptionsManager.Instance?.paused ?? false);
+    public static bool AnyDialog => /*Chat.Shown ||*/ MenuStack.Count > 0 || (OptionsManager.Instance?.paused ?? false);
     /// <summary> Whether any interface that blocks movement is currently visible. </summary>
-    //public static bool AnyMovementBlocking => AnyDialog || NewMovement.Instance.dead || Movement.Instance.Emoji != 0xFF;
+    public static bool AnyMovementBlocking => AnyDialog || NewMovement.Instance.dead /*|| Movement.Instance.Emoji != 0xFF*/;
 
     /// <summary> Object on which the player is focused. </summary>
     public static GameObject Focus => EventSystem.current?.currentSelectedGameObject;
@@ -44,18 +42,16 @@ public class UI
     {
         Root = Tools.Create("UI").transform;
 
+        Settings.Load();
         Home.Build("Lobby List", false, true);
         MainMenuAccess.Build("Main Menu Access", false, true);
-        // reload
-        /*Settings.Load(); // settings must be loaded before building the interface
-
-        Chat.Build("Chat", true, true, hide: () => Chat.Instance.Field?.gameObject.SetActive(Chat.Shown = false));
-        LobbyTab.Build("Lobby Tab", false, true);*/
+        //Chat.Build("Chat", true, true, hide: () => Chat.Instance.Field?.gameObject.SetActive(Chat.Shown = false));
+        //LobbyTab.Build("Lobby Tab", false, true);
         GamemodeList.Build("Gamemode List", false, true);
-        
-        /*PlayerList.Build("Player List", false, true);
+        PlayerList.Build("Player List", false, true);
         Settings.Build("Settings", false, true);
-        SpraySettings.Build("Spray Settings", false, true);
+
+        /*SpraySettings.Build("Spray Settings", false, true);
         Debugging.Build("Debugging Menu", false, false);
 
         PlayerIndicators.Build("Player Indicators", false, false, scene => scene == "Main Menu");
@@ -88,10 +84,10 @@ public class UI
     /// <summary> Pushes a menu onto the stack (will check flags) </summary>
     public static void PushStack(IMenuInterface Current)
     {
-        if (MenuStack.Count == 0)
+        if (MenuStack.Count == 0 && Tools.Scene == "Main Menu")
             Tools.ObjFindByScene("Main Menu", "Canvas").transform.Find("Main Menu (1)").gameObject.SetActive(false);
-        else
-            MenuStack[MenuStack.Count - 1].Toggle();
+        else if (MenuStack.Count != 0)
+            MenuStack[^1].Toggle();
 
         MenuStack.Add(Current);
         Current.Toggle();
@@ -103,17 +99,17 @@ public class UI
         if (MenuStack.Count == 0)
             return;
 
-        MenuStack[MenuStack.Count - 1].Toggle();
+        MenuStack[^1].Toggle();
         MenuStack.RemoveAt(MenuStack.Count - 1);
 
-        if (MenuStack.Count == 0)
+        if (MenuStack.Count == 0 && Tools.Scene == "Main Menu")
             Tools.ObjFindByScene("Main Menu", "Canvas").transform.Find("Main Menu (1)").gameObject.SetActive(true);
-        else
-            MenuStack[MenuStack.Count - 1].Toggle();
+        else if (MenuStack.Count != 0)
+            MenuStack[^1].Toggle();
     }
 
     public static void PopAllStack()
     {
-        MenuStack.RemoveAll(e => e.GetType() is IMenuInterface);
+        MenuStack = new List<IMenuInterface>();
     }
 }
