@@ -24,9 +24,13 @@ public class MainMenuAccess : CanvasSingleton<MainMenuAccess>
 
     private void Start()
     {
-        // I forgot what this does, ignore it
-        Events.OnMainMenuLoaded += Toggle;
+        // Activate this every time the main menu is loaded
+        Events.OnMainMenuLoaded += Rebuild;
+        Rebuild();
+    }
 
+    public void Rebuild()
+    {
         // Sets the parent for the leftside UI and remove the text
         leftside = Tools.ObjFindByScene("Main Menu", "Canvas").transform.Find("Main Menu (1)/LeftSide").gameObject;
                 
@@ -57,8 +61,10 @@ public class MainMenuAccess : CanvasSingleton<MainMenuAccess>
     /// <summary> Toggles visibility of the access table. </summary>
     public void Toggle()
     {
-        gameObject.SetActive(Shown = Tools.Scene == "Main Menu");
+        gameObject.SetActive(Shown = !Shown);
         Log.Debug($"Toggle value: {Shown}");
+
+        Rebuild();
 
         // did this because of a bug
         /*if (Shown) {
