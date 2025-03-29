@@ -55,3 +55,9 @@ public abstract class CanvasSingleton<T> : MonoSingleton<T> where T : CanvasSing
         Events.OnLoaded += Check;
     }
 }
+
+/// <summary> I hate generics, I just want to make an array for menus </summary>
+public interface IMenuInterface
+{
+    public void Toggle();
+}

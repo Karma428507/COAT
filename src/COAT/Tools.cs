@@ -1,9 +1,10 @@
-namespace COAT;
+﻿namespace COAT;
 
 using HarmonyLib;
 using Steamworks;
 using Steamworks.Data;
 using System;
+using System.Linq;
 using System.Reflection;
 using UnityEngine;
 using UnityEngine.Events;
@@ -13,6 +14,7 @@ using Object = UnityEngine.Object;
 using Jaket.IO;
 using System.Threading.Tasks;
 using static UnityEngine.GraphicsBuffer;
+using UnityEngine.SceneManagement;
 
 /// <summary> Set of different tools for simplifying life and systematization of code. </summary>
 public class Tools
@@ -56,6 +58,26 @@ public class Tools
     /// <summary> Whether the given object is on a scene or is it just an asset. </summary>
     public static bool IsReal(GameObject obj) => obj.scene.name != null;
     public static bool IsReal(Component comp) => IsReal(comp.gameObject);
+
+    public static GameObject ObjFindByScene(string Scene, string FirstChild)
+    {
+        // "This fix... an ugly fix" - whyis2plus2
+        // "Better than what I could of done in the weekend" - 𒀭𒅗𒅈𒈠
+
+        string currentScene = Scene switch
+        {
+            "Main Menu" => "b3e7f2f8052488a45b35549efb98d902",
+            _ => "NULL"
+        };
+
+        if (currentScene == "NULL")
+            throw new Exception("Scene name not valid");
+
+        var scene = SceneManager.GetSceneByName(currentScene);
+        if (!scene.isLoaded) return null;
+
+        return (from obj in scene.GetRootGameObjects() where obj.name == FirstChild select obj).First();
+    }
 
     #endregion
     #region create, instantiate & destroy

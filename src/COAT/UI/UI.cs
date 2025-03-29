@@ -1,14 +1,15 @@
 namespace COAT.UI;
 
 using COAT;
+using COAT.UI.Fragments;
 using COAT.UI.Menus;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-using COAT.UI.Dialogs;
 using System.Collections.Generic;
 using HarmonyLib;
+using System.Linq;
 
 //using Jaket.UI.Fragments;
 //using Jaket.World;
@@ -35,6 +36,8 @@ public class UI
     public static GameObject Focus => EventSystem.current?.currentSelectedGameObject;
     /// <summary> Object containing the entire interface. </summary>
     public static Transform Root;
+    /// <summary> An array for the menu stack </summary>
+    public static List<IMenuInterface> MenuStack = new List<IMenuInterface>();
 
     /// <summary> Creates singleton instances of fragments and dialogs. </summary>
     public static void Load()
@@ -82,20 +85,35 @@ public class UI
         //if (OptionsManager.Instance.paused) OptionsManager.Instance.UnPause();
     }
 
-    public static void Toggle(string key)
-    {
-
-    }
-
     /// <summary> Pushes a menu onto the stack (will check flags) </summary>
-    public static void PushStack<T>(string name)
+    public static void PushStack(IMenuInterface Current)
     {
-        //Log.Debug($"Pushing menu {name}: {GetValue<>(name)}");
+        if (MenuStack.Count == 0)
+            Tools.ObjFindByScene("Main Menu", "Canvas").transform.Find("Main Menu (1)").gameObject.SetActive(false);
+        else
+            MenuStack[MenuStack.Count - 1].Toggle();
+
+        MenuStack.Add(Current);
+        Current.Toggle();
     }
 
     /// <summary> Pops the menu stack, no value returned since it doesn't matter </summary>
     public static void PopStack()
     {
+        if (MenuStack.Count == 0)
+            return;
 
+        MenuStack[MenuStack.Count - 1].Toggle();
+        MenuStack.RemoveAt(MenuStack.Count - 1);
+
+        if (MenuStack.Count == 0)
+            Tools.ObjFindByScene("Main Menu", "Canvas").transform.Find("Main Menu (1)").gameObject.SetActive(true);
+        else
+            MenuStack[MenuStack.Count - 1].Toggle();
+    }
+
+    public static void PopAllStack()
+    {
+        MenuStack.RemoveAll(e => e.GetType() is IMenuInterface);
     }
 }

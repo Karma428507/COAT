@@ -4,15 +4,17 @@ using UnityEngine.UI;
 using COAT.Gamemodes;
 using COAT.Assets;
 using COAT.Net;
+using COAT.UI;
+using COAT;
 
 //using static Pal;
 //using static Rect;
 
-namespace COAT.UI.Dialogs
+namespace COAT.UI.Menus
 {
-    public class GamemodeList : CanvasSingleton<GamemodeList>
+    public class GamemodeList : CanvasSingleton<GamemodeList>, IMenuInterface
     {
-        private SudoLobby creationLobby;
+        public static SudoLobby creationLobby;
 
         private Toggle pvp, cheats, myEnemy, bosses;
         private Button accessibility, difficulty;
@@ -52,10 +54,10 @@ namespace COAT.UI.Dialogs
                         Rebuild();
                     });
 
-                    difficulty = UIB.Button("HARMLESS", options, Rect.Btn(120), clicked: () =>
+                    difficulty = UIB.Button("N/A", options, Rect.Btn(120), clicked: () =>
                     {
-                        diff = (byte)((int)(++diff) % 5);
-                        Rebuild();
+                        //diff = (byte)((int)(++diff) % 5);
+                        //Rebuild();
                     });
 
                     pvp = UIB.Toggle("#lobby-tab.allow-pvp", options, Rect.Tgl(160), clicked: allow => creationLobby.pvp = allow);
@@ -63,12 +65,7 @@ namespace COAT.UI.Dialogs
                     myEnemy = UIB.Toggle("#lobby-tab.allow-mods", options, Rect.Tgl(240), clicked: allow => creationLobby.modded = allow);
                     bosses = UIB.Toggle("#lobby-tab.heal-bosses", options, Rect.Tgl(280), 20, allow => creationLobby.healBosses = allow);
 
-                    UIB.Button("Play", options, new Rect(0, -190, 380, 40), null, 24, clicked: () =>
-                        {
-                            PrefsManager.Instance.SetInt("difficulty", diff);
-                            LobbyController.CreateLobby(creationLobby);
-                            Tools.Load("Tutorial");
-                        });
+                    UIB.Button("Play", options, new Rect(0, -190, 380, 40), null, 24, clicked: () => {UI.PushStack(new ServerDiffifcultySelect());});
                 });
 
                 // gamemode settings menu
@@ -121,7 +118,7 @@ namespace COAT.UI.Dialogs
                 _ => "lobby-tab.default"
             });
 
-            difficulty.GetComponentInChildren<Text>().text = diff switch
+            /*difficulty.GetComponentInChildren<Text>().text = diff switch
             {
                 0 => "HARMLESS",
                 1 => "LENIENT",
@@ -129,9 +126,9 @@ namespace COAT.UI.Dialogs
                 3 => "VIOLENT",
                 4 => "BRUTAL",
                 _ => "ULTRAKILL MUST DIE"
-            };
+            };*/
 
-            creationLobby.Debug();
+            //creationLobby.Debug();
         }
         
         private void LoadServerCreator(GamemodeTypes type)
@@ -152,11 +149,21 @@ namespace COAT.UI.Dialogs
 
             gameObject.SetActive(Shown = !Shown);
             //Movement.UpdateState();
-
-            //if (Shown && transform.childCount > 0) Refresh();
-
-            //Tools.ObjFind("Main Menu (1)").SetActive(!Shown);
             Rebuild();
         }
+    }
+}
+
+public class ServerDiffifcultySelect : IMenuInterface
+{
+    public static bool loadViaServer = false;
+
+    public void Toggle()
+    {
+        loadViaServer = !Tools.ObjFindByScene("Main Menu", "Canvas").transform.Find("Difficulty Select (1)").gameObject.activeSelf;
+        Tools.ObjFindByScene("Main Menu", "Canvas").transform.Find("Difficulty Select (1)").gameObject.SetActive(loadViaServer);
+
+        if (Tools.ObjFindByScene("Main Menu", "Canvas").transform.Find("Main Menu (1)").gameObject.activeSelf)
+            Tools.ObjFindByScene("Main Menu", "Canvas").transform.Find("Main Menu (1)").gameObject.SetActive(false);
     }
 }

@@ -1,9 +1,9 @@
-﻿/*namespace Jaket.Patches;
+﻿namespace COAT.Patches;
 
 using HarmonyLib;
 using Steamworks;
 
-using Jaket.Net;
+using COAT.Net;
 using COAT;
 
 [HarmonyPatch]
@@ -35,10 +35,10 @@ public class SteamPatch
         if (LobbyController.Offline) return;
 
         // #AtCyberGrind is a localization string for Cyber Grind, just "%difficulty% | Cyber Grind: Wave %wave%" without setting its values
-        if (key == "wave") value += COAT.SteamDisplay();
+        if (key == "wave") value += " | Multiplayer via COAT :3";
 
         // #AtStandardLevel is a localization string for other levels, just "%difficulty% | %level%" without setting its values
-        if (key == "level") value += COAT.SteamDisplay();
+        if (key == "level") value += " | Multiplayer via COAT :3";
 
         /* other steam_display values for ULTRAKILL include:
          * #AtMainMenu (displays "Main Menu" in your activity)
@@ -46,7 +46,6 @@ public class SteamPatch
          * #UnknownLevel (displays "???" in your activity)
          * these have no additional localization values, so we cannot add "Multiplayer via Jaket" to them
          * for more info, check out SteamController.FetchSceneActivity(string scene)
-         * /
+         */
     }
 }
-*/

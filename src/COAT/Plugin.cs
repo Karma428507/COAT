@@ -12,8 +12,7 @@ using Jaket.Content;
 using Jaket.IO;
 using COAT.Net;
 using Jaket.Sprays;
-
-//using Jaket.World;
+using COAT.World;
 
 /// <summary> Bootloader class needed to avoid destroying the mod by the game. </summary>
 [BepInPlugin("Karma.Coat", "COAT", Version.CURRENT)]
@@ -81,15 +80,15 @@ public class Plugin : MonoBehaviour
         Entities.Load();
 
         World.World.Load();
-        WorldActionsList.Load();
+        WorldActionsList.Load();*/
         Movement.Load();
-        SprayManager.Load();*/
+        //SprayManager.Load();
 
         UI.UIB.Load();
         UI.UI.Load();
 
         // initialize harmony and patch all the necessary classes
-        new Harmony("Should I write something here?").PatchAll();
+        new Harmony("Meow :3").PatchAll();
 
         // check if there is any incompatible mods
         HasIncompatibility = Chainloader.PluginInfos.Values.Any(info => !Compatible.Contains(info.Metadata.Name));

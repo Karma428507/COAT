@@ -1,4 +1,4 @@
-/*namespace Jaket.World;
+namespace COAT.World;
 
 using GameConsole;
 using HarmonyLib;
@@ -7,15 +7,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-using Jaket.Assets;
-using Jaket.Content;
-using Jaket.Net;
-using Jaket.Net.Types;
-using Jaket.Sprays;
-using Jaket.UI;
-using Jaket.UI.Dialogs;
-using Jaket.UI.Elements;
-using Jaket.UI.Fragments;
+using COAT.Assets;
+//using Jaket.Content;
+using COAT.Net;
+//using Jaket.Net.Types;
+//using Jaket.Sprays;
+using COAT.UI;
+//using Jaket.UI.Dialogs;
+//using Jaket.UI.Elements;
+using COAT.UI.Fragments;
 
 /// <summary> Class responsible for additions to control and local display of emotions. </summary>
 public class Movement : MonoSingleton<Movement>
@@ -58,9 +58,9 @@ public class Movement : MonoSingleton<Movement>
     private int targetPlayer;
 
     /// <summary> Last pointer created by the player. </summary>
-    public Pointer Pointer;
+    //public Pointer Pointer;
     /// <summary> Last spray created by the player. </summary>
-    public Spray Spray;
+    //public Spray Spray;
 
     /// <summary> Creates a singleton of movement. </summary>
     public static void Load()
@@ -68,7 +68,7 @@ public class Movement : MonoSingleton<Movement>
         // initialize the singleton
         Tools.Create<Movement>("Movement");
 
-        Events.OnLoaded += () =>
+        /*Events.OnLoaded += () =>
         {
             // interrupt emoji to prevent some bugs
             Instance.StartEmoji(0xFF, false);
@@ -91,16 +91,31 @@ public class Movement : MonoSingleton<Movement>
         };
 
         // update death screen text to display the number of living players in the Cyber Grind
-        Instance.InvokeRepeating("GridUpdate", 0f, 1f);
+        Instance.InvokeRepeating("GridUpdate", 0f, 1f);*/
     }
 
     private void Update()
     {
+        // Allows the user to escape from the menu
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            // YOU CAN ESCAPE
+            if (Tools.Scene == "Main Menu")
+            {
+                UI.PopStack();
+            } else
+            {
+                // Escaping menus in game
+                // seperate statement due to other UI elements that can be opened
+                // I'll only be focusing on the main menu rn
+            }
+        }
 
         if (Tools.Scene == "Main Menu") return;
         if (LobbyController.Offline) return;
 
-        if (Input.GetKeyDown(Settings.LobbyTab)) LobbyList.Instance.Toggle();
+        // Uncomment this when you're working on settings and other UI
+        /*if (Input.GetKeyDown(Settings.LobbyTab)) LobbyList.Instance.Toggle();
         if (Input.GetKeyDown(Settings.PlayerList)) PlayerList.Instance.Toggle();
         if (Input.GetKeyDown(Settings.Settingz)) Settings.Instance.Toggle();
 
@@ -115,9 +130,9 @@ public class Movement : MonoSingleton<Movement>
         if (Input.GetKeyDown(KeyCode.C) && Debugging.Shown) Debugging.Instance.Clear();
 
         if (Input.GetKeyDown(Settings.PlayerIndicators)) PlayerIndicators.Instance.Toggle();
-        if (Input.GetKeyDown(Settings.PlayerInfo)) PlayerInfo.Instance.Toggle();
+        if (Input.GetKeyDown(Settings.PlayerInfo)) PlayerInfo.Instance.Toggle();*/
 
-        if (Input.GetKey(Settings.EmojiWheel) && !LobbyList.Shown && !WeaponWheel.Instance.gameObject.activeSelf)
+        /*if (Input.GetKey(Settings.EmojiWheel) && !LobbyList.Shown && !WeaponWheel.Instance.gameObject.activeSelf)
         {
             HoldTime += Time.deltaTime; // if the key has been pressed for 0.25 seconds, show the emoji wheel
             if (!EmojiWheel.Shown && HoldTime > .25f) EmojiWheel.Instance.Show();
@@ -153,9 +168,11 @@ public class Movement : MonoSingleton<Movement>
         if (pi.Fire2.WasPerformedThisFrame) targetPlayer++;
 
         if (targetPlayer < 0) targetPlayer = LobbyController.Lobby?.MemberCount - 1 ?? 0;
-        if (targetPlayer >= LobbyController.Lobby?.MemberCount) targetPlayer = 0;
+        if (targetPlayer >= LobbyController.Lobby?.MemberCount) targetPlayer = 0;*/
     }
 
+    // Work on WAY later in development
+    /*
     private void LateUpdate() // late update is needed to overwrite the time scale value and camera rotation
     {
         // skateboard logic
@@ -446,5 +463,5 @@ public class Movement : MonoSingleton<Movement>
     }
 
     #endregion
+    */
 }
-*/

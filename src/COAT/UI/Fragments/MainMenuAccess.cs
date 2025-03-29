@@ -1,10 +1,10 @@
-namespace COAT.UI.Menus;
+namespace COAT.UI.Fragments;
 
 using UnityEngine;
 
 //using Jaket.Net;
 using COAT.UI;
-using COAT.UI.Dialogs;
+using COAT.UI.Menus;
 
 using static Rect;
 using UnityEngine.UI;
@@ -49,15 +49,16 @@ public class MainMenuAccess : CanvasSingleton<MainMenuAccess>
         Log.Debug($"Toggle value: {Shown}");
 
         // did this because of a bug
-        if (Shown) {
+        /*if (Shown) {
             Log.Debug("This is active...");
             Tools.ObjFind("Main Menu (1)").SetActive(true);
-        }
+        }*/
     }
 
     private void LoadCoatMenu()
     {
-        Tools.ObjFind("Main Menu (1)").SetActive(false);
-        Home.Instance.Toggle();
+        //Tools.ObjFind("Main Menu (1)").SetActive(false);
+        //Home.Instance.Toggle();
+        UI.PushStack(Home.Instance);
     }
 }

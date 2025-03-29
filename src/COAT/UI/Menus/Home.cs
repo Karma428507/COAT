@@ -1,4 +1,4 @@
-﻿namespace COAT.UI.Dialogs;
+﻿namespace COAT.UI.Menus;
 
 using Steamworks.Data;
 using System;
@@ -19,7 +19,7 @@ using COAT.UI.Menus;
 using UnityEngine.SceneManagement;
 
 /// <summary> Browser for public lobbies that receives the list via Steam API and displays it in the scrollbar. </summary>
-public class Home : CanvasSingleton<Home>
+public class Home : CanvasSingleton<Home>, IMenuInterface
 {
     public override ushort Flags => UI_FLAG_MENU;
 
@@ -46,7 +46,7 @@ public class Home : CanvasSingleton<Home>
             UIB.Image(name, table, new(0, 0, 1400f, 800f), null, fill: false);
 
             // Top row of buttons
-            UIB.IconButton("X", table, new COAT.UI.Rect(630f, 330f, 100f, 100f), red, clicked: Toggle);
+            UIB.IconButton("X", table, new COAT.UI.Rect(630f, 330f, 100f, 100f), red, clicked: UI.PopStack);
 
             filters = UIB.Table("FilterPanel", table, new COAT.UI.Rect(-60f, 330f, 1240f, 100f), list =>
             {
@@ -89,7 +89,7 @@ public class Home : CanvasSingleton<Home>
                     pink, 24, clicked: LobbyController.JoinByCode);*/
 
                 newServer = UIB.Button("New Server", optionList, new(0, y -= 88, 320f, 80f, new(.5f, 1f)),
-                    red, 24, clicked: () => { if (LobbyController.Offline) GamemodeList.Instance.Toggle(); });
+                    red, 24, clicked: () => UI.PushStack(GamemodeList.Instance));
             });
 
             //
@@ -111,26 +111,6 @@ public class Home : CanvasSingleton<Home>
         //Movement.UpdateState();
 
         if (Shown && transform.childCount > 0) Refresh();
-
-        Log.Debug($"Home UI location... {gameObject.scene}");
-
-        // OK, THIS IS WHERE THE ISSUE IS
-        // THIS UI IS LOADED IN THE LOAD AND DON'T DESTROY SCENE
-        // BECAUSE OF THIS, I CAN'T ACCESS THE MAIN MENU, EVEN IF I ACCESS DIFFERENT FILES
-        // YOUR JOB IS TO TRY TO ENABLE THE MAIN MENU WHEN YOU EXIT OUT
-        // THE FATE OF THE ENTIRE MOD RESTS ON THIS
-
-        // "This fix... an ugly fix" - whyis2plus2
-
-        var mainMenuScene = SceneManager.GetSceneByName("b3e7f2f8052488a45b35549efb98d902");
-        if (!mainMenuScene.isLoaded) return;
-
-        var mainCanvas = (from obj in mainMenuScene.GetRootGameObjects() where obj.name == "Canvas" select obj).First().transform;
-        var mainMenu = mainCanvas.Find("Main Menu (1)").gameObject;
-
-        mainMenu.SetActive(!Shown);
-        //if (!Shown) Tools.ObjFind("Canvas/Main Menu (1)").SetActive(true);
-        //if (!Shown) Tools.ObjFind("Main Menu (1)").SetActive(false);
     }
 
     /// <summary> Rebuilds the lobby list to match the list on Steam servers. </summary>

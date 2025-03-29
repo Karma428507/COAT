@@ -1,11 +1,11 @@
-/*namespace Jaket.Patches;
+namespace COAT.Patches;
 
 using COAT;
 using Discord;
 using HarmonyLib;
 
-using Jaket.Net;
-using Jaket.UI;
+using COAT.Net;
+using COAT.UI;
 
 [HarmonyPatch]
 public class DiscordPatch
@@ -15,7 +15,7 @@ public class DiscordPatch
     static void Activity(ref Activity ___cachedActivity)
     {
         // update the discord activity so everyone can know I've been working hard
-        if (LobbyController.Online) ___cachedActivity.State = COAT.DiscordDisplay();
+        if (LobbyController.Online) ___cachedActivity.State = "Playing multiplayer via COAT :3";
     }
 
     [HarmonyPrefix]
@@ -32,4 +32,3 @@ public class DiscordPatch
         Tools.Destroy(button.gameObject.AddComponent<ShopButton>()); // hacky
     }
 }
-*/

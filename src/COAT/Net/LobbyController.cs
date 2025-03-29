@@ -9,6 +9,8 @@ using UnityEngine;
 using UnityEngine.UI;
 
 using COAT.Assets;
+using COAT.UI;
+using COAT.UI.Menus;
 //using COAT.Net;
 //using COAT.World;
 using Jaket.IO;
@@ -110,6 +112,18 @@ public class LobbyController
         Events.OnLoaded += () => Lobby?.SetData("level", MapMap(Tools.Scene));
         // if the player exits to the main menu, then this is equivalent to leaving the lobby
         Events.OnMainMenuLoaded += () => LeaveLobby(false);
+        // creates a server if specified
+        Events.OnLoadingStarted += () =>
+        {
+            UI.PopAllStack();
+
+            if (ServerDiffifcultySelect.loadViaServer)
+            {
+                Log.Debug("Creating server...");
+                CreateLobby(GamemodeList.creationLobby);
+                ServerDiffifcultySelect.loadViaServer = false;
+            }
+        };
     }
 
     /// <summary> Is there a user with the given id among the members of the lobby. </summary>
@@ -123,37 +137,10 @@ public class LobbyController
 
     #region control
 
-    /// <summary> Asynchronously creates a new lobby with default settings and connects to it. </summary>
-    [Obsolete]
-    public static void CreateLobby()
-    {
-        if (Lobby != null || CreatingLobby) return;
-        Log.Debug("Creating a lobby...");
-
-        CreatingLobby = true;
-        SteamMatchmaking.CreateLobbyAsync(8).ContinueWith(task =>
-        {
-            CreatingLobby = false; IsOwner = true;
-            Lobby = task.Result;
-
-            Lobby?.SetJoinable(true);
-            Lobby?.SetPrivate();
-            Lobby?.SetData("jaket", "true");
-            Lobby?.SetData("name", $"{SteamClient.Name}'s Lobby");
-            Lobby?.SetData("level", MapMap(Tools.Scene));
-            Lobby?.SetData("pvp", "True");
-            Lobby?.SetData("cheats", "False");
-            Lobby?.SetData("mods", "False");
-            Lobby?.SetData("heal-bosses", "True");
-        });
-    }
-
-    /// <summary> Asynchronously creates a new lobby with default settings and connects to it. </summary>
+    /// <summary> Asynchronously creates a new lobby with custom settings and connects to it. </summary>
     public static void CreateLobby(SudoLobby sudoLobby)
     {
         if (Lobby != null || CreatingLobby) return;
-        Log.Debug("Creating a lobby...");
-
         CreatingLobby = true;
 
         sudoLobby.Debug();
@@ -161,8 +148,6 @@ public class LobbyController
         {
             CreatingLobby = false; IsOwner = true;
             Lobby = task.Result;
-
-            // sudoLobby.Debug();
 
             Lobby?.SetJoinable(true);
             switch (sudoLobby.type)
