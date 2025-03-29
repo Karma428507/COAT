@@ -70,6 +70,7 @@ namespace COAT.UI.Menus
 
                 // gamemode settings menu
                 UIB.Image(name, table, new(225, 0, 400, 450), null, fill: false);
+                Rebuild();
 
             });
 
@@ -140,16 +141,8 @@ namespace COAT.UI.Menus
 
         public void Toggle()
         {
-            creationLobby = new SudoLobby();
-
-            if (!Shown)
-            {
-                UI.HideCentralGroup();
-            }
-
+            if (!Shown) UI.HideCentralGroup();
             gameObject.SetActive(Shown = !Shown);
-            //Movement.UpdateState();
-            Rebuild();
         }
     }
 }
