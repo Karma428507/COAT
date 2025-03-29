@@ -89,7 +89,7 @@ public class UI
     public static void PushStack(IMenuInterface Current)
     {
         if (MenuStack.Count == 0)
-            Tools.ObjFindByScene("Main Menu", "Canvas").transform.Find("Main Menu (1)").gameObject.SetActive(false);
+            Tools.ObjFindByScene("Main Menu", "Canvas/Main Menu (1)").SetActive(false);
         else
             MenuStack[MenuStack.Count - 1].Toggle();
 
@@ -107,7 +107,7 @@ public class UI
         MenuStack.RemoveAt(MenuStack.Count - 1);
 
         if (MenuStack.Count == 0)
-            Tools.ObjFindByScene("Main Menu", "Canvas").transform.Find("Main Menu (1)").gameObject.SetActive(true);
+            Tools.ObjFindByScene("Main Menu", "Canvas/Main Menu (1)").SetActive(true);
         else
             MenuStack[MenuStack.Count - 1].Toggle();
     }
