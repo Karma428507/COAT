@@ -8,6 +8,7 @@ using COAT.UI.Menus;
 
 using static Rect;
 using UnityEngine.UI;
+using System.Linq;
 
 /// <summary> Access to the mod functions through the main menu. </summary>
 public class MainMenuAccess : CanvasSingleton<MainMenuAccess>
@@ -26,10 +27,12 @@ public class MainMenuAccess : CanvasSingleton<MainMenuAccess>
         Events.OnMainMenuLoaded += Toggle;
 
         // Sets the parent for the leftside UI and remove the text
-        leftside = Tools.ObjFind("Main Menu (1)/LeftSide");
+        leftside = Tools.ObjFindByScene("Main Menu", "Canvas").transform.Find("Main Menu (1)/LeftSide").gameObject;
 
-        // This was supose to disable the text above the continue button but doesn't
-        Tools.ObjFind("Main Menu (1)/LeftSide/Text (2)").SetActive(false);
+        Tools.ObjFindByScene("Main Menu", "Canvas").transform.Find("Main Menu (1)/LeftSide/Text (2)").gameObject.SetActive(false);
+        
+        // prevent Text (2) from being reactivated
+        leftside.GetComponent<ObjectActivateInSequence>().objectsToActivate[2] = null;
 
         // Add a UI button image later
         table = UIB.Rect("Access Table", leftside.transform, new(127.5f, 0f, 420f, 70f)).transform;
