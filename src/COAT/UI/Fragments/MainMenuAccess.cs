@@ -14,7 +14,6 @@ using TMPro;
 /// <summary> Access to the mod functions through the main menu. </summary>
 public class MainMenuAccess : CanvasSingleton<MainMenuAccess>
 {
-    public override ushort Flags => UI_FLAG_MENU;
     /// <summary> Table containing the access buttons. </summary>
     private Transform table;
     /// <summary> Loads the leftside element </summary>
@@ -42,7 +41,7 @@ public class MainMenuAccess : CanvasSingleton<MainMenuAccess>
     public void Rebuild()
     {
         // Sets the parent for the leftside UI and remove the text
-        leftside = Tools.ObjFindByScene("Main Menu", "Canvas/Main Menu (1)/LeftSide");
+        leftside = Tools.ObjFindMainScene("Canvas/Main Menu (1)/LeftSide");
                 
         // disable the V1 wake text
         leftside.transform.Find("Text (2)").gameObject.SetActive(false);

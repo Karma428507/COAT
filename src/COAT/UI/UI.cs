@@ -3,6 +3,8 @@ namespace COAT.UI;
 using COAT;
 using COAT.UI.Fragments;
 using COAT.UI.Menus;
+using COAT.UI.Overlays;
+using COAT.World;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -10,15 +12,12 @@ using UnityEngine.UI;
 using System.Collections.Generic;
 using HarmonyLib;
 using System.Linq;
+using System.Threading.Tasks;
+using COAT.Patches;
+using COAT.Net;
 
 //using Jaket.UI.Fragments;
 //using Jaket.World;
-
-/// <summary> Used for menu and ingame UI handling </summary>
-internal struct Stack
-{
-
-}
 
 /// <summary> Class that loads and manages the interface of the mod. </summary>
 public class UI
@@ -36,6 +35,8 @@ public class UI
     public static Transform Root;
     /// <summary> An array for the menu stack </summary>
     public static List<IMenuInterface> MenuStack = new List<IMenuInterface>();
+    /// <summary> An array for the overlay </summary>
+    public static List<IOverlayInterface> OverlayList = new List<IOverlayInterface>();
 
     /// <summary> Creates singleton instances of fragments and dialogs. </summary>
     public static void Load()
@@ -45,7 +46,7 @@ public class UI
         Settings.Load();
         Home.Build("Lobby List", false, true);
         MainMenuAccess.Build("Main Menu Access", false, true);
-        //Chat.Build("Chat", true, true, hide: () => Chat.Instance.Field?.gameObject.SetActive(Chat.Shown = false));
+        Chat.Build("Chat", true, true, hide: () => Chat.Instance.Field?.gameObject.SetActive(Chat.Shown = false));
         //LobbyTab.Build("Lobby Tab", false, true);
         GamemodeList.Build("Gamemode List", false, true);
         PlayerList.Build("Player List", false, true);
@@ -61,31 +62,34 @@ public class UI
         InteractiveGuide.Build("Interactive Guide", false, false, hide: () => InteractiveGuide.Instance.OfferAssistance());
         Teleporter.Build("Teleporter", false, false, hide: () => { });*/
 
+        // For overlay UI only
+        OverlayList.Add(Chat.Instance);
+
         MainMenuAccess.Instance.Toggle();
+
+        Events.EveryDozen += UpdateOverlayCondition;
     }
 
-    /// <summary> Hides the interface of the left group. </summary>
-    public static void HideLeftGroup()
+    /// <summary> A method used to see if the UI can be used depending on what UI is currently active </summary>
+    public static bool CanUseMenu()
     {
-        //if (LobbyTab.Shown) LobbyTab.Instance.Toggle();
-        //if (PlayerList.Shown) PlayerList.Instance.Toggle();
-        //if (Settings.Shown) Settings.Instance.Toggle();
+        string[] selectors = {"Prelude", "Act I", "Act II", "Act III", "Encore", "Prime"};
+
+        for (int i = 0; i < selectors.Length; i++)
+            if (Tools.ObjFindMainScene($"Canvas/Level Select ({selectors[i]})").activeSelf)
+                return false;
+
+        return !Tools.ObjFindMainScene("Canvas/Main Menu (1)").activeSelf && !Tools.ObjFindMainScene("Canvas/Chapter Select").activeSelf;
     }
 
-    /// <summary> Hides the interface of the central group. </summary>
-    public static void HideCentralGroup()
-    {
-        //if (LobbyList.Shown) LobbyList.Instance.Toggle();
-        //if (SpraySettings.Shown) SpraySettings.Instance.Toggle();
-        //if (EmojiWheel.Shown) EmojiWheel.Instance.Hide();
-        //if (OptionsManager.Instance.paused) OptionsManager.Instance.UnPause();
-    }
+    /// <summary> A method used to see if the UI can be used depending on what UI is currently active </summary>
+    public static bool CanUseIngame() => !Tools.ObjFindMainScene("Canvas/PauseMenu").activeSelf && !Tools.ObjFindMainScene("Canvas/OptionsMenu").activeSelf;
 
     /// <summary> Pushes a menu onto the stack (will check flags) </summary>
     public static void PushStack(IMenuInterface Current)
     {
         if (MenuStack.Count == 0 && Tools.Scene == "Main Menu")
-            Tools.ObjFindByScene("Main Menu", "Canvas/Main Menu (1)").SetActive(false);
+            Tools.ObjFindMainScene("Canvas/Main Menu (1)").SetActive(false);
         else if (MenuStack.Count != 0)
             MenuStack[^1].Toggle();
 
@@ -103,13 +107,45 @@ public class UI
         MenuStack.RemoveAt(MenuStack.Count - 1);
 
         if (MenuStack.Count == 0 && Tools.Scene == "Main Menu")
-            Tools.ObjFindByScene("Main Menu", "Canvas/Main Menu (1)").SetActive(true);
+            Tools.ObjFindMainScene("Canvas/Main Menu (1)").SetActive(true);
         else if (MenuStack.Count != 0)
             MenuStack[^1].Toggle();
+
+        if (Tools.Scene != "Main Menu")
+            OptionsManagerPatch.InUI = true;
     }
 
     public static void PopAllStack()
     {
         MenuStack = new List<IMenuInterface>();
+    }
+
+    public static void ToggleUI(IMenuInterface Current)
+    {
+        if (MenuStack.Count > 0 && MenuStack[^1] == Current)
+        {
+            MenuStack[^1].Toggle();
+            PopAllStack();
+        } else
+        {
+            if (CanUseIngame())
+                PushStack(Current);
+        }
+
+        Movement.UpdateState();
+    }
+
+    public async static void WaitForMenu()
+    {
+        await Task.Delay(50);
+
+        if (Tools.ObjFindMainScene("Canvas/OptionsMenu").activeSelf)
+            Tools.ObjFindMainScene("Canvas/OptionsMenu").SetActive(false);
+    }
+
+    protected static void UpdateOverlayCondition()
+    {
+        if (Tools.Scene == "Main Menu" || LobbyController.Offline)
+            return;
     }
 }

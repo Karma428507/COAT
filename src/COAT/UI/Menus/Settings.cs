@@ -12,8 +12,6 @@ using static Rect;
 /// <summary> Global mod settings not related to the lobby. </summary>
 public class Settings : CanvasSingleton<Settings>, IMenuInterface
 {
-    public override ushort Flags => 0;
-
     static PrefsManager pm => PrefsManager.Instance;
 
     #region general
@@ -185,8 +183,6 @@ public class Settings : CanvasSingleton<Settings>, IMenuInterface
     // <summary> Toggles visibility of the settings. </summary>
     public void Toggle()
     {
-        if (!Shown) UI.HideLeftGroup();
-
         gameObject.SetActive(Shown = !Shown);
         Movement.UpdateState();
     }

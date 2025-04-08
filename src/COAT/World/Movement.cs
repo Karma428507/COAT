@@ -17,6 +17,7 @@ using COAT.UI.Menus;
 //using Jaket.UI.Dialogs;
 //using Jaket.UI.Elements;
 using COAT.UI.Fragments;
+using COAT.Patches;
 
 /// <summary> Class responsible for additions to control and local display of emotions. </summary>
 public class Movement : MonoSingleton<Movement>
@@ -101,25 +102,23 @@ public class Movement : MonoSingleton<Movement>
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             // YOU CAN ESCAPE
-            if (Tools.Scene == "Main Menu")
+            if (Tools.Scene == "Main Menu" && UI.CanUseMenu())
             {
                 UI.PopStack();
-            } else
+            }
+            else if (Tools.Scene != "Main Menu" && UI.CanUseIngame())
             {
-                // Escaping menus in game
-                // seperate statement due to other UI elements that can be opened
-                // I'll only be focusing on the main menu rn
                 UI.PopStack();
+                UpdateState();
             }
         }
 
-        if (Tools.Scene == "Main Menu") return;
-        if (LobbyController.Offline) return;
+        if (Tools.Scene == "Main Menu" && LobbyController.Offline) return;
 
         // Uncomment this when you're working on settings and other UI
         //if (Input.GetKeyDown(Settings.LobbyTab)) LobbyList.Instance.Toggle();
-        if (Input.GetKeyDown(Settings.PlayerList)) UI.PushStack(PlayerList.Instance);
-        if (Input.GetKeyDown(Settings.Settingz)) UI.PushStack(Settings.Instance);
+        if (Input.GetKeyDown(Settings.PlayerList)) UI.ToggleUI(PlayerList.Instance);
+        if (Input.GetKeyDown(Settings.Settingz)) UI.ToggleUI(Settings.Instance);
 
         /*if (Input.GetKeyDown(Settings.ScrollUp)) Chat.Instance.ScrollMessages(true);
         if (Input.GetKeyDown(Settings.ScrollDown)) Chat.Instance.ScrollMessages(false);

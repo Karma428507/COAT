@@ -18,8 +18,6 @@ public class PlayerList : CanvasSingleton<PlayerList>, IMenuInterface
 {
     private RectTransform content;
 
-    public override ushort Flags => 0;
-
     private void Start()
     {
         //UIB.Shadow(transform);
@@ -73,8 +71,6 @@ public class PlayerList : CanvasSingleton<PlayerList>, IMenuInterface
     // <summary> Toggles visibility of the player list. </summary>
     public void Toggle()
     {
-        if (!Shown) UI.HideLeftGroup();
-
         gameObject.SetActive(Shown = !Shown);
         Movement.UpdateState();
 

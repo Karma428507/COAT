@@ -1,4 +1,4 @@
-/*namespace Jaket.UI.Dialogs;
+namespace COAT.UI.Overlays;
 
 using Steamworks;
 using System.Collections;
@@ -6,18 +6,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-using Jaket.Assets;
-using Jaket.Commands;
-using Jaket.Net;
-using Jaket.Net.Types;
-using Jaket.Sam;
-using Jaket.World;
+using COAT.Assets;
+//using COAT.Commands;
+using COAT.Net;
+//using COAT.Net.Types;
+//using COAT.Sam;
+using COAT.World;
+using COAT.UI.Menus;
 
 using static Pal;
 using static Rect;
 
 /// <summary> Front end of the chat, back end implemented via Steamworks. </summary>
-public class Chat : CanvasSingleton<Chat>
+public class Chat : CanvasSingleton<Chat>, IOverlayInterface
 {
     /// <summary> Prefix that will be added to bot messages. </summary>
     public const string BOT_PREFIX = "[#FF7F50][14]\\[BOT][][]";
@@ -90,10 +91,10 @@ public class Chat : CanvasSingleton<Chat>
         List<string> list = new();
 
         if (Shown) list.Add(Bundle.Get("chat.you"));
-        Networking.EachPlayer(player =>
+        /*Networking.EachPlayer(player =>
         {
             if (player.Typing) list.Add(player.Header.Name);
-        });
+        });*/
 
         // hide the typing label if there is no one in the chat
         typingBg.gameObject.SetActive(list.Count > 0);
@@ -140,7 +141,7 @@ public class Chat : CanvasSingleton<Chat>
         // if the message is not empty, then send it to other players and remember it
         if (Bundle.CutColors(msg).Trim() != "")
         {
-            if (!Commands.Handler.Handle(msg)) LobbyController.Lobby?.SendChatString(AutoTTS ? "/tts " + msg : msg);
+            //if (!Commands.Handler.Handle(msg)) LobbyController.Lobby?.SendChatString(AutoTTS ? "/tts " + msg : msg);
             messages.Insert(0, msg);
         }
 
@@ -152,13 +153,16 @@ public class Chat : CanvasSingleton<Chat>
     /// <summary> Toggles visibility of the chat. </summary>
     public void Toggle()
     {
-        if (!Shown && LobbyController.Online) UI.HideLeftGroup();
-
         Field.gameObject.SetActive(Shown = !Shown && LobbyController.Online);
         Movement.UpdateState();
         UpdateTyping();
 
         if (Shown) Field.ActivateInputField();
+    }
+
+    public bool Condition()
+    {
+        return true;
     }
 
     #region scroll
@@ -226,14 +230,14 @@ public class Chat : CanvasSingleton<Chat>
     public void ReceiveTTS(string color, Friend author, string msg)
     {
         // play the message in the local player's position if he is its author
-        if (author.IsMe)
+        /*if (author.IsMe)
             SamAPI.TryPlay(msg, Networking.LocalPlayer.Voice);
 
         // or find the author among the other players and play the sound from them
         else if (Networking.Entities.TryGetValue(author.Id.AccountId, out var entity) && entity is RemotePlayer player)
             SamAPI.TryPlay(msg, player.Voice);
 
-        Receive(color, TTS_PREFIX + author.Name.Replace("[", "\\["), msg);
+        Receive(color, TTS_PREFIX + author.Name.Replace("[", "\\["), msg);*/
     }
 
     /// <summary> Sends some useful information to the chat. </summary>
@@ -258,4 +262,3 @@ public class Chat : CanvasSingleton<Chat>
 
     #endregion
 }
-*/

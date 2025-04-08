@@ -21,8 +21,6 @@ using UnityEngine.SceneManagement;
 /// <summary> Browser for public lobbies that receives the list via Steam API and displays it in the scrollbar. </summary>
 public class Home : CanvasSingleton<Home>, IMenuInterface
 {
-    public override ushort Flags => UI_FLAG_MENU;
-
     /// <summary> List of lobbies currently displayed. </summary>
     public Lobby[] Lobbies;
     /// <summary> Button that updates the lobby list. </summary>
@@ -105,8 +103,6 @@ public class Home : CanvasSingleton<Home>, IMenuInterface
     /// <summary> Toggles visibility of the lobby list. </summary>
     public void Toggle()
     {
-        if (!Shown) UI.HideCentralGroup();
-
         gameObject.SetActive(Shown = !Shown);
         //Movement.UpdateState();
 

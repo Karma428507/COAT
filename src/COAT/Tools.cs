@@ -59,23 +59,14 @@ public class Tools
     public static bool IsReal(GameObject obj) => obj.scene.name != null;
     public static bool IsReal(Component comp) => IsReal(comp.gameObject);
 
-    public static GameObject ObjFindByScene(string Scene, string FirstChild)
+    public static GameObject ObjFindMainScene(string FirstChild)
     {
         // "This fix... an ugly fix" - whyis2plus2
         // "Better than what I could of done in the weekend" - 𒀭𒅗𒅈𒈠
 
         string childPath = null;
 
-        string currentScene = Scene switch
-        {
-            "Main Menu" => "b3e7f2f8052488a45b35549efb98d902",
-            _ => "NULL"
-        };
-
-        if (currentScene == "NULL")
-            throw new Exception("Scene name not valid");
-
-        var scene = SceneManager.GetSceneByName(currentScene);
+        var scene = SceneManager.GetSceneAt(0);
         if (!scene.isLoaded) return null;
 
         if (FirstChild.Contains('/'))

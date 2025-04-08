@@ -26,9 +26,6 @@ namespace COAT.UI.Menus
         private Transform gamemodeMenu;
 
         private GamemodeTypes selectedGamemode = GamemodeTypes.NormalCampain;
-
-        public override ushort Flags => UI_FLAG_MENU;
-
         private void Start()
         {
             creationLobby = new SudoLobby();
@@ -141,12 +138,9 @@ namespace COAT.UI.Menus
 
         public void Toggle()
         {
-            if (!Shown) UI.HideCentralGroup();
             gameObject.SetActive(Shown = !Shown);
             
             //Movement.UpdateState();
-            if (Shown)
-                Rebuild();
         }
     }
 }
@@ -160,10 +154,10 @@ public class ServerDiffifcultySelect : IMenuInterface
         if (Tools.Scene != "Main Menu")
             return;
 
-        loadViaServer = !Tools.ObjFindByScene("Main Menu", "Canvas/Difficulty Select (1)").activeSelf;
-        Tools.ObjFindByScene("Main Menu", "Canvas/Difficulty Select (1)").SetActive(loadViaServer);
+        loadViaServer = !Tools.ObjFindMainScene("Canvas/Difficulty Select (1)").activeSelf;
+        Tools.ObjFindMainScene("Canvas/Difficulty Select (1)").SetActive(loadViaServer);
 
-        if (Tools.ObjFindByScene("Main Menu", "Canvas/Main Menu (1)").activeSelf)
-            Tools.ObjFindByScene("Main Menu", "Canvas/Main Menu (1)").SetActive(false);
+        if (Tools.ObjFindMainScene("Canvas/Main Menu (1)").activeSelf)
+            Tools.ObjFindMainScene("Canvas/Main Menu (1)").SetActive(false);
     }
 }
