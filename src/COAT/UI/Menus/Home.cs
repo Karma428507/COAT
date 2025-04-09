@@ -77,10 +77,10 @@ public class Home : CanvasSingleton<Home>, IMenuInterface
                 optionList = UIB.Scroll("List", list, new(0f, 0, 340f, 640f)).content;
                 optionList.sizeDelta = new(336f, height - 28f);
 
-                /*UIB.Button("Settings", optionList, new(0, y -= 88, 320f, 80f, new(.5f, 1f)),
-                    orange, 24, clicked: Settings.Instance.Toggle);
+                UIB.Button("Settings", optionList, new(0, y -= 88, 320f, 80f, new(.5f, 1f)),
+                    orange, 24, clicked: () => UI.PushStack(Settings.Instance));
 
-                UIB.Button("Spray Settings", optionList, new(0, y -= 88, 320f, 80f, new(.5f, 1f)),
+                /*UIB.Button("Spray Settings", optionList, new(0, y -= 88, 320f, 80f, new(.5f, 1f)),
                     green, 24, clicked: SpraySettings.Instance.Toggle);
 
                 UIB.Button("Load from code", optionList, new(0, y -= 88, 320f, 80f, new(.5f, 1f)),

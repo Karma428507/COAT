@@ -110,7 +110,7 @@ public class Settings : CanvasSingleton<Settings>, IMenuInterface
 
     private void Start()
     {
-        UIB.Shadow(transform);
+        // Old settings UI, remove when finish with new UI
         UIB.Table("General", "#settings.general", transform, Tlw(16f + 328f / 2f, 328f), table =>
         {
             UIB.Button("#settings.reset", table, Btn(68f), clicked: ResetGeneral);
@@ -148,6 +148,14 @@ public class Settings : CanvasSingleton<Settings>, IMenuInterface
 
             for (int i = 0; i < Keybinds.Length; i++)
                 UIB.KeyButton(Keybinds[i], CurrentKeys[i], table, Tgl(112f + i * 40f));
+        });
+
+        // New UI
+        UIB.Table("Settings", transform, Size(1400, 800f), table =>
+        {
+            // This image is used for the borders
+            UIB.Image(name, table, new(0, 0, 1400f, 800f), null, fill: false);
+
         });
 
         Version.Label(transform);

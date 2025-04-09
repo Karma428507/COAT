@@ -20,7 +20,6 @@ public class PlayerList : CanvasSingleton<PlayerList>, IMenuInterface
 
     private void Start()
     {
-        //UIB.Shadow(transform);
         UIB.Table("Teams", "#player-list.team", transform, Tlw(16f + 166f / 2f, 166f), table =>
         {
             UIB.Text("#player-list.info", table, Btn(71f) with { Height = 46f }, size: 16);
