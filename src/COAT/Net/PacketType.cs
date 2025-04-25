@@ -1,4 +1,4 @@
-namespace Jaket.Content;
+namespace COAT.Content;
 
 /// <summary> All packet types. Will replenish over time. </summary>
 public enum PacketType

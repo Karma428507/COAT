@@ -14,7 +14,7 @@ using COAT.Net;
 //using Jaket.Sprays;
 using COAT.UI;
 using COAT.UI.Menus;
-//using Jaket.UI.Dialogs;
+using COAT.UI.Overlays;
 //using Jaket.UI.Elements;
 using COAT.UI.Fragments;
 using COAT.Patches;
@@ -120,14 +120,14 @@ public class Movement : MonoSingleton<Movement>
         if (Input.GetKeyDown(Settings.PlayerList)) UI.ToggleUI(PlayerList.Instance);
         if (Input.GetKeyDown(Settings.Settingz)) UI.ToggleUI(Settings.Instance);
 
-        /*if (Input.GetKeyDown(Settings.ScrollUp)) Chat.Instance.ScrollMessages(true);
+        if (Input.GetKeyDown(Settings.ScrollUp)) Chat.Instance.ScrollMessages(true);
         if (Input.GetKeyDown(Settings.ScrollDown)) Chat.Instance.ScrollMessages(false);
 
         if (UI.Focused || Settings.Instance.Rebinding) return;
 
         if (Input.GetKeyDown(Settings.Chat)) Chat.Instance.Toggle();
         
-        if (Input.GetKeyDown(KeyCode.F4)) Debugging.Instance.Toggle();
+        /*if (Input.GetKeyDown(KeyCode.F4)) Debugging.Instance.Toggle();
         if (Input.GetKeyDown(KeyCode.C) && Debugging.Shown) Debugging.Instance.Clear();
 
         if (Input.GetKeyDown(Settings.PlayerIndicators)) PlayerIndicators.Instance.Toggle();

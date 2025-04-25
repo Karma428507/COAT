@@ -246,18 +246,10 @@ public class Chat : CanvasSingleton<Chat>, IOverlayInterface
         // if the last owner of the lobby is not equal to 0, then the lobby is not created for the first time
         if (LobbyController.LastOwner != 0L && !force) return;
 
-        void Msg(string msg) => Receive("0096FF", BOT_PREFIX + "xzxADIxzx", msg);
+        void Msg(string msg) => Receive("0096FF", BOT_PREFIX + "KARMA", msg);
         void Tip(string tip) => Msg($"[14]* {tip}[]");
 
-        Msg("Hello, it's me, the main developer of Jaket.");
-        Msg("I just wanted to give you some tips:");
-
-        Tip($"Hold [#FFA500]{Settings.EmojiWheel}[] to open the emote wheel");
-        Tip("Try typing [#FFA500]/help[] in the chat");
-        Tip("Take a look at the bestiary, there's a [#FF66CC]surprise[] :3");
-        Tip("If you have an issue, tell us in our [#5865F2]Discord[] server");
-
-        Msg("Cheers~ ♡");
+        Msg("I'm too lazy to put something here rn.");
     }
 
     #endregion

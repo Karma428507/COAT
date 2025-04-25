@@ -1,4 +1,4 @@
-/*namespace Jaket.Net;
+namespace COAT.Net;
 
 using HarmonyLib;
 using Steamworks;
@@ -7,12 +7,12 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-using Jaket.Assets;
-using Jaket.Content;
-using Jaket.IO;
-using Jaket.Net.Endpoints;
-using Jaket.Net.Types;
-using Jaket.UI.Dialogs;
+using COAT.Assets;
+using COAT.Content;
+using COAT.IO;
+using COAT.Net.Endpoints;
+//using COAT.Net.Types;
+using COAT.UI.Overlays;
 
 /// <summary> Class responsible for updating endpoints, transmitting packets and managing entities. </summary>
 public class Networking
@@ -56,7 +56,7 @@ public class Networking
 
         Events.OnLoadingStarted += () =>
         {
-            if (LobbyController.Online) SceneHelper.SetLoadingSubtext(UnityEngine.Random.value < .042f ? "I love you" : "/// MULTIPLAYER VIA JAKET ///");
+            if (LobbyController.Online) SceneHelper.SetLoadingSubtext(UnityEngine.Random.value < .042f ? "I love you" : "/// MULTIPLAYER VIA COAT ///");
             Loading = true;
         };
         Events.OnLoaded += () =>
@@ -236,4 +236,3 @@ public class Networking
 
     #endregion
 }
-*/

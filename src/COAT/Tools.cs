@@ -32,7 +32,7 @@ public class Tools
     public static string Name(uint id) => new Friend(id | 76561197960265728u).Name;
 
     /// <summary> Shortcut needed in order to track statistics and errors. </summary>
-    /*public static void Send(Connection? con, IntPtr data, int size)
+    public static void Send(Connection? con, IntPtr data, int size)
     {
         if (con == null)
         {
@@ -41,8 +41,9 @@ public class Tools
         }
 
         con.Value.SendMessage(data, size);
-        Stats.Write += size;
-    }*/
+        // I need a better understanding of Stats.cs
+        //Stats.Write += size;
+    }
 
     #endregion
     #region scene

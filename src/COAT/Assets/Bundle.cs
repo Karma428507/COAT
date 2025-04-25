@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
-//using COAT.UI.Dialogs;
+using COAT.UI.Overlays;
 
 /// <summary> Class that loads translations from files in the bundles folder and returns translated lines by keys. </summary>
 public class Bundle
@@ -186,10 +186,10 @@ public class Bundle
     public static void Hud2NS(string key, params string[] args) => text2Show = Format(key, args);
 
     /// <summary> Sends a localized message to the chat. </summary>
-    //public static void Msg(string key) => Chat.Instance.Receive(Get(key), false);
+    public static void Msg(string key) => Chat.Instance.Receive(Get(key), false);
 
     /// <summary> Sends a localized & formatted message to the chat. </summary>
-    //public static void Msg(string key, params string[] args) => Chat.Instance.Receive(Format(key, args), false);
+    public static void Msg(string key, params string[] args) => Chat.Instance.Receive(Format(key, args), false);
 
     #endregion
 }
