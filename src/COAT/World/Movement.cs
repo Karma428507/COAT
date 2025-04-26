@@ -116,7 +116,7 @@ public class Movement : MonoSingleton<Movement>
         if (Tools.Scene == "Main Menu" && LobbyController.Offline) return;
 
         // Uncomment this when you're working on settings and other UI
-        //if (Input.GetKeyDown(Settings.LobbyTab)) LobbyList.Instance.Toggle();
+        if (Input.GetKeyDown(Settings.LobbyTab)) UI.ToggleUI(Home.Instance);
         if (Input.GetKeyDown(Settings.PlayerList)) UI.ToggleUI(PlayerList.Instance);
         if (Input.GetKeyDown(Settings.Settingz)) UI.ToggleUI(Settings.Instance);
 
@@ -127,8 +127,8 @@ public class Movement : MonoSingleton<Movement>
 
         if (Input.GetKeyDown(Settings.Chat)) Chat.Instance.Toggle();
         
-        /*if (Input.GetKeyDown(KeyCode.F4)) Debugging.Instance.Toggle();
-        if (Input.GetKeyDown(KeyCode.C) && Debugging.Shown) Debugging.Instance.Clear();
+        //if (Input.GetKeyDown(KeyCode.F4)) Debugging.Instance.Toggle();
+        /*if (Input.GetKeyDown(KeyCode.C) && Debugging.Shown) Debugging.Instance.Clear();
 
         if (Input.GetKeyDown(Settings.PlayerIndicators)) PlayerIndicators.Instance.Toggle();
         if (Input.GetKeyDown(Settings.PlayerInfo)) PlayerInfo.Instance.Toggle();*/

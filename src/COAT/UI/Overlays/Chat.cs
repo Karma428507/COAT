@@ -141,7 +141,9 @@ public class Chat : CanvasSingleton<Chat>, IOverlayInterface
         // if the message is not empty, then send it to other players and remember it
         if (Bundle.CutColors(msg).Trim() != "")
         {
-            //if (!Commands.Handler.Handle(msg)) LobbyController.Lobby?.SendChatString(AutoTTS ? "/tts " + msg : msg);
+            //if (!Commands.Handler.Handle(msg))
+            Log.Debug("Meowwww " + msg);
+            LobbyController.Lobby?.SendChatString(AutoTTS ? "/tts " + msg : msg);
             messages.Insert(0, msg);
         }
 
@@ -235,9 +237,9 @@ public class Chat : CanvasSingleton<Chat>, IOverlayInterface
 
         // or find the author among the other players and play the sound from them
         else if (Networking.Entities.TryGetValue(author.Id.AccountId, out var entity) && entity is RemotePlayer player)
-            SamAPI.TryPlay(msg, player.Voice);
+            SamAPI.TryPlay(msg, player.Voice);*/
 
-        Receive(color, TTS_PREFIX + author.Name.Replace("[", "\\["), msg);*/
+        Receive(color, TTS_PREFIX + author.Name.Replace("[", "\\["), msg);
     }
 
     /// <summary> Sends some useful information to the chat. </summary>

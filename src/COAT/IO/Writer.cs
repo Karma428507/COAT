@@ -1,13 +1,21 @@
 ﻿namespace COAT.IO;
 
+using NewBlood.Interop;
 using System;
 using System.Runtime.InteropServices;
 using System.Text;
 using UnityEngine;
 
-class Writer : IO
+public class Writer : IO
 {
     public Writer(IntPtr memory, int length) : base(memory, length) { }
+
+    public static void Write(Action<Writer> cons, Action<IntPtr, int> result, int memoryAmount)
+    {
+        Writer instance = new(Pointers.Allocate(memoryAmount), memoryAmount);
+        cons(instance);
+        result(instance.memory, instance.Position);
+    } 
 
     /// <summary> Converts float to integer. </summary>
     public static unsafe int Float2Int(float value) => *(int*)&value;

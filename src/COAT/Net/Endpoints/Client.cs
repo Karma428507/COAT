@@ -12,13 +12,14 @@ using COAT.World;
 using System.Net;
 
 // Handler for players joining the server
-class Client : Endpoint, IConnectionManager
+public class Client : Endpoint, IConnectionManager
 {
     public ConnectionManager Manager { get; protected set; }
 
     public override void Load()
     {
         // Loads all of the listener functions
+        Listen(PacketType.Level, World.ReadData);
     }
 
     public override void Update()
@@ -62,5 +63,6 @@ class Client : Endpoint, IConnectionManager
         // Chat system
         // No listeners are needed to get chat running, only this
         // Only calls a endpoint handle
+        Handle(Manager.Connection, LobbyController.LastOwner.AccountId, data, size);
     }
 }

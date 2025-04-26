@@ -13,7 +13,7 @@ using COAT.UI;
 using COAT.UI.Menus;
 //using COAT.Net;
 //using COAT.World;
-using Jaket.IO;
+using COAT.IO;
 
 public class SudoLobby
 {
@@ -157,7 +157,7 @@ public class LobbyController
                 case 2: Lobby?.SetPublic(); break;
             }
             Lobby?.SetData("jaket", "true");
-            Lobby?.SetData("name", sudoLobby.name);
+            Lobby?.SetData("name", "[COAT] " + sudoLobby.name);
             Lobby?.SetData("level", MapMap(Tools.Scene));
             Lobby?.SetData("pvp", sudoLobby.pvp ? "True" : "False");
             Lobby?.SetData("cheats", sudoLobby.cheats ? "True" : "False");
@@ -173,8 +173,8 @@ public class LobbyController
 
         if (Online) // free up resources allocated for packets that have not been sent
         {
-            //Networking.Server.Close();
-            //Networking.Client.Close();
+            Networking.Server.Close();
+            Networking.Client.Close();
             Pointers.Free();
 
             Lobby?.Leave();

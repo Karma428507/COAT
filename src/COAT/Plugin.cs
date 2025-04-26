@@ -9,7 +9,7 @@ using UnityEngine.SceneManagement;
 
 using COAT.Assets;
 using Jaket.Content;
-using Jaket.IO;
+using COAT.IO;
 using COAT.Net;
 using Jaket.Sprays;
 using COAT.World;
@@ -62,11 +62,10 @@ public class Plugin : MonoBehaviour
 
         // notify players about the availability of an update so that they no longer whine to me about something not working
         //Version.Check4Update();
-        /*Pointers.Allocate();
-        Stats.StartRecord();
+        /*Stats.StartRecord();*/
         Tools.CacheAccId();
 
-        Commands.Commands.Load();*/
+        //Commands.Commands.Load();*/
         Bundle.Load();
         /*Enemies.Load();
         Weapons.Load();
@@ -76,11 +75,11 @@ public class Plugin : MonoBehaviour
 
         /*Administration.Load();*/
         LobbyController.Load();
-        /*Networking.Load();
-        Entities.Load();
+        Networking.Load();
+        //Entities.Load();
 
         World.World.Load();
-        WorldActionsList.Load();*/
+        //WorldActionsList.Load();*/
         Movement.Load();
         //SprayManager.Load();
 

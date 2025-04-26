@@ -28,9 +28,9 @@ public class Networking
     public static Client Client = new();
 
     /// <summary> List of all entities by their id. May contain null. </summary>
-    public static Dictionary<uint, Entity> Entities = new();
+    //public static Dictionary<uint, Entity> Entities = new();
     /// <summary> Local player singleton. </summary>
-    public static LocalPlayer LocalPlayer;
+    //public static LocalPlayer LocalPlayer;
 
     /// <summary> Whether a scene is loading right now. </summary>
     public static bool Loading;
@@ -46,7 +46,7 @@ public class Networking
         Client.Load();
 
         // create a local player to sync player data
-        LocalPlayer = Tools.Create<LocalPlayer>("Local Player");
+        //LocalPlayer = Tools.Create<LocalPlayer>("Local Player");
         // update network logic every tick
         Events.EveryTick += NetworkUpdate;
         Events.EveryDozen += Optimize;
@@ -73,6 +73,8 @@ public class Networking
             if (IsViewing)
                 return;
 
+            Pointers.AllocateGlobal();
+
             Clear(); // destroy all entities, since the player could join from another lobby
             if (LobbyController.IsOwner)
             {
@@ -90,34 +92,38 @@ public class Networking
 
         SteamMatchmaking.OnLobbyMemberJoined += (lobby, member) =>
         {
-            if (!Administration.Banned.Contains(member.Id.AccountId)) Bundle.Msg("player.joined", member.Name);
+            //if (!Administration.Banned.Contains(member.Id.AccountId))
+            Bundle.Msg("player.joined", member.Name);
         };
 
         SteamMatchmaking.OnLobbyMemberLeave += (lobby, member) =>
         {
-            if (!Administration.Banned.Contains(member.Id.AccountId)) Bundle.Msg("player.left", member.Name);
+            //if (!Administration.Banned.Contains(member.Id.AccountId))
+            Bundle.Msg("player.left", member.Name);
             if (!LobbyController.IsOwner) return;
 
             // returning the exited player's entities back to the host owner & close the connection
             FindCon(member.Id.AccountId)?.Close();
-            EachEntity(entity =>
+            /*EachEntity(entity =>
             {
                 if (entity is OwnableEntity oe && oe.Owner == member.Id.AccountId) oe.TakeOwnage();
-            });
+            });*/
         };
 
         SteamMatchmaking.OnChatMessage += (lobby, member, message) =>
         {
-            if (Administration.Banned.Contains(member.Id.AccountId)) return;
+
+
+            //if (Administration.Banned.Contains(member.Id.AccountId)) return;
             if (message.Length > Chat.MAX_MESSAGE_LENGTH + 8) message = message.Substring(0, Chat.MAX_MESSAGE_LENGTH);
 
             if (message == "#/d")
             {
                 Bundle.Msg("player.died", member.Name);
-                if (LobbyController.HealBosses) EachEntity(entity =>
+                /*if (LobbyController.HealBosses) EachEntity(entity =>
                 {
                     if (entity is Enemy enemy && enemy.IsBoss && !enemy.Dead) enemy.HealBoss();
-                });
+                });*/
             }
 
             else if (message.StartsWith("#/k") && uint.TryParse(message.Substring(3), out uint id))
@@ -125,32 +131,31 @@ public class Networking
 
             else if (message.StartsWith("#/s") && byte.TryParse(message.Substring(3), out byte team))
             {
-                if (LocalPlayer.Team == (Team)team) StyleHUD.Instance.AddPoints(Mathf.RoundToInt(250f * StyleCalculator.Instance.airTime), "<color=#32CD32>FRATRICIDE</color>");
+                //if (LocalPlayer.Team == (Team)team) StyleHUD.Instance.AddPoints(Mathf.RoundToInt(250f * StyleCalculator.Instance.airTime), "<color=#32CD32>FRATRICIDE</color>");
             }
 
             else if (message.StartsWith("#/r") && byte.TryParse(message.Substring(3), out byte rps))
                 Chat.Instance.Receive($"[#FFA500]{member.Name} has chosen {rps switch { 0 => "rock", 1 => "paper", 2 => "scissors", _ => "nothing" }}");
 
+            // GetTeamColor(member)
             else if (message.StartsWith("/tts "))
-                Chat.Instance.ReceiveTTS(GetTeamColor(member), member, message.Substring(5));
+                Chat.Instance.ReceiveTTS("", member, message.Substring(5));
             else
-                Chat.Instance.Receive(GetTeamColor(member), member.Name.Replace("[", "\\["), message);
+                Chat.Instance.Receive("", member.Name.Replace("[", "\\["), message);
         };
     }
 
     /// <summary> Kills all players and clears the list of entities. </summary>
     public static void Clear()
     {
-        EachPlayer(player => player.Kill());
-        Entities.Clear();
-        Entities[LocalPlayer.Id] = LocalPlayer;
+        //EachPlayer(player => player.Kill());
+        //Entities.Clear();
+        //Entities[LocalPlayer.Id] = LocalPlayer;
     }
 
     /// <summary> Core network logic should have been here, but in fact it is located in the server and client classes. </summary>
     private static void NetworkUpdate()
     {
-        
-
         // the player isn't connected to the lobby and the logic doesn't need to be updated
         if (LobbyController.Offline) return;
 
@@ -169,11 +174,11 @@ public class Networking
 
         List<uint> toRemove = new();
 
-        Entities.Values.DoIf(e => e == null || (e.Dead && e.LastUpdate < Time.time - 1f && !e.gameObject.activeSelf), e => toRemove.Add(e.Id));
+        /*Entities.Values.DoIf(e => e == null || (e.Dead && e.LastUpdate < Time.time - 1f && !e.gameObject.activeSelf), e => toRemove.Add(e.Id));
         if (DeadBullet.Instance.LastUpdate < Time.time - 1f)
             Entities.DoIf(pair => pair.Value == DeadBullet.Instance, pair => toRemove.Add(pair.Key));
 
-        toRemove.ForEach(id => Entities.Remove(id));
+        toRemove.ForEach(id => Entities.Remove(id));*/
     }
 
     #region iteration
@@ -185,7 +190,7 @@ public class Networking
     }
 
     /// <summary> Iterates each non-null entity. </summary>
-    public static void EachEntity(Action<Entity> cons)
+    /*public static void EachEntity(Action<Entity> cons)
     {
         foreach (var entity in Entities.Values) if (entity != null && !entity.Dead) cons(entity);
     }
@@ -200,18 +205,18 @@ public class Networking
     public static void EachPlayer(Action<RemotePlayer> cons) => EachEntity(entity =>
     {
         if (entity is RemotePlayer player) cons(player);
-    });
+    });*/
 
     #endregion
     #region tools
 
     /// <summary> Returns the team of the given friend. </summary>
-    public static Team GetTeam(Friend friend) => friend.IsMe
-        ? LocalPlayer.Team
-        : (Entities.TryGetValue(friend.Id.AccountId, out var entity) && entity && entity is RemotePlayer player ? player.Team : Team.Yellow);
+    //public static Team GetTeam(Friend friend) => friend.IsMe
+    //    ? LocalPlayer.Team
+    //    : (Entities.TryGetValue(friend.Id.AccountId, out var entity) && entity && entity is RemotePlayer player ? player.Team : Team.Yellow);
 
     /// <summary> Returns the hex color of the friend's team. </summary>
-    public static string GetTeamColor(Friend friend) => ColorUtility.ToHtmlStringRGBA(GetTeam(friend).Color());
+    //public static string GetTeamColor(Friend friend) => ColorUtility.ToHtmlStringRGBA(GetTeam(friend).Color());
 
     /// <summary> Finds a connection by id or returns null if there is no such connection. </summary>
     public static Connection? FindCon(uint id)

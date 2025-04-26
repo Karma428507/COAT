@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 
 using COAT.Content;
-//using COAT.IO;
+using COAT.IO;
 
 /// <summary> Network connection endpoint that contains listeners for different packet types. </summary>
 public abstract class Endpoint
@@ -13,7 +13,7 @@ public abstract class Endpoint
     //protected Dictionary<uint, Entity> ents => Networking.Entities;
 
     /// <summary> List of packet listeners by packet types. </summary>
-    //protected Dictionary<PacketType, PacketListener> listeners = new();
+    protected Dictionary<PacketType, PacketListener> listeners = new();
 
     /// <summary> Loads endpoint listeners and other stuff. </summary>
     public abstract void Load();
@@ -23,7 +23,7 @@ public abstract class Endpoint
     public abstract void Close();
 
     /// <summary> Adds a new listener to the endpoint. </summary>
-    /*public void Listen(PacketType type, PacketListener listener) => listeners.Add(type, listener);
+    public void Listen(PacketType type, PacketListener listener) => listeners.Add(type, listener);
     /// <summary> Adds a new listener to the endpoint, but without sender. </summary>
     public void Listen(PacketType type, Action<Reader> listener) => listeners.Add(type, (con, sender, r) => listener(r));
 
@@ -37,7 +37,7 @@ public abstract class Endpoint
     /// <summary> Forwards data to clients. </summary>
     public void Redirect(Reader data, Connection ignore) => Networking.EachConnection(con =>
     {
-        if (con != ignore) Tools.Send(con, data.mem, data.Length);
+        if (con != ignore) Tools.Send(con, data.memory, data.length);
     });
 
     /// <summary> Handles the packet and calls the corresponding listener. </summary>
@@ -48,11 +48,11 @@ public abstract class Endpoint
 
         // find the required listener and transfer control to it, all it has to do is read the payload
         if (listeners.TryGetValue(type, out var listener)) listener(con, sender, r);
-        Stats.Read += r.Length;
+        //Stats.Read += r.Length;
     }
     /// <summary> Handles the packet from unmanaged memory. </summary>
     public void Handle(Connection con, uint sender, IntPtr data, int size) => Reader.Read(data, size, r => Handle(con, sender, r));
 
     /// <summary> Packet listener that accepts the sender of the packet and the packet itself. </summary>
-    public delegate void PacketListener(Connection con, uint sender, Reader r);*/
+    public delegate void PacketListener(Connection con, uint sender, Reader r);
 }
