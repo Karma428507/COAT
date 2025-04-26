@@ -1,12 +1,13 @@
-/*namespace Jaket.Commands;
+namespace COAT.Commands;
 
 using System;
 using UnityEngine;
 
-using Jaket.Assets;
+using COAT.Assets;
 using Jaket.Content;
-using Jaket.Net;
-using Jaket.UI.Dialogs;
+using COAT.Net;
+using COAT.UI.Menus;
+using COAT.UI.Overlays;
 
 /// <summary> List of chat commands used by the mod. </summary>
 public class Commands
@@ -69,10 +70,10 @@ public class Commands
             string name = args.Length == 0 ? null : args[0].ToLower();
             int index = Array.FindIndex(GameAssets.PlushiesButReadable, plushy => plushy.ToLower() == name);
 
-            if (index == -1)
-                chat.Receive($"[#FF341C]Plushy named {name} not found.");
-            else
-                Tools.Instantiate(Items.Prefabs[EntityType.PlushyOffset + index - EntityType.ItemOffset].gameObject, NewMovement.Instance.transform.position);
+            //if (index == -1)
+            //    chat.Receive($"[#FF341C]Plushy named {name} not found.");
+            //else
+            //    Tools.Instantiate(Items.Prefabs[EntityType.PlushyOffset + index - EntityType.ItemOffset].gameObject, NewMovement.Instance.transform.position);
         });
 
         Handler.Register("level", "<layer> <level> / sandbox / cyber grind / credits museum", "Load the given level", args =>
@@ -114,6 +115,11 @@ public class Commands
                 Tools.Load($"Level {level}-S");
                 chat.Receive($"[#32CD32]Secret level {level}-S is loading.");
             }
+            else if (args[1].ToUpper() == "E" && int.TryParse(args[0], out level) && level >= 0 && level <= 1)
+            {
+                Tools.Load($"Level {level}-E");
+                chat.Receive($"[#32CD32]Encore level {level}-E is loading.");
+            }
             else if (args[0].ToUpper() == "P" && int.TryParse(args[1], out level) && level >= 1 && level <= 2)
             {
                 Tools.Load($"Level P-{level}");
@@ -129,18 +135,7 @@ public class Commands
 
             Msg("Leading developers:");
             Msg("* [#0096FF]Karma[] - the main developer of this fork :3");
-            Msg("* [#8A2BE2]Sowler[] - owner of the Discord server and just a good friend");
-            Msg("* [#FFA000]Fumboy[] - textures and a part of animations");
-
-            Msg("To the Jaket team:");
-            Msg("[#cccccc]For those who had nothing to do with the situation, thanks for what you did for Jaket");
-            Msg("[#cccccc]To silly, thank you for showing how terriable the other mods are");
-            Msg("[#cccccc]To the mods and ADI, FUCK YOU FOR DEFENDING THE PEDOFILE");
-            Msg("[#cccccc]To Fenicemaster... YOU ARE A DISGUSTING ASSHOLE");
-
-            chat.Receive("0096FF", Chat.BOT_PREFIX + "KARMA", "Fuck you Fenicemaster");
+            Msg("I'm going to add more things to this list later...");
         });
-        Handler.Register("support", "Support the author by buying him a coffee", args => Application.OpenURL("https://www.buymeacoffee.com/adidev"));
     }
 }
-*/

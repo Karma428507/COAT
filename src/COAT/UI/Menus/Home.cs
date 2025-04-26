@@ -58,13 +58,6 @@ public class Home : CanvasSingleton<Home>, IMenuInterface
                 });
             });
 
-            // Body portion
-            lobbyList = UIB.Table("LobbyList", table, new COAT.UI.Rect(-180f, -60f, 1000f, 640f), list =>
-            {
-                UIB.Image(name, list, new(0, 0, 1000f, 640f), null, fill: false);
-                content = UIB.Scroll("List", list, new(0f, 0, 1000f, 640f)).content;
-            });
-
             UIB.Text("<size=25>Options</size>", table, new COAT.UI.Rect(510f, 230, 340, 60), align: TextAnchor.MiddleCenter);
 
             misc = UIB.Table("OptionList", table, new COAT.UI.Rect(510f, -90f, 340, 580f), list =>
@@ -90,12 +83,12 @@ public class Home : CanvasSingleton<Home>, IMenuInterface
                     red, 24, clicked: () => UI.PushStack(GamemodeList.Instance));
             });
 
-            //
-
-            // Panel debugging
-            filters.color = new UnityEngine.Color(0, 0, 0, 0);
-            lobbyList.color = new UnityEngine.Color(0, 0, 0, 0);
-            misc.color = new UnityEngine.Color(0, 0, 0, 0);
+            // Body portion
+            lobbyList = UIB.Table("LobbyList", table, new COAT.UI.Rect(-180f, -60f, 1000f, 640f), list =>
+            {
+                UIB.Image(name, list, new(0, 0, 1000f, 640f), null, fill: false);
+                content = UIB.Scroll("List", list, new(0f, 0f, 1000f, 640f)).content;
+            });
         });
         Refresh();
     }
@@ -123,12 +116,12 @@ public class Home : CanvasSingleton<Home>, IMenuInterface
         if (!LobbyController.FetchingLobbies)
             foreach (Transform child in content)
                 Destroy(child.gameObject);
-        if (Lobbies == null) goto rip;
+        //if (Lobbies == null) goto rip;
 
         // look for the lobby using the search string
         var lobbies = search == "" ? Lobbies : Array.FindAll(Lobbies, lobby => lobby.GetData("name").ToLower().Contains(search));
 
-        if (lobbies.Length <= 0) goto rip;
+        //if (lobbies.Length <= 0) goto rip;
 
         float height = (lobbies.Length * 120);
         content.sizeDelta = new(1000f, height);
@@ -160,8 +153,8 @@ public class Home : CanvasSingleton<Home>, IMenuInterface
         }
         return;
 
-    rip:
-        UIB.Text("No lobbies are open", lobbyList.transform, new(0, 0, 1000, 650), align: TextAnchor.MiddleCenter);
+    //rip:
+    //    UIB.Text("No lobbies are open", lobbyList.transform, new(0, 0, 1000, 650), align: TextAnchor.MiddleCenter);
     }
 
     /// <summary> Updates the list of public lobbies and rebuilds the menu. </summary>

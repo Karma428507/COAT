@@ -7,7 +7,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 using COAT.Assets;
-//using COAT.Commands;
+using COAT.Commands;
 using COAT.Net;
 //using COAT.Net.Types;
 //using COAT.Sam;
@@ -141,9 +141,7 @@ public class Chat : CanvasSingleton<Chat>, IOverlayInterface
         // if the message is not empty, then send it to other players and remember it
         if (Bundle.CutColors(msg).Trim() != "")
         {
-            //if (!Commands.Handler.Handle(msg))
-            Log.Debug("Meowwww " + msg);
-            LobbyController.Lobby?.SendChatString(AutoTTS ? "/tts " + msg : msg);
+            if (!Commands.Handler.Handle(msg)) LobbyController.Lobby?.SendChatString(AutoTTS ? "/tts " + msg : msg);
             messages.Insert(0, msg);
         }
 

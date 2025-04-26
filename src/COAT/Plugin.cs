@@ -65,7 +65,7 @@ public class Plugin : MonoBehaviour
         /*Stats.StartRecord();*/
         Tools.CacheAccId();
 
-        //Commands.Commands.Load();*/
+        Commands.Commands.Load();
         Bundle.Load();
         /*Enemies.Load();
         Weapons.Load();

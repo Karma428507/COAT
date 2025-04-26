@@ -1,4 +1,4 @@
-namespace Jaket.Commands;
+namespace COAT.Commands;
 
 using System;
 

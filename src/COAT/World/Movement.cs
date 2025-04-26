@@ -17,6 +17,7 @@ using COAT.UI.Menus;
 using COAT.UI.Overlays;
 //using Jaket.UI.Elements;
 using COAT.UI.Fragments;
+using COAT.UI.Overlays;
 using COAT.Patches;
 
 /// <summary> Class responsible for additions to control and local display of emotions. </summary>
