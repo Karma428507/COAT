@@ -4,6 +4,7 @@ using COAT;
 using COAT.Content;
 using COAT.IO;
 using COAT.Net;
+using COAT.UI.Overlays;
 using System;
 using System.Collections.Generic;
 using System.Text;

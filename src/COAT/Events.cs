@@ -9,6 +9,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+using COAT.Net;
+
 //using Jaket.Net;
 
 /// <summary> List of events used by the mod. Some of them are combined into one for simplicity. </summary>
@@ -75,7 +77,9 @@ public class Events : MonoSingleton<Events>
     {
         InvokeRepeating("Dozen", 1f, 12f);
         InvokeRepeating("Second", 1f, 1f);
-        //InvokeRepeating("Tick", 1f, Networking.SNAPSHOTS_SPACING);
+
+        // ME COMMETTING THIS WAS THE REASON PACKETS DIDN'T WORK
+        InvokeRepeating("Tick", 1f, Networking.SNAPSHOTS_SPACING);
     }
 
     private void LateUpdate()

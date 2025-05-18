@@ -10,6 +10,8 @@ using COAT.Content;
 //using COAT.Sprays;
 using COAT.World;
 using System.Net;
+using COAT.IO;
+using COAT.UI.Overlays;
 
 // Handler for players joining the server
 public class Client : Endpoint, IConnectionManager
@@ -20,12 +22,22 @@ public class Client : Endpoint, IConnectionManager
     {
         // Loads all of the listener functions
         Listen(PacketType.Level, World.ReadData);
+        Listen(PacketType.COAT_Debug, r =>
+        {
+            Chat.Instance.Receive("COAT_DEBUG_PACKET");
+        });
     }
 
     public override void Update()
     {
         // IDK what to put here
         // Doesn't look related to chat so ignore :3
+        int i =Manager.Receive(256);
+        if (i != 0)
+            Log.Debug("Packet received");
+
+        Manager.Connection.Flush();
+        Pointers.Reset();
     }
 
     public override void Close() => Manager?.Close();
@@ -59,10 +71,6 @@ public class Client : Endpoint, IConnectionManager
 
     public void OnMessage(IntPtr data, int size, long messageNum, long recvTime, int channel)
     {
-        Log.Info("Message");
-        // Chat system
-        // No listeners are needed to get chat running, only this
-        // Only calls a endpoint handle
         Handle(Manager.Connection, LobbyController.LastOwner.AccountId, data, size);
     }
 }

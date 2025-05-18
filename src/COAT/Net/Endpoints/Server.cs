@@ -13,6 +13,7 @@ using System.Net;
 using Unity.Audio;
 using COAT.IO;
 using GameConsole.Commands;
+using COAT.UI.Overlays;
 
 // Handler for the host of a server
 public class Server : Endpoint, ISocketManager
@@ -22,12 +23,22 @@ public class Server : Endpoint, ISocketManager
     public override void Load()
     {
         // Loads all of the listener functions
+        Listen(PacketType.COAT_Debug, r =>
+        {
+            Chat.Instance.Receive("COAT_DEBUG_PACKET");
+        });
     }
 
     public override void Update()
     {
         // IDK what to put here
         // Doesn't look related to chat so ignore :3
+        int i = Manager.Receive(512);
+
+        Log.Debug("Meow");
+
+        if (i != 0)
+            Log.Debug("Packet received");
         Pointers.Reset();
     }
 
@@ -89,6 +100,7 @@ public class Server : Endpoint, ISocketManager
     public void OnConnected(Connection connection, ConnectionInfo info)
     {
         Log.Info("Player Connecting");
+        Networking.Send(PacketType.Level, World.WriteData, (data, size) => Tools.Send(connection, data, size), size: 256);
         // Not sure what jaket does but it looks like it sends level info
     }
 
@@ -101,8 +113,7 @@ public class Server : Endpoint, ISocketManager
     public void OnMessage(Connection connection, NetIdentity identity, IntPtr data, int size, long messageNum, long recvTime, int channel)
     {
         //var accId = ;
-        Log.Info("Message");
-        // Chat system
+        // Packet handler
         // No listeners are needed to get chat running, only this
         Handle(connection, identity.SteamId.AccountId, data, size);
     }
