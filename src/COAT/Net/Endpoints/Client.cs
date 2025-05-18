@@ -28,10 +28,7 @@ public class Client : Endpoint, IConnectionManager
     {
         // IDK what to put here
         // Doesn't look related to chat so ignore :3
-        int i =Manager.Receive(256);
-        if (i != 0)
-            Log.Debug("Packet received");
-
+        Manager.Receive(256);
         Manager.Connection.Flush();
         Pointers.Reset();
     }

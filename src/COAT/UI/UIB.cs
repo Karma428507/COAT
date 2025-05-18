@@ -258,7 +258,7 @@ public class UIB
         return Component<Button>(img.gameObject, button =>
         {
             button.targetGraphic = img;
-            button.onClick.AddListener(() => Application.OpenURL("https://discord.gg/USpt3hCBgn"));
+            button.onClick.AddListener(() => Application.OpenURL("https://discord.gg/RVAxRYDvhP"));
         });
     }
 

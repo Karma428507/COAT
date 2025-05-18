@@ -29,12 +29,7 @@ public class Server : Endpoint, ISocketManager
     {
         // IDK what to put here
         // Doesn't look related to chat so ignore :3
-        int i = Manager.Receive(512);
-
-        Log.Debug("Meow");
-
-        if (i != 0)
-            Log.Debug("Packet received");
+        Manager.Receive(512);
         Pointers.Reset();
     }
 
@@ -110,7 +105,6 @@ public class Server : Endpoint, ISocketManager
     {
         //var accId = ;
         // Packet handler
-        // No listeners are needed to get chat running, only this
         Handle(connection, identity.SteamId.AccountId, data, size);
     }
 }
