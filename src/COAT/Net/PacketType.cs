@@ -36,5 +36,12 @@ public enum PacketType
     /// <summary> Any action with CyberGrind, like pattern and wave. </summary>
     CyberGrindAction,
 
-    COAT_Debug
+    // PUT ALL COAT PACKETS HERE!!!
+    // If the COAT packets are in between the normal packets then it will make it incompatable
+    // With Jaket
+    COAT_Kick,
+
+    COAT_Mute,
+
+    Coat_Unmute
 }

@@ -139,11 +139,5 @@ public class Commands
             Msg("* [#0096FF]Karma[] - the main developer of this fork :3");
             Msg("I'm going to add more things to this list later...");
         });
-
-        Handler.Register("ping", "Sends the debug packet", args =>
-        {
-            chat.Receive("Sending ping packet");
-            Networking.Send(PacketType.COAT_Debug);
-        });
     }
 }

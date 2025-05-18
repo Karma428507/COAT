@@ -23,10 +23,6 @@ public class Server : Endpoint, ISocketManager
     public override void Load()
     {
         // Loads all of the listener functions
-        Listen(PacketType.COAT_Debug, r =>
-        {
-            Chat.Instance.Receive("COAT_DEBUG_PACKET");
-        });
     }
 
     public override void Update()

@@ -22,10 +22,6 @@ public class Client : Endpoint, IConnectionManager
     {
         // Loads all of the listener functions
         Listen(PacketType.Level, World.ReadData);
-        Listen(PacketType.COAT_Debug, r =>
-        {
-            Chat.Instance.Receive("COAT_DEBUG_PACKET");
-        });
     }
 
     public override void Update()
