@@ -29,7 +29,7 @@ public class Server : Endpoint, ISocketManager
     {
         // IDK what to put here
         // Doesn't look related to chat so ignore :3
-        Manager.Receive(512);
+        Manager?.Receive(512);
         Pointers.Reset();
     }
 

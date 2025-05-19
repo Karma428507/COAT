@@ -66,7 +66,7 @@ public class UI
 
         MainMenuAccess.Instance.Toggle();
 
-        Events.EveryDozen += UpdateOverlayCondition;
+        //Events.EveryDozen += UpdateOverlayCondition;
     }
 
     /// <summary> A method used to see if the UI can be used depending on what UI is currently active </summary>

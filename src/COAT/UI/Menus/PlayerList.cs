@@ -106,7 +106,7 @@ public class PlayerList : CanvasSingleton<PlayerList>, IMenuInterface
                     UIB.Text(name, player, new(30, 12.5f, 230f, 30), align: TextAnchor.MiddleLeft);
 
                     // Add the view button
-                    UIB.Button("View", player, new(110f, -12.5f, 75f, 40),
+                    UIB.Button("", player, new(0, 0, 320f, 80f),
                         /*Networking.GetTeam(member).Color()*/ Color.white, 24,
                         clicked: () => SteamFriends.OpenUserOverlay(member.Id, "steamid"));
 
@@ -122,9 +122,8 @@ public class PlayerList : CanvasSingleton<PlayerList>, IMenuInterface
 
     public async void LoadPFP(Friend member, Image PFP)
     {
+        // why
         Texture2D image = await Tools.GetSteamPFP(member, new(50, 50), 3);
-        PFP.sprite = Sprite.CreateSprite(image,
-                            new Rect(0, 0, 50, 50), new Vector2(0.5f, 0.5f), 100, 0,
-                            SpriteMeshType.FullRect, new(), true);
+        PFP.sprite = Sprite.Create(image, new Rect(0, 0, 50, 50), new Vector2(0.5f, 0.5f));
     }
 }
