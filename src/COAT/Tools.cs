@@ -41,8 +41,7 @@ public class Tools
         }
 
         con.Value.SendMessage(data, size);
-        // I need a better understanding of Stats.cs
-        //Stats.Write += size;
+        Stats.Write += size;
     }
 
     #endregion

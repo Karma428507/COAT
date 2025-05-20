@@ -128,7 +128,7 @@ public class Movement : MonoSingleton<Movement>
 
         if (Input.GetKeyDown(Settings.Chat)) Chat.Instance.Toggle();
         
-        //if (Input.GetKeyDown(KeyCode.F4)) Debugging.Instance.Toggle();
+        if (Input.GetKeyDown(KeyCode.F4)) Debugging.Instance.Toggle();
         /*if (Input.GetKeyDown(KeyCode.C) && Debugging.Shown) Debugging.Instance.Clear();
 
         if (Input.GetKeyDown(Settings.PlayerIndicators)) PlayerIndicators.Instance.Toggle();

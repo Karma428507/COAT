@@ -27,9 +27,7 @@ public class Server : Endpoint, ISocketManager
 
     public override void Update()
     {
-        // IDK what to put here
-        // Doesn't look related to chat so ignore :3
-        Manager?.Receive(512);
+        Stats.MeasureTime(ref Stats.ReadTime, () => Manager.Receive(512));
         Pointers.Reset();
     }
 
@@ -50,10 +48,6 @@ public class Server : Endpoint, ISocketManager
     public void OnConnecting(Connection connection, ConnectionInfo info)
     {
         Log.Info("Player is Connecting");
-        // Checks if the player is already or banned (connection.close())
-        // Sets the connection ID to the Account ID
-        // Checks if steam user and uses connection.accept() if one
-        // If not, then use connection.close()
 
         Log.Info("[Server] Someone is connecting...");
         var identity = info.Identity;
@@ -92,7 +86,6 @@ public class Server : Endpoint, ISocketManager
     {
         Log.Info("Player Connecting");
         Networking.Send(PacketType.Level, World.WriteData, (data, size) => Tools.Send(connection, data, size), size: 256);
-        // Not sure what jaket does but it looks like it sends level info
     }
 
     public void OnDisconnected(Connection connection, ConnectionInfo info)

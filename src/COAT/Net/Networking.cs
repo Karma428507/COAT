@@ -156,8 +156,6 @@ public class Networking
         // the player isn't connected to the lobby and the logic doesn't need to be updated
         if (LobbyController.Offline) return;
 
-        Log.Debug("Network");
-
         // update the server or client depending on the role of the player
         if (LobbyController.IsOwner)
             Server.Update();

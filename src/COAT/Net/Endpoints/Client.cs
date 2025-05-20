@@ -26,9 +26,8 @@ public class Client : Endpoint, IConnectionManager
 
     public override void Update()
     {
-        // IDK what to put here
-        // Doesn't look related to chat so ignore :3
-        Manager.Receive(256);
+        Stats.MeasureTime(ref Stats.ReadTime, () => Manager.Receive(256));
+
         Manager.Connection.Flush();
         Pointers.Reset();
     }
@@ -41,29 +40,11 @@ public class Client : Endpoint, IConnectionManager
         Manager.Interface = this;
     }
 
-    public void OnConnecting(ConnectionInfo info)
-    {
-        Log.Info("Player is Connecting");
-        // Checks if the player is already or banned (connection.close())
-        // Sets the connection ID to the Account ID
-        // Checks if steam user and uses connection.accept() if one
-        // If not, then use connection.close()
-    }
+    public void OnConnecting(ConnectionInfo info) => Log.Info("Player is Connecting");
 
-    public void OnConnected(ConnectionInfo info)
-    {
-        Log.Info("Player Connecting");
-        // Not sure what jaket does but it looks like it sends level info
-    }
+    public void OnConnected(ConnectionInfo info) => Log.Info("Player Connecting");
 
-    public void OnDisconnected(ConnectionInfo info)
-    {
-        Log.Info("Player Disconnected");
-        // Kills the player entity from the server
-    }
+    public void OnDisconnected(ConnectionInfo info) =>Log.Info("Player Disconnected");
 
-    public void OnMessage(IntPtr data, int size, long messageNum, long recvTime, int channel)
-    {
-        Handle(Manager.Connection, LobbyController.LastOwner.AccountId, data, size);
-    }
+    public void OnMessage(IntPtr data, int size, long messageNum, long recvTime, int channel) => Handle(Manager.Connection, LobbyController.LastOwner.AccountId, data, size);
 }
