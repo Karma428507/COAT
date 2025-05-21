@@ -41,14 +41,7 @@ public class Server : Endpoint, ISocketManager
 
     public override void Update()
     {
-        // IDK what to put here
-        // Doesn't look related to chat so ignore :3
-        int i = Manager.Receive(512);
-
-        //Log.Debug("Meow >:3");
-
-        if (i != 0)
-            Log.Debug("Packet received");
+        Stats.MeasureTime(ref Stats.ReadTime, () => Manager.Receive(512));
         Pointers.Reset();
     }
 

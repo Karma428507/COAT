@@ -41,8 +41,7 @@ public class Tools
         }
 
         con.Value.SendMessage(data, size);
-        // I need a better understanding of Stats.cs
-        //Stats.Write += size;
+        Stats.Write += size;
     }
 
     #endregion
@@ -65,6 +64,7 @@ public class Tools
         // "This fix... an ugly fix" - whyis2plus2
         // "Better than what I could of done in the weekend" - 𒀭𒅗𒅈𒈠
         // guys stop fucking making ur shit quotes
+        // "𒌅𒊌𒅋𒀀𒆪𒂗𒍣" - 𒀭𒅗𒅈𒈠
 
         string childPath = null;
 
