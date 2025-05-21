@@ -1,4 +1,4 @@
-namespace Sam;
+namespace Jaket.Sam;
 
 using System.Collections.Generic;
 

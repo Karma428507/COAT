@@ -41,8 +41,7 @@ public class Tools
         }
 
         con.Value.SendMessage(data, size);
-        // I need a better understanding of Stats.cs
-        //Stats.Write += size;
+        Stats.Write += size;
     }
 
     #endregion
@@ -57,14 +56,13 @@ public class Tools
     public static void Load(string scene) => SceneHelper.LoadScene(scene);
 
     /// <summary> Whether the given object is on a scene or is it just an asset. </summary>
-    public static bool IsReal(GameObject obj) => obj.scene.name != null; // REAAAAAAAAALLLLLLL!!!!!!!
+    public static bool IsReal(GameObject obj) => obj.scene.name != null;
     public static bool IsReal(Component comp) => IsReal(comp.gameObject);
 
     public static GameObject ObjFindMainScene(string FirstChild)
     {
         // "This fix... an ugly fix" - whyis2plus2
         // "Better than what I could of done in the weekend" - 𒀭𒅗𒅈𒈠
-        // guys stop fucking making ur shit quotes
 
         string childPath = null;
 

@@ -53,7 +53,7 @@ public class Events : MonoSingleton<Events>
         // interaction with the lobby affects many aspects of the game
         OnLobbyAction += OnTeamChanged.Fire;
         OnLobbyAction += OnWeaponChanged.Fire;
-        OnLobbyAction += () =>
+        /*OnLobbyAction += () =>
         {
             // update the discord & steam activity so everyone can know I've been working hard
             DiscordController.Instance.FetchSceneActivity(Tools.Scene);
@@ -61,7 +61,7 @@ public class Events : MonoSingleton<Events>
 
             // enable the ability of the game to run in the background, because multiplayer requires it
             Application.runInBackground = LobbyController.Online;
-        };
+        };*/
     }
 
     /// <summary> Posts the task for execution in the late update. </summary>
@@ -79,7 +79,6 @@ public class Events : MonoSingleton<Events>
         InvokeRepeating("Second", 1f, 1f);
 
         // ME COMMETTING THIS WAS THE REASON PACKETS DIDN'T WORK
-        // lmao get guud lil bro
         InvokeRepeating("Tick", 1f, Networking.SNAPSHOTS_SPACING);
     }
 

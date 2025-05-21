@@ -5,7 +5,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.EventSystems;
 
 using COAT.Assets;
 using COAT.Commands;
@@ -17,7 +16,6 @@ using COAT.UI.Menus;
 
 using static Pal;
 using static Rect;
-using Sam;
 
 /// <summary> Front end of the chat, back end implemented via Steamworks. </summary>
 public class Chat : CanvasSingleton<Chat>, IOverlayInterface
@@ -207,10 +205,7 @@ public class Chat : CanvasSingleton<Chat>, IOverlayInterface
     {
         // add the given message to the list
         if (format) msg = Bundle.ParseColors(msg);
-        //var text = UIB.Text(msg, list, Msg(WIDTH - 16f), null, 16, TextAnchor.MiddleLeft);
-        Text text = null;
-        text = UIB.ButtonText(msg, list, Msg(WIDTH - 16f), null, 16, TextAnchor.MiddleLeft, () => CopyText(msg.Substring(msg.IndexOf("[][#FF7F50]:[]</b> ")), text), () => DropUpMenu(msg.Substring(msg.IndexOf("[][#FF7F50]:[]</b> ")), msg.Substring(msg.IndexOf(']'), msg.IndexOf("[][#FF7F50]:[]</b> ")), text));
-
+        var text = UIB.Text(msg, list, Msg(WIDTH - 16f), null, 16, TextAnchor.MiddleLeft);
 
         float height = text.preferredHeight + 4f;
         text.rectTransform.sizeDelta = new(WIDTH - 16f, height);
@@ -228,41 +223,8 @@ public class Chat : CanvasSingleton<Chat>, IOverlayInterface
         lastMessageTime = Time.time;
     }
 
-    public void CopyText(string TextToCopy, Text text)
-    {
-        //TextEditor textEditor = new TextEditor();
-        //textEditor.text = TextToCopy;
-        //textEditor.SelectAll();
-        //textEditor.Copy();
-
-        GUIUtility.systemCopyBuffer = TextToCopy;
-        MessageColChange(text);
-    }
-
-    public void DropUpMenu(string text, string author, Text textobject) => CopyText($"haha", textobject);
-
-    /// <summary> Interpolates the color of the input field from green to white. </summary>
-    private IEnumerator MessageColChange(Text text)
-    {
-        float start = Time.time;
-        while (Time.time - start < .4f)
-        {
-            text.color = Color.Lerp(darkgrey, white, (Time.time - start) * 2.5f);
-            yield return null;
-        }
-    }
-
-
     /// <summary> Writes a message to the chat, formatting it beforehand. </summary>
     public void Receive(string color, string author, string msg) => Receive($"<b>[#{color}]{author}[][#FF7F50]:[]</b> {Bundle.CutDangerous(msg)}");
-
-    static Chat chat => Chat.Instance;
-
-    /// <summary> Writes a message to the chat, formatting it beforehand. While being static, this is used for telling the user something. </summary>
-    public static void StaticReceive(string color, string author, string msg) => chat.Receive($"<b>[#{color}]{author}[][#FF7F50]:[]</b> {msg}");
-
-    /// <summary> Writes a message to the chat. While being static, this is used for telling the user something. </summary>
-    public static void StaticReceive(string msg) => chat.Receive(msg);
 
     /// <summary> Speaks the message before writing it. </summary>
     public void ReceiveTTS(string color, Friend author, string msg)
@@ -274,8 +236,6 @@ public class Chat : CanvasSingleton<Chat>, IOverlayInterface
         // or find the author among the other players and play the sound from them
         else if (Networking.Entities.TryGetValue(author.Id.AccountId, out var entity) && entity is RemotePlayer player)
             SamAPI.TryPlay(msg, player.Voice);*/
-
-        //AudioSource.PlayClipAtPoint(SamAPI.Clip, Vector3 position, float volume = 1.0F);
 
         Receive(color, TTS_PREFIX + author.Name.Replace("[", "\\["), msg);
     }

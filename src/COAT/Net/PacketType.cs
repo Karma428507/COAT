@@ -39,10 +39,9 @@ public enum PacketType
     // PUT ALL COAT PACKETS HERE!!!
     // If the COAT packets are in between the normal packets then it will make it incompatable
     // With Jaket
-    COAT_Request, // this is used when u join a lobby to request the ids of all other coat clients
-    COAT_ClientId, // send ur id to the new client
-
     COAT_Kick,
 
     COAT_Mute,
+
+    Coat_Unmute
 }

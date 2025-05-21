@@ -34,7 +34,6 @@ public class Writer : IO
     public void UInt(uint value) => Marshal.WriteInt32(memory, Inc(4), Uint2int(value));
     public void Float(float value) => Marshal.WriteInt32(memory, Inc(4), Float2Int(value));
     public void Long(long value) => Marshal.WriteInt64(memory, Inc(8), value);
-    public void Id(uint value) => Marshal.WriteInt32(memory, Inc(4), Uint2int(value));
     #endregion
 
     // To write structures into the buffer

@@ -1,7 +1,6 @@
 namespace COAT.Commands;
 
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 using COAT.Assets;
@@ -11,7 +10,6 @@ using COAT.UI.Menus;
 using COAT.UI.Overlays;
 using System.Diagnostics;
 using COAT.IO;
-using System.Runtime.CompilerServices;
 
 /// <summary> List of chat commands used by the mod. </summary>
 public class Commands
@@ -31,17 +29,6 @@ public class Commands
                 chat.Receive($"[14]* /{command.Name}{(command.Args == null ? "" : $" [#BBBBBB]{command.Args}[]")} - {command.Desc}[]");
             });
         });
-
-        Handler.Register("list", "list", args =>
-        {
-            string text = "";
-            foreach (uint id in Networking.COATPLAYERS)
-            {
-                text = text + $"{id}";
-            }
-            chat.Receive(text);
-        });
-
         Handler.Register("hello", "Resend the tips for new players", args => chat.Hello(true));
 
         Handler.Register("tts-volume", "\\[0-100]", "Set Sam's volume to keep your ears comfortable", args =>
@@ -148,9 +135,25 @@ public class Commands
         {
             void Msg(string msg) => chat.Receive($"[14]{msg}[]");
 
-            Msg("Leading developers:");
+            Msg("JAKET Leading developers:");
+            Msg("* [#0096FF]xzxADIxzx[] - the main developer of JAKET");
+            Msg("* [#8A2BE2]Sowler[] - owner of the JAKET Discord server");
+            Msg("* [#FFA000]Fumboy[] - textures and a part of animations");
+
+            Msg("JAKET Contributors:");
+            Msg("* [#00E666]Rey Hunter[] - really cool icons for emotes");
+            Msg("* [#00E666]Ardub[] - invaluable help with The Cyber Grind [12][#cccccc](he did 90% of the work)");
+            Msg("* [#00E666]Kekson1a[] - Steam Rich Presence support");
+
+            Msg("JAKET Translators:");
+            Msg("[#cccccc]NotPhobos - Spanish, sSAR - Italian, Theoyeah - French, Sowler - Polish,");
+            Msg("[#cccccc]Ukrainian, Poyozit - Portuguese, Fraku - Filipino, Iyad - Arabic");
+
+            Msg("COAT Leading developers:");
             Msg("* [#0096FF]Karma[] - the main developer of this fork :3");
-            Msg("I'm going to add more things to this list later...");
+            Msg("* [#0096FF]whyis2+2[] - UI");
+            Msg("* [#0096FF]bryan[] - UI");
+            Msg("* [#0096FF]archangel[] - UI");
         });
     }
 }

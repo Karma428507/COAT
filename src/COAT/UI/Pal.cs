@@ -11,7 +11,6 @@ public static class Pal
     public static string Blue = "#0080FF";
     public static string Pink = "#FF66CC";
     public static string Grey = "#BBBBBB";
-    public static string DarkGrey = "#777777";
     public static string Coral = "#FF7F50";
     public static string Discord = "#5865F2";
 
@@ -25,7 +24,6 @@ public static class Pal
     public static Color blue = new(0f, .5f, 1f);
     public static Color pink = new(1f, .4f, .8f);
     public static Color grey = new(.73f, .73f, .73f);
-    public static Color darkgrey = new(.467f, .467f, .467f);
     public static Color coral = new(1f, .5f, .31f);
     public static Color discord = new(.345f, .396f, .949f);
 

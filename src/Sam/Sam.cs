@@ -1,4 +1,4 @@
-namespace Sam;
+namespace Jaket.Sam;
 
 using System.Text;
 using UnityEngine;

@@ -162,7 +162,7 @@ public class Bundle
     #region usage
 
     /// <summary> Returns a localized line by the key. </summary>
-    public static string Get(string key, string fallback = "WHAT") => props.TryGetValue(key, out var line) ? line : fallback;
+    public static string Get(string key, string fallback = "OH NO") => props.TryGetValue(key, out var line) ? line : fallback;
 
     /// <summary> Returns a localized & formatted line by the key. </summary>
     public static string Format(string key, params string[] args)

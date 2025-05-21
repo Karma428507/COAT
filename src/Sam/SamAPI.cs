@@ -1,9 +1,9 @@
-namespace Sam;
+/*namespace Jaket.Sam;
 
 using System;
 using UnityEngine;
 
-using COAT.Assets;
+using Jaket.Assets;
 
 /// <summary> Auxiliary class of the SAM TTS Engine. Needed to simplify working with the engine. </summary>
 public class SamAPI
@@ -44,3 +44,4 @@ public class SamAPI
         catch (Exception) { } // in fact, anything can happen, that's why try catch is needed
     }
 }
+*/
