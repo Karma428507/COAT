@@ -1,4 +1,4 @@
-/*namespace Jaket.UI.Dialogs;
+namespace COAT.UI.Overlays;
 
 using System.Collections.Generic;
 using System.Linq;
@@ -6,8 +6,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.UI.Extensions;
 
-using Jaket.IO;
-using Jaket.Net;
+using COAT.IO;
+using COAT.Net;
 
 using static Pal;
 using static Rect;
@@ -139,4 +139,3 @@ public class Debugging : CanvasSingleton<Debugging>
         }
     }
 }
-*/

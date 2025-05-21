@@ -76,7 +76,7 @@ public class Plugin : MonoBehaviour
         /*Administration.Load();*/
         LobbyController.Load();
         Networking.Load();
-        //Entities.Load();
+        Entities.Load();
 
         World.World.Load();
         //WorldActionsList.Load();*/

@@ -79,12 +79,12 @@ public abstract class Entity : MonoBehaviour
     }
 
     /// <summary> Class for finding entities according to their ID. </summary>
-    /*public class EntityProv<T> where T : Entity
+    public class EntityProv<T> where T : Entity
     {
         /// <summary> Id of the entity that needs to be found. </summary>
         public uint Id;
 
         private T value;
         public T Value => value?.Id == Id ? value : Networking.Entities.TryGetValue(Id, out var e) && e is T t ? value = t : null;
-    }*/
+    }
 }
