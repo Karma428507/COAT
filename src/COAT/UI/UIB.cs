@@ -15,6 +15,7 @@ using ImageType = UnityEngine.UI.Image.Type;
 
 using COAT.Assets;
 using Jaket.Content;
+using COAT.Content;
 //using Jaket.Net;
 
 using static Pal;
@@ -260,6 +261,19 @@ public class UIB
         btn.transform.GetChild(0).localPosition = offset ?? new(.5f, 2f);
         return btn;
     }
+
+    /// <summary> Adds a regular button that calls the given action and has the appropriate color. </summary>
+    //public static Button TeamButton(Team team, Transform parent, Rect r, Action clicked = null)
+    //{
+    //    var img = Image(name, parent, r, team.Color() fill: false);
+    //    Text($"{(team == Team.Pink ? "UwU" : "")}", img.transform, r.Text, color, size, align);
+    //    return Component<Button>(img.gameObject, button =>
+    //    {
+    //        button.targetGraphic = img;
+    //        button.colors = colors;
+    //        button.onClick.AddListener(() => clicked());
+    //    });
+    //}
 
     /// <summary> Adds a command button with the appropriate color. </summary>
     /*public static Button TeamButton(Team team, Transform parent, Rect r, Action clicked = null)
