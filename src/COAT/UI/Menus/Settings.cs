@@ -151,11 +151,41 @@ public class Settings : CanvasSingleton<Settings>, IMenuInterface
         });
 
         // New UI
-        UIB.Table("Settings", transform, Size(1400, 800f), table =>
+        UIB.Table("Settings", transform, Size(1400f, 800f), table =>
         {
-            // This image is used for the borders
-            UIB.Image(name, table, new(0, 0, 1400f, 800f), null, fill: false);
+            UIB.Image("Settings Border", table, new(0f, 0f, 1400f, 800f), null, fill: false);
 
+            UIB.Image1("LineBreak", table, new(0f, 207f, 1357f, 4f), Pal.white, null, true);
+            UIB.Text("Settings", table, new(-457f, 231f, 445f, 186f), Pal.white, 24, TextAnchor.MiddleLeft);
+
+            #region General and Player Apyearence
+            UIB.Table("General", table, new(-457f, 97f, 445f, 186f), server =>
+            {
+                UIB.Image("General Border", server, new(0f, 0f, 445f, 186f), null, fill: false);
+            });
+
+            UIB.Table("Player Apyearence", table, new(-457f, -195f, 445f, 370f), server =>
+            {
+                UIB.Image("Player Apyearence Border", server, new(0f, 0f, 445f, 370f), null, fill: false);
+            });
+            #endregion
+
+            #region Moderatiun and Modlist
+            UIB.Table("Moderatiun", table, new(0f, 29f, 445f, 322f), server =>
+            {
+                UIB.Image("Moderatiun Border", server, new(0f, 0f, 445f, 322f), null, fill: false);
+            });
+
+            UIB.Table("Modlist", table, new(0f, -262.5f, 445f, 234f), server =>
+            {
+                UIB.Image("Modlist Border", server, new(0f, 0f, 445f, 234f), null, fill: false);
+            });
+            #endregion
+
+            UIB.Table("Controls", table, new(457f, -95f, 445f, 570f), server =>
+            {
+                UIB.Image("Controls Border", server, new(0f, 0f, 445f, 570f), null, fill: false);
+            });
         });
 
         Version.Label(transform);

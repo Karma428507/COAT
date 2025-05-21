@@ -76,7 +76,7 @@ public class Plugin : MonoBehaviour
         /*Administration.Load();*/
         LobbyController.Load();
         Networking.Load();
-        Entities.Load();
+        //Entities.Load();
 
         World.World.Load();
         //WorldActionsList.Load();*/
@@ -85,7 +85,6 @@ public class Plugin : MonoBehaviour
 
         UI.UIB.Load();
         UI.UI.Load();
-
 
         // initialize harmony and patch all the necessary classes
         new Harmony("Meow :3").PatchAll();

@@ -10,7 +10,7 @@ using COAT.IO;
 /// <summary> Network connection endpoint that contains listeners for different packet types. </summary>
 public abstract class Endpoint
 {
-    protected Dictionary<uint, Entity> ents => Networking.Entities;
+    //protected Dictionary<uint, Entity> ents => Networking.Entities;
 
     /// <summary> List of packet listeners by packet types. </summary>
     protected Dictionary<PacketType, PacketListener> listeners = new();
@@ -48,7 +48,7 @@ public abstract class Endpoint
 
         // find the required listener and transfer control to it, all it has to do is read the payload
         if (listeners.TryGetValue(type, out var listener)) listener(con, sender, r);
-        Stats.Read += r.length;
+        //Stats.Read += r.Length;
     }
     /// <summary> Handles the packet from unmanaged memory. </summary>
     public void Handle(Connection con, uint sender, IntPtr data, int size) => Reader.Read(data, size, r => Handle(con, sender, r));

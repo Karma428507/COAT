@@ -163,6 +163,7 @@ public class LobbyController
             Lobby?.SetData("cheats", sudoLobby.cheats ? "True" : "False");
             Lobby?.SetData("mods", sudoLobby.modded ? "True" : "False");
             Lobby?.SetData("heal-bosses", sudoLobby.healBosses ? "True" : "False");
+            Lobby?.SetData("banned", "");
         });
     }
 
@@ -184,7 +185,7 @@ public class LobbyController
         // load the main menu if the client has left the lobby
         if (!IsOwner && loadMainMenu) Tools.Load("Main Menu");
 
-        Networking.Clear();
+        //Networking.Clear();
         Events.OnLobbyAction.Fire();
     }
 
@@ -199,6 +200,7 @@ public class LobbyController
 
         // leave the previous lobby before join the new, but don't load the main menu
         if (Online) LeaveLobby(false);
+        if (lobby.GetData("banned").Contains(Tools.AccId.ToString())) { Bundle.Hud2NS("lobby.banned"); return; }
 
         lobby.Join().ContinueWith(task =>
         {
