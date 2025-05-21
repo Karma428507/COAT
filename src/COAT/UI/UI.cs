@@ -51,8 +51,8 @@ public class UI
         PlayerList.Build("Player List", false, true);
         Settings.Build("Settings", false, true);
 
-        Debugging.Build("Debugging Menu", false, false);
         /*SpraySettings.Build("Spray Settings", false, true);
+        Debugging.Build("Debugging Menu", false, false);
 
         PlayerIndicators.Build("Player Indicators", false, false, scene => scene == "Main Menu");
         PlayerInfo.Build("Player Information", false, false, scene => scene == "Main Menu", () => { if (PlayerInfo.Shown) PlayerInfo.Instance.Toggle(); });
@@ -66,7 +66,7 @@ public class UI
 
         MainMenuAccess.Instance.Toggle();
 
-        //Events.EveryDozen += UpdateOverlayCondition;
+        Events.EveryDozen += UpdateOverlayCondition;
     }
 
     /// <summary> A method used to see if the UI can be used depending on what UI is currently active </summary>

@@ -5,6 +5,8 @@ namespace COAT.UI;
 using Steamworks;
 using System;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using UnityEngine.UI.Extensions;
 
@@ -154,6 +156,25 @@ public class UIB
             text.alignment = align;
         });
 
+    public static Text ButtonText(string name, Transform parent, Rect r, Color? color = null, int size = 24, TextAnchor align = TextAnchor.MiddleCenter, Action leftclick = null, Action rightclick = null) =>
+    Component<Text>(Rect("Text", parent, r).gameObject, text =>
+    {
+        text.text = name.StartsWith("#") ? Bundle.Get(name.Substring(1)) : name;
+        text.color = color ?? white;
+        text.font = DollAssets.Font;
+        text.fontSize = size;
+        text.alignment = align;
+
+        Component<MultiClickHandler>(text.gameObject, button => 
+        {
+            button.onLeftClick.AddListener(() => leftclick());
+            button.onRightClick.AddListener(() => rightclick());
+        });
+    });
+
+
+
+
     #endregion
     #region image
 
@@ -163,6 +184,16 @@ public class UIB
         {
             image.color = color ?? white;
             image.sprite = sprite ?? Background;
+            image.fillCenter = fill;
+            image.type = type;
+        });
+
+    /// <summary> Adds an image with the given sprite. </summary>
+    public static Image Image1(string name, Transform parent, Rect r, Color? color = null, Sprite sprite = null, bool fill = true, ImageType type = ImageType.Sliced) =>
+        Component<Image>(Rect(name, parent, r).gameObject, image =>
+        {
+            image.color = color ?? white;
+            image.sprite = sprite;
             image.fillCenter = fill;
             image.type = type;
         });
@@ -201,6 +232,19 @@ public class UIB
     {
         var img = Image(name, parent, r, color, fill: false);
         Text(name, img.transform, r.Text, color, size, align);
+        return Component<Button>(img.gameObject, button =>
+        {
+            button.targetGraphic = img;
+            button.colors = colors;
+            button.onClick.AddListener(() => clicked());
+        });
+    }
+
+    /// <summary> Adds a regular button that calls the given action. with text. </summary>
+    public static Button Button(string name, string text, Transform parent, Rect r, Color? color = null, int size = 24, TextAnchor align = TextAnchor.MiddleCenter, Action clicked = null)
+    {
+        var img = Image(name, parent, r, color, fill: false);
+        Text(text, img.transform, r.Text, color, size, align);
         return Component<Button>(img.gameObject, button =>
         {
             button.targetGraphic = img;
@@ -281,8 +325,8 @@ public class UIB
     #region scroll & slider
 
     /// <summary> Adds an image-mask that cuts off a part of the interface. </summary>
-    public static Mask Mask(string name, Transform transform, Rect r) =>
-        Component<Mask>(Image(name, transform, r).gameObject, mask => mask.showMaskGraphic = false);
+    public static Mask Mask(string name, Transform transform, Rect r, Sprite sprite = null) =>
+        Component<Mask>(Image(name, transform, r, sprite: sprite).gameObject, mask => mask.showMaskGraphic = false);
 
     /// <summary> Adds a scroller with content. </summary>
     public static ScrollRect Scroll(string name, Transform transform, Rect r, float contentWidth = 0f, float contentHeight = 0f, bool horizontal = false, bool vertical = true) =>
@@ -353,4 +397,18 @@ public class UIB
         Component<UILineRenderer>(Rect(name, parent, new(8f, 8f, 0f, 0f, Vector2.zero, Vector2.zero)).gameObject, line => line.color = color ?? white);
 
     #endregion
+}
+
+public class MultiClickHandler : MonoBehaviour, IPointerClickHandler
+{
+    public UnityEvent onLeftClick;
+    public UnityEvent onRightClick;
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if (eventData.button == PointerEventData.InputButton.Left)
+            onLeftClick?.Invoke();
+        else if (eventData.button == PointerEventData.InputButton.Right)
+            onRightClick?.Invoke();
+    }
 }

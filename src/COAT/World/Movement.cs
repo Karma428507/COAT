@@ -17,7 +17,6 @@ using COAT.UI.Menus;
 using COAT.UI.Overlays;
 //using Jaket.UI.Elements;
 using COAT.UI.Fragments;
-using COAT.UI.Overlays;
 using COAT.Patches;
 
 /// <summary> Class responsible for additions to control and local display of emotions. </summary>
@@ -128,7 +127,7 @@ public class Movement : MonoSingleton<Movement>
 
         if (Input.GetKeyDown(Settings.Chat)) Chat.Instance.Toggle();
         
-        if (Input.GetKeyDown(KeyCode.F4)) Debugging.Instance.Toggle();
+        //if (Input.GetKeyDown(KeyCode.F4)) Debugging.Instance.Toggle();
         /*if (Input.GetKeyDown(KeyCode.C) && Debugging.Shown) Debugging.Instance.Clear();
 
         if (Input.GetKeyDown(Settings.PlayerIndicators)) PlayerIndicators.Instance.Toggle();

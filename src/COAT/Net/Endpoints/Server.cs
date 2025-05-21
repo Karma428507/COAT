@@ -23,11 +23,32 @@ public class Server : Endpoint, ISocketManager
     public override void Load()
     {
         // Loads all of the listener functions
+
+        // PUT ALL COAT PACKETS BELOW THIS. JUST SO I DONT HAVE TO SEARCH THE MILKYWAY TO FIND A SINGLE FUCKING LIL GUY!!!
+        // write down coat client id, then send urs
+        Listen(PacketType.COAT_Request, r =>
+        {
+            Networking.COATPLAYERS.Clear(); // clear list so then u can update it
+            Networking.COATPLAYERS.Add(Tools.AccId); // add yourself to the list
+            Networking.COATPLAYERS.Add(r.Id()); // add the person requesting to the list
+            Chat.StaticReceive($"\\nReceived \"COAT_Request\"\\nCleared the \"COATPLAYERS\" list, Added {Tools.Name(Tools.AccId)} to the \"COATPLAYERS\" list, Sent \"COAT_ClientId\".");
+            Networking.Send(PacketType.COAT_ClientId, w => { w.Id(Tools.AccId); }); // send out ur id for others to write down
+        });
+
+        // write down coat client id.
+        Listen(PacketType.COAT_ClientId, r => { Chat.StaticReceive($"Received \"COAT_ClientId\", Added {Tools.Name(r.Id())} to the \"COATPLAYERS\" list."); Networking.COATPLAYERS.Add(r.Id()); });
     }
 
     public override void Update()
     {
-        Stats.MeasureTime(ref Stats.ReadTime, () => Manager.Receive(512));
+        // IDK what to put here
+        // Doesn't look related to chat so ignore :3
+        int i = Manager.Receive(512);
+
+        //Log.Debug("Meow >:3");
+
+        if (i != 0)
+            Log.Debug("Packet received");
         Pointers.Reset();
     }
 
@@ -48,6 +69,13 @@ public class Server : Endpoint, ISocketManager
     public void OnConnecting(Connection connection, ConnectionInfo info)
     {
         Log.Info("Player is Connecting");
+        // Checks if the player is already or banned (connection.close())
+        bool AlreadyInLobby = false;
+        foreach (var con in Networking.Server.Manager?.Connected) if (con == connection) AlreadyInLobby = true;
+        if (Administration.Banned.Contains(connection.Id) || AlreadyInLobby) connection.Close();
+        // Sets the connection ID to the Account ID
+        // Checks if steam user and uses connection.accept() if one
+        // If not, then use connection.close()
 
         Log.Info("[Server] Someone is connecting...");
         var identity = info.Identity;
@@ -86,6 +114,7 @@ public class Server : Endpoint, ISocketManager
     {
         Log.Info("Player Connecting");
         Networking.Send(PacketType.Level, World.WriteData, (data, size) => Tools.Send(connection, data, size), size: 256);
+        // Not sure what jaket does but it looks like it sends level info
     }
 
     public void OnDisconnected(Connection connection, ConnectionInfo info)
@@ -98,6 +127,7 @@ public class Server : Endpoint, ISocketManager
     {
         //var accId = ;
         // Packet handler
+        // No listeners are needed to get chat running, only this
         Handle(connection, identity.SteamId.AccountId, data, size);
     }
 }
