@@ -59,13 +59,6 @@ public class Log
                 break;
         }
 
-        /*Logger.Log(, level switch
-        {
-            Level.Debug or Level.Info => plog.Models.Level.Info,
-            Level.Warning => plog.Models.Level.Warning,
-            Level.Error or _ => plog.Models.Level.Error,
-        });*/
-
         ToWrite.Add($"[{Time}] [{new[] { 'D', 'I', 'W', 'E' }[(int)level]}] {msg}");
         if (ToWrite.Count > STORAGE_CAPACITY) Flush();
     }

@@ -13,13 +13,7 @@ class Pointers
     public static int Offset;
 
     /// <summary> Allocates the main server's buffer </summary>
-    public static void AllocateGlobal()
-    {
-        // Set num to player count later
-        int num = 8;
-        RESERVED = num * 32 * 1024;
-        Pointer = Marshal.AllocHGlobal(num * 8);
-    }
+    public static void Allocate() => Pointer = Marshal.AllocHGlobal(256 * 1024);
 
     /// <summary> Allocates </summary>
     public static IntPtr Allocate(int Bytes)
@@ -32,7 +26,4 @@ class Pointers
 
     /// <summary> Frees the memory allocated for writers </summary>
     public static void Reset() => Offset = 0;
-
-    /// <summary> Frees all of the global memory </summary>
-    public static void Free() => Marshal.FreeHGlobal(Pointer);
 }

@@ -107,7 +107,6 @@ public class Server : Endpoint, ISocketManager
     {
         Log.Info("Player Connecting");
         Networking.Send(PacketType.Level, World.WriteData, (data, size) => Tools.Send(connection, data, size), size: 256);
-        // Not sure what jaket does but it looks like it sends level info
     }
 
     public void OnDisconnected(Connection connection, ConnectionInfo info)

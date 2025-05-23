@@ -12,9 +12,7 @@ public class LocalPlayer : Entity
     public Team Team;
 
     // WARNING, MANY THINGS NEED TO BE COMPLETED BEFORE WORKING ON LOCAL/REMOTE
-    // - Stats
-    // - Improved memory manager
-    // - Assets handling
+    // - General debugging
 
     public override void Read(Reader r)
     {

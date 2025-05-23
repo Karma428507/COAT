@@ -6,10 +6,10 @@ using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.Events;
 
-using Jaket.Content;
-//using Jaket.Net;
-//using Jaket.Net.Types;
-//using Jaket.UI.Dialogs;
+using COAT.Content;
+using COAT.Net;
+using COAT.Net.Types;
+using COAT.UI.Menus;
 
 /// <summary> Class that works with the assets bundle of the mod. </summary>
 public class DollAssets
@@ -49,24 +49,28 @@ public class DollAssets
     public static void Load()
     {
         Bundle = LoadBundle();
-        goto FontStyle; // something here is crashing the game and idk what it is
 
         // cache the shader and the wing textures for future use
-        Shader = AssetHelper.LoadPrefab("cb3828ada2cbefe479fed3b51739edf6").GetComponent<global::V2>().smr.material.shader;
+        // Error trying to get the wing texture
+        //Shader = AssetHelper.LoadPrefab("cb3828ada2cbefe479fed3b51739edf6").GetComponent<global::V2>().smr.material.shader;
         WingTextures = new Texture[5];
         HandTextures = new Texture[4];
+        //Log.Error("Shader loaded");
 
         // loading wing textures from the bundle
         for (int i = 0; i < 5; i++)
         {
             var index = i; // C# sucks
-            //LoadAsync<Texture>("V3-wings-" + ((Team)i).ToString(), tex => WingTextures[index] = tex);
+            LoadAsync<Texture>("V3-wings-" + ((Team)i).ToString(), tex => WingTextures[index] = tex);
         }
 
         LoadAsync<Texture>("V3-hand", tex => HandTextures[1] = tex);
         LoadAsync<Texture>("V3-blast", tex => HandTextures[3] = tex);
-        HandTextures[0] = FistControl.Instance.blueArm.ToAsset().GetComponentInChildren<SkinnedMeshRenderer>().material.mainTexture;
-        HandTextures[2] = FistControl.Instance.redArm.ToAsset().GetComponentInChildren<SkinnedMeshRenderer>().material.mainTexture;
+
+        // Error trying to get the in game arm assets
+        //HandTextures[0] = FistControl.Instance.blueArm.ToAsset().GetComponentInChildren<SkinnedMeshRenderer>().material.mainTexture;
+        //HandTextures[2] = FistControl.Instance.redArm.ToAsset().GetComponentInChildren<SkinnedMeshRenderer>().material.mainTexture;
+        //Log.Error("Old hands added");
 
         LoadAsync<Texture>("coin", tex => CoinTexture = tex);
 
@@ -109,8 +113,6 @@ public class DollAssets
             });
         });
 
-    // but the font must be loaded immediately, because it is needed to build the interface
-    FontStyle:
         Font = Bundle.LoadAsset<Font>("font.ttf");
         FontTMP = TMP_FontAsset.CreateFontAsset(Font);
     }
@@ -186,12 +188,12 @@ public class DollAssets
 
         // add a script to further control the doll
         return obj.AddComponent<RemotePlayer>();
-    }
+    }*/
 
     /// <summary> Returns the hand texture currently in use. Depends on whether the player is in the lobby or not. </summary>
     public static Texture HandTexture(bool feedbacker = true)
     {
         var s = feedbacker ? Settings.FeedColor : Settings.KnuckleColor;
         return HandTextures[(feedbacker ? 0 : 2) + (s == 0 ? (LobbyController.Offline ? 0 : 1) : s == 1 ? 1 : 0)];
-    }*/
+    }
 }
