@@ -268,14 +268,14 @@ public class Chat : CanvasSingleton<Chat>, IOverlayInterface
     public void ReceiveTTS(string color, Friend author, string msg)
     {
         // play the message in the local player's position if he is its author
-        /*if (author.IsMe)
+        if (author.IsMe)
             SamAPI.TryPlay(msg, Networking.LocalPlayer.Voice);
 
         // or find the author among the other players and play the sound from them
-        else if (Networking.Entities.TryGetValue(author.Id.AccountId, out var entity) && entity is RemotePlayer player)
+        /*else if (Networking.Entities.TryGetValue(author.Id.AccountId, out var entity) && entity is RemotePlayer player)
             SamAPI.TryPlay(msg, player.Voice);*/
 
-        //AudioSource.PlayClipAtPoint(SamAPI.Clip, Vector3 position, float volume = 1.0F);
+        //AudioSource.PlayClipAtPoint(SamAPI.Clip, NewMovement.Instance.transform.position);
 
         Receive(color, TTS_PREFIX + author.Name.Replace("[", "\\["), msg);
     }

@@ -109,7 +109,7 @@ public class DollAssets
             Mixer = mix;
             Events.Post(() =>
             {
-                //Networking.LocalPlayer.Voice.outputAudioMixerGroup = Mixer.FindMatchingGroups("Master")[0];
+                Networking.LocalPlayer.Voice.outputAudioMixerGroup = Mixer.FindMatchingGroups("Master")[0];
             });
         });
 
