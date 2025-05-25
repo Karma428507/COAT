@@ -8,13 +8,13 @@ using UnityEngine.Events;
 
 using COAT.Content;
 using COAT.Net;
-using COAT.Net.Types.Players;
+using COAT.Net.Types;
 using COAT.UI.Menus;
 
 /// <summary> Class that works with the assets bundle of the mod. </summary>
 public class DollAssets
 {
-    public const string V1 = "388594c020ef7c240afc673f062e6425";
+    public const string V1 = "36abcaae9708abc4d9e89e6ec73a2846";
 
     /// <summary> Bundle containing assets for player doll. </summary>
     public static AssetBundle Bundle;
@@ -55,6 +55,7 @@ public class DollAssets
         // cache the shader and the wing textures for future use
         // Error trying to get the wing texture
         // Do this later...
+        // Try to find the children of the prefab
         //AssetHelper.LoadPrefab(V1).GetComponent<global::PlatformerMovement>();
         //Shader = AssetHelper.LoadPrefab(V1).GetComponent<global::V2>().smr.material.shader;
         WingTextures = new Texture[5];
@@ -150,7 +151,7 @@ public class DollAssets
             foreach (var mat in renderer.materials)
             {
                 mat.color = Color.white;
-                mat.shader = Shader;
+                //mat.shader = Shader;
             }
         }
     }

@@ -1,4 +1,4 @@
-﻿namespace COAT.Net.Types.Players;
+﻿namespace COAT.Net.Types;
 
 using COAT.Assets;
 using COAT.Content;

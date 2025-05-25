@@ -1,10 +1,10 @@
-/*namespace Jaket.Patches;
+namespace COAT.Patches;
 
 using HarmonyLib;
 using System;
 using UnityEngine;
 
-using Jaket.Assets;
+using COAT.Assets;
 
 [HarmonyPatch(typeof(EnemyInfoPage), "Start")]
 public class BestiaryPatch
@@ -45,4 +45,3 @@ public class BestiaryEntry
     /// <summary> Loads the V3 bestiary entry from the bundle. </summary>
     public static BestiaryEntry Load() => JsonUtility.FromJson<BestiaryEntry>(DollAssets.Bundle.LoadAsset<TextAsset>("V3-bestiary-entry").text);
 }
-*/

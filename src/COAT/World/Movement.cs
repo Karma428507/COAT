@@ -11,7 +11,6 @@ using COAT.Assets;
 using COAT.Content;
 using COAT.Net;
 using COAT.Net.Types;
-using COAT.Net.Types.Players;
 //using Jaket.Sprays;
 using COAT.UI;
 using COAT.UI.Menus;

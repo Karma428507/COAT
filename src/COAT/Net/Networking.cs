@@ -11,7 +11,7 @@ using COAT.Assets;
 using COAT.Content;
 using COAT.IO;
 using COAT.Net.Endpoints;
-using COAT.Net.Types.Players;
+using COAT.Net.Types;
 using COAT.UI.Overlays;
 
 /// <summary> Class responsible for updating endpoints, transmitting packets and managing entities. </summary>

@@ -276,7 +276,7 @@ public class UIB
     //}
 
     /// <summary> Adds a command button with the appropriate color. </summary>
-    /*public static Button TeamButton(Team team, Transform parent, Rect r, Action clicked = null)
+    public static Button TeamButton(Team team, Transform parent, Rect r, Action clicked = null)
     {
         var img = Image(team.ToString(), parent, r, team.Color());
         if (team == Team.Pink) Text("UwU", img.transform, r.Text, Dark(pink));
@@ -285,7 +285,7 @@ public class UIB
             button.targetGraphic = img;
             button.onClick.AddListener(() => clicked());
         });
-    }*/
+    }
 
     /// <summary> Adds a button that opens the profile of the given member. </summary>
     //public static Button ProfileButton(Friend member, Transform parent, Rect r) =>

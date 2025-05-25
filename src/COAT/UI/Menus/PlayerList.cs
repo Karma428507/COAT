@@ -55,14 +55,14 @@ public class PlayerList : CanvasSingleton<PlayerList>, IMenuInterface
                 UIB.Image("Player Settings Border", player, new(0, 0, 1004f, 170f), null, fill: false);
 
                 // TODO: makje yhis worjk
-                /*float x = -24f;
+                float x = -24f;
                 foreach (Team team in System.Enum.GetValues(typeof(Team))) UIB.TeamButton(team, player, new(x += 64f, -130f, 56f, 56f, new(0f, 1f)), () =>
                 {
                     Networking.LocalPlayer.Team = team;
                     Events.OnTeamChanged.Fire();
 
                     Rebuild();
-                });*/
+                });
             });
 
             UIB.Table("Server Settings", "server settings", table, new(-178, -95, 1004f, 570f), server =>

@@ -1,9 +1,9 @@
-﻿namespace COAT.Net.Types.Players;
+﻿namespace COAT.Net.Types;
 
 using COAT.Assets;
 using COAT.Content;
 using COAT.IO;
-using Jaket.Content;
+using COAT.UI.Elements;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
@@ -34,7 +34,7 @@ public class RemotePlayer : Entity
     /// <summary> Doll of the player, displaying its state through animations. </summary>
     public Doll Doll;
     /// <summary> Header displaying nickname and health. </summary>
-    //public PlayerHeader Header;
+    public PlayerHeader Header;
     /// <summary> Last pointer created by the player. </summary>
     public Pointer Pointer;
 
@@ -102,7 +102,7 @@ public class RemotePlayer : Entity
             if ((LastWeapon = Weapon) != 0xFF)
             {
                 //Weapons.Instantiate(Weapon, Doll.Hand);
-                WeaponsOffsets.Apply(Weapon, Doll.Hand);
+                //WeaponsOffsets.Apply(Weapon, Doll.Hand);
                 Doll.ApplySuit();
             }
         }
@@ -196,7 +196,7 @@ public class RemotePlayer : Entity
     public override void Kill(Reader r = null)
     {
         EnemyId.machine.GoLimp();
-        //Header.Hide();
+        Header.Hide();
 
         Destroy(Doll.Hand.gameObject); // destroy the weapon so that the railcannon's sound doesn't play forever
         DestroyImmediate(this); // destroy the entity so that the indicators no longer point to it
