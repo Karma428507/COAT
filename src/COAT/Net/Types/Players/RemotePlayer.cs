@@ -77,7 +77,7 @@ public class RemotePlayer : Entity
 
     private void Update() => Stats.MTE(() =>
     {
-        //Header.Update(Health, Typing);
+        Header.Update(Health, Typing);
         if (Animator == null) // the HEAVY is dead
         {
             if (Health != 0) Destroy(gameObject); // the player has respawned, the doll needs to be recreated
@@ -124,7 +124,7 @@ public class RemotePlayer : Entity
     /// <summary> Plays the punching animation and creates a shockwave as needed. </summary>
     public void Punch(Reader r)
     {
-        /*var field = Tools.Field<Harpoon>("target");
+        var field = Tools.Field<Harpoon>("target");
         foreach (var harpoon in FindObjectsOfType<Harpoon>())
             if ((field.GetValue(harpoon) as EnemyIdentifierIdentifier)?.eid == EnemyId) Bullets.Punch(harpoon, false);
 
@@ -143,7 +143,7 @@ public class RemotePlayer : Entity
                 shock.name = "Net";
                 shock.force = r.Float();
                 break;
-        }*/
+        }
     }
 
     /// <summary> Creates a pointer that will draw a line from itself to the player. </summary>

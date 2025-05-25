@@ -1,4 +1,4 @@
-/*namespace Jaket.Content;
+namespace COAT.Content;
 
 using COAT;
 using System.Collections.Generic;
@@ -13,6 +13,7 @@ public class Weapons
     /// <summary> Loads all weapons for future use. </summary>
     public static void Load()
     {
+        // loads all of the weapons, nothing else
         Prefabs.AddRange(GunSetter.Instance.revolverPierce.ToAssets());
         Prefabs.AddRange(GunSetter.Instance.revolverRicochet.ToAssets());
         Prefabs.AddRange(GunSetter.Instance.revolverTwirl.ToAssets());
@@ -77,8 +78,8 @@ public class Weapons
     /// <summary> Recursively iterates through all children of the transform and changes their layer to Outdoors. </summary>
     public static void FixLayer(Transform transform)
     {
+        // idk what this is used for :P
         transform.gameObject.layer = 25;
         foreach (Transform child in transform) FixLayer(child);
     }
 }
-*/

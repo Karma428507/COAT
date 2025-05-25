@@ -36,6 +36,15 @@ public class Client : Endpoint, IConnectionManager
             Chat.StaticReceive("you were banned...");
             LobbyController.LeaveLobby();
         });
+        Listen(PacketType.SpawnBullet, Bullets.CInstantiate);
+        Listen(PacketType.DamageEntity, r =>
+        {
+            if (ents.TryGetValue(r.Id(), out var entity)) entity?.Damage(r);
+        });
+        Listen(PacketType.KillEntity, r =>
+        {
+            if (ents.TryGetValue(r.Id(), out var entity)) entity?.Kill(r);
+        });
 
         // PUT ALL COAT PACKETS BELOW THIS. JUST SO I DONT HAVE TO SEARCH THE MILKYWAY TO FIND A SINGLE FUCKING LIL GUY!!!
         // write down coat client id, then send urs

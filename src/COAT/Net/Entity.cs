@@ -84,7 +84,7 @@ public abstract class Entity : MonoBehaviour
     public abstract void Read(Reader r);
 
     /// <summary> Deals damage to the entity. </summary>
-    //public virtual void Damage(Reader r) => Bullets.DealDamage(EnemyId, r);
+    public virtual void Damage(Reader r) => Bullets.DealDamage(EnemyId, r);
     /// <summary> Kills the entity. </summary>
     public virtual void Kill(Reader r) => Dead = true;
 

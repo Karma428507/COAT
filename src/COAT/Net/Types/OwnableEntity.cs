@@ -1,10 +1,10 @@
-/*namespace Jaket.Net.Types;
+namespace COAT.Net.Types;
 
 using System;
 using UnityEngine;
 
-using Jaket.IO;
-using Jaket.Content;
+using COAT.IO;
+using COAT.Content;
 
 /// <summary> Entity whose ownership can be transferred to another client at any time. </summary>
 public abstract class OwnableEntity : Entity
@@ -49,4 +49,3 @@ public abstract class OwnableEntity : Entity
         }
     }
 }
-*/

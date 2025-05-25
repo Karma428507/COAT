@@ -1,14 +1,14 @@
-/*namespace Jaket.Patches;
+namespace COAT.Patches;
 
 using HarmonyLib;
 using System.Collections.Generic;
 using UnityEngine;
 
-using Jaket.Content;
-using Jaket.Net;
-using Jaket.Net.Types;
+using COAT.Content;
+using COAT.Net;
+using COAT.Net.Types;
 
-[HarmonyPatch]
+/*[HarmonyPatch]
 public class GunsPatch
 {
     [HarmonyPostfix]
@@ -26,7 +26,7 @@ public class GunsPatch
     [HarmonyPrefix]
     [HarmonyPatch(typeof(WeaponIcon), nameof(WeaponIcon.UpdateIcon))]
     static bool GunIcon(WeaponIcon __instance) => __instance.GetComponentInParent<RemotePlayer>() == null;
-}
+}*/
 
 [HarmonyPatch]
 public class ArmsPatch
@@ -57,4 +57,3 @@ public class ArmsPatch
         if (__instance.state == HookState.Pulling && ___lightTarget && ___caughtEid.name == "Net") ___caughtEid.GetComponent<Enemy>()?.TakeOwnage();
     }
 }
-*/

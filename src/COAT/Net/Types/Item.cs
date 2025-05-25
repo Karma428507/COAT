@@ -1,10 +1,10 @@
-/*namespace Jaket.Net.Types;
+namespace COAT.Net.Types;
 
 using HarmonyLib;
 using UnityEngine;
 
-using Jaket.Content;
-using Jaket.IO;
+using COAT.Content;
+using COAT.IO;
 
 /// <summary> Representation of all items in the game, except glasses and books. </summary>
 public class Item : OwnableEntity
@@ -101,4 +101,3 @@ public class Item : OwnableEntity
 
     #endregion
 }
-*/

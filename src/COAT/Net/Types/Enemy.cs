@@ -1,8 +1,8 @@
-/*namespace Jaket.Net.Types;
+namespace COAT.Net.Types;
 
 using UnityEngine;
 
-using Jaket.IO;
+using COAT.IO;
 
 /// <summary> Common to all enemies in the game class. Performs a small number of functions. </summary>
 public class Enemy : OwnableEntity
@@ -72,7 +72,7 @@ public class Enemy : OwnableEntity
     public void SetHealth(float health)
     {
         if (EnemyId.drone) EnemyId.drone.health = health;
-        if (EnemyId.spider) EnemyId.spider.health = health;
+        if (EnemyId.spider) EnemyId.spider.health = health; // there are spiders?
         if (EnemyId.zombie) EnemyId.zombie.health = health;
         if (EnemyId.statue) EnemyId.statue.health = health;
         if (EnemyId.machine) EnemyId.machine.health = health;
@@ -87,4 +87,3 @@ public class Enemy : OwnableEntity
 
     #endregion
 }
-*/

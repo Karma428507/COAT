@@ -8,7 +8,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 using COAT.Assets;
-using Jaket.Content;
+using COAT.Content;
 using COAT.IO;
 using COAT.Net;
 using Jaket.Sprays;
@@ -68,10 +68,10 @@ public class Plugin : MonoBehaviour
 
         Commands.Commands.Load();
         Bundle.Load();
-        /*Enemies.Load();
-        Weapons.Load();
-        Bullets.Load();
-        Items.Load();*/
+        //Enemies.Load();
+        //Weapons.Load();
+        Bullets.Load(); // Bullets is the only thing to work :P
+        //Items.Load();
         DollAssets.Load();
 
         Administration.Load();

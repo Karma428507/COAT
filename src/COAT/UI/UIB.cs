@@ -14,7 +14,6 @@ using ScaleMode = UnityEngine.UI.CanvasScaler.ScaleMode;
 using ImageType = UnityEngine.UI.Image.Type;
 
 using COAT.Assets;
-using Jaket.Content;
 using COAT.Content;
 //using Jaket.Net;
 

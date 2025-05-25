@@ -1,9 +1,9 @@
-/*namespace Jaket.Net.Types;
+namespace COAT.Net.Types;
 
 using UnityEngine;
 
-using Jaket.Content;
-using Jaket.IO;
+using COAT.Content;
+using COAT.IO;
 
 /// <summary> Representation of a rocket or cannonball. </summary>
 public class Bullet : OwnableEntity
@@ -49,6 +49,7 @@ public class Bullet : OwnableEntity
     {
         if (IsOwner || Dead) return;
 
+        // for rockets ig
         if (riding)
         {
             transform.localPosition = Vector3.back;
@@ -88,6 +89,7 @@ public class Bullet : OwnableEntity
         base.Read(r);
         if (IsOwner) return;
 
+        // why not read the vectors, are they stupid?
         x.Read(r); y.Read(r); z.Read(r);
         rx.Read(r); ry.Read(r); rz.Read(r);
 
@@ -101,6 +103,7 @@ public class Bullet : OwnableEntity
     public override void Kill(Reader r)
     {
         base.Kill(r);
+        // this is what DeadBullet does ig.
         DeadBullet.Replace(this);
 
         if (r == null)
@@ -113,14 +116,13 @@ public class Bullet : OwnableEntity
         {
             Exploded(false);
 
-            if (r != null && r.Position < r.Length)
+            if (r != null && r.Position < r.length)
                 grenade.Explode(true, sizeMultiplier: r.Bool() ? 2f : 1f);
             else
                 grenade.Explode(harmless: true);
         }
-        else ball?.Break();
+        else ball?.Break(); // the ball breaker
     }
 
     #endregion
 }
-*/

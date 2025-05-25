@@ -5,15 +5,14 @@ using Steamworks.Data;
 using System;
 
 using COAT.Content;
-//using COAT.IO;
-//using COAT.Net.Types;
+using COAT.IO;
+using COAT.Net.Types;
 //using COAT.Sprays;
+using COAT.UI.Overlays;
 using COAT.World;
 using System.Net;
 using Unity.Audio;
-using COAT.IO;
 using GameConsole.Commands;
-using COAT.UI.Overlays;
 
 // Handler for the host of a server
 public class Server : Endpoint, ISocketManager
@@ -42,6 +41,29 @@ public class Server : Endpoint, ISocketManager
                 Administration.Handle(sender, ents[id] = Entities.Get(id, type));
             }
             ents[id]?.Read(r);
+        });
+        Listen(PacketType.SpawnBullet, (con, sender, r) =>
+        {
+            var type = r.Byte(); r.Position = 1; // extract the bullet type
+            int cost = type >= 18 && type <= 20 ? 6 : 1; // rail costs more than the rest of the bullets
+
+            if (type == 23 || Administration.CanSpawnBullet(sender, cost))
+            {
+                Bullets.CInstantiate(r);
+                Redirect(r, con);
+            }
+        });
+        Listen(PacketType.DamageEntity, r =>
+        {
+            if (ents.TryGetValue(r.Id(), out var entity)) entity?.Damage(r);
+        });
+        Listen(PacketType.KillEntity, (con, sender, r) =>
+        {
+            if (ents.TryGetValue(r.Id(), out var entity) && entity && (entity is Enemy || entity is Bullet || entity is TeamCoin))
+            {
+                entity.Kill(r);
+                Redirect(r, con);
+            }
         });
 
         // PUT ALL COAT PACKETS BELOW THIS. JUST SO I DONT HAVE TO SEARCH THE MILKYWAY TO FIND A SINGLE FUCKING LIL GUY!!!

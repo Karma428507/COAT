@@ -1,12 +1,12 @@
-/*namespace Jaket.Net.Types;
+namespace COAT.Net.Types;
 
 using UnityEngine;
 
-using Jaket.Assets;
-using Jaket.Content;
-using Jaket.IO;
+using COAT.Assets;
+using COAT.Content;
+using COAT.IO;
 
-using static Jaket.UI.Pal;
+using static COAT.UI.Pal;
 
 /// <summary> Representation of a coin that has a team and the corresponding mechanics. </summary>
 public class TeamCoin : OwnableEntity
@@ -385,4 +385,3 @@ public class TeamCoin : OwnableEntity
 
     #endregion
 }
-*/

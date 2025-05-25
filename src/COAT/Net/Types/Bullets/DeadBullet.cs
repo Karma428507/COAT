@@ -1,8 +1,8 @@
-/*namespace Jaket.Net.Types;
+namespace COAT.Net.Types;
 
 using UnityEngine;
 
-using Jaket.IO;
+using COAT.IO;
 
 /// <summary> Plug designed to prevent respawn of bullets. </summary>
 public class DeadBullet : Entity
@@ -24,4 +24,3 @@ public class DeadBullet : Entity
     public override void Read(Reader r) { }
     public override void Write(Writer w) { }
 }
-*/
