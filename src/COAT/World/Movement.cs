@@ -286,12 +286,25 @@ public class Movement : MonoSingleton<Movement>
             (Tools.Get("idToCheat", cm) as Dictionary<string, ICheat>).Values.Do(cm.DisableCheat);
             Bundle.Hud("lobby.cheats");
         }
-
-        // leave lobby if you have more than one mod
-        if (Plugin.Instance.HasIncompatibility && !LobbyController.IsOwner && !LobbyController.ModsAllowed)
+    
+        // leave lobby if you have a blacklisted mod
+        if (LobbyController.Lobby?.GetData("BlacklistedMods") == "")
         {
-            LobbyController.LeaveLobby();
-            Bundle.Hud2NS("lobby.mods");
+            if (Plugin.Instance.HasIncompatibility && !LobbyController.IsOwner && !LobbyController.ModsAllowed)
+            {
+                LobbyController.Lobby?.SendChatString("[#FF7F50][14]\\[BOT][][] FUCK OFF!");
+                LobbyController.LeaveLobby();
+                Bundle.Hud2NS("lobby.mods");
+            }
+        } 
+        else 
+        {
+            if (Plugin.Instance.HasBlacklisted && !LobbyController.IsOwner && !LobbyController.ModsAllowed
+            {
+                LobbyController.Lobby?.SendChatString("[#FF7F50][14]\\[BOT][][] FUCK OFF!");
+                LobbyController.LeaveLobby
+                Bundle.Hud2NS("lobby.mods");
+            }
         }
 
         // fake Cyber Grind///0-S death

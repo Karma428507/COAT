@@ -122,7 +122,7 @@ public class Chat : CanvasSingleton<Chat>, IOverlayInterface
         ttsBg.anchoredPosition = new(list.Count > 0 ? typingBg.anchoredPosition.x + typingBg.sizeDelta.x / 2f + 80f : 80f, 80f);
     }
 
-    private void OnFocusLost(string msg)
+    private void OnFocusLost(string msg) // how does this work, cuz when its used it doesnt do OnFocusLost("bjewhr") it just does OnFocusLost and nothing else
     {
         // focus lost because the player entered a message
         if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)) Send(msg);
@@ -228,18 +228,18 @@ public class Chat : CanvasSingleton<Chat>, IOverlayInterface
         lastMessageTime = Time.time;
     }
 
-    public void CopyText(string TextToCopy, Text text)
+    /*public void CopyText(string TextToCopy, Text text)
     {
         //TextEditor textEditor = new TextEditor();
         //textEditor.text = TextToCopy;
         //textEditor.SelectAll();
         //textEditor.Copy();
 
-        GUIUtility.systemCopyBuffer = TextToCopy;
+        GUIUtility.systemCopyBuffer = TextToCopy; YOU DONT SEE ANYTHING I SWEARRR D:
         MessageColChange(text);
-    }
+    }*/
 
-    public void DropUpMenu(string text, string author, Text textobject) => CopyText($"haha", textobject);
+    //public void DropUpMenu(string text, string author, Text textobject) => CopyText($"haha", textobject);
 
     /// <summary> Interpolates the color of the input field from green to white. </summary>
     private IEnumerator MessageColChange(Text text)

@@ -143,7 +143,7 @@ public class Networking
         {
             string LobbyBannedData = LobbyController.Lobby?.GetData("banned");
             string LobbyMutedData = LobbyController.Lobby?.GetData("mute");
-            if (!LobbyBannedData.Contains($"{member.Id.AccountId}") || !LobbyMutedData.Contains($"{member.Id.AccountId}")) ;
+            if (!LobbyBannedData.Contains($"{member.Id.AccountId}") || !LobbyMutedData.Contains($"{member.Id.AccountId}"));
             {
                 if (message.Length > Chat.MAX_MESSAGE_LENGTH + 8) message = message.Substring(0, Chat.MAX_MESSAGE_LENGTH);
 

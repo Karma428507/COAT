@@ -87,9 +87,9 @@ namespace COAT.UI.Menus
                         // buttons
                         UIB.Button(" ", entry, new Rect(0, 0, 350f, 100),
                             null, 24, TextAnchor.UpperLeft, () => {
-                                // change when gamemode is made
+                                // TODO: make this shit work, once we start trying to make gamemodes
                                 if (type != GamemodeTypes.NormalCampain)
-                                    HudMessageReceiver.Instance?.SendHudMessage("Only the normal campain is active now");
+                                    HudMessageReceiver.Instance?.SendHudMessage("Only the normal campain is working right now,\\nplease fucking deal with it.");
                             });
                     });
 
@@ -98,6 +98,8 @@ namespace COAT.UI.Menus
 
                     y -= 120;
                 }
+                
+                UIB.Text("[ UNDER CONSTUCTION ]", table, new(0f, 0f, 1000f, 50f), size: 50).GetComponent<RectTransform>().localRotation = new Quaternion(0f, 0f, .2164f, .9763f);
             });
         }
 

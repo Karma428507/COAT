@@ -5,7 +5,10 @@ using System.Collections.Generic;
 
 using COAT.Content;
 using COAT.UI.Overlays;
+using COAT.UI.Menus;
 using Steamworks;
+using System.Linq;
+using COAT.Assets;
 
 /// <summary> Class dedicated to protecting the lobby from unfavorable people. </summary>
 public class Administration
@@ -33,6 +36,9 @@ public class Administration
     //private static Tree entityBullets = new();
     //private static Tree entities = new();
     //private static Tree plushies = new();
+
+    /// <summary> List of blacklisted mods in the lobby. </summary>
+    public static string[] BlacklistedMods;
 
     /// <summary> Subscribes to events to clear lists. </summary>
     public static void Load()
@@ -105,6 +111,15 @@ public class Administration
                 Events.Post2(() => con?.Close());
             });
         }
+    }
+
+    public static void BlacklistMod(string name)
+    {
+        //if (!LobbyController.IsOwner && !LobbyController.Online) return;
+
+        bool allow = Settings.PersonalBlacklistedMods.Contains(name);
+        if (!allow) { Settings.PersonalBlacklistedMods.Add(name); } else { Settings.PersonalBlacklistedMods.Remove(name); }
+        if (LobbyController.Online) LobbyController.Lobby?.SetData("BlacklistedMods", string.Join(" ", Settings.PersonalBlacklistedMods));
     }
 
     /// <summary> Mutes/Unmutes a player in the lobby, no body can hear their screams >:3 </summary>

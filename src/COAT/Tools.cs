@@ -15,6 +15,7 @@ using COAT.IO;
 using System.Threading.Tasks;
 using static UnityEngine.GraphicsBuffer;
 using UnityEngine.SceneManagement;
+using System.Net.Security;
 
 /// <summary> Set of different tools for simplifying life and systematization of code. </summary>
 public class Tools
@@ -65,6 +66,7 @@ public class Tools
         // "Better than what I could of done in the weekend" - 𒀭𒅗𒅈𒈠
         // guys stop fucking making ur shit quotes
         // "𒌅𒊌𒅋𒀀𒆪𒂗𒍣" - 𒀭𒅗𒅈𒈠
+        // STTOPPPP WITHH THE FISHHH SKEELETON LANGGUAAGGGEEEE
 
         string childPath = null;
 
@@ -268,6 +270,24 @@ public class Tools
         }
 
         return texture;
+    }
+
+    #endregion
+    #region extras ig
+
+    public static void OnFocusLost(Action OnEnter = null, Action OnFocusOff = null, Action OnEither = null)
+    {
+        // focus lost because the player entered a message
+        if (OnEnter != null && (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))) 
+            OnEnter();
+
+        // focus lost for some other reason
+        else if (OnFocusLost != null)
+            OnFocusOff();
+
+            // basicallyyyy... if it doesnt care what smt is then.... like.... uhhhhhhhhhhhh- oh yeaaaaa i remember nowww... uhh- OH YEA!!- okay so if it doesnt care what smt is then it does this!!! :DDD
+        else if (OnEither != null)
+            OnEither();
     }
 
     #endregion

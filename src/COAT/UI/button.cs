@@ -1,4 +1,4 @@
-using UnityEngine;
+/*using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
@@ -14,4 +14,5 @@ public class MultiClickHandler : MonoBehaviour, IPointerClickHandler
         else if (eventData.button == PointerEventData.InputButton.Right)
             onRightClick?.Invoke();
     }
-}
+} this code is ass lmao, might delete it fr
+*/

@@ -16,6 +16,7 @@ using ImageType = UnityEngine.UI.Image.Type;
 using COAT.Assets;
 using Jaket.Content;
 using COAT.Content;
+using COAT.UI.Menus;
 //using Jaket.Net;
 
 using static Pal;
@@ -104,6 +105,14 @@ public class UIB
         return image;
     }
 
+    /// <summary> Adds a translucent black image, with a color. </summary>
+    public static Image Table(string name, Transform parent, Rect r, Color? color, Action<Transform> build = null)
+    {
+        var image = Image(name, parent, r, color);
+        build?.Invoke(image.transform);
+        return image;
+    }
+
     /// <summary> Adds a table with a title. </summary>
     public static Image Table(string name, string title, Transform parent, Rect r, Action<Transform> build = null) =>
         Table(name, parent, r, table =>
@@ -152,6 +161,17 @@ public class UIB
         {
             text.text = name.StartsWith("#") ? Bundle.Get(name.Substring(1)) : name;
             text.color = color ?? white;
+            text.font = DollAssets.Font;
+            text.fontSize = size;
+            text.alignment = align;
+        });
+
+
+    public static Text KeyText(string name, Transform parent, Rect r, int size = 24, TextAnchor align = TextAnchor.MiddleCenter) =>
+        Component<Text>(Rect("Text", parent, r).gameObject, text =>
+        {
+            text.text = text.name = name.StartsWith("#") ? Bundle.Get(name.Substring(1)) : name;
+            text.color = white;
             text.font = DollAssets.Font;
             text.fontSize = size;
             text.alignment = align;
@@ -295,16 +315,17 @@ public class UIB
     public static Button KeyButton(string name, KeyCode current, Transform parent, Rect r)
     {
         // key is the current keycode, bind is the name of the keybind
-        Text key = null, bind = Text("#keybind." + name, parent, r, size: 16, align: TextAnchor.MiddleLeft);
+        Text key = null, bind = KeyText("#keybind." + name, parent, r, 22, TextAnchor.MiddleLeft);
 
         var img = Table("Button", bind.transform, new(-64f, 0f, 128f, 32f, new(1f, .5f)), table =>
         {
-            //key = Text(Dialogs.Settings.KeyName(current), table, Size(128f, 32f), size: 16);
+        Image("Button Border", table, new(-64f, 0f, 128f, 32f, new(1f, .5f)), fill: false);
+            key = KeyText(Settings.KeyName(current), table, Size(128f, 32f), 16);
         });
         return Component<Button>(img.gameObject, button =>
         {
             button.targetGraphic = img;
-            //button.onClick.AddListener(() => Dialogs.Settings.Instance.Rebind(name, key, img));
+            button.onClick.AddListener(() => Settings.Instance.Rebind(name, key, img));
         });
     }
 
@@ -348,6 +369,19 @@ public class UIB
         {
             rect.horizontal = horizontal;
             rect.vertical = vertical;
+
+            rect.viewport = Mask("Viewport", rect.transform, Size(r.Width, r.Height)).rectTransform;
+            rect.content = Rect("Content", rect.viewport, Size(contentWidth, contentHeight));
+            rect.content.pivot = new(.5f, 1f);
+        });
+
+    /// <summary> Adds a scroller with content and custom speed. </summary>
+    public static ScrollRect CustSpeedScroll(string name, float speed, Transform transform, Rect r, float contentWidth = 0f, float contentHeight = 0f, bool horizontal = false, bool vertical = true) =>
+        Component<ScrollRect>(Rect(name, transform, r).gameObject, rect =>
+        {
+            rect.horizontal = horizontal;
+            rect.vertical = vertical;
+            rect.scrollSensitivity = speed;
 
             rect.viewport = Mask("Viewport", rect.transform, Size(r.Width, r.Height)).rectTransform;
             rect.content = Rect("Content", rect.viewport, Size(contentWidth, contentHeight));
