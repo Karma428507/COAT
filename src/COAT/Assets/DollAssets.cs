@@ -8,12 +8,14 @@ using UnityEngine.Events;
 
 using COAT.Content;
 using COAT.Net;
-using COAT.Net.Types;
+using COAT.Net.Types.Players;
 using COAT.UI.Menus;
 
 /// <summary> Class that works with the assets bundle of the mod. </summary>
 public class DollAssets
 {
+    public const string V1 = "388594c020ef7c240afc673f062e6425";
+
     /// <summary> Bundle containing assets for player doll. </summary>
     public static AssetBundle Bundle;
 
@@ -52,7 +54,9 @@ public class DollAssets
 
         // cache the shader and the wing textures for future use
         // Error trying to get the wing texture
-        //Shader = AssetHelper.LoadPrefab("cb3828ada2cbefe479fed3b51739edf6").GetComponent<global::V2>().smr.material.shader;
+        // Do this later...
+        //AssetHelper.LoadPrefab(V1).GetComponent<global::PlatformerMovement>();
+        //Shader = AssetHelper.LoadPrefab(V1).GetComponent<global::V2>().smr.material.shader;
         WingTextures = new Texture[5];
         HandTextures = new Texture[4];
         //Log.Error("Shader loaded");
@@ -161,7 +165,7 @@ public class DollAssets
     };
 
     /// <summary> Creates a new player doll from the prefab. </summary>
-    /*public static RemotePlayer CreateDoll()
+    public static RemotePlayer CreateDoll()
     {
         // create a doll from the prefab obtained from the bundle
         var obj = Entities.Mark(Doll);
@@ -188,7 +192,7 @@ public class DollAssets
 
         // add a script to further control the doll
         return obj.AddComponent<RemotePlayer>();
-    }*/
+    }
 
     /// <summary> Returns the hand texture currently in use. Depends on whether the player is in the lobby or not. </summary>
     public static Texture HandTexture(bool feedbacker = true)

@@ -178,7 +178,7 @@ public class Networking
     /// <summary> Kills all players and clears the list of entities. </summary>
     public static void Clear()
     {
-        //EachPlayer(player => player.Kill());
+        EachPlayer(player => player.Kill());
         Entities.Clear();
         Entities[LocalPlayer.Id] = LocalPlayer;
     }

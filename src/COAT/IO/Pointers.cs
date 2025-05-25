@@ -6,14 +6,14 @@ using System.Runtime.InteropServices;
 
 class Pointers
 {
-    public static int RESERVED { get; private set; }
+    public static int RESERVED = 256 * 1024;
     /// <summary> The pointer for the global buffer </summary>
     public static IntPtr Pointer;
     /// <summary> An offset for the buffer </summary>
     public static int Offset;
 
     /// <summary> Allocates the main server's buffer </summary>
-    public static void Allocate() => Pointer = Marshal.AllocHGlobal(256 * 1024);
+    public static void Allocate() => Pointer = Marshal.AllocHGlobal(RESERVED);
 
     /// <summary> Allocates </summary>
     public static IntPtr Allocate(int Bytes)

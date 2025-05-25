@@ -1,6 +1,6 @@
 ﻿namespace COAT.IO;
 
-using NewBlood.Interop;
+using COAT.Content;
 using System;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -53,13 +53,16 @@ public class Writer : IO
     }
     public void Color(Color32 value) => Int(value.rgba);
     public void Enum<T>(T value) where T : Enum => Byte(Convert.ToByte(value));
-    // I'm going to rewrite this when I update the player structure
-    /*public void Player(Team team, byte weapon, byte emoji, byte rps, bool typing)
+    public void Player(Team team, byte weapon, byte emoji, byte rps, bool typing)
     {
         if (weapon == 0xFF) weapon = 0b111111;
         if (emoji == 0xFF) emoji = 0b1111; // null emoji is recorded as 255, but only 4 bits stand out under emoji
 
-        Marshal.WriteInt16(mem, Inc(2), (short)((weapon << 10) | (Convert.ToByte(team) << 7) | (emoji << 3) | (rps << 1) | (typing ? 1 : 0)));
-    }*/
+        Marshal.WriteInt16(memory, Inc(2), (short)((weapon << 10) | (Convert.ToByte(team) << 7) | (emoji << 3) | (rps << 1) | (typing ? 1 : 0)));
+    }
+    public void PlayerCOAT()
+    {
+        // Special COAT data, work on later
+    }
     #endregion
 }

@@ -1,5 +1,6 @@
 ﻿namespace COAT.IO;
 
+using COAT.Content;
 using System;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -45,11 +46,9 @@ public class Reader : IO
     public Vector3 Vector() => new(Float(), Float(), Float());
     public Color32 Color() => new(Byte(), Byte(), Byte(), Byte());
     public T Enum<T>() where T : Enum => (T)System.Enum.ToObject(typeof(T), Byte());
-
-    // I'm going to rewrite this when I update the player structure
-    /*public void Player(out Team team, out byte weapon, out byte emoji, out byte rps, out bool typing)
+    public void Player(out Team team, out byte weapon, out byte emoji, out byte rps, out bool typing)
     {
-        short value = Marshal.ReadInt16(mem, Inc(2));
+        short value = Marshal.ReadInt16(memory, Inc(2));
 
         weapon = (byte)(value >> 10 & 0b111111);
         team = (Team)(value >> 7 & 0b111);
@@ -59,6 +58,10 @@ public class Reader : IO
 
         if (weapon == 0b111111) weapon = 0xFF;
         if (emoji == 0b1111) emoji = 0xFF;
-    }*/
+    }
+    public void PlayerCOAT()
+    {
+        // Special COAT data, work on later
+    }
     #endregion
 }
