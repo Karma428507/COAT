@@ -1,12 +1,12 @@
-/*namespace Jaket.UI.Fragments;
+namespace COAT.UI.Fragments;
 
 using System.Collections.Generic;
 using UnityEngine.UI;
 
-using Jaket.Content;
-using Jaket.Net;
-using Jaket.Net.Types;
-using Jaket.UI.Elements;
+using COAT.Content;
+using COAT.Net;
+using COAT.Net.Types;
+using COAT.UI.Elements;
 
 using static Rect;
 
@@ -69,4 +69,3 @@ public class PlayerInfo : CanvasSingleton<PlayerInfo>
         Events.Post2(UpdateMaterials);
     }
 }
-*/

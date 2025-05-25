@@ -8,14 +8,13 @@ using UnityEngine;
 using UnityEngine.UI;
 
 using COAT.Assets;
-//using Jaket.Content;
+using COAT.Content;
 using COAT.Net;
-//using Jaket.Net.Types;
+using COAT.Net.Types;
 //using Jaket.Sprays;
 using COAT.UI;
 using COAT.UI.Menus;
 using COAT.UI.Overlays;
-//using Jaket.UI.Elements;
 using COAT.UI.Fragments;
 using COAT.Patches;
 
@@ -70,7 +69,7 @@ public class Movement : MonoSingleton<Movement>
         // initialize the singleton
         Tools.Create<Movement>("Movement");
 
-        /*Events.OnLoaded += () =>
+        void LevelHandler()
         {
             // interrupt emoji to prevent some bugs
             Instance.StartEmoji(0xFF, false);
@@ -78,6 +77,9 @@ public class Movement : MonoSingleton<Movement>
             // disable hook and jump at 0-S
             if (Tools.Scene == "Level 0-S")
             {
+                // have this option be setting based
+                // because I hate this
+
                 nm.modNoJump = LobbyController.Online;
                 HookArm.Instance.gameObject.SetActive(LobbyController.Offline);
             }
@@ -88,12 +90,14 @@ public class Movement : MonoSingleton<Movement>
                 CanvasController.Instance.transform.Find("PauseMenu/Restart Mission").GetComponent<Button>().interactable = LobbyController.Offline || LobbyController.IsOwner;
 
                 // disable text override component
-                nm.youDiedText.GetComponents<MonoBehaviour>()[1].enabled = false;
+                //nm.youDiedText.GetComponents<MonoBehaviour>()[1].enabled = false;
             }
-        };
+        }
+
+        Events.OnLoaded += LevelHandler;
 
         // update death screen text to display the number of living players in the Cyber Grind
-        Instance.InvokeRepeating("GridUpdate", 0f, 1f);*/
+        Instance.InvokeRepeating("GridUpdate", 0f, 1f);
     }
 
     private void Update()
@@ -160,24 +164,23 @@ public class Movement : MonoSingleton<Movement>
                 w.Vector(hit.point);
                 w.Vector(hit.normal);
             }, size: 32);
-        }
+        }*/
 
         if (Input.GetKeyDown(Settings.SelfDestruction) && !UI.AnyDialog) nm.GetHurt(4200, false, 0f);
-        if (Input.GetKeyDown(KeyCode.F11)) InteractiveGuide.Instance.Launch();
+        // Hell no, we already have a good UI
+        //if (Input.GetKeyDown(KeyCode.F11)) InteractiveGuide.Instance.Launch();
 
         if (pi.Fire1.WasPerformedThisFrame) targetPlayer--;
         if (pi.Fire2.WasPerformedThisFrame) targetPlayer++;
 
         if (targetPlayer < 0) targetPlayer = LobbyController.Lobby?.MemberCount - 1 ?? 0;
-        if (targetPlayer >= LobbyController.Lobby?.MemberCount) targetPlayer = 0;*/
+        if (targetPlayer >= LobbyController.Lobby?.MemberCount) targetPlayer = 0;
     }
 
-    // Work on WAY later in development
-    /*
     private void LateUpdate() // late update is needed to overwrite the time scale value and camera rotation
     {
         // skateboard logic
-        Skateboard.Instance.gameObject.SetActive(Emoji == 0x0B);
+        /*Skateboard.Instance.gameObject.SetActive(Emoji == 0x0B);
         if (Emoji == 0x0B && !UI.AnyDialog)
         {
             // speed & dash logic
@@ -225,7 +228,7 @@ public class Movement : MonoSingleton<Movement>
 
             // turn to the sides
             player.Rotate(Vector3.up * pi.Move.ReadValue<Vector2>().x * 120f * Time.deltaTime);
-        }
+        }*/
 
         // third person camera
         if (Emoji != 0xFF || (LobbyController.Online && nm.dead && fakeDeath))
@@ -299,27 +302,28 @@ public class Movement : MonoSingleton<Movement>
         } 
         else 
         {
-            if (Plugin.Instance.HasBlacklisted && !LobbyController.IsOwner && !LobbyController.ModsAllowed
+            if (Plugin.Instance.HasBlacklisted && !LobbyController.IsOwner && !LobbyController.ModsAllowed)
             {
                 LobbyController.Lobby?.SendChatString("[#FF7F50][14]\\[BOT][][] FUCK OFF!");
-                LobbyController.LeaveLobby
+                LobbyController.LeaveLobby();
                 Bundle.Hud2NS("lobby.mods");
             }
         }
 
         // fake Cyber Grind///0-S death
-        if (nm.dead && nm.blackScreen.color.a < .4f && fakeDeath)
+        // very complex
+        /*if (nm.dead && nm.blackScreen.color.a < .4f && fakeDeath)
         {
             nm.blackScreen.color = nm.blackScreen.color with { a = nm.blackScreen.color.a + .75f * Time.deltaTime };
             nm.youDiedText.color = nm.youDiedText.color with { a = nm.blackScreen.color.a * 1.25f };
-        }
+        }*/
     }
 
     private void GridUpdate()
     {
         if (LobbyController.Offline || !fakeDeath) return;
 
-        int alive = CyberGrind.PlayersAlive();
+        /*int alive = CyberGrind.PlayersAlive();
         nm.youDiedText.text = Bundle.Format("spect", alive.ToString(), EndlessGrid.Instance ? "#spect.cg" : "#spect.0s");
 
         if (alive > 0) return;
@@ -332,7 +336,7 @@ public class Movement : MonoSingleton<Movement>
                 final.GameOver();
                 Destroy(nm.blackScreen.gameObject);
             }
-        }
+        }*/
     }
 
     public void OnDied()
@@ -343,8 +347,8 @@ public class Movement : MonoSingleton<Movement>
             StartThirdPerson();
             nm.endlessMode = true; // take the death screen under control
 
-            nm.blackScreen.gameObject.SetActive(true);
-            nm.blackScreen.transform.Find("LaughingSkull").gameObject.SetActive(false);
+            //nm.blackScreen.gameObject.SetActive(true);
+            //nm.blackScreen.transform.Find("LaughingSkull").gameObject.SetActive(false);
             nm.screenHud.SetActive(false);
         });
     }
@@ -381,20 +385,20 @@ public class Movement : MonoSingleton<Movement>
         nm.ActivatePlayer();
 
         // the player is currently fighting the Minotaur in the tunnel, the security system or the brain in the Earthmover
-        if (World.TunnelRoomba) nm.transform.position = World.TunnelRoomba.position with { y = -112.5f };
-        if (World.SecuritySystem[0]) nm.transform.position = new(0f, 472f, 745f);
-        if (World.Brain && World.Brain.IsFightActive) nm.transform.position = new(0f, 826.5f, 610f);
+        // Level specific
+        //if (World.TunnelRoomba) nm.transform.position = World.TunnelRoomba.position with { y = -112.5f };
+        //if (World.SecuritySystem[0]) nm.transform.position = new(0f, 472f, 745f);
+        //if (World.Brain && World.Brain.IsFightActive) nm.transform.position = new(0f, 826.5f, 610f);
     }
 
     /// <summary> Respawns Cyber Grind players and launches a screen flash. </summary>
     public void CyberRespawn()
     {
         Respawn(new(0f, 80f, 62.5f), 0f);
-        Teleporter.Instance.Flash();
+        //Teleporter.Instance.Flash();
     }
 
     #endregion
-    */
 
     #region toggling
 
@@ -443,7 +447,7 @@ public class Movement : MonoSingleton<Movement>
     }
 
     /// <summary> Triggers an emoji with the given id. </summary>
-    /*public void StartEmoji(byte id, bool updateState = true)
+    public void StartEmoji(byte id, bool updateState = true)
     {
         EmojiStart = Time.time;
         Emoji = id; // save id to sync it later
@@ -476,7 +480,7 @@ public class Movement : MonoSingleton<Movement>
 
         if (Emoji == 3) LobbyController.Lobby?.SendChatString("#/r" + Rps);
         StartEmoji(0xFF);
-    }*/
+    }
 
     #endregion
     

@@ -1,12 +1,22 @@
-﻿using System;
+﻿namespace COAT.UI.Overlays;
+
+using COAT.Net;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace COAT.UI.Overlays
+public class WIP : CanvasSingleton<WIP>
 {
-    /// <summary> Not actually WIP but an overlay to state COAT is WIP </summary>
-    class WIP
+    private void Start()
     {
-        // well, it is WIP rn...
+        Events.OnLoaded += Toggle;
+
+        // make UI element here
     }
+
+    private void Update()
+    {
+
+    }
+    public void Toggle() => gameObject.SetActive(Shown = LobbyController.Online);
 }

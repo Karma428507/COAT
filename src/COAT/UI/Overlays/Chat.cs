@@ -10,14 +10,13 @@ using UnityEngine.EventSystems;
 using COAT.Assets;
 using COAT.Commands;
 using COAT.Net;
-//using COAT.Net.Types;
-//using COAT.Sam;
+using COAT.Net.Types;
 using COAT.World;
 using COAT.UI.Menus;
+using Sam;
 
 using static Pal;
 using static Rect;
-using Sam;
 
 /// <summary> Front end of the chat, back end implemented via Steamworks. </summary>
 public class Chat : CanvasSingleton<Chat>, IOverlayInterface
@@ -93,10 +92,10 @@ public class Chat : CanvasSingleton<Chat>, IOverlayInterface
         List<string> list = new();
 
         if (Shown) list.Add(Bundle.Get("chat.you"));
-        /*Networking.EachPlayer(player =>
+        Networking.EachPlayer(player =>
         {
             if (player.Typing) list.Add(player.Header.Name);
-        });*/
+        });
 
         // hide the typing label if there is no one in the chat
         typingBg.gameObject.SetActive(list.Count > 0);
@@ -268,14 +267,14 @@ public class Chat : CanvasSingleton<Chat>, IOverlayInterface
     public void ReceiveTTS(string color, Friend author, string msg)
     {
         // play the message in the local player's position if he is its author
-        /*if (author.IsMe)
+        if (author.IsMe)
             SamAPI.TryPlay(msg, Networking.LocalPlayer.Voice);
 
         // or find the author among the other players and play the sound from them
         else if (Networking.Entities.TryGetValue(author.Id.AccountId, out var entity) && entity is RemotePlayer player)
-            SamAPI.TryPlay(msg, player.Voice);*/
+            SamAPI.TryPlay(msg, player.Voice);
 
-        //AudioSource.PlayClipAtPoint(SamAPI.Clip, Vector3 position, float volume = 1.0F);
+        //AudioSource.PlayClipAtPoint(SamAPI.Clip, NewMovement.Instance.transform.position);
 
         Receive(color, TTS_PREFIX + author.Name.Replace("[", "\\["), msg);
     }

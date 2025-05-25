@@ -23,6 +23,26 @@ public class Server : Endpoint, ISocketManager
     public override void Load()
     {
         // Loads all of the listener functions
+        Listen(PacketType.Snapshot, (con, sender, r) =>
+        {
+            var id = r.Id();
+            var type = r.Enum<EntityType>();
+
+            // player can only have one doll and its id should match the player's id
+            if ((id == sender && type != EntityType.Player) || (id != sender && type == EntityType.Player)) return;
+
+            if (!ents.ContainsKey(id) || ents[id] == null)
+            {
+                // double-check on cheats just in case of any custom multiplayer clients existence
+                if (!LobbyController.CheatsAllowed && (type.IsEnemy() || type.IsItem())) return;
+
+                // client cannot create special enemies
+                if (type.IsEnemy() && !type.IsCommonEnemy()) return;
+
+                Administration.Handle(sender, ents[id] = Entities.Get(id, type));
+            }
+            ents[id]?.Read(r);
+        });
 
         // PUT ALL COAT PACKETS BELOW THIS. JUST SO I DONT HAVE TO SEARCH THE MILKYWAY TO FIND A SINGLE FUCKING LIL GUY!!!
         // write down coat client id, then send urs
@@ -42,6 +62,18 @@ public class Server : Endpoint, ISocketManager
     public override void Update()
     {
         Stats.MeasureTime(ref Stats.ReadTime, () => Manager.Receive(512));
+        Stats.MeasureTime(ref Stats.WriteTime, () =>
+        {
+            if (Networking.Loading) return;
+            Networking.EachEntity(entity => Networking.Send(PacketType.Snapshot, w =>
+            {
+                w.Id(entity.Id);
+                w.Enum(entity.Type);
+                entity.Write(w);
+            }));
+        });
+
+        foreach (var con in Manager.Connected) con.Flush();
         Pointers.Reset();
     }
 
@@ -55,8 +87,6 @@ public class Server : Endpoint, ISocketManager
 
         // This set the interface to this class which uses the On functions below
         Manager.Interface = this;
-
-        Log.Debug("Server opened :3");
     }
 
     public void OnConnecting(Connection connection, ConnectionInfo info)
@@ -107,7 +137,6 @@ public class Server : Endpoint, ISocketManager
     {
         Log.Info("Player Connecting");
         Networking.Send(PacketType.Level, World.WriteData, (data, size) => Tools.Send(connection, data, size), size: 256);
-        // Not sure what jaket does but it looks like it sends level info
     }
 
     public void OnDisconnected(Connection connection, ConnectionInfo info)

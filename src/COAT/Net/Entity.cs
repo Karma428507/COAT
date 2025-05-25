@@ -29,11 +29,53 @@ public abstract class Entity : MonoBehaviour
     /// <summary> The heavy will not be sycned </summary>
     public bool Dead;
 
-    // Components to add later
+    // Components
+    public EnemyIdentifier EnemyId;
+    public ItemIdentifier ItemId;
+    public Animator Animator;
+    public Rigidbody Rb;
 
     protected void Init(Func<Entity, EntityType> prov, bool getGeneralComponents = false)
     {
-        // idk what this does but it adds a list if the player owns it or smth
+        Log.Debug($"Initializing an entity with name {name}");
+
+        // do this before calling prov, so as not to break the search of the entity type
+        TryGetComponent(out EnemyId);
+        TryGetComponent(out ItemId);
+
+        // if an entity is marked with this tag, then it was downloaded over the network,
+        // otherwise the entity is local and must be added to the global list
+        if (name != "Net")
+        {
+            var provided = prov(this);
+            if (provided == EntityType.None)
+            {
+                Log.Warning($"Couldn't find the entity type of the object {name}");
+                Destroy(this);
+                return;
+            }
+
+            Id = Entities.NextId();
+            Type = provided;
+            Owner = Tools.AccId;
+
+            name = "Local";
+            Networking.Entities[Id] = this;
+        }
+
+        if (getGeneralComponents)
+        {
+            Animator = GetComponentInChildren<Animator>();
+            Rb = GetComponent<Rigidbody>();
+        }
+    }
+
+    /// <summary> Teleports the entity to the target position and clears its trail. </summary>
+    protected void ClearTrail(TrailRenderer trail, params FloatLerp[] l)
+    {
+        if (IsOwner) return;
+        transform.position = new(l[0].Last = l[0].Target, l[1].Last = l[1].Target, l[2].Last = l[2].Target);
+        trail.Clear();
     }
 
     /// <summary> Writes the entity data to the writer. </summary>
@@ -50,8 +92,7 @@ public abstract class Entity : MonoBehaviour
     public void NetKill()
     {
         Kill(null);
-        // Uncomment when working on the kill entity packet
-        //Networking.Send(PacketType.KillEntity, w => w.Id(Id), size: 4);
+        Networking.Send(PacketType.KillEntity, w => w.Id(Id), size: 4);
     }
 
     // Research later

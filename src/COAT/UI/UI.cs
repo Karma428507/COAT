@@ -16,7 +16,6 @@ using System.Threading.Tasks;
 using COAT.Patches;
 using COAT.Net;
 
-//using Jaket.UI.Fragments;
 //using Jaket.World;
 
 /// <summary> Class that loads and manages the interface of the mod. </summary>
@@ -51,11 +50,12 @@ public class UI
         PlayerList.Build("Player List", false, true);
         Settings.Build("Settings", false, true);
 
-        /*SpraySettings.Build("Spray Settings", false, true);
         Debugging.Build("Debugging Menu", false, false);
-
-        PlayerIndicators.Build("Player Indicators", false, false, scene => scene == "Main Menu");
+        WIP.Build("WIP", false, false);
         PlayerInfo.Build("Player Information", false, false, scene => scene == "Main Menu", () => { if (PlayerInfo.Shown) PlayerInfo.Instance.Toggle(); });
+        /*SpraySettings.Build("Spray Settings", false, true);
+        PlayerIndicators.Build("Player Indicators", false, false, scene => scene == "Main Menu");
+
         EmojiWheel.Build("Emoji Wheel", false, false);
         Skateboard.Build("Skateboard", false, false);
         InteractiveGuide.Build("Interactive Guide", false, false, hide: () => InteractiveGuide.Instance.OfferAssistance());

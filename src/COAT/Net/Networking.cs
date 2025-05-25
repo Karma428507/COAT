@@ -11,7 +11,7 @@ using COAT.Assets;
 using COAT.Content;
 using COAT.IO;
 using COAT.Net.Endpoints;
-using COAT.Net.Types.Players;
+using COAT.Net.Types;
 using COAT.UI.Overlays;
 
 /// <summary> Class responsible for updating endpoints, transmitting packets and managing entities. </summary>
@@ -83,8 +83,6 @@ public class Networking
             if (IsViewing)
                 return;
 
-            Pointers.AllocateGlobal();
-
             Clear(); // destroy all entities, since the player could join from another lobby
             if (LobbyController.IsOwner)
             {
@@ -98,9 +96,9 @@ public class Networking
                 // prevent objects from loading before the scene is loaded
                 Loading = true;
 
-                Networking.MUTEDPLAYERS.Clear();
-                Networking.COATPLAYERS.Clear(); // clear list so then u can update it
-                Networking.COATPLAYERS.Add(Tools.AccId); // add yourself to the list
+                MUTEDPLAYERS.Clear();
+                COATPLAYERS.Clear(); // clear list so then u can update it
+                COATPLAYERS.Add(Tools.AccId); // add yourself to the list
                 Send(PacketType.COAT_Request, w => { w.Id(Tools.AccId); }); // request others id's
             }
         };
@@ -143,7 +141,7 @@ public class Networking
         {
             string LobbyBannedData = LobbyController.Lobby?.GetData("banned");
             string LobbyMutedData = LobbyController.Lobby?.GetData("mute");
-            if (!LobbyBannedData.Contains($"{member.Id.AccountId}") || !LobbyMutedData.Contains($"{member.Id.AccountId}"));
+            if (!LobbyBannedData.Contains($"{member.Id.AccountId}") || !LobbyMutedData.Contains($"{member.Id.AccountId}"))
             {
                 if (message.Length > Chat.MAX_MESSAGE_LENGTH + 8) message = message.Substring(0, Chat.MAX_MESSAGE_LENGTH);
 
@@ -180,7 +178,7 @@ public class Networking
     /// <summary> Kills all players and clears the list of entities. </summary>
     public static void Clear()
     {
-        //EachPlayer(player => player.Kill());
+        EachPlayer(player => player.Kill());
         Entities.Clear();
         Entities[LocalPlayer.Id] = LocalPlayer;
     }

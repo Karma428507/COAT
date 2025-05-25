@@ -1,4 +1,4 @@
-/*namespace Jaket.UI.Elements;
+namespace COAT.UI.Elements;
 
 using UnityEngine;
 using UnityEngine.UI;
@@ -28,6 +28,8 @@ public class PlayerHeader
         float width = Name.Length * 14f + 16f;
         canvas = UIB.WorldCanvas("Header", parent, new(0f, 5f, 0f), build: canvas =>
         {
+            // Add pfp here
+
             UIB.Table("Name", canvas, Size(width, 40f), table => Text = UIB.Text(Name, table, Huge, size: 240));
             Text.transform.localScale /= 10f;
 
@@ -64,4 +66,3 @@ public class PlayerHeader
     /// <summary> Hides the canvas. </summary>
     public void Hide() => canvas.gameObject.SetActive(false);
 }
-*/

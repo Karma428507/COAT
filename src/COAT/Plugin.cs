@@ -66,7 +66,8 @@ public class Plugin : MonoBehaviour
 
         // notify players about the availability of an update so that they no longer whine to me about something not working
         //Version.Check4Update();
-        /*Stats.StartRecord();*/
+        Stats.StartRecord();
+        Pointers.Allocate();
         Tools.CacheAccId();
 
         Commands.Commands.Load();
@@ -77,13 +78,13 @@ public class Plugin : MonoBehaviour
         Items.Load();*/
         DollAssets.Load();
 
-        /*Administration.Load();*/
+        Administration.Load();
         LobbyController.Load();
         Networking.Load();
         Entities.Load();
 
         World.World.Load();
-        //WorldActionsList.Load();*/
+        //WorldActionsList.Load();
         Movement.Load();
         //SprayManager.Load();
 

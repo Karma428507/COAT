@@ -15,38 +15,6 @@ using COAT.UI.Menus;
 //using COAT.World;
 using COAT.IO;
 
-public class SudoLobby
-{
-    public string name;
-    public byte type;
-    public bool pvp;
-    public bool cheats;
-    public bool modded;
-    public bool healBosses;
-
-    public SudoLobby(bool pvp, bool cheats, bool modded, bool healBosses)
-    {
-        name = $"{SteamClient.Name}'s Lobby";
-        type = 0;
-        this.pvp = pvp;
-        this.cheats = cheats;
-        this.modded = modded;
-        this.healBosses = healBosses;
-    }
-
-    public SudoLobby() : this(false, false, true, false) { }
-
-    public void Debug()
-    {
-        Log.Debug($"Sudo lobby {name}\n");
-        Log.Debug($"\tType: {type}\n");
-        Log.Debug($"\tPvP: {pvp}\n");
-        Log.Debug($"\tCheats: {cheats}\n");
-        Log.Debug($"\tMods: {modded}\n");
-        Log.Debug($"\tHeal: {healBosses}\n");
-    }
-}
-
 /// <summary> Lobby controller with several useful methods and properties. </summary>
 public class LobbyController
 {
@@ -176,7 +144,6 @@ public class LobbyController
         {
             Networking.Server.Close();
             Networking.Client.Close();
-            Pointers.Free();
 
             Lobby?.Leave();
             Lobby = null;
@@ -255,4 +222,36 @@ public class LobbyController
     };
 
     #endregion
+}
+
+public class SudoLobby
+{
+    public string name;
+    public byte type;
+    public bool pvp;
+    public bool cheats;
+    public bool modded;
+    public bool healBosses;
+
+    public SudoLobby(bool pvp, bool cheats, bool modded, bool healBosses)
+    {
+        name = $"{SteamClient.Name}'s Lobby";
+        type = 0;
+        this.pvp = pvp;
+        this.cheats = cheats;
+        this.modded = modded;
+        this.healBosses = healBosses;
+    }
+
+    public SudoLobby() : this(false, false, true, false) { }
+
+    public void Debug()
+    {
+        Log.Debug($"Sudo lobby {name}\n");
+        Log.Debug($"\tType: {type}\n");
+        Log.Debug($"\tPvP: {pvp}\n");
+        Log.Debug($"\tCheats: {cheats}\n");
+        Log.Debug($"\tMods: {modded}\n");
+        Log.Debug($"\tHeal: {healBosses}\n");
+    }
 }

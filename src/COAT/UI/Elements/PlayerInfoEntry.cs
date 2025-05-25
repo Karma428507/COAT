@@ -1,10 +1,10 @@
-/*namespace Jaket.UI.Elements;
+namespace COAT.UI.Elements;
 
 using UnityEngine;
 using UnityEngine.UI;
 
-using Jaket.Net.Types;
-using Jaket.UI;
+using COAT.Net.Types;
+using COAT.UI;
 
 using static Pal;
 using static Rect;
@@ -52,4 +52,3 @@ public class PlayerInfoEntry : MonoBehaviour
         overhealth.localPosition = new(-(1f - overhealth.localScale.x) * 262f, -16f, 0f);
     }
 }
-*/

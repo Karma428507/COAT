@@ -21,6 +21,14 @@ public class Client : Endpoint, IConnectionManager
     public override void Load()
     {
         // Loads all of the listener functions
+        Listen(PacketType.Snapshot, r =>
+        {
+            var id = r.Id();
+            var type = r.Enum<EntityType>();
+
+            if (!ents.ContainsKey(id) || ents[id] == null) ents[id] = Entities.Get(id, type);
+            ents[id]?.Read(r);
+        });
         Listen(PacketType.Level, World.ReadData);
         Listen(PacketType.Ban, (con, sender, r) =>
         {
@@ -59,6 +67,16 @@ public class Client : Endpoint, IConnectionManager
     public override void Update()
     {
         Stats.MeasureTime(ref Stats.ReadTime, () => Manager.Receive(256));
+        Stats.MeasureTime(ref Stats.WriteTime, () =>
+        {
+            if (Networking.Loading) return;
+            Networking.EachEntity(entity => Networking.Send(PacketType.Snapshot, w =>
+            {
+                w.Id(entity.Id);
+                w.Enum(entity.Type);
+                entity.Write(w);
+            }));
+        });
 
         Manager.Connection.Flush();
         Pointers.Reset();
