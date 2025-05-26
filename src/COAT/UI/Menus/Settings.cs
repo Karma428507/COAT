@@ -1,25 +1,35 @@
 namespace COAT.UI.Menus;
 
+using System;
+using System.Collections.Generic;
+
 using UnityEngine;
 using UnityEngine.UI;
 
 using COAT.Assets;
 using COAT.World;
+using COAT.Content;
 
 using static Pal;
 using static Rect;
+using COAT.Net;
+using System.Net.Sockets;
 
 /// <summary> Global mod settings not related to the lobby. </summary>
 public class Settings : CanvasSingleton<Settings>, IMenuInterface
 {
     static PrefsManager pm => PrefsManager.Instance;
 
+    /// <summary> The list of personally blacklisted mods for a client, acts as a preset when they make a lobby. </summary>
+    public static List<string> PersonalBlacklistedMods = new(); 
     #region general
 
     /// <summary> Id of the currently selected language. </summary>
     public static int Language;
     /// <summary> 0 - default (depending on whether the player is in the lobby or not), 1 - always green, 2 - always blue/red. </summary>
     public static int FeedColor, KnuckleColor;
+    /// <summary> The team that coat defaults to when u join a lobby. </summary>
+    public static int DefaultTeam;
     /// <summary> Whether freeze frames are disabled. </summary>
     public static bool DisableFreezeFrames;
 
@@ -84,12 +94,22 @@ public class Settings : CanvasSingleton<Settings>, IMenuInterface
     /// <summary> General settings buttons. </summary>
     private Button lang, feed, knkl;
 
+    /// <summary> List of blacklisted mods. </summary>
+    RectTransform content;
+    /// <summary> Default team table. </summary>
+    GameObject Defa;
+    /// <summary> "Default team:" text. </summary>
+    GameObject DTXT;
+    /// <summary> Input field for typing blacklisted mods. </summary>
+    InputField Field;
+
     /// <summary> Loads and applies all settings. </summary>
     public static void Load()
     {
         Language = Bundle.LoadedLocale;
         FeedColor = pm.GetInt("jaket.feed-color");
         KnuckleColor = pm.GetInt("jaket.knkl-color");
+        DefaultTeam = pm.GetInt("COAT.default-team");
         DisableFreezeFrames = pm.GetBool("jaket.disable-freeze", true);
 
         Chat = GetKey("chat", KeyCode.Return);
@@ -110,85 +130,109 @@ public class Settings : CanvasSingleton<Settings>, IMenuInterface
 
     private void Start()
     {
-        // Old settings UI, remove when finish with new UI
-        UIB.Table("General", "#settings.general", transform, Tlw(16f + 328f / 2f, 328f), table =>
-        {
-            UIB.Button("#settings.reset", table, Btn(68f), clicked: ResetGeneral);
-
-            lang = UIB.Button("", table, Btn(116f), clicked: () =>
-            {
-                pm.SetString("jaket.locale", Bundle.Codes[Language = ++Language % Bundle.Codes.Length]);
-                Rebuild();
-            });
-
-            UIB.Text("FEEDBACKER:", table, Btn(164f), align: TextAnchor.MiddleLeft);
-            feed = UIB.Button("", table, Stn(164f, 160f), clicked: () =>
-            {
-                pm.SetInt("jaket.feed-color", FeedColor = ++FeedColor % 3);
-                Rebuild();
-            });
-
-            UIB.Text("KNUCKLE:", table, Btn(212f), align: TextAnchor.MiddleLeft);
-            knkl = UIB.Button("", table, Stn(212f, 160f), clicked: () =>
-            {
-                pm.SetInt("jaket.knkl-color", KnuckleColor = ++KnuckleColor % 3);
-                Rebuild();
-            });
-
-            UIB.Toggle("#settings.freeze", table, Tgl(256f), 20, _ =>
-            {
-                pm.SetBool("jaket.disable-freeze", DisableFreezeFrames = _);
-            }).isOn = DisableFreezeFrames;
-
-            //UIB.Button("#settings.sprays", table, Btn(300f), clicked: SpraySettings.Instance.Toggle);
-        });
-        UIB.Table("Controls", "#settings.controls", transform, Tlw(360f + 576f / 2f, 576f), table =>
-        {
-            UIB.Button("#settings.reset", table, Btn(68f), clicked: ResetControls);
-
-            for (int i = 0; i < Keybinds.Length; i++)
-                UIB.KeyButton(Keybinds[i], CurrentKeys[i], table, Tgl(112f + i * 40f));
-        });
-
-        // New UI
         UIB.Table("Settings", transform, Size(1400f, 800f), table =>
         {
             UIB.Image("Settings Border", table, new(0f, 0f, 1400f, 800f), null, fill: false);
 
-            UIB.Image1("LineBreak", table, new(0f, 207f, 1357f, 4f), Pal.white, null, true);
-            UIB.Text("Settings", table, new(-457f, 231f, 445f, 186f), Pal.white, 24, TextAnchor.MiddleLeft);
+            // All UI above the LineBreak.
+            #region top
+            UIB.IconButton("X", table, new COAT.UI.Rect(630f, 330f, 100f, 100f), red, clicked: UI.PopStack);
 
+            UIB.Table("Settings Text Box", table, new COAT.UI.Rect(-60f, 330f, 1240f, 100f), list => { UIB.Image("Settings Text Box Border", list, new(0, 0, 1240f, 100f), null, fill: false); });
+
+            UIB.Image1("LineBreak", table, new(0f, 277f, 1355f, 4f), Pal.white, null, true);
+            UIB.Text("Settings", table, new(-427f, 333.5f, 445f, 186f), Pal.white, 75, TextAnchor.MiddleLeft);
+            #endregion
+
+            // All UI below the LineBreak.
+            #region bottom
             #region General and Player Apyearence
-            UIB.Table("General", table, new(-457f, 97f, 445f, 186f), server =>
+            UIB.Table("General", table, new(-457f, 161f, 445f, 199f), general =>
             {
-                UIB.Image("General Border", server, new(0f, 0f, 445f, 186f), null, fill: false);
+                UIB.Image("General Border", general, new(0f, 0f, 445f, 199f), null, fill: false);
+                UIB.Text("General", general, new(0f, 69.5f/*this isnt a joke, my calculations made this number*/, 425f, 42f), Pal.white, 48, TextAnchor.MiddleLeft);
+
+                UIB.Button("#settings.reset", general, new(0f, 25f, 425f, 40f), clicked: ResetGeneral);
+
+                lang = UIB.Button("Language", general, new(0f, -25f, 425f, 40f), clicked: () => // this may look like a ctrl+c ctrl+v but.. its actually not. i only realised after that its 1:1
+                {
+                    pm.SetString("jaket.locale", Bundle.Codes[Language = ++Language % Bundle.Codes.Length]); 
+                    Rebuild();
+                });
+
+                UIB.Toggle("#settings.freeze", general, Tgl(171f), 22, _ =>
+                {
+                    pm.SetBool("jaket.disable-freeze", DisableFreezeFrames = _);
+                }).isOn = DisableFreezeFrames;
             });
 
-            UIB.Table("Player Apyearence", table, new(-457f, -195f, 445f, 370f), server =>
+            UIB.Table("Player Apyearence", table, new(-457, -166f, 445f, 427f), playerapyearence =>
             {
-                UIB.Image("Player Apyearence Border", server, new(0f, 0f, 445f, 370f), null, fill: false);
+                UIB.Image("Player Apyearence Border", playerapyearence, new(0f, 0f, 445f, 427f), null, fill: false);
+                UIB.Text("Apyearence", playerapyearence, new(0f, 183.5f, 425f, 42f), Pal.white, 48, TextAnchor.MiddleLeft);
+
+                UIB.Text("FEEDBACKER:", playerapyearence, new(0f, 140f, 405f, 42f), align: TextAnchor.MiddleLeft);
+                feed = UIB.Button("FEEDBACKER:", "", playerapyearence, Wtf(-75f, 240f), clicked: () =>
+                {
+                    pm.SetInt("jaket.feed-color", FeedColor = ++FeedColor % 3);
+                    Rebuild();
+                }); 
+
+                UIB.Text("KNUCKLE:", playerapyearence, new(0f, 92f, 405f, 42f), align: TextAnchor.MiddleLeft);
+                knkl = UIB.Button("KNUCKLE:", "", playerapyearence, Wtf(-123f, 240f), clicked: () =>
+                {
+                    pm.SetInt("jaket.knkl-color", KnuckleColor = ++KnuckleColor % 3);
+                    Rebuild();
+                });
+
+                GetDefaultTeam(out Team enumValue);
+                Defa = UIB.Table("Default Team", playerapyearence, new(0f, -183f, 425f, 40f), enumValue.Color(), team =>
+                {
+                    DTXT = UIB.Text("Default Team:", team, new(0f, 40f, 425f, 40f), enumValue.Color(), 22, TextAnchor.MiddleLeft).gameObject;
+                    team.gameObject.AddComponent<Button>().onClick.AddListener(() => 
+                    {
+                       ChangeDefaultTeamBy(1);
+                       GetDefaultTeam(out Team enumValue);
+
+                       Defa.GetComponentInChildren<Image>().color = enumValue.Color();
+                       DTXT.GetComponent<Text>().color = enumValue.Color();
+                   });
+                }).gameObject;
             });
             #endregion
 
             #region Moderatiun and Modlist
-            UIB.Table("Moderatiun", table, new(0f, 29f, 445f, 322f), server =>
+            UIB.Table("Moderatiun", table, new(0f, 84f, 445f, 352f), moderatiun =>
             {
-                UIB.Image("Moderatiun Border", server, new(0f, 0f, 445f, 322f), null, fill: false);
+                UIB.Image("Moderatiun Border", moderatiun, new(0f, 0f, 445f, 352f), null, fill: false);
+                UIB.Text("Moderatiun", moderatiun, new(0f, 146f, 425f, 42f), Pal.white, 48, TextAnchor.MiddleLeft);
             });
 
-            UIB.Table("Modlist", table, new(0f, -262.5f, 445f, 234f), server =>
+            UIB.Table("Modlist", table, new(0f, -243f, 445f, 274f), modlist =>
             {
-                UIB.Image("Modlist Border", server, new(0f, 0f, 445f, 234f), null, fill: false);
+                UIB.Image("Modlist Border", modlist, new(0f, 0f, 445f, 274f), null, fill: false);
+                UIB.Text("Modlist", modlist, new(0f, 107f, 425f, 42f), Pal.white, 48, TextAnchor.MiddleLeft);
+
+                Field = UIB.Field("Modlist Field", modlist, new(100f, 105f, 212.5f, 40f), 22, OnFocusLost);
+                content = UIB.CustSpeedScroll("Modlist Scroll", 3.625f, modlist, new(0f, -24f, 425f, 206f)).content;
             });
             #endregion
 
-            UIB.Table("Controls", table, new(457f, -95f, 445f, 570f), server =>
+            UIB.Table("Controls", table, new(457f, -60f, 445f, 640f), controls =>
             {
-                UIB.Image("Controls Border", server, new(0f, 0f, 445f, 570f), null, fill: false);
+                UIB.Image("Controls Border", controls, new(0f, 0f, 445f, 640f), null, fill: false);
+                UIB.Text("Controls", controls, new(0f, 290f, 425f, 42f), Pal.white, 48, TextAnchor.MiddleLeft);
+
+                UIB.Button("Reset", "#settings.reset", controls, new(0f, 245f, 425f, 40f), clicked: ResetControls);
+
+                RectTransform ControlsScroll = UIB.Scroll("Controls Scroll", controls, new(0f, -60f, 445f, 520f), 445f, 520f).content;
+                for (int completedkeybinds = 0; completedkeybinds < Keybinds.Length; completedkeybinds++)
+                    UIB.KeyButton(Keybinds[completedkeybinds], CurrentKeys[completedkeybinds], ControlsScroll, new(0f, (-20f + completedkeybinds * -40f) + 260, 400f, 40f));
             });
+            #endregion
         });
 
-        Version.Label(transform);
+        COAT.Version.Label(transform);
         Rebuild();
     }
 
@@ -225,6 +269,20 @@ public class Settings : CanvasSingleton<Settings>, IMenuInterface
         Movement.UpdateState();
     }
 
+    /// <summary> checks if the player presses enter, clicks off, etc. </summary>
+    private void OnFocusLost(string text)
+    {
+        // this code is so cooked so i hid it behind a method lmao
+        Tools.OnFocusLost(
+        () => // OnEnter
+        {
+            Administration.BlacklistMod(text);
+            //PersonalBlacklistedMods.Add("d: " + text);
+            Field.text = "TYPE MOD NAME HERE";
+            Rebuild();
+        });
+    }
+
     /// <summary> Rebuilds the settings to update some labels. </summary>
     public void Rebuild()
     {
@@ -242,7 +300,29 @@ public class Settings : CanvasSingleton<Settings>, IMenuInterface
 
         // update the color of the feedbacker and knuckleblaster
         Events.OnWeaponChanged.Fire();
-    }
+
+        //for (int i = 0; i < 10; i++) this is for debugging
+        //    Administration.BlacklistMod($"e{i}");
+
+        foreach (Transform child in content)
+            Destroy(child.gameObject); // I LOVE DESTORYING CHILDREN!!!!
+
+        // builds the blacklisted mods!! :D
+        int y = 0;
+        foreach (string mod in PersonalBlacklistedMods)
+        {
+            y++;
+            Log.Info($"building mod: {mod}");
+
+            Button button = null;
+            button = UIB.Button(mod, content, new(0f, -20f - (y * 50), 425f, 40f), clicked: () => { Administration.BlacklistMod(mod); Rebuild(); });
+
+            content.sizeDelta = new Vector2(0f, y * 50);
+        }
+
+        foreach (RectTransform child in content)
+            child.anchoredPosition += new Vector2(0f, (y + 2) * 25);
+    } 
 
     // <summary> Starts rebinding the given key. </summary>
     public void Rebind(string path, Text text, Image background)
@@ -255,18 +335,47 @@ public class Settings : CanvasSingleton<Settings>, IMenuInterface
         Rebinding = true;
     }
 
+    private void ChangeDefaultTeamBy(int value)
+    {
+        int previous = pm.GetInt("COAT.default-team");
+        pm.SetInt("COAT.default-team", previous + value);
+    }
+
+    public static void GetDefaultTeam(out Team team)
+    {
+        int DefaultTeamInt = pm.GetInt("COAT.default-team");
+        Team enumValue;
+        if (Enum.IsDefined(typeof(Team), DefaultTeamInt))
+            enumValue = (Team)DefaultTeamInt;
+        else
+        {
+            pm.SetInt("COAT.default-team", 0);
+            enumValue = Team.Yellow;
+        }
+
+        team = enumValue;
+    }
+
     #region reset
 
     private void ResetGeneral()
     {
         pm.SetString("jaket.locale", Bundle.Codes[Bundle.LoadedLocale]);
-        pm.DeleteKey("jaket.feed-color");
-        pm.DeleteKey("jaket.knkl-color");
         pm.DeleteKey("jaket.disable-freeze");
 
         Load();
         Rebuild();
         transform.GetChild(1).GetChild(7).GetComponent<Toggle>().isOn = DisableFreezeFrames;
+    }
+
+    private void ResetApyearence()
+    {
+        pm.DeleteKey("jaket.feed-color");
+        pm.DeleteKey("jaket.knkl-color");
+        pm.SetInt("COAT.default-team", 0);
+
+        Load();
+        Rebuild();
     }
 
     private void ResetControls()

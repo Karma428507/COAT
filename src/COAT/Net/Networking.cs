@@ -12,6 +12,7 @@ using COAT.Content;
 using COAT.IO;
 using COAT.Net.Endpoints;
 using COAT.Net.Types;
+using COAT.UI.Menus;
 using COAT.UI.Overlays;
 
 /// <summary> Class responsible for updating endpoints, transmitting packets and managing entities. </summary>
@@ -101,6 +102,13 @@ public class Networking
                 COATPLAYERS.Add(Tools.AccId); // add yourself to the list
                 Send(PacketType.COAT_Request, w => { w.Id(Tools.AccId); }); // request others id's
             }
+
+            Settings.GetDefaultTeam(out Team team);
+
+            Networking.LocalPlayer.Team = team;
+            Events.OnTeamChanged.Fire();
+
+            if (PlayerList.Shown) PlayerList.Instance.Rebuild();
         };
 
         SteamMatchmaking.OnLobbyMemberJoined += (lobby, member) =>

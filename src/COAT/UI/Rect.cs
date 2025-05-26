@@ -34,6 +34,8 @@ public struct Rect
 
     public static Rect Stn(float y, float shift) => new(shift / 2f, -y, 320f - Mathf.Abs(shift), 40f, new(.5f, 1f));
 
+    public static Rect Wtf(float y, float shift) => new(shift / 2f, y, 320f - Mathf.Abs(160f), 40f, new(.5f, 1f));
+
     public static Rect Tgl(float y) => new(0f, -y, 320f, 32f, new(.5f, 1f));
 
     public static Rect Sld(float y) => new(0f, -y, 320f, 16f, new(.5f, 1f));

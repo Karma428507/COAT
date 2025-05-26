@@ -38,6 +38,10 @@ public class Plugin : MonoBehaviour
     public static readonly string[] Compatible = { "Jaket", "CrosshairColorFixer", "IntroSkip", "Healthbars", "RcHud", "PluginConfigurator", "AngryLevelLoader" };
     /// <summary> Whether at least on incompatible mod is loaded. </summary>
     public bool HasIncompatibility;
+    /// <summary> List of mods that are blacklisted in the lobby. </summary>
+    public static readonly string[] Blacklisted = LobbyController.Lobby?.GetData("BlacklistedMods").Split(' ');
+    /// <summary> Whether at least one blacklisted mod is loaded. </summary>
+    public bool HasBlacklisted;
 
     private void Awake() => DontDestroyOnLoad(Instance = this); // save the instance of the mod for later use and prevent it from being destroyed by the game
 
@@ -92,6 +96,7 @@ public class Plugin : MonoBehaviour
 
         // check if there is any incompatible mods
         HasIncompatibility = Chainloader.PluginInfos.Values.Any(info => !Compatible.Contains(info.Metadata.Name));
+        HasBlacklisted = Chainloader.PluginInfos.Values.Any(info => !Blacklisted.Contains(info.Metadata.Name));
 
         // mark the plugin as initialized and log a message about it
         Initialized = true;

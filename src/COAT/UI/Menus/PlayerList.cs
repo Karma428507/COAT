@@ -23,7 +23,7 @@ public class PlayerList : CanvasSingleton<PlayerList>, IMenuInterface
 {
     private RectTransform content;
     UnityEngine.UI.Image InfoMenu;
-    Transform PlayerListTransform;
+    //Transform PlayerListTransform;
     Friend LastInfoed;
     bool ShowPlayerInfoMenu = false;
 
