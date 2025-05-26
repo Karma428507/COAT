@@ -130,47 +130,6 @@ public class Settings : CanvasSingleton<Settings>, IMenuInterface
 
     private void Start()
     {
-        // Old settings UI, remove when finish with new UI
-        UIB.Table("General", "#settings.general", transform, Tlw(16f + 328f / 2f, 328f), table =>
-        {
-            UIB.Button("#settings.reset", table, Btn(68f), clicked: ResetGeneral);
-
-            lang = UIB.Button("", table, Btn(116f), clicked: () =>
-            {
-                pm.SetString("jaket.locale", Bundle.Codes[Language = ++Language % Bundle.Codes.Length]);
-                Rebuild();
-            });
-
-            UIB.Text("FEEDBACKER:", table, Btn(164f), align: TextAnchor.MiddleLeft);
-            feed = UIB.Button("FEEDBACKER:", "", table, Stn(164f, 160f), clicked: () =>
-            {
-                pm.SetInt("jaket.feed-color", FeedColor = ++FeedColor % 3);
-                Rebuild();
-            });
-
-            UIB.Text("KNUCKLE:", table, Btn(212f), align: TextAnchor.MiddleLeft);
-            knkl = UIB.Button("KNUCKLE:", "", table, Stn(212f, 160f), clicked: () =>
-            {
-                pm.SetInt("jaket.knkl-color", KnuckleColor = ++KnuckleColor % 3);
-                Rebuild();
-            });
-
-            UIB.Toggle("#settings.freeze", table, Tgl(256f), 20, _ =>
-            {
-                pm.SetBool("jaket.disable-freeze", DisableFreezeFrames = _);
-            }).isOn = DisableFreezeFrames;
-
-            //UIB.Button("#settings.sprays", table, Btn(300f), clicked: SpraySettings.Instance.Toggle);
-        });
-        UIB.Table("Controls", "#settings.controls", transform, Tlw(360f + 576f / 2f, 576f), table =>
-        {
-            UIB.Button("#settings.reset", table, Btn(68f), clicked: ResetControls);
-
-            for (int i = 0; i < Keybinds.Length; i++)
-                UIB.KeyButton(Keybinds[i], CurrentKeys[i], table, Tgl(112f + i * 40f));
-        });
-
-        // New UI
         UIB.Table("Settings", transform, Size(1400f, 800f), table =>
         {
             UIB.Image("Settings Border", table, new(0f, 0f, 1400f, 800f), null, fill: false);
