@@ -2,17 +2,17 @@
 
 using BepInEx;
 using BepInEx.Bootstrap;
-using HarmonyLib;
-using System.Linq;
-using UnityEngine;
-using UnityEngine.SceneManagement;
-
 using COAT.Assets;
-using Jaket.Content;
+using COAT.Content;
 using COAT.IO;
 using COAT.Net;
-using Jaket.Sprays;
 using COAT.World;
+using HarmonyLib;
+using Jaket.Sprays;
+using System.Linq;
+using UnityEngine;
+using UnityEngine.AddressableAssets;
+using UnityEngine.SceneManagement;
 
 /// <summary> Bootloader class needed to avoid destroying the mod by the game. </summary>
 [BepInPlugin("Karma.Coat", "COAT", Version.CURRENT)]
@@ -72,10 +72,10 @@ public class Plugin : MonoBehaviour
 
         Commands.Commands.Load();
         Bundle.Load();
-        /*Enemies.Load();
-        Weapons.Load();
-        Bullets.Load();
-        Items.Load();*/
+        //Enemies.Load();
+        //Weapons.Load();
+        Bullets.Load(); // NOT EVEN qwq
+        //Items.Load();
         DollAssets.Load();
 
         Administration.Load();

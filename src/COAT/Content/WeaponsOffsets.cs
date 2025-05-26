@@ -1,4 +1,4 @@
-namespace Jaket.Content;
+namespace COAT.Content;
 
 using UnityEngine;
 

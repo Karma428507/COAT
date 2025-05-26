@@ -54,12 +54,11 @@ public class UI
         WIP.Build("WIP", false, false);
         PlayerInfo.Build("Player Information", false, false, scene => scene == "Main Menu", () => { if (PlayerInfo.Shown) PlayerInfo.Instance.Toggle(); });
         /*SpraySettings.Build("Spray Settings", false, true);
-        PlayerIndicators.Build("Player Indicators", false, false, scene => scene == "Main Menu");
+        PlayerIndicators.Build("Player Indicators", false, false, scene => scene == "Main Menu");*/
 
         EmojiWheel.Build("Emoji Wheel", false, false);
         Skateboard.Build("Skateboard", false, false);
-        InteractiveGuide.Build("Interactive Guide", false, false, hide: () => InteractiveGuide.Instance.OfferAssistance());
-        Teleporter.Build("Teleporter", false, false, hide: () => { });*/
+        Teleporter.Build("Teleporter", false, false, hide: () => { });
 
         // For overlay UI only
         OverlayList.Add(Chat.Instance);

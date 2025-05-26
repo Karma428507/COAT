@@ -1,9 +1,9 @@
-/*namespace Jaket.UI.Fragments;
+namespace COAT.UI.Fragments;
 
 using UnityEngine;
 using UnityEngine.UI;
 
-using Jaket.World;
+using COAT.World;
 
 using static Pal;
 
@@ -54,4 +54,3 @@ public class Teleporter : CanvasSingleton<Teleporter>
         if (Tools.Scene == "Level 7-4") Tools.ObjFind(insideEarthmover ? "InsideActivator" : "OutsideActivator").GetComponent<ObjectActivator>().Activate();
     }
 }
-*/

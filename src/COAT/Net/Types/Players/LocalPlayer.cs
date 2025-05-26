@@ -1,7 +1,9 @@
 ﻿namespace COAT.Net.Types;
 
+using COAT.Assets;
 using COAT.Content;
 using COAT.IO;
+using COAT.UI;
 using COAT.UI.Overlays;
 using COAT.World;
 using Steamworks.Ugc;
@@ -43,6 +45,57 @@ public class LocalPlayer : Entity
         Voice = gameObject.AddComponent<AudioSource>();
     }
 
+    private void Update() => Stats.MTE(() =>
+    {
+        if (HeldItem == null || HeldItem.IsOwner) return;
+        HeldItem = null;
+
+        fc.currentPunch.ForceThrow();
+        fc.currentPunch.PlaceHeldObject(new ItemPlaceZone[0], null);
+    });
+
+    #region special
+
+    /// <summary> Synchronizes the suit of the local player. </summary>
+    public void SyncSuit() => Networking.Send(PacketType.Style, w =>
+    {
+        w.Id(Id);
+        if (cw?.GetComponentInChildren<GunColorGetter>()?.TryGetComponent<Renderer>(out var renderer) ?? false)
+        {
+            bool custom = renderer.material.name.Contains("Custom");
+            w.Bool(custom);
+
+            if (custom) UIB.Properties(renderer, block =>
+            {
+                w.Color(block.GetColor("_CustomColor1"));
+                w.Color(block.GetColor("_CustomColor2"));
+                w.Color(block.GetColor("_CustomColor3"));
+            });
+        }
+        else w.Bool(false);
+    }, size: 17);
+
+    /// <summary> Caches the id of the current weapon and paints the hands of the local player. </summary>
+    public void UpdateWeapons()
+    {
+        weapon = Weapons.Type();
+        is44 = Tools.Scene == "Level 4-4";
+
+        if (LobbyController.Online) SyncSuit();
+
+        // according to the lore, the player plays for V3, so we need to paint the hands
+        var punch = fc.transform.Find("Arm Blue(Clone)");
+        if (punch) punch.GetComponentInChildren<SkinnedMeshRenderer>().material.mainTexture = DollAssets.HandTexture();
+
+        var right = cw?.transform.GetChild(0).Find("RightArm");
+        if (right) right.GetComponentInChildren<SkinnedMeshRenderer>().material.mainTexture = DollAssets.HandTexture();
+
+        var knuckle = fc.transform.Find("Arm Red(Clone)");
+        if (knuckle) knuckle.GetComponentInChildren<SkinnedMeshRenderer>().material.mainTexture = DollAssets.HandTexture(false);
+    }
+
+    #endregion
+
     public override void Read(Reader r)
     {
         // No need to read because LocalPlayer is it's own thing
@@ -70,5 +123,17 @@ public class LocalPlayer : Entity
             nm.ridingRocket != null,
             Hook != Vector3.zero,
             fc.shopping);
+    }
+
+    public override void Damage(Reader r)
+    {
+        var team = r.Enum<Team>();
+        if (!nm.dead && !team.Ally()) // no need to deal damage if an ally hits you
+        {
+            float mul = Bullets.Types[r.Byte()] == "drill" ? ((skip = !skip) ? 0f : 1f) : 4f;
+
+            nm.GetHurt(Mathf.CeilToInt(r.Float() * mul), false, 0f);
+            if (nm.dead) LobbyController.Lobby?.SendChatString("#/s" + (byte)team);
+        }
     }
 }

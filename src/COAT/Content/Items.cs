@@ -1,13 +1,13 @@
-/*namespace Jaket.Content;
+namespace COAT.Content;
 
 using HarmonyLib;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-using Jaket.Assets;
-using Jaket.Net;
-using Jaket.Net.Types;
+using COAT.Assets;
+using COAT.Net;
+using COAT.Net.Types;
 
 /// <summary> List of all items in the game and some useful methods. </summary>
 public class Items
@@ -24,8 +24,12 @@ public class Items
         };
         Events.OnLobbyEntered += () => Events.Post2(SyncAll);
 
-        foreach (var name in GameAssets.Items) Prefabs.Add(GameAssets.Item(name).transform);
-        foreach (var name in GameAssets.Plushies) Prefabs.Add(GameAssets.Plushy(name).transform);
+
+
+        // Issue getting the first item
+        //foreach (var name in GameAssets.Items) Prefabs.Add(GameAssets.Item(name).transform);
+        // Wrong path name
+        //foreach (var name in GameAssets.Plushies) Prefabs.Add(GameAssets.Plushie(name).transform);
     }
 
     /// <summary> Finds the entity type by item class and first/last child name. </summary>
@@ -97,4 +101,3 @@ public static class ItemExtensions
     /// <summary> Whether the item is placed on an altar. </summary>
     public static bool Placed(this ItemIdentifier itemId) => itemId.transform.parent?.gameObject.layer == 22; // item layer
 }
-*/

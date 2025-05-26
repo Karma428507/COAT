@@ -1,11 +1,11 @@
-/*namespace Jaket.Patches;
+namespace COAT.Patches;
 
 using HarmonyLib;
 using UnityEngine;
 
-using Jaket.Content;
-using Jaket.Net;
-using Jaket.Net.Types;
+using COAT.Content;
+using COAT.Net;
+using COAT.Net.Types;
 
 [HarmonyPatch]
 public class CommonBulletsPatch
@@ -192,4 +192,3 @@ public class EntityBulletsPatch
     [HarmonyPatch(typeof(Cannonball), nameof(Cannonball.Unlaunch))]
     static void CannonballHook(Cannonball __instance) => __instance.GetComponent<Bullet>()?.TakeOwnage();
 }
-*/

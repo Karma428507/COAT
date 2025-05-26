@@ -1,11 +1,12 @@
-/*namespace Jaket.Net;
+namespace COAT.Net;
 
 using System.Collections.Generic;
 using UnityEngine;
 
-using Jaket.Content;
-using Jaket.Net.Types;
+using COAT.Content;
+using COAT.Net.Types;
 
+// I'm not touching this...
 /// <summary> List of all living coins and methods for finding targets. </summary>
 public class Coins
 {
@@ -115,4 +116,3 @@ public class Coins
         lr.startColor = lr.endColor = team.Color();
     }
 }
-*/

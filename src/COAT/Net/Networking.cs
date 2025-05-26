@@ -136,14 +136,14 @@ public class Networking
             {
                 if (entity is OwnableEntity oe && oe.Owner == member.Id.AccountId) oe.TakeOwnage();
             });*/
-
-            /*SteamMatchmaking.OnLobbyMemberKicked += (lobby, member) =>
-            {
-                if (!Administration.Banned.Contains(member?.Id.AccountId)) return;
-
-                Bundle.Hud("player.kicked", true, member?.Id.AccountId);
-            }*/
         };
+
+        /*SteamMatchmaking.OnLobbyMemberKicked += (lobby, member) =>
+        {
+            if (!Administration.Banned.Contains(member?.Id.AccountId)) return;
+
+            Bundle.Hud("player.kicked", true, member?.Id.AccountId);
+        }*/
 
         SteamMatchmaking.OnChatMessage += (lobby, member, message) =>
         {
@@ -213,8 +213,8 @@ public class Networking
         List<uint> toRemove = new();
 
         Entities.Values.DoIf(e => e == null || (e.Dead && e.LastUpdate < Time.time - 1f && !e.gameObject.activeSelf), e => toRemove.Add(e.Id));
-        /*if (DeadBullet.Instance.LastUpdate < Time.time - 1f)
-            Entities.DoIf(pair => pair.Value == DeadBullet.Instance, pair => toRemove.Add(pair.Key));*/
+        if (DeadBullet.Instance.LastUpdate < Time.time - 1f)
+            Entities.DoIf(pair => pair.Value == DeadBullet.Instance, pair => toRemove.Add(pair.Key));
 
         toRemove.ForEach(id => Entities.Remove(id));
     }

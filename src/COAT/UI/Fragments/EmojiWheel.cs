@@ -1,10 +1,10 @@
-/*namespace Jaket.UI.Fragments;
+namespace COAT.UI.Fragments;
 
 using UnityEngine;
 using UnityEngine.UI.Extensions;
 
-using Jaket.Assets;
-using Jaket.World;
+using COAT.Assets;
+using COAT.World;
 
 using static System.Array;
 using static Rect;
@@ -107,7 +107,7 @@ public class EmojiWheel : CanvasSingleton<EmojiWheel>
     /// <summary> Shows the emoji wheel and resets the selected segment. </summary>
     public void Show()
     {
-        if (!Shown) UI.HideCentralGroup();
+        //if (!Shown) UI.HideCentralGroup();
 
         gameObject.SetActive(Shown = true);
         Movement.UpdateState();
@@ -132,4 +132,3 @@ public class EmojiWheel : CanvasSingleton<EmojiWheel>
         if (selected != 4) Movement.Instance.StartEmoji((byte)(Second ? selected + 6 : selected));
     }
 }
-*/

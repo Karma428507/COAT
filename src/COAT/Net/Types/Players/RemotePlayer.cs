@@ -4,11 +4,6 @@ using COAT.Assets;
 using COAT.Content;
 using COAT.IO;
 using COAT.UI.Elements;
-using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Text;
-using System.Xml;
 using UnityEngine;
 
 public class RemotePlayer : Entity
@@ -59,7 +54,7 @@ public class RemotePlayer : Entity
             // or destroy it if the animation has started
             else foreach (Transform child in Doll.Hand) Destroy(child.gameObject);
         };
-        //Header = new(Owner = Id, transform);
+        Header = new(Owner = Id, transform);
         tag = "Enemy";
 
         EnemyId.weakPoint = Doll.Head.gameObject;
@@ -77,7 +72,7 @@ public class RemotePlayer : Entity
 
     private void Update() => Stats.MTE(() =>
     {
-        //Header.Update(Health, Typing);
+        Header.Update(Health, Typing);
         if (Animator == null) // the HEAVY is dead
         {
             if (Health != 0) Destroy(gameObject); // the player has respawned, the doll needs to be recreated
@@ -124,7 +119,7 @@ public class RemotePlayer : Entity
     /// <summary> Plays the punching animation and creates a shockwave as needed. </summary>
     public void Punch(Reader r)
     {
-        /*var field = Tools.Field<Harpoon>("target");
+        var field = Tools.Field<Harpoon>("target");
         foreach (var harpoon in FindObjectsOfType<Harpoon>())
             if ((field.GetValue(harpoon) as EnemyIdentifierIdentifier)?.eid == EnemyId) Bullets.Punch(harpoon, false);
 
@@ -143,15 +138,15 @@ public class RemotePlayer : Entity
                 shock.name = "Net";
                 shock.force = r.Float();
                 break;
-        }*/
+        }
     }
 
     /// <summary> Creates a pointer that will draw a line from itself to the player. </summary>
     public void Point(Reader r)
     {
         // Worry later
-        //if (Pointer != null) Pointer.Lifetime = 4.5f;
-        //Pointer = Pointer.Spawn(Team, r.Vector(), r.Vector(), transform);
+        if (Pointer != null) Pointer.Lifetime = 4.5f;
+        Pointer = Pointer.Spawn(Team, r.Vector(), r.Vector(), transform);
     }
 
     #endregion

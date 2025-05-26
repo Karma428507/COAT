@@ -22,7 +22,7 @@ public class GameAssets
 
     /// <summary> List of internal names of all items. </summary>
     public static readonly string[] Items = new[]
-    { ".Apple Bait", ".Maurice Bait", "SkullBlue", "SkullRed", "Soap", "Torch", "Florp Throwable" };
+    { "Apple Bait", "Maurice Bait", "SkullBlue", "SkullRed", "Soap", "Torch", "Florp Throwable" };
 
     /// <summary> List of internal names of all dev plushies. </summary>
     public static readonly string[] Plushies = new[]
@@ -39,32 +39,51 @@ public class GameAssets
         "Cameron", "Gianni", "Salad", "Mandy", "Joy", "Weyte", "Heckteck", "Hakita", "Lenval", "CabalCrow",
         "Quetzal", "John", "Pitr", "BJ", "Francis", "Vvizard", "Lucas", "Scott", "KGC", "V1"
     };
+    #region tools
 
-    /// <summary> Loads an enemy prefab by name. </summary>
-    public static GameObject Enemy(string name) => AssetHelper.LoadPrefab($"Assets/Prefabs/Enemies/{name}.prefab");
+    private static GameObject Prefab(string name) => AssetHelper.LoadPrefab($"Assets/Prefabs/{name}.prefab");
 
-    /// <summary> Loads an item prefab by name. </summary>
-    public static GameObject Item(string name) =>
-        AssetHelper.LoadPrefab($"Assets/Prefabs/{(name.StartsWith(".") ? $"Fishing/{name.Substring(1)}" : $"Items/{name}")}.prefab");
+    //private static void Material(string name, Cons<Material> cons) => Addressables.LoadAssetAsync<Material>($"Assets/Models/{name}.mat").Task.ContinueWith(t => cons(t.Result));
 
-    /// <summary> Loads a dev plushy prefab by name. </summary>
-    public static GameObject Plushy(string name) =>
-        AssetHelper.LoadPrefab($"Assets/Prefabs/Items/DevPlushies/DevPlushie{(name.StartsWith(".") ? name.Substring(1) : $" ({name})")}.prefab");
+    #endregion
+    #region loading
+
+    public static GameObject Enemy(string name) => Prefab($"Enemies/{name}");
+
+    public static GameObject Item(string name) => Prefab($"Items/{name}");
+
+    public static GameObject Bait(string name) => Prefab($"Fishing/{name}");
+
+    public static GameObject Fish(string name) => Prefab($"Fishing/Fishes/{name}");
+
+    public static GameObject Plushie(string name) => Prefab($"Items/DevPlushies/DevPlushie{(name.StartsWith(".") ? name.Substring(1) : $" ({name})")}");
 
     /// <summary> Loads the torch prefab. </summary>
-    public static GameObject Torch() => AssetHelper.LoadPrefab("Assets/Prefabs/Levels/Interactive/Altar (Torch) Variant.prefab");
+    public static GameObject Torch() => Prefab("Levels/Interactive/Altar (Torch) Variant");
 
     /// <summary> Loads the blast explosion prefab. </summary>
-    public static GameObject Blast() => AssetHelper.LoadPrefab("Assets/Prefabs/Attacks and Projectiles/Explosions/Explosion Wave.prefab");
+    public static GameObject Blast() => Prefab("Attacks and Projectiles/Explosions/Explosion Wave");
+
+    /// <summary> Loads the harmless explosion prefab. </summary>
+    public static GameObject Harmless() => Prefab("Attacks and Projectiles/Explosions/Explosion Harmless");
 
     /// <summary> Loads the shotgun pickup prefab. </summary>
-    public static GameObject Shotgun() => AssetHelper.LoadPrefab("Assets/Prefabs/Weapons/Pickups/ShotgunPickUp.prefab");
+    public static GameObject Shotgun() => Prefab("Weapons/Pickups/ShotgunPickUp");
+
+    /// <summary> Loads the squeaky toy sound prefab. </summary>
+    public static GameObject Squeaky() => AssetHelper.LoadPrefab("Assets/Particles/SoundBubbles/SqueakyToy.prefab");
+
+    /// <summary> Loads the fish pickup prefab. </summary>
+    public static GameObject FishTemplate() => Prefab("Fishing/Fish Pickup Template");
 
     /// <summary> Loads a swordsmachine material by name. </summary>
-    public static void SwordsMaterial(string name, Renderer output) =>
-        Addressables.LoadAssetAsync<Material>($"Assets/Models/Enemies/SwordsMachine/{name}.mat").Task.ContinueWith(task => output.material = task.Result);
+    //public static void SwordsMaterial(string name, Renderer output) => Material($"Enemies/SwordsMachine/{name}", mat => output.material = mat);
 
     /// <summary> Loads an insurrectionist material by name. </summary>
-    public static void SisyMaterial(string name, Renderer[] output) =>
-        Addressables.LoadAssetAsync<Material>($"Assets/Models/Enemies/Sisyphus/{name}.mat").Task.ContinueWith(task => output[0].material = output[1].material = task.Result);
+    //public static void SisyMaterial(string name, Renderer[] output) => Material($"Enemies/Sisyphus/{name}", mat => output[0].material = output[1].material = mat);
+
+    /// <summary> Loads a Gabriel voice line by name. </summary>
+    //public static void GabLine(string name, Cons<AudioClip> output) => Sound($"Voices/Gabriel/{name}.ogg", output);
+
+    #endregion
 }

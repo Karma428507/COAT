@@ -1,4 +1,4 @@
-/*namespace Jaket.Content;
+namespace COAT.Content;
 
 using COAT;
 using System.Collections.Generic;
@@ -77,8 +77,8 @@ public class Weapons
     /// <summary> Recursively iterates through all children of the transform and changes their layer to Outdoors. </summary>
     public static void FixLayer(Transform transform)
     {
+        // idk what this is used for :P
         transform.gameObject.layer = 25;
         foreach (Transform child in transform) FixLayer(child);
     }
 }
-*/

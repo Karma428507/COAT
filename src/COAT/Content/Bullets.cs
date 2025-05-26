@@ -1,12 +1,12 @@
-/*namespace Jaket.Content;
+namespace COAT.Content;
 
 using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-using Jaket.IO;
-using Jaket.Net;
-using Jaket.Net.Types;
+using COAT.IO;
+using COAT.Net;
+using COAT.Net.Types;
 
 /// <summary> List of all bullets in the game and some useful methods. </summary>
 public class Bullets
@@ -19,13 +19,13 @@ public class Bullets
     /// <summary> List of all synchronized damage types. </summary>
     public static string[] Types = new[]
     {
-        / * hitscan * / "revolver", "railcannon", "coin",
-        /* shotgun * / "shotgun", "shotgunzone", "chainsaw", "chainsawzone", "chainsawbounce", "chainsawprojectile", "hammer",
-        /* other * / "nail", "sawblade", "cannonball",
-        /* drill * / "harpoon", "drill", "drillpunch",
-        /* environmental* / "explosion", "aftershock", "zapper",
-        /* melee * / "punch", "heavypunch", "ground slam", "hook",
-        /* parry * / "projectile", "enemy"
+        /* hitscan */ "revolver", "railcannon", "coin",
+        /* shotgun */ "shotgun", "shotgunzone", "chainsaw", "chainsawzone", "chainsawbounce", "chainsawprojectile", "hammer",
+        /* other */ "nail", "sawblade", "cannonball",
+        /* drill */ "harpoon", "drill", "drillpunch",
+        /* environmental*/ "explosion", "aftershock", "zapper",
+        /* melee */ "punch", "heavypunch", "ground slam", "hook",
+        /* parry */ "projectile", "enemy" // will need to add schism bullet type
     };
 
     /// <summary> Loads all bullets for future use. </summary>
@@ -37,6 +37,7 @@ public class Bullets
             Prefabs.Add(bullet);
             bullet.name = name;
         }
+
         int rv = 0, ng = 0, rc = 0;
         foreach (var weapon in Weapons.Prefabs)
         {
@@ -104,8 +105,8 @@ public class Bullets
         obj.transform.position = r.Vector();
         obj.transform.eulerAngles = r.Vector();
 
-        if (r.Length == 27) Coins.PaintBeam(obj, r.Enum<Team>());
-        if (r.Length == 38) obj.GetComponent<Rigidbody>().velocity = r.Vector();
+        if (r.length == 27) Coins.PaintBeam(obj, r.Enum<Team>());
+        if (r.length == 38) obj.GetComponent<Rigidbody>().velocity = r.Vector();
     }
     public static Entity EInstantiate(EntityType type) => Entities.Mark(Prefabs[type switch
     {
@@ -243,4 +244,3 @@ public class Bullets
 
     #endregion
 }
-*/

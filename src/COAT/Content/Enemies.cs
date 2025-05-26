@@ -1,13 +1,13 @@
-/*namespace Jaket.Content;
+namespace COAT.Content;
 
 using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-using Jaket.Assets;
-using Jaket.IO;
-using Jaket.Net;
-using Jaket.Net.Types;
+using COAT.Assets;
+using COAT.IO;
+using COAT.Net;
+using COAT.Net.Types;
 
 /// <summary> List of all enemies in the game and some useful methods. </summary>
 public class Enemies
@@ -23,23 +23,29 @@ public class Enemies
     /// <summary> Loads all enemies for future use. </summary>
     public static void Load()
     {
+        Log.Error("Loading enemies");
+
         Events.OnLoaded += () =>
         {
             int length = GameAssets.Enemies.Length; // custom enemy was added to the prefabs list
             if (Prefabs.Count != length) Prefabs.RemoveRange(length, Prefabs.Count - length);
         };
 
+        Log.Error("Checks enemy list");
+
         foreach (var name in GameAssets.Enemies) Prefabs.Add(GameAssets.Enemy(name).GetComponentInChildren<EnemyIdentifier>());
 
-        for (var type = EntityType.Filth; type <= EntityType.Puppet; type++) Types[type] = typeof(SimpleEnemy);
-        Types[EntityType.Insurrectionist] = typeof(Insurrectionist);
-        Types[EntityType.Swordsmachine] = typeof(Swords);
+        Log.Error("Getting enemy names through assets done");
+
+        for (var type = EntityType.Filth; type <= EntityType.Puppet; type++) Types[type] = typeof(global::Enemy);
+        Types[EntityType.Insurrectionist] = typeof(Sisyphus); // bruh...
+        Types[EntityType.Swordsmachine] = typeof(SwordsMachine);
         Types[EntityType.V2] = typeof(V2);
         Types[EntityType.V2_GreenArm] = typeof(V2);
         Types[EntityType.Sentry] = typeof(Turret);
         Types[EntityType.Gutterman] = typeof(Gutterman);
-        Types[EntityType.MaliciousFace] = typeof(Body);
-        Types[EntityType.HideousMass] = typeof(Shrimp);
+        Types[EntityType.MaliciousFace] = typeof(SpiderBody);
+        Types[EntityType.HideousMass] = typeof(Mass); // shrimp was such a good name qwq
         Types[EntityType.Idol] = typeof(Idol);
         Types[EntityType.Gabriel] = typeof(Gabriel);
         Types[EntityType.Gabriel_Angry] = typeof(Gabriel);
@@ -90,8 +96,9 @@ public class Enemies
     {
         if (LobbyController.Offline || enemyId.dead || enemyId.name == "Net") return true;
 
+        // worry about syncing later
         // levels 2-4, 5-4, 7-1 and 7-4 contain unique bosses that needs to be dealt with separately
-        if (Tools.Scene == "Level 2-4" && enemyId.name == "MinosArm")
+        /*if (Tools.Scene == "Level 2-4" && enemyId.name == "MinosArm")
         {
             enemyId.gameObject.AddComponent<Hand>();
             return true;
@@ -115,7 +122,7 @@ public class Enemies
         {
             enemyId.gameObject.AddComponent<Brain>();
             return true;
-        }
+        }*/
 
         if (LobbyController.IsOwner || enemyId.TryGetComponent<Sandbox.SandboxEnemy>(out _))
         {
@@ -181,4 +188,3 @@ public class Enemies
         if (target != NewMovement.Instance.transform) enemyId.target = new(target);
     });
 }
-*/
