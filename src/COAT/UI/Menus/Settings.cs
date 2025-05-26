@@ -20,9 +20,6 @@ public class Settings : CanvasSingleton<Settings>, IMenuInterface
 {
     static PrefsManager pm => PrefsManager.Instance;
 
-    RectTransform content;
-    InputField Field;
-
     /// <summary> The list of personally blacklisted mods for a client, acts as a preset when they make a lobby. </summary>
     public static List<string> PersonalBlacklistedMods = new(); 
     #region general
@@ -96,6 +93,15 @@ public class Settings : CanvasSingleton<Settings>, IMenuInterface
     private string path; Text text; Image background;
     /// <summary> General settings buttons. </summary>
     private Button lang, feed, knkl;
+
+    /// <summary> List of blacklisted mods. </summary>
+    RectTransform content;
+    /// <summary> Default team table. </summary>
+    GameObject Defa;
+    /// <summary> "Default team:" text. </summary>
+    GameObject DTXT;
+    /// <summary> Input field for typing blacklisted mods. </summary>
+    InputField Field;
 
     /// <summary> Loads and applies all settings. </summary>
     public static void Load()
@@ -220,24 +226,19 @@ public class Settings : CanvasSingleton<Settings>, IMenuInterface
                     Rebuild();
                 });
 
-                int DefaultTeamInt = pm.GetInt("COAT.default-team");
-                Team enumValue;
-                if (Enum.IsDefined(typeof(Team), DefaultTeamInt))
-                    enumValue = (Team)DefaultTeamInt;
-                else
-                { pm.SetInt("COAT.default-team", 0); enumValue = Team.Yellow; }
-
-                UIB.Table("Default Team", playerapyearence, new(0f, -183f, 425f, 40f), enumValue.Color(), team =>
+                GetDefaultTeam(out Team enumValue);
+                Defa = UIB.Table("Default Team", playerapyearence, new(0f, -183f, 425f, 40f), enumValue.Color(), team =>
                 {
-                    Text text = UIB.Text("Default Team:", team, new(0f, 40f, 425f, 40f), enumValue.Color(), 22, TextAnchor.MiddleLeft);
+                    DTXT = UIB.Text("Default Team:", team, new(0f, 40f, 425f, 40f), enumValue.Color(), 22, TextAnchor.MiddleLeft).gameObject;
                     team.gameObject.AddComponent<Button>().onClick.AddListener(() => 
                     {
-                       SetDefaultTeam(enumValue);
+                       ChangeDefaultTeamBy(1);
+                       GetDefaultTeam(out Team enumValue);
 
-                       team.gameObject.GetComponentInChildren<Image>().color = enumValue.Color();
-                       text.GetComponent<Text>().color = enumValue.Color();
+                       Defa.GetComponentInChildren<Image>().color = enumValue.Color();
+                       DTXT.GetComponent<Text>().color = enumValue.Color();
                    });
-                });
+                }).gameObject;
             });
             #endregion
 
@@ -375,7 +376,26 @@ public class Settings : CanvasSingleton<Settings>, IMenuInterface
         Rebinding = true;
     }
 
-    private void SetDefaultTeam(Team team) => pm.SetInt("COAT.default-team", (int)team);
+    private void ChangeDefaultTeamBy(int value)
+    {
+        int previous = pm.GetInt("COAT.default-team");
+        pm.SetInt("COAT.default-team", previous + value);
+    }
+
+    public static void GetDefaultTeam(out Team team)
+    {
+        int DefaultTeamInt = pm.GetInt("COAT.default-team");
+        Team enumValue;
+        if (Enum.IsDefined(typeof(Team), DefaultTeamInt))
+            enumValue = (Team)DefaultTeamInt;
+        else
+        {
+            pm.SetInt("COAT.default-team", 0);
+            enumValue = Team.Yellow;
+        }
+
+        team = enumValue;
+    }
 
     #region reset
 

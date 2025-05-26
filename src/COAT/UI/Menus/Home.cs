@@ -62,12 +62,12 @@ public class Home : CanvasSingleton<Home>, IMenuInterface
 
             misc = UIB.Table("OptionList", table, new COAT.UI.Rect(510f, -90f, 340, 580f), list =>
             {
+                UIB.Image(name, list, new(0, 0, 340, 580f), null, fill: false);
+
                 float height = (4 * 88) + 24f;
                 float y = 40;
 
-                UIB.Image(name, list, new(0, 0, 340, 580f), null, fill: false);
-
-                optionList = UIB.Scroll("List", list, new(0f, 0, 340f, 580f)).content;
+                optionList = UIB.Scroll("List", list, new(0f, 0, 340f, 573f)).content;
                 optionList.sizeDelta = new(336f, height - 28f);
 
                 UIB.Button("Settings", optionList, new(0, y -= 88, 320f, 80f, new(.5f, 1f)),

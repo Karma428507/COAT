@@ -38,7 +38,7 @@ public class Administration
     private static Tree plushies = new();
 
     /// <summary> List of blacklisted mods in the lobby. </summary>
-    public static string[] BlacklistedMods;
+    //public static string[] BlacklistedMods;
 
     /// <summary> Subscribes to events to clear lists. </summary>
     public static void Load()

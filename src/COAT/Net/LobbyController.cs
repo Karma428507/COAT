@@ -132,6 +132,8 @@ public class LobbyController
             Lobby?.SetData("mods", sudoLobby.modded ? "True" : "False");
             Lobby?.SetData("heal-bosses", sudoLobby.healBosses ? "True" : "False");
             Lobby?.SetData("banned", "");
+            Lobby?.SetData("mute", "");
+            Lobby?.SetData("BlacklistedMods", string.Join(' ', Settings.PersonalBlacklistedMods));
         });
     }
 

@@ -7,6 +7,8 @@ using System.Text;
 /// <summary> All entity types. Will replenish over time. </summary>
 public enum EntityType
 {
+    // NOTE: CHANGING AROUND THE ORDER OF THESE WILL CAUSE DESYNC FROM JAKET AND COAT!!
+    // IF YOU HAVE TO ADD A NEW ENTITY, ADD IT TO THE END OR ASK ADI TO ADD IT TO JAKET TOO!!
     None = -1,
     Player,
 
