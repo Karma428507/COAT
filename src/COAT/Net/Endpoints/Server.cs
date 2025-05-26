@@ -65,6 +65,14 @@ public class Server : Endpoint, ISocketManager
                 Redirect(r, con);
             }
         });
+        ListenAndRedirect(PacketType.Punch, r =>
+        {
+            if (ents[r.Id()] is RemotePlayer player) player.Punch(r);
+        });
+        ListenAndRedirect(PacketType.Point, r =>
+        {
+            if (ents[r.Id()] is RemotePlayer player) player.Point(r);
+        });
 
         // PUT ALL COAT PACKETS BELOW THIS. JUST SO I DONT HAVE TO SEARCH THE MILKYWAY TO FIND A SINGLE FUCKING LIL GUY!!!
         // write down coat client id, then send urs

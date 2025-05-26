@@ -13,6 +13,7 @@ using COAT.Net;
 using COAT.Net.Types;
 //using Jaket.Sprays;
 using COAT.UI;
+using COAT.UI.Elements;
 using COAT.UI.Menus;
 using COAT.UI.Overlays;
 using COAT.UI.Fragments;
@@ -59,7 +60,7 @@ public class Movement : MonoSingleton<Movement>
     private int targetPlayer;
 
     /// <summary> Last pointer created by the player. </summary>
-    //public Pointer Pointer;
+    public Pointer Pointer;
     /// <summary> Last spray created by the player. </summary>
     //public Spray Spray;
 
@@ -137,7 +138,7 @@ public class Movement : MonoSingleton<Movement>
         if (Input.GetKeyDown(Settings.PlayerIndicators)) PlayerIndicators.Instance.Toggle();
         if (Input.GetKeyDown(Settings.PlayerInfo)) PlayerInfo.Instance.Toggle();*/
 
-        /*if (Input.GetKey(Settings.EmojiWheel) && !LobbyList.Shown && !WeaponWheel.Instance.gameObject.activeSelf)
+        if (Input.GetKey(Settings.EmojiWheel) && !Home.Shown && !WeaponWheel.Instance.gameObject.activeSelf)
         {
             HoldTime += Time.deltaTime; // if the key has been pressed for 0.25 seconds, show the emoji wheel
             if (!EmojiWheel.Shown && HoldTime > .25f) EmojiWheel.Instance.Show();
@@ -156,7 +157,7 @@ public class Movement : MonoSingleton<Movement>
                 if (Pointer != null) Pointer.Lifetime = 4.5f;
                 Pointer = Pointer.Spawn(Networking.LocalPlayer.Team, hit.point, hit.normal);
             }
-            if (s) Spray = SprayManager.Spawn(hit.point, hit.normal);
+            //if (s) Spray = SprayManager.Spawn(hit.point, hit.normal);
 
             if (LobbyController.Online) Networking.Send(p ? PacketType.Point : PacketType.Spray, w =>
             {
@@ -164,11 +165,9 @@ public class Movement : MonoSingleton<Movement>
                 w.Vector(hit.point);
                 w.Vector(hit.normal);
             }, size: 32);
-        }*/
+        }
 
         if (Input.GetKeyDown(Settings.SelfDestruction) && !UI.AnyDialog) nm.GetHurt(4200, false, 0f);
-        // Hell no, we already have a good UI
-        //if (Input.GetKeyDown(KeyCode.F11)) InteractiveGuide.Instance.Launch();
 
         if (pi.Fire1.WasPerformedThisFrame) targetPlayer--;
         if (pi.Fire2.WasPerformedThisFrame) targetPlayer++;
@@ -180,7 +179,7 @@ public class Movement : MonoSingleton<Movement>
     private void LateUpdate() // late update is needed to overwrite the time scale value and camera rotation
     {
         // skateboard logic
-        /*Skateboard.Instance.gameObject.SetActive(Emoji == 0x0B);
+        Skateboard.Instance.gameObject.SetActive(Emoji == 0x0B);
         if (Emoji == 0x0B && !UI.AnyDialog)
         {
             // speed & dash logic
@@ -228,7 +227,7 @@ public class Movement : MonoSingleton<Movement>
 
             // turn to the sides
             player.Rotate(Vector3.up * pi.Move.ReadValue<Vector2>().x * 120f * Time.deltaTime);
-        }*/
+        }
 
         // third person camera
         if (Emoji != 0xFF || (LobbyController.Online && nm.dead && fakeDeath))
@@ -382,7 +381,7 @@ public class Movement : MonoSingleton<Movement>
     public void CyberRespawn()
     {
         Respawn(new(0f, 80f, 62.5f), 0f);
-        //Teleporter.Instance.Flash();
+        Teleporter.Instance.Flash();
     }
 
     #endregion
@@ -400,12 +399,12 @@ public class Movement : MonoSingleton<Movement>
         if (nm.dead) return;
 
         nm.activated = fc.activated = gc.activated = !blocking;
-        cc.activated = !blocking /*&& !EmojiWheel.Shown*/;
+        cc.activated = !blocking && !EmojiWheel.Shown;
 
         if (blocking) fc.NoFist();
         else fc.YesFist();
 
-        OptionsManager.Instance.frozen = Instance.Emoji != 0xFF /*|| InteractiveGuide.Shown*/;
+        OptionsManager.Instance.frozen = Instance.Emoji != 0xFF;
         Console.Instance.enabled = Instance.Emoji == 0xFF;
     }
 

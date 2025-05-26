@@ -24,6 +24,8 @@ public class Items
         };
         Events.OnLobbyEntered += () => Events.Post2(SyncAll);
 
+
+
         // Issue getting the first item
         //foreach (var name in GameAssets.Items) Prefabs.Add(GameAssets.Item(name).transform);
         // Wrong path name

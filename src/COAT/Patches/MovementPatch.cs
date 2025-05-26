@@ -1,16 +1,16 @@
-/*namespace Jaket.Patches;
+namespace COAT.Patches;
 
 using HarmonyLib;
 using ULTRAKILL.Cheats;
 using UnityEngine;
 
-using Jaket.Content;
-using Jaket.Net;
-using Jaket.Net.Types;
-using Jaket.UI;
-using Jaket.UI.Dialogs;
-using Jaket.UI.Fragments;
-using Jaket.World;
+using COAT.Content;
+using COAT.Net;
+using COAT.Net.Types;
+using COAT.UI;
+using COAT.UI.Overlays;
+using COAT.UI.Fragments;
+using COAT.World;
 
 [HarmonyPatch(typeof(NewMovement))]
 public class MovementPatch
@@ -75,4 +75,3 @@ public class CommonPatch
         if (EmojiWheel.Shown) __instance.gameObject.SetActive(false);
     }
 }
-*/

@@ -4,11 +4,6 @@ using COAT.Assets;
 using COAT.Content;
 using COAT.IO;
 using COAT.UI.Elements;
-using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Text;
-using System.Xml;
 using UnityEngine;
 
 public class RemotePlayer : Entity
@@ -59,7 +54,7 @@ public class RemotePlayer : Entity
             // or destroy it if the animation has started
             else foreach (Transform child in Doll.Hand) Destroy(child.gameObject);
         };
-        //Header = new(Owner = Id, transform);
+        Header = new(Owner = Id, transform);
         tag = "Enemy";
 
         EnemyId.weakPoint = Doll.Head.gameObject;
@@ -150,8 +145,8 @@ public class RemotePlayer : Entity
     public void Point(Reader r)
     {
         // Worry later
-        //if (Pointer != null) Pointer.Lifetime = 4.5f;
-        //Pointer = Pointer.Spawn(Team, r.Vector(), r.Vector(), transform);
+        if (Pointer != null) Pointer.Lifetime = 4.5f;
+        Pointer = Pointer.Spawn(Team, r.Vector(), r.Vector(), transform);
     }
 
     #endregion

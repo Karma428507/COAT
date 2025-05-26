@@ -45,6 +45,14 @@ public class Client : Endpoint, IConnectionManager
         {
             if (ents.TryGetValue(r.Id(), out var entity)) entity?.Kill(r);
         });
+        Listen(PacketType.Punch, r =>
+        {
+            if (ents[r.Id()] is RemotePlayer player) player.Punch(r);
+        });
+        Listen(PacketType.Point, r =>
+        {
+            if (ents[r.Id()] is RemotePlayer player) player.Point(r);
+        });
 
         // PUT ALL COAT PACKETS BELOW THIS. JUST SO I DONT HAVE TO SEARCH THE MILKYWAY TO FIND A SINGLE FUCKING LIL GUY!!!
         // write down coat client id, then send urs

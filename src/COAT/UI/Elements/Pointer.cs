@@ -1,10 +1,10 @@
-/*namespace Jaket.UI.Elements;
+namespace COAT.UI.Elements;
 
 using UnityEngine;
 
-using Jaket.Assets;
-using Jaket.Content;
-using Jaket.UI;
+using COAT.Assets;
+using COAT.Content;
+using COAT.UI;
 
 using static Rect;
 
@@ -97,4 +97,3 @@ public class Pointer : MonoBehaviour
         }
     }
 }
-*/

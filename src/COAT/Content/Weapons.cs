@@ -13,7 +13,6 @@ public class Weapons
     /// <summary> Loads all weapons for future use. </summary>
     public static void Load()
     {
-        // loads all of the weapons, nothing else
         Prefabs.AddRange(GunSetter.Instance.revolverPierce.ToAssets());
         Prefabs.AddRange(GunSetter.Instance.revolverRicochet.ToAssets());
         Prefabs.AddRange(GunSetter.Instance.revolverTwirl.ToAssets());

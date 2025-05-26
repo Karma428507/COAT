@@ -1,12 +1,12 @@
-/*namespace Jaket.UI.Fragments;
+namespace COAT.UI.Fragments;
 
 using UnityEngine;
 using UnityEngine.UI;
 
 using ImageType = UnityEngine.UI.Image.Type;
 
-using Jaket.Assets;
-using Jaket.World;
+using COAT.Assets;
+using COAT.World;
 
 using static Rect;
 
@@ -67,4 +67,3 @@ public class Skateboard : CanvasSingleton<Skateboard>
         speed.text = Bundle.Format("skateboard", ColorUtility.ToHtmlStringRGB(gradient.Evaluate(mm.SkateboardSpeed / 60f)), ((int)mm.SkateboardSpeed).ToString());
     }
 }
-*/
