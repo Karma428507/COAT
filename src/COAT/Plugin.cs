@@ -71,7 +71,7 @@ public class Plugin : MonoBehaviour
         //Enemies.Load();
         //Weapons.Load();
         Bullets.Load(); // NOT EVEN qwq
-        //Items.Load();
+        Items.Load();
         DollAssets.Load();
 
         Administration.Load();
