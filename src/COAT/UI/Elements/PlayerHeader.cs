@@ -3,6 +3,10 @@ namespace COAT.UI.Elements;
 using UnityEngine;
 using UnityEngine.UI;
 
+using COAT;
+using COAT.UI;
+using COAT.UI.Menus;
+
 using static Pal;
 using static Rect;
 
@@ -28,9 +32,15 @@ public class PlayerHeader
         float width = Name.Length * 14f + 16f;
         canvas = UIB.WorldCanvas("Header", parent, new(0f, 5f, 0f), build: canvas =>
         {
-            // Add pfp here
+            UIB.Table("Name", canvas, Size(width, 40f), table =>
+            {
+                Text = UIB.Text(Name, table, Huge, size: 240);
 
-            UIB.Table("Name", canvas, Size(width, 40f), table => Text = UIB.Text(Name, table, Huge, size: 240));
+                Mask PFPMASK = UIB.Mask($"PFP MASK OF {Tools.Name(id)}", table, new((-width / 2) - 30, 0, 50, 50), UIB.Background);
+                UIB.Image("PFP", PFPMASK.transform, new(0, 0, 50, 50));
+
+                PlayerList.Instance.LoadPFP(Tools.Friend(id), PFP);
+            });
             Text.transform.localScale /= 10f;
 
             var h = Size(160f, 4f) with { y = -30f };
