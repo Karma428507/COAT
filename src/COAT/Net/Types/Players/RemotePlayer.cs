@@ -83,6 +83,7 @@ public class RemotePlayer : Entity
         transform.position = new(x.Get(LastUpdate), y.Get(LastUpdate) - (Doll.Sliding ? .3f : 1.5f), z.Get(LastUpdate));
         transform.eulerAngles = new(0f, bodyRotation.GetAngel(LastUpdate));
         Doll.Head.localEulerAngles = new(Doll.Emoji == 8 ? -20f : headRotation.Get(LastUpdate), 0f);
+        Doll.RightArm.localEulerAngles = new(headRotation.Get(LastUpdate), 0f);
 
         EnemyId.machine.health = 4200f; // prevent the doll from dying too early
 
@@ -113,6 +114,14 @@ public class RemotePlayer : Entity
         Doll.HookWinch.SetPosition(0, Doll.HookRoot.position);
         Doll.HookWinch.SetPosition(1, Doll.Hook.position);
     });
+
+    private void GoLimp()
+    {
+        EnemyId.machine.GoLimp();
+        Destroy(Doll.WingLight);
+        Destroy(Doll.SlideParticle?.gameObject);
+        Destroy(Doll.FallParticle?.gameObject);
+    }
 
     #region special
 
@@ -146,7 +155,7 @@ public class RemotePlayer : Entity
     {
         // Worry later
         if (Pointer != null) Pointer.Lifetime = 4.5f;
-        Pointer = Pointer.Spawn(Team, r.Vector(), r.Vector(), transform);
+        Pointer = Pointer.Spawn(Team, r.Vector(), r.Vector(), Doll.Head.transform);
     }
 
     #endregion
