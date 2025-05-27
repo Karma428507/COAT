@@ -28,7 +28,7 @@ public class Doll : MonoBehaviour
     public Color32 Color1, Color2, Color3;
 
     /// <summary> Transforms of different parts of the body. </summary>
-    public Transform Head, Hand, Hook, HookRoot, Throne, Coin, Skateboard, Suits;
+    public Transform Head, RightArm, Hand, Hook, HookRoot, Throne, Coin, Skateboard, Suits;
     /// <summary> Slide and fall particles transforms. </summary>
     public Transform SlideParticle, FallParticle;
     /// <summary> Position in which the doll holds an item. </summary>
@@ -38,6 +38,8 @@ public class Doll : MonoBehaviour
     public Material WingMat, CoinMat, SkateMat;
     /// <summary> Trail of the wings. </summary>
     public TrailRenderer WingTrail;
+    /// <summary> Light from the wings. </summary>
+    public Light WingLight;
     /// <summary> Winch of the hook. </summary>
     public LineRenderer HookWinch;
 
@@ -62,6 +64,7 @@ public class Doll : MonoBehaviour
         Transform V3 = transform.Find("V3"), rig = V3.Find("Metarig");
 
         Head = rig.Find("Spine 0/Spine 1/Spine 2");
+        RightArm = rig.Find("Spine 0/Right Shoulder");
         Hand = rig.Find("Spine 0/Right Shoulder/Right Elbow/Right Wrist");
         Hand = Tools.Create("Weapons Root", Hand).transform;
         Hook = rig.Find("Hook");
@@ -75,6 +78,7 @@ public class Doll : MonoBehaviour
         CoinMat = Coin.GetComponent<Renderer>().material;
         SkateMat = Skateboard.GetComponent<Renderer>().material;
         WingTrail = GetComponentInChildren<TrailRenderer>();
+        WingLight = GetComponentInChildren<Light>();
         HookWinch = GetComponentInChildren<LineRenderer>(true);
     }
 
@@ -142,6 +146,7 @@ public class Doll : MonoBehaviour
         WingMat.mainTexture = SkateMat.mainTexture = DollAssets.WingTextures[(int)team];
         CoinMat.color = team.Color();
         if (WingTrail != null) WingTrail.startColor = team.Color() with { a = .5f };
+        if (WingLight != null) WingLight.color = team.Color() with { a = 1f };
 
         // TODO make it part of customization
         Suits.GetChild(0).gameObject.SetActive(team == Team.Pink);
