@@ -74,10 +74,10 @@ public class Home : CanvasSingleton<Home>, IMenuInterface
                     orange, 24, clicked: () => UI.PushStack(Settings.Instance));
 
                 /*UIB.Button("Spray Settings", optionList, new(0, y -= 88, 320f, 80f, new(.5f, 1f)),
-                    green, 24, clicked: SpraySettings.Instance.Toggle);
+                    green, 24, clicked: SpraySettings.Instance.Toggle);*/
 
                 UIB.Button("Load from code", optionList, new(0, y -= 88, 320f, 80f, new(.5f, 1f)),
-                    pink, 24, clicked: LobbyController.JoinByCode);*/
+                    pink, 24, clicked: LobbyController.JoinByCode);
 
                 newServer = UIB.Button("New Server", optionList, new(0, y -= 88, 320f, 80f, new(.5f, 1f)),
                     red, 24, clicked: () => UI.PushStack(GamemodeList.Instance));

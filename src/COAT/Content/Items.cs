@@ -24,13 +24,10 @@ public class Items
         };
         Events.OnLobbyEntered += () => Events.Post2(SyncAll);
 
-        foreach(GameObject go in AssetHelper.LoadPrefab("Assets/Prefabs/Items").GetComponentsInChildren<GameObject>())
-            Log.Info($"Item: {go.name}");
-
         // Issue getting the first item
         //foreach (var name in GameAssets.Items) Prefabs.Add(GameAssets.Item(name).transform);
         // Wrong path name
-        //foreach (var name in GameAssets.Plushies) Prefabs.Add(GameAssets.Plushie(name).transform);
+        foreach (var name in GameAssets.Plushies) Prefabs.Add(GameAssets.Plushie(name).transform);
     }
 
     /// <summary> Finds the entity type by item class and first/last child name. </summary>

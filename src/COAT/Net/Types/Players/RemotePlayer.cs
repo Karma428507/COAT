@@ -96,8 +96,8 @@ public class RemotePlayer : Entity
             foreach (Transform child in Doll.Hand) Destroy(child.gameObject);
             if ((LastWeapon = Weapon) != 0xFF)
             {
-                //Weapons.Instantiate(Weapon, Doll.Hand);
-                //WeaponsOffsets.Apply(Weapon, Doll.Hand);
+                Weapons.Instantiate(Weapon, Doll.Hand);
+                WeaponsOffsets.Apply(Weapon, Doll.Hand);
                 Doll.ApplySuit();
             }
         }

@@ -1,5 +1,7 @@
 namespace COAT.Assets;
 
+using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
@@ -22,26 +24,26 @@ public class GameAssets
 
     /// <summary> List of internal names of all items. </summary>
     public static readonly string[] Items = new[]
-    { "Apple Bait", "Maurice Bait", "SkullBlue", "SkullRed", "Soap", "Torch", "Florp Throwable" };
+    { "Apple Bait", "Maurice Bait", "SkullBlue", "SkullRed", "Soap", "Torch", "Florp/Florp_fbx" };
 
     /// <summary> List of internal names of all dev plushies. </summary>
     public static readonly string[] Plushies = new[]
     {
-        "Jacob", "Mako", "HEALTH - Jake", "Dalia", "Jericho", "Meganeko", "Tucker", "BigRock", "Dawg", "Sam",
-        "Cameron", "Gianni", "Salad", "Mandy", "Joy", "Weyte", "Heckteck", "Hakita", "Lenval", ". (CabalCrow) Variant",
-        "Quetzal", "HEALTH - John", "PITR", "HEALTH - BJ", "Francis", "Vvizard", "Lucas", "Scott", "KGC", "."
+        "Jacob", "Mako", "HEALTH - Jake", "Dalia", "Jericho", "Meganeko", "Imp", "FlyingDog", "Dawg", "Sam",
+        "Cameron", "Gianni", "Salad", "Mandalore", "Joy", "Weyte", "Heck", "Hakita", "Lenval", "CabalCrow",
+        "Quetzal", "HEALTH - John", "PITR", "HEALTH - BJ", "Francis", "Vvizard", "Lucas", "Scott", "KeygenChurch", "V1Plush"
     };
 
     /// <summary> List of readable names of all dev plushies needed for the /plushy command. </summary>
     public static readonly string[] PlushiesButReadable = new[]
     {
         "Jacob", "Maximilian", "Jake", "Dalia", "Jericho", "Meganeko", "Tucker", "BigRock", "Victoria", "Samuel",
-        "Cameron", "Gianni", "Salad", "Mandy", "Joy", "Weyte", "Heckteck", "Hakita", "Lenval", "CabalCrow",
+        "Cameron", "Gianni", "Salad", "Mandalore", "Joy", "Weyte", "Heckteck", "Hakita", "Lenval", "CabalCrow",
         "Quetzal", "John", "Pitr", "BJ", "Francis", "Vvizard", "Lucas", "Scott", "KGC", "V1"
     };
     #region tools
 
-    private static GameObject Prefab(string name) => AssetHelper.LoadPrefab($"Assets/Prefabs/{name}.prefab");
+    private static GameObject Prefab(string name) => AssetHelper.LoadPrefab($"Assets/ULTRAKILL Assets/{name}.prefab");
 
     //private static void Material(string name, Cons<Material> cons) => Addressables.LoadAssetAsync<Material>($"Assets/Models/{name}.mat").Task.ContinueWith(t => cons(t.Result));
 
@@ -50,13 +52,13 @@ public class GameAssets
 
     public static GameObject Enemy(string name) => Prefab($"Enemies/{name}");
 
-    public static GameObject Item(string name) => Prefab($"Items/{name}");
+    public static GameObject Item(string name) => Prefab($"Models/Objects/{name}");
 
     public static GameObject Bait(string name) => Prefab($"Fishing/{name}");
 
     public static GameObject Fish(string name) => Prefab($"Fishing/Fishes/{name}");
 
-    public static GameObject Plushie(string name) => Prefab($"Items/DevPlushies/DevPlushie{(name.StartsWith(".") ? name.Substring(1) : $" ({name})")}");
+    public static GameObject Plushie(string name) => Prefab($"Credits Museum/Developers/{(name.StartsWith("!") ? name : $"{name}_fbx")}");
 
     /// <summary> Loads the torch prefab. </summary>
     public static GameObject Torch() => Prefab("Levels/Interactive/Altar (Torch) Variant");
@@ -85,5 +87,52 @@ public class GameAssets
     /// <summary> Loads a Gabriel voice line by name. </summary>
     //public static void GabLine(string name, Cons<AudioClip> output) => Sound($"Voices/Gabriel/{name}.ogg", output);
 
+    #endregion
+    #region Debug
+    public static List<GameObject> gameObjects = new List<GameObject>();
+
+    /// <summary> A debug function to fill a list of asset addresses </summary>
+    public static void LoadAddresses()
+    {
+        string path = Path.Combine(Path.GetDirectoryName(Plugin.Instance.Location), "logs", "Assets.txt");
+        List<string> ToWrite = new();
+
+        ToWrite.Add("Game Objects");
+
+        Addressables.InitializeAsync().Completed += (operationHandle) =>
+        {
+            HashSet<string> primaryKeys = new HashSet<string>();
+
+            var resourceLocators = Addressables.ResourceLocators;
+            foreach (var locator in resourceLocators)
+            {
+                foreach (var key in locator.Keys)
+                {
+                    locator.Locate(key, typeof(GameObject), out var gameObjectLocations);
+                    if (gameObjectLocations != null)
+                        foreach (var location in gameObjectLocations)
+                            if (location.ToString().Contains('/'))
+                                ToWrite.Add(location.ToString());
+                }
+            }
+
+            ToWrite.Add("Textures");
+
+            foreach (var locator in resourceLocators)
+            {
+                foreach (var key in locator.Keys)
+                {
+                    locator.Locate(key, typeof(Texture), out var textureLocations);
+                    if (textureLocations != null)
+                        foreach (var location in textureLocations)
+                            if (location.ToString().Contains('/'))
+                                ToWrite.Add(location.ToString());
+                }
+            }
+
+            Directory.CreateDirectory(Path.GetDirectoryName(path));
+            File.AppendAllLines(path, ToWrite);
+        };
+    }
     #endregion
 }
