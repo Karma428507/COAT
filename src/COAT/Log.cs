@@ -1,5 +1,6 @@
 namespace COAT;
 
+using COAT.Net;
 using plog;
 using System;
 using System.Collections.Generic;
@@ -31,12 +32,14 @@ public class Log
         Logger = new("COAT");
         LogPath = Path.Combine(Path.GetDirectoryName(Plugin.Instance.Location), "logs", $"Log {Time.Replace(':', '.')}.txt");
 
-        /*Events.OnLobbyAction += () =>
+        void info()
         {
             var lobby = LobbyController.Offline ? "null" : $"{LobbyController.Lobby?.GetData("name")} ({LobbyController.Lobby.Value.Id})";
             var owner = LobbyController.Lobby?.Owner.ToString() ?? "null";
             Debug($"Lobby status updated: cl is {lobby}, owner is {owner}");
-        };*/
+        }
+
+        Events.OnLobbyAction += info;
         Events.OnLobbyEntered += () => Debug("Entered the new lobby");
     }
 

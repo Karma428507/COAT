@@ -9,9 +9,23 @@ public class Weapons
 {
     /// <summary> List of prefabs of all weapons. </summary>
     public static List<GameObject> Prefabs = new();
+    public static bool HasLoaded = false;
 
     /// <summary> Loads all weapons for future use. </summary>
     public static void Load()
+    {
+        // if I could remove this after a level is loaded, I wouldn't put this here :P
+        if (HasLoaded)
+            return;
+
+        // I can't believe this works, but yet again it takes time to get assets
+        Events.Post(LoadAssets);
+
+        // using the ! to make the code look cool
+        HasLoaded = !HasLoaded;
+    }
+
+    public static void LoadAssets()
     {
         Prefabs.AddRange(GunSetter.Instance.revolverPierce.ToAssets());
         Prefabs.AddRange(GunSetter.Instance.revolverRicochet.ToAssets());

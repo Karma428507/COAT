@@ -9,9 +9,14 @@ using COAT.Net;
 using COAT.World;
 using HarmonyLib;
 using Jaket.Sprays;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
+using UnityEngine.ResourceManagement.ResourceLocations;
 using UnityEngine.SceneManagement;
 
 /// <summary> Bootloader class needed to avoid destroying the mod by the game. </summary>
@@ -73,7 +78,7 @@ public class Plugin : MonoBehaviour
         Commands.Commands.Load();
         Bundle.Load();
         //Enemies.Load();
-        //Weapons.Load();
+        Events.OnLoaded += Weapons.Load;
         Bullets.Load(); // NOT EVEN qwq
         //Items.Load();
         DollAssets.Load();
@@ -96,10 +101,12 @@ public class Plugin : MonoBehaviour
 
         // check if there is any incompatible mods
         HasIncompatibility = Chainloader.PluginInfos.Values.Any(info => !Compatible.Contains(info.Metadata.Name));
-        HasBlacklisted = Chainloader.PluginInfos.Values.Any(info => !Blacklisted.Contains(info.Metadata.Name));
+        //HasBlacklisted = Chainloader.PluginInfos.Values.Any(info => !Blacklisted.Contains(info.Metadata.Name));
 
         // mark the plugin as initialized and log a message about it
         Initialized = true;
         Log.Info("COAT initialized!");
+
+        Log.Info("Plushy Count: " + GameAssets.Plushies.Length);
     }
 }
