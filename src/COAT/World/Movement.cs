@@ -145,7 +145,7 @@ public class Movement : MonoSingleton<Movement>
         }
         else
         {
-            HoldTime = 0f;
+            HoldTime = 0.075f; // 0 is too harsh for people with bad keyboards or weak fingers
             if (EmojiWheel.Shown) EmojiWheel.Instance.Hide();
         }
 
@@ -168,6 +168,16 @@ public class Movement : MonoSingleton<Movement>
         }
 
         if (Input.GetKeyDown(Settings.SelfDestruction) && !UI.AnyDialog) nm.GetHurt(4200, false, 0f);
+
+        /*if (Input.GetKeyDown(Settings.PanHit) && !UI.AnyDialog)
+        {
+            if (Physics.Raycast(cc.transform.position, cc.transform.forward, out var hit, 1f, mask))
+            {
+
+            } else 
+
+            
+        }*/
 
         if (pi.Fire1.WasPerformedThisFrame) targetPlayer--;
         if (pi.Fire2.WasPerformedThisFrame) targetPlayer++;
@@ -289,24 +299,20 @@ public class Movement : MonoSingleton<Movement>
             Bundle.Hud("lobby.cheats");
         }
     
-        // leave lobby if you have a blacklisted mod
-        if (LobbyController.Lobby?.GetData("BlacklistedMods") == "")
+        // leave thee lobby if mods are off and u have a "not allowed" mod
+        if (Plugin.Instance.HasIncompatibility && !LobbyController.IsOwner && !LobbyController.ModsAllowed)
         {
-            if (Plugin.Instance.HasIncompatibility && !LobbyController.IsOwner && !LobbyController.ModsAllowed)
-            {
-                LobbyController.Lobby?.SendChatString("[#FF7F50][14]\\[BOT][][] FUCK OFF!");
-                LobbyController.LeaveLobby();
-                Bundle.Hud2NS("lobby.mods");
-            }
-        } 
-        else 
+            LobbyController.Lobby?.SendChatString("[#FF7F50][14]\\[BOT][][] FUCK OFF!");
+            LobbyController.LeaveLobby();
+            Bundle.Hud2NS("lobby.mods");
+        }
+
+        // leave lobby if you have a blacklisted mod 
+        if (Plugin.Instance.HasBlacklisted && !LobbyController.IsOwner)
         {
-            if (Plugin.Instance.HasBlacklisted && !LobbyController.IsOwner && !LobbyController.ModsAllowed)
-            {
-                LobbyController.Lobby?.SendChatString("[#FF7F50][14]\\[BOT][][] FUCK OFF!");
-                LobbyController.LeaveLobby();
-                Bundle.Hud2NS("lobby.mods");
-            }
+            LobbyController.Lobby?.SendChatString("[#FF7F50][14]\\[BOT][][] FUCK OFF!");
+            LobbyController.LeaveLobby();
+            Bundle.Hud2NS("lobby.mods");
         }
 
         // fake Cyber Grind///0-S death

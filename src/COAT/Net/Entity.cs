@@ -37,7 +37,7 @@ public abstract class Entity : MonoBehaviour
 
     protected void Init(Func<Entity, EntityType> prov, bool getGeneralComponents = false)
     {
-        Log.Debug($"Initializing an entity with name {name}");
+        Log.Debug($"Initializing an entity with name"/* {name}"*/); // {name} is causing a f8 error so ima comment it 4 now
 
         // do this before calling prov, so as not to break the search of the entity type
         TryGetComponent(out EnemyId);
@@ -50,7 +50,7 @@ public abstract class Entity : MonoBehaviour
             var provided = prov(this);
             if (provided == EntityType.None)
             {
-                Log.Warning($"Couldn't find the entity type of the object {name}");
+                Log.Warning($"Couldn't find the entity type of the object" /*{name}"*/);
                 Destroy(this);
                 return;
             }

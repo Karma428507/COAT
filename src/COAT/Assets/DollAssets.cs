@@ -3,6 +3,7 @@ namespace COAT.Assets;
 using System.IO;
 using TMPro;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 using UnityEngine.Audio;
 using UnityEngine.Events;
 
@@ -10,10 +11,12 @@ using COAT.Content;
 using COAT.Net;
 using COAT.Net.Types;
 using COAT.UI.Menus;
+using COAT.IO;
 
 /// <summary> Class that works with the assets bundle of the mod. </summary>
 public class DollAssets
 {
+    // idk if i should remove this
     public const string V1 = "36abcaae9708abc4d9e89e6ec73a2846";
 
     /// <summary> Bundle containing assets for player doll. </summary>
@@ -44,6 +47,9 @@ public class DollAssets
     /// <summary> Coin texture used by team coins. </summary>
     public static Texture CoinTexture;
 
+    /// <summary> Pain texture used by team coins. </summary>
+    public static Texture PainTexture;
+
     /// <summary> Icons for the emoji selection wheel. </summary>
     public static Sprite[] EmojiIcons, EmojiGlows;
 
@@ -53,20 +59,17 @@ public class DollAssets
         Bundle = LoadBundle();
 
         // cache the shader and the wing textures for future use
-        // Error trying to get the wing texture
-        // Do this later...
-        // Try to find the children of the prefab
-        //AssetHelper.LoadPrefab(V1).GetComponent<global::PlatformerMovement>();
-        //Shader = AssetHelper.LoadPrefab(V1).GetComponent<global::V2>().smr.material.shader;
+
+        Shader = Utils.metalDec20.shader;
+
         WingTextures = new Texture[5];
         HandTextures = new Texture[4];
         //Log.Error("Shader loaded");
 
         // loading wing textures from the bundle
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < System.Enum.GetValues(typeof(Team)).Length - 1; i++)
         {
-            var index = i; // C# sucks
-            LoadAsync<Texture>("V3-wings-" + ((Team)i).ToString(), tex => WingTextures[index] = tex);
+            LoadAsync<Texture>("V3-wings-" + ((Team)i).ToString(), tex => WingTextures[i] = tex);
         }
 
         LoadAsync<Texture>("V3-hand", tex => HandTextures[1] = tex);
@@ -76,6 +79,8 @@ public class DollAssets
         //HandTextures[0] = FistControl.Instance.blueArm.ToAsset().GetComponentInChildren<SkinnedMeshRenderer>().material.mainTexture;
         //HandTextures[2] = FistControl.Instance.redArm.ToAsset().GetComponentInChildren<SkinnedMeshRenderer>().material.mainTexture;
         //Log.Error("Old hands added");
+
+        LoadAsync<Texture>("PainTexture", tex => PainTexture = tex);
 
         LoadAsync<Texture>("coin", tex => CoinTexture = tex);
 
@@ -151,7 +156,7 @@ public class DollAssets
             foreach (var mat in renderer.materials)
             {
                 mat.color = Color.white;
-                //mat.shader = Shader;
+                mat.shader = Shader;
             }
         }
     }
@@ -195,10 +200,62 @@ public class DollAssets
         return obj.AddComponent<RemotePlayer>();
     }
 
+    static NewMovement nm => NewMovement.Instance;
+    /// <summary> Creates a new player doll from the prefab. </summary>
+    public static void ProduceDoll()
+    {
+        // create a doll from the prefab obtained from the bundle
+        // the instance is created on these coordinates so as not to collide with anything after the spawn
+        var obj = Tools.Instantiate(Doll, nm.transform.position, nm.transform.rotation);
+
+        // add components
+        var enemyId = obj.AddComponent<EnemyIdentifier>();
+        var machine = obj.AddComponent<Machine>();
+
+        enemyId.enemyClass = EnemyClass.Machine;
+        enemyId.enemyType = EnemyType.V2;
+        enemyId.dontCountAsKills = true;
+        enemyId.weaknesses = new string[0];
+        enemyId.burners = new();
+        enemyId.activateOnDeath = new GameObject[0];
+        machine.destroyOnDeath = new GameObject[0];
+        machine.hurtSounds = new AudioClip[0];
+
+        // add enemy identifier to all doll parts so that bullets can hit it
+        foreach (var rigidbody in obj.transform.GetChild(0).GetComponentsInChildren<Rigidbody>())
+        {
+            rigidbody.gameObject.AddComponent<EnemyIdentifierIdentifier>();
+            rigidbody.tag = MapTag(rigidbody.gameObject.tag);
+        } 
+
+        // add a script to further control the doll 
+        var remotePlayer = obj.AddComponent<RemotePlayer>();
+        LocalPlayer localPlayer = new();
+
+        Writer.Write(w => localPlayer.Write(w), (IntPtr, Int) => Reader.Read(IntPtr, Int, r => 
+        {
+            remotePlayer.Read(r);
+        }), 48);
+    }
+
     /// <summary> Returns the hand texture currently in use. Depends on whether the player is in the lobby or not. </summary>
     public static Texture HandTexture(bool feedbacker = true)
     {
         var s = feedbacker ? Settings.FeedColor : Settings.KnuckleColor;
         return HandTextures[(feedbacker ? 0 : 2) + (s == 0 ? (LobbyController.Offline ? 0 : 1) : s == 1 ? 1 : 0)];
+    }
+}
+
+public static class Utils
+{
+    private static Material _metalDec20;
+    public static Material metalDec20
+    {
+        get
+        {
+            if (_metalDec20 == null)
+                _metalDec20 = Addressables.LoadAssetAsync<Material>("Assets/Materials/Environment/Metal/Metal Decoration 20.mat").WaitForCompletion();
+            return _metalDec20;
+        }
     }
 }

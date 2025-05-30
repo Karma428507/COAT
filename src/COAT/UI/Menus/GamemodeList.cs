@@ -6,6 +6,7 @@ using COAT.Assets;
 using COAT.Net;
 using COAT.UI;
 using COAT;
+using UnityEngine.Experimental.TerrainAPI;
 
 //using static Pal;
 //using static Rect;
@@ -19,10 +20,11 @@ namespace COAT.UI.Menus
         private Toggle pvp, cheats, myEnemy, bosses;
         private Button accessibility, difficulty;
         private InputField field;
-        private int diff = 0;
+        //private int diff = 0;
+        private int gamemode = 1;
 
         private Image table;
-        private Transform normalMenu;
+        //private Transform normalMenu;
         private Transform gamemodeMenu;
 
         private GamemodeTypes selectedGamemode = GamemodeTypes.NormalCampain;
@@ -40,6 +42,7 @@ namespace COAT.UI.Menus
                 // main settings menu
                 UIB.Table("Server Creator", table, new(-225, 0, 400, 450), options =>
                 {
+
                     UIB.Image(name, options, new(0, 0, 400, 450), null, fill: false);
 
                     field = UIB.Field("#lobby-tab.name", options, Rect.Tgl(40), cons: name => creationLobby.name = name);
@@ -62,17 +65,24 @@ namespace COAT.UI.Menus
                     myEnemy = UIB.Toggle("#lobby-tab.allow-mods", options, Rect.Tgl(240), clicked: allow => creationLobby.modded = allow);
                     bosses = UIB.Toggle("#lobby-tab.heal-bosses", options, Rect.Tgl(280), 20, allow => creationLobby.healBosses = allow);
 
-                    UIB.Button("Play", options, new Rect(0, -190, 380, 40), null, 24, clicked: () => {UI.PushStack(new ServerDiffifcultySelect());});
+                    UIB.Button("Play", options, new Rect(0, -190, 380, 40), null, 24, clicked: () =>
+                    { // my balls itch
+                        GamemodeManager.GetList(gamemode, GameMode => GameMode.Start());
+
+                        UI.PushStack(new ServerDiffifcultySelect());
+                    });
                 });
 
                 // gamemode settings menu
-                UIB.Image(name, table, new(225, 0, 400, 450), null, fill: false);
+                gamemodeMenu = UIB.Image(name, table, new(225, 0, 400, 450), null, fill: false).transform;
                 Rebuild();
 
             });
 
             UIB.Table("Gamemode List", transform, new(-500, 0, 400, 126 * Enum.GetNames(typeof(GamemodeTypes)).Length), table =>
             {
+                gamemodeMenu = table;
+                gamemode = 1;
                 int y = 48 * Enum.GetNames(typeof(GamemodeTypes)).Length;
 
                 UIB.Image(name, table, new(0, 0, 400, 126 * Enum.GetNames(typeof(GamemodeTypes)).Length), null, fill: false);
@@ -88,8 +98,12 @@ namespace COAT.UI.Menus
                         UIB.Button(" ", entry, new Rect(0, 0, 350f, 100),
                             null, 24, TextAnchor.UpperLeft, () => {
                                 // TODO: make this shit work, once we start trying to make gamemodes
-                                if (type != GamemodeTypes.NormalCampain)
-                                    HudMessageReceiver.Instance?.SendHudMessage("Only the normal campain is working right now,\\nplease fucking deal with it.");
+                                if (type != GamemodeTypes.NormalCampain || type != GamemodeTypes.PAiN)
+                                    HudMessageReceiver.Instance?.SendHudMessage("This Gamemode isn't working right now,\nplease fucking deal with it.");
+                                else if (type == GamemodeTypes.PAiN) gamemode = 0;
+                                else gamemode = 1;
+
+                                GamemodeManager.GetList(gamemode, GameMode => GameMode.LoadSettings(gamemodeMenu));
                             });
                     });
 
@@ -126,15 +140,15 @@ namespace COAT.UI.Menus
                 3 => "VIOLENT",
                 4 => "BRUTAL",
                 _ => "ULTRAKILL MUST DIE"
-            };*/
+            };
 
-            //creationLobby.Debug();
+            creationLobby.Debug();*/
         }
         
         private void LoadServerCreator(GamemodeTypes type)
         {
             //serverCreatorTable.transform.DetachChildren();
-            foreach (Transform child in normalMenu) Destroy(child.gameObject);
+            //foreach (Transform child in normalMenu) Destroy(child.gameObject);
             foreach (Transform child in gamemodeMenu) Destroy(child.gameObject);
         }
 

@@ -124,18 +124,20 @@ public class Networking
             string LobbyBannedData = LobbyController.Lobby?.GetData("banned");
             if (LobbyBannedData.Contains($"{member.Id.AccountId}")) return;
 
-            Bundle.Msg("player.left", member.Name);
-            if (!LobbyController.IsOwner) return;
-
             if (COATPLAYERS.Contains(member.Id.AccountId))
                 COATPLAYERS.Remove(member.Id.AccountId);
 
+            Bundle.Msg("player.left", member.Name);
+            if (!LobbyController.IsOwner) return;
+
             // returning the exited player's entities back to the host owner & close the connection
             FindCon(member.Id.AccountId)?.Close();
-            /*EachEntity(entity =>
+            EachEntity(entity =>
             {
-                if (entity is OwnableEntity oe && oe.Owner == member.Id.AccountId) oe.TakeOwnage();
-            });*/
+                //if (entity is OwnableEntity oe && oe.Owner == member.Id.AccountId) oe.TakeOwnage();
+                // NETKILL the entity (omg i love that word so muchhhh :3)
+                if (entity is RemotePlayer rp && rp.Owner == member.Id.AccountId) rp.NetKill(); // NET KILL IS SUCH A BAD ASS NAME OMG I LOVE YOUUUU
+            });
         };
 
         /*SteamMatchmaking.OnLobbyMemberKicked += (lobby, member) =>
@@ -149,7 +151,8 @@ public class Networking
         {
             string LobbyBannedData = LobbyController.Lobby?.GetData("banned");
             string LobbyMutedData = LobbyController.Lobby?.GetData("mute");
-            if (!LobbyBannedData.Contains($"{member.Id.AccountId}") || !LobbyMutedData.Contains($"{member.Id.AccountId}"))
+            bool bannedormuted = LobbyBannedData.Contains($"{member.Id.AccountId}") || LobbyMutedData.Contains($"{member.Id.AccountId}");
+            if (!bannedormuted)
             {
                 if (message.Length > Chat.MAX_MESSAGE_LENGTH + 8) message = message.Substring(0, Chat.MAX_MESSAGE_LENGTH);
 

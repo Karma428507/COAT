@@ -1,6 +1,7 @@
 namespace COAT.UI.Overlays;
 
 using Steamworks;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -17,6 +18,7 @@ using Sam;
 
 using static Pal;
 using static Rect;
+using COAT.Content;
 
 /// <summary> Front end of the chat, back end implemented via Steamworks. </summary>
 public class Chat : CanvasSingleton<Chat>, IOverlayInterface
@@ -253,7 +255,7 @@ public class Chat : CanvasSingleton<Chat>, IOverlayInterface
 
 
     /// <summary> Writes a message to the chat, formatting it beforehand. </summary>
-    public void Receive(string color, string author, string msg) => Receive($"<b>[#{color}]{author}[][#FF7F50]:[]</b> {Bundle.CutDangerous(msg)}");
+    public void Receive(string color, string author, string msg) => Receive($"<b>[{(color.StartsWith('#') ? color : $"#{color}")}]{author}[][#FF7F50]:[]</b> {Bundle.CutDangerous(msg)}");
 
     static Chat chat => Chat.Instance;
 
@@ -279,17 +281,44 @@ public class Chat : CanvasSingleton<Chat>, IOverlayInterface
         Receive(color, TTS_PREFIX + author.Name.Replace("[", "\\["), msg);
     }
 
+    public static Color[] DevColor = new[]
+        { Team.Pink.Color(), Team.Purple.Color() };
+
+    public static uint[] DevID = new[]
+        { 1811031719u, 1238954961u, };
+
     /// <summary> Sends some useful information to the chat. </summary>
     public void Hello(bool force = false)
     {
         // if the last owner of the lobby is not equal to 0, then the lobby is not created for the first time
         if (LobbyController.LastOwner != 0L && !force) return;
 
-        void Msg(string msg) => Receive("0096FF", BOT_PREFIX + "KARMA", msg);
-        void Tip(string tip) => Msg($"[14]* {tip}[]");
+        void Msg(string msg, int dev) => Receive(ColorToHex(DevColor[dev-1]), BOT_PREFIX + Tools.Friend(DevID[dev-1]).Name, msg);
+        void Tip(string tip, int dev) => Msg($"[14]* {tip}[]", dev);
 
-        Msg("I'm too lazy to put something here rn.");
+        Msg("[24]<b>Hey!</b>[18] Welcome to COAT.", 1);
+        Msg("I [10][#bbb](Bryan)[][] am the most active dev in terms of community,", 1);
+        Msg("If you ever have any questions or confusion about COAT, feel free to ask me InGame or on Discord. [8][#bbb](fredayddd321ewq)[][]\\n", 1);
+
+        Msg("Pro Tip:", 2);
+        Tip(RandomProTip(), 2);
     }
+
+    public static string ColorToHex(Color color)
+    {
+        return $"#{Mathf.RoundToInt(color.r * 255):X2}" +
+               $"{Mathf.RoundToInt(color.g * 255):X2}" +
+               $"{Mathf.RoundToInt(color.b * 255):X2}";
+    }
+
+    private string RandomProTip()
+    {
+        int randomNumber = UnityEngine.Random.Range(0, ProTips.Length);
+        return ProTips[randomNumber];
+    }
+
+    public static string[] ProTips = new[]
+    { "", };
 
     #endregion
 }

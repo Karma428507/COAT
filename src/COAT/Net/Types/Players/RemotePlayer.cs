@@ -33,7 +33,7 @@ public class RemotePlayer : Entity
     /// <summary> Last pointer created by the player. </summary>
     public Pointer Pointer;
 
-    private void Awake()
+    public void Awake()
     {
         Init(null, true);
         TryGetComponent(out Voice);
@@ -44,7 +44,7 @@ public class RemotePlayer : Entity
         hookX = new(); hookY = new(); hookZ = new();
     }
 
-    private void Start()
+    public void Start()
     {
         Doll = gameObject.AddComponent<Doll>();
         Doll.OnEmojiStart += () =>
@@ -61,7 +61,7 @@ public class RemotePlayer : Entity
         Doll.HookWinch.material = HookArm.Instance.GetComponent<LineRenderer>().material;
         ClearTrail(Doll.WingTrail, x, y, z);
 
-        // idols can target players, which is undesirable
+        // idols can target players, which is undesirable (they still do sometimes but wah wah cry about it)
         int index = EnemyTracker.Instance.enemies.IndexOf(EnemyId);
         if (index != -1)
         {
@@ -83,7 +83,6 @@ public class RemotePlayer : Entity
         transform.position = new(x.Get(LastUpdate), y.Get(LastUpdate) - (Doll.Sliding ? .3f : 1.5f), z.Get(LastUpdate));
         transform.eulerAngles = new(0f, bodyRotation.GetAngel(LastUpdate));
         Doll.Head.localEulerAngles = new(Doll.Emoji == 8 ? -20f : headRotation.Get(LastUpdate), 0f);
-        Doll.RightArm.localEulerAngles = new(headRotation.Get(LastUpdate), 0f);
 
         EnemyId.machine.health = 4200f; // prevent the doll from dying too early
 
@@ -153,7 +152,6 @@ public class RemotePlayer : Entity
     /// <summary> Creates a pointer that will draw a line from itself to the player. </summary>
     public void Point(Reader r)
     {
-        // Worry later
         if (Pointer != null) Pointer.Lifetime = 4.5f;
         Pointer = Pointer.Spawn(Team, r.Vector(), r.Vector(), Doll.Head.transform);
     }

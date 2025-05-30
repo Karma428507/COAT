@@ -10,16 +10,19 @@ using COAT.UI;
 [HarmonyPatch]
 public class DiscordPatch
 {
-    [HarmonyPrefix]
+    [HarmonyPrefix] 
     [HarmonyPatch(typeof(DiscordController), "SendActivity")]
     static void Activity(ref Activity ___cachedActivity)
     {
         // update the discord activity so everyone can know I've been working hard
-        if (LobbyController.Online) ___cachedActivity.State = "Playing multiplayer via COAT :3";
+        if (!LobbyController.Online) return;
+        ___cachedActivity.State = "Testing multiplayer via COAT :3";
+        ___cachedActivity.Details = $"Member Count: {LobbyController.Lobby?.MemberCount}/{LobbyController.Lobby?.MaxMembers}";
     }
 
     // Maybe bring this back...
     // But with the UI revamp, we could just add the link inside one of the menus
+    // NO DONT DO THAT PLEASEEEE ILL DO THIS FOR U ISTGGG
     /*[HarmonyPrefix]
     [HarmonyPatch(typeof(ShopZone), "Start")]
     static void Button(ShopZone __instance)

@@ -148,7 +148,7 @@ public class LobbyController
             Networking.Client.Close();
 
             Lobby?.Leave();
-            Lobby = null;
+            Lobby = null; 
         }
 
         // load the main menu if the client has left the lobby
@@ -164,12 +164,12 @@ public class LobbyController
     /// <summary> Asynchronously connects the player to the given lobby. </summary>
     public static void JoinLobby(Lobby lobby)
     {
+        if (lobby.GetData("banned").Contains(Tools.AccId.ToString())) { Bundle.Hud2NS("lobby.banned"); return; } // check if ur banned first so u dont accidentally leave the lobby ur in for no reason
         if (Lobby?.Id == lobby.Id) { Bundle.Hud("lobby.join-yourself"); return; }
         Log.Debug("Joining a lobby...");
 
         // leave the previous lobby before join the new, but don't load the main menu
         if (Online) LeaveLobby(false);
-        if (lobby.GetData("banned").Contains(Tools.AccId.ToString())) { Bundle.Hud2NS("lobby.banned"); return; }
 
         lobby.Join().ContinueWith(task =>
         {

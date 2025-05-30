@@ -20,7 +20,7 @@ public class MainMenuAccess : CanvasSingleton<MainMenuAccess>
     /// <summary> Loads the leftside element </summary>
     private GameObject leftside;
     /// <summary> Main menu table. </summary>
-    private GameObject menu;
+    //private GameObject menu;
     /// <summary> literally just the "PLAY" button </summary>
     private GameObject Continue;
 

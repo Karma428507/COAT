@@ -7,7 +7,8 @@ using COAT.Net;
 /// <summary> All teams. Teams needed for PvP mechanics. </summary>
 public enum Team
 {
-    Yellow, Red, Green, Blue, Pink
+    // NOTE: dont add more than 8 teams
+    Yellow, Red, Green, Blue, Pink, Purple 
 }
 
 /// <summary> Extension class that allows you to get team data. </summary>
@@ -21,6 +22,7 @@ public static class TeamExtensions
         Team.Green  => new(0f, .9f, .4f),
         Team.Blue   => new(0f, .5f,  1f),
         Team.Pink   => new(1f, .4f, .8f),
+        Team.Purple => new(.7f, 0f, 1f),
         _ => new(1f, 1f, 1f)
     };
 

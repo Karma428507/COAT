@@ -20,6 +20,9 @@ public class EmojiWheel : CanvasSingleton<EmojiWheel>
     /// <summary> Whether the second page of the emoji wheel is open. </summary>
     public bool Second;
 
+    /// <summary> Which ever page of the emoji wheel is currently open. </summary>
+    public int Page;
+
     /// <summary> Id of the selected segment, it will be highlighted in red. </summary>
     private int lastSelected, selected;
     /// <summary> Cursor direction relative to wheel center. </summary>

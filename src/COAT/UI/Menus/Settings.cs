@@ -42,10 +42,10 @@ public class Settings : CanvasSingleton<Settings>, IMenuInterface
 
     /// <summary> Array with current control settings. </summary>
     public static KeyCode[] CurrentKeys => new[]
-    { Chat, ScrollUp, ScrollDown, LobbyTab, PlayerList, Settingz, PlayerIndicators, PlayerInfo, EmojiWheel, Pointer, Spray, SelfDestruction };
+    { Chat, ScrollUp, ScrollDown, LobbyTab, PlayerList, Settingz, PlayerIndicators, PlayerInfo, EmojiWheel, Pointer, Spray, SelfDestruction, PanHit };
 
     /// <summary> List of all key bindings in the mod. </summary>
-    public static KeyCode Chat, ScrollUp, ScrollDown, LobbyTab, PlayerList, Settingz, PlayerIndicators, PlayerInfo, EmojiWheel, Pointer, Spray, SelfDestruction;
+    public static KeyCode Chat, ScrollUp, ScrollDown, LobbyTab, PlayerList, Settingz, PlayerIndicators, PlayerInfo, EmojiWheel, Pointer, Spray, SelfDestruction, PanHit;
 
     /// <summary> Gets the key binding value from its path. </summary>
     public static KeyCode GetKey(string path, KeyCode def) => (KeyCode)pm.GetInt($"jaket.binds.{path}", (int)def);
@@ -124,6 +124,7 @@ public class Settings : CanvasSingleton<Settings>, IMenuInterface
         Pointer = GetKey("pointer", KeyCode.Mouse2);
         Spray = GetKey("spray", KeyCode.T);
         SelfDestruction = GetKey("self-destruction", KeyCode.K);
+        PanHit = GetKey("self-destruction", KeyCode.F);
 
         DollAssets.Mixer?.SetFloat("Volume", TTSVolume / 2f - 30f);
     }

@@ -6,16 +6,21 @@ using Steamworks.Data;
 using System;
 using System.Linq;
 using System.Reflection;
+using System.Net.Security;
 using UnityEngine;
 using UnityEngine.Events;
 
 using Object = UnityEngine.Object;
 
+using COAT.Assets;
 using COAT.IO;
 using System.Threading.Tasks;
 using static UnityEngine.GraphicsBuffer;
 using UnityEngine.SceneManagement;
-using System.Net.Security;
+using COAT.Net.Types;
+using COAT.Net;
+using COAT.Content;
+using System.Net;
 
 /// <summary> Set of different tools for simplifying life and systematization of code. </summary>
 public class Tools
@@ -31,6 +36,8 @@ public class Tools
     public static void CacheAccId() => AccId = Id.AccountId;
     /// <summary> Returns the name of the player with the given AccountId. </summary>
     public static string Name(uint id) => new Friend(id | 76561197960265728u).Name;
+    /// <summary> Returns the Steamworks.Friend of the player with the given AccountId. </summary>
+    public static Friend Friend(uint id) => new Friend(id | 76561197960265728u);
 
     /// <summary> Shortcut needed in order to track statistics and errors. </summary>
     public static void Send(Connection? con, IntPtr data, int size)
@@ -149,6 +156,31 @@ public class Tools
     public static bool Within(Transform a, Transform b, float dst = 1f) => Within(a.position, b.position, dst);
     public static bool Within(GameObject a, Vector3 b, float dst = 1f) => Within(a.transform.position, b, dst);
     public static bool Within(GameObject a, GameObject b, float dst = 1f) => Within(a.transform.position, b.transform.position, dst);
+
+    #endregion
+    #region extras ig
+
+    public static void OnFocusLost(Action OnEnter = null, Action OnFocusOff = null, Action OnEither = null)
+    {
+        // focus lost because the player entered a message
+        if (OnEnter != null && (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)))
+            OnEnter();
+
+        // focus lost for some other reason
+        else if (OnFocusLost != null)
+            OnFocusOff();
+
+        // basicallyyyy... if it doesnt care what smt is then.... like.... uhhhhhhhhhhhh- oh yeaaaaa i remember nowww... uhh- OH YEA!!- okay so if it doesnt care what smt is then it does this!!! :DDD
+        else if (OnEither != null)
+            OnEither();
+    }
+
+    /// <summary> Spawn a Dummy entity, copies the player. </summary>
+    public static void Dummy()
+    {
+        //LocalPlayer HowMuchIsItForTheSandwich00ThatsA10DollarBaconEggAndCheese00BaBaBaconEggAndCheese0CheeseCheeseCheeseCheeseCheeseCheese0EhBaBaconEggAndChe = new LocalPlayer();
+        DollAssets.ProduceDoll();
+    }
 
     #endregion
     #region steam API
@@ -270,24 +302,6 @@ public class Tools
         }
 
         return texture;
-    }
-
-    #endregion
-    #region extras ig
-
-    public static void OnFocusLost(Action OnEnter = null, Action OnFocusOff = null, Action OnEither = null)
-    {
-        // focus lost because the player entered a message
-        if (OnEnter != null && (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))) 
-            OnEnter();
-
-        // focus lost for some other reason
-        else if (OnFocusLost != null)
-            OnFocusOff();
-
-            // basicallyyyy... if it doesnt care what smt is then.... like.... uhhhhhhhhhhhh- oh yeaaaaa i remember nowww... uhh- OH YEA!!- okay so if it doesnt care what smt is then it does this!!! :DDD
-        else if (OnEither != null)
-            OnEither();
     }
 
     #endregion

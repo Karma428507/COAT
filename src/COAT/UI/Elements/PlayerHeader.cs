@@ -37,7 +37,7 @@ public class PlayerHeader
                 Text = UIB.Text(Name, table, Huge, size: 240);
 
                 Mask PFPMASK = UIB.Mask($"PFP MASK OF {Tools.Name(id)}", table, new((-width / 2) - 30, 0, 50, 50), UIB.Background);
-                UIB.Image("PFP", PFPMASK.transform, new(0, 0, 50, 50));
+                Image PFP = UIB.Image("PFP", PFPMASK.transform, new(0, 0, 50, 50));
 
                 PlayerList.Instance.LoadPFP(Tools.Friend(id), PFP);
             });

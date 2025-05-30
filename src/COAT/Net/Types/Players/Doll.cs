@@ -28,14 +28,14 @@ public class Doll : MonoBehaviour
     public Color32 Color1, Color2, Color3;
 
     /// <summary> Transforms of different parts of the body. </summary>
-    public Transform Head, RightArm, Hand, Hook, HookRoot, Throne, Coin, Skateboard, Suits;
+    public Transform Head, RightArm, Hand, Hook, HookRoot, Throne, Coin, Skateboard, Suits, PAiN;
     /// <summary> Slide and fall particles transforms. </summary>
     public Transform SlideParticle, FallParticle;
     /// <summary> Position in which the doll holds an item. </summary>
     public Vector3 HoldPosition => Hooking ? Hook.position : HookRoot.position;
 
     /// <summary> Materials of the wings, coin and skateboard. </summary>
-    public Material WingMat, CoinMat, SkateMat;
+    public Material WingMat, CoinMat, SkateMat, PAiNmat;
     /// <summary> Trail of the wings. </summary>
     public TrailRenderer WingTrail;
     /// <summary> Light from the wings. </summary>
@@ -48,7 +48,7 @@ public class Doll : MonoBehaviour
         UIB.Component<Doll>(Instantiate(DollAssets.Preview, parent), doll =>
         {
             doll.transform.localPosition = new(0f, -1.5f);
-            doll.transform.localScale = Vector3.one * 2.18f;
+            doll.transform.localScale = Vector3.one * 2.17f;
 
             doll.ApplyTeam(team);
             doll.Suits.gameObject.SetActive(true);
@@ -64,7 +64,6 @@ public class Doll : MonoBehaviour
         Transform V3 = transform.Find("V3"), rig = V3.Find("Metarig");
 
         Head = rig.Find("Spine 0/Spine 1/Spine 2");
-        RightArm = rig.Find("Spine 0/Right Shoulder");
         Hand = rig.Find("Spine 0/Right Shoulder/Right Elbow/Right Wrist");
         Hand = Tools.Create("Weapons Root", Hand).transform;
         Hook = rig.Find("Hook");
@@ -72,11 +71,13 @@ public class Doll : MonoBehaviour
         Throne = rig.Find("Throne");
         Coin = V3.Find("Coin");
         Skateboard = V3.Find("Skateboard");
+        PAiN = V3.Find("P A (i) N");
         Suits = V3.Find("Suits");
 
         WingMat = V3.Find("V3").GetComponent<Renderer>().materials[1];
         CoinMat = Coin.GetComponent<Renderer>().material;
         SkateMat = Skateboard.GetComponent<Renderer>().material;
+        PAiNmat = PAiN.GetComponent<Renderer>().material;
         WingTrail = GetComponentInChildren<TrailRenderer>();
         WingLight = GetComponentInChildren<Light>();
         HookWinch = GetComponentInChildren<LineRenderer>(true);
@@ -144,6 +145,7 @@ public class Doll : MonoBehaviour
     public void ApplyTeam(Team team)
     {
         WingMat.mainTexture = SkateMat.mainTexture = DollAssets.WingTextures[(int)team];
+        PAiNmat.mainTexture = DollAssets.PainTexture; // where do i put this?
         CoinMat.color = team.Color();
         if (WingTrail != null) WingTrail.startColor = team.Color() with { a = .5f };
         if (WingLight != null) WingLight.color = team.Color() with { a = 1f };

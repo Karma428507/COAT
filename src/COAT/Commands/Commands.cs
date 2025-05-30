@@ -12,6 +12,7 @@ using COAT.UI.Overlays;
 using System.Diagnostics;
 using COAT.IO;
 using System.Runtime.CompilerServices;
+using COAT.Net.Types;
 
 /// <summary> List of chat commands used by the mod. </summary>
 public class Commands

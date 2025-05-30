@@ -71,16 +71,19 @@ public class Home : CanvasSingleton<Home>, IMenuInterface
                 optionList.sizeDelta = new(336f, height - 28f);
 
                 UIB.Button("Settings", optionList, new(0, y -= 88, 320f, 80f, new(.5f, 1f)),
-                    orange, 24, clicked: () => UI.PushStack(Settings.Instance));
+                    yellow, 24, clicked: () => UI.PushStack(Settings.Instance));
 
                 /*UIB.Button("Spray Settings", optionList, new(0, y -= 88, 320f, 80f, new(.5f, 1f)),
-                    green, 24, clicked: SpraySettings.Instance.Toggle);
+                    yellow, 24, clicked: SpraySettings.Instance.Toggle);*/
 
-                UIB.Button("Load from code", optionList, new(0, y -= 88, 320f, 80f, new(.5f, 1f)),
-                    pink, 24, clicked: LobbyController.JoinByCode);*/
+                UIB.Button("Join By Code", optionList, new(0, y -= 88, 320f, 80f, new(.5f, 1f)),
+                    orange, 24, clicked: LobbyController.JoinByCode);
 
                 newServer = UIB.Button("New Server", optionList, new(0, y -= 88, 320f, 80f, new(.5f, 1f)),
                     red, 24, clicked: () => UI.PushStack(GamemodeList.Instance));
+
+                UIB.Button("Dummy", optionList, new(0, y -= 88, 320f, 80f, new(.5f, 1f)),
+                    black, 24, clicked: () => Tools.Dummy());
             });
 
             // Body portion
@@ -129,6 +132,7 @@ public class Home : CanvasSingleton<Home>, IMenuInterface
         float y = 60 * (lobbies.Length - 1);
         foreach (var lobby in lobbies)
         {
+            if (lobby.GetData("level") == "enu") return;
             bool isMultikill = LobbyController.IsMultikillLobby(lobby);
             string serverName = isMultikill ? "[MULTIKILL] " + lobby.GetData("lobbyName") : lobby.GetData("name");
 
