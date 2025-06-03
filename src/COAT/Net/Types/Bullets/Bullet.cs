@@ -83,6 +83,7 @@ public class Bullet : OwnableEntity
             w.Bool(IsOwner ? grenade.frozen : frozen);
         }
     }
+    public override void GoofyWrite(Writer w, Vector3 position) { }
 
     public override void Read(Reader r)
     {

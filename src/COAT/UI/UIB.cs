@@ -104,7 +104,7 @@ public class UIB
         return image;
     }
 
-    /// <summary> Adds a translucent black image, with a color. </summary>
+    /// <summary> Adds a translucent image with a color. </summary>
     public static Image Table(string name, Transform parent, Rect r, Color? color, Action<Transform> build = null)
     {
         var image = Image(name, parent, r, color);
@@ -298,7 +298,8 @@ public class UIB
     public static Button TeamButton(Team team, Transform parent, Rect r, Action clicked = null)
     {
         var img = Image(team.ToString(), parent, r, team.Color());
-        if (team == Team.Pink) Text("UwU", img.transform, r.Text, Dark(pink));
+        bool PoP = team == Team.Pink || team == Team.Purple;
+        if (PoP) Text("UwU", img.transform, r.Text, Dark((team == Team.Pink ? pink : purple)));
         return Component<Button>(img.gameObject, button =>
         {
             button.targetGraphic = img;

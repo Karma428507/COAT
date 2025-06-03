@@ -81,6 +81,7 @@ public class Item : OwnableEntity
         w.Bool(IsOwner ? ItemId.pickedUp : holding);
         w.Bool(IsOwner ? ItemId.Placed() : placed);
     }
+    public override void GoofyWrite(Writer w, Vector3 position) { }
 
     public override void Read(Reader r)
     {

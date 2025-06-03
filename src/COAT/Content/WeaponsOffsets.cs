@@ -19,7 +19,7 @@ public class WeaponsOffsets
     {
         Rewower, AltRewower, Rewower, AltRewower, Rewower, AltRewower,
         Shotgun, AltShotgun, Shotgun, AltShotgun, Shotgun, AltShotgun,
-        Nailgun, AltNailgun, Nailgun, AltNailgun, Nailgun, AltNailgun,
+        Nailgun, AltNailgun, Nailgun, AltNailgun, Nailgun, AltNailgun, // these are repeating due to how the weppons are ordered in Weappons.Prefabs (thats inside of Weapons.cs) 
         Railcannon, Railcannon, Railcannon,
         Rocket, Rocket, Rocket
     };

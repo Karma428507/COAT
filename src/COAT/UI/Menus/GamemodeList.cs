@@ -65,7 +65,7 @@ namespace COAT.UI.Menus
                     myEnemy = UIB.Toggle("#lobby-tab.allow-mods", options, Rect.Tgl(240), clicked: allow => creationLobby.modded = allow);
                     bosses = UIB.Toggle("#lobby-tab.heal-bosses", options, Rect.Tgl(280), 20, allow => creationLobby.healBosses = allow);
 
-                    UIB.Button("Play", options, new Rect(0, -190, 380, 40), null, 24, clicked: () =>
+                    UIB.Button("Play", options, new Rect(0, -190, 380, 40), Pal.white, 24, clicked: () =>
                     { // my balls itch
                         GamemodeManager.GetList(gamemode, GameMode => GameMode.Start());
 
@@ -81,7 +81,6 @@ namespace COAT.UI.Menus
 
             UIB.Table("Gamemode List", transform, new(-500, 0, 400, 126 * Enum.GetNames(typeof(GamemodeTypes)).Length), table =>
             {
-                gamemodeMenu = table;
                 gamemode = 1;
                 int y = 48 * Enum.GetNames(typeof(GamemodeTypes)).Length;
 
@@ -98,11 +97,11 @@ namespace COAT.UI.Menus
                         UIB.Button(" ", entry, new Rect(0, 0, 350f, 100),
                             null, 24, TextAnchor.UpperLeft, () => {
                                 // TODO: make this shit work, once we start trying to make gamemodes
-                                if (type != GamemodeTypes.NormalCampain || type != GamemodeTypes.PAiN)
-                                    HudMessageReceiver.Instance?.SendHudMessage("This Gamemode isn't working right now,\nplease fucking deal with it.");
-                                else if (type == GamemodeTypes.PAiN) gamemode = 0;
-                                else gamemode = 1;
+                                if (type == GamemodeTypes.PAiN) gamemode = 0;
+                                else if (type == GamemodeTypes.NormalCampain) gamemode = 1;
+                                else HudMessageReceiver.Instance?.SendHudMessage("This Gamemode isn't working right now,\nplease fucking deal with it.");
 
+                                LoadServerCreator(type);
                                 GamemodeManager.GetList(gamemode, GameMode => GameMode.LoadSettings(gamemodeMenu));
                             });
                     });

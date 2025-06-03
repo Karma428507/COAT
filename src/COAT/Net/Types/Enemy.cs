@@ -84,6 +84,7 @@ public class Enemy : OwnableEntity
         EnemyId.ForceGetHealth();
         SetHealth(Mathf.Min(InitialHealth, EnemyId.health + InitialHealth / (LobbyController.Lobby?.MemberCount ?? 1f)));
     }
+    public override void GoofyWrite(Writer w, Vector3 position) { }
 
     #endregion
 }

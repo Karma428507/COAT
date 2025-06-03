@@ -360,6 +360,7 @@ public class TeamCoin : OwnableEntity
         w.Vector(transform.position);
         w.Bool(quadrupled);
     }
+    public override void GoofyWrite(Writer w, Vector3 position) { }
 
     public override void Read(Reader r)
     {

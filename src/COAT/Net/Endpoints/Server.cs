@@ -75,18 +75,6 @@ public class Server : Endpoint, ISocketManager
         });
 
         // PUT ALL COAT PACKETS BELOW THIS. JUST SO I DONT HAVE TO SEARCH THE MILKYWAY TO FIND A SINGLE FUCKING LIL GUY!!!
-        // write down coat client id, then send urs
-        Listen(PacketType.COAT_Request, r =>
-        {
-            Networking.COATPLAYERS.Clear(); // clear list so then u can update it
-            Networking.COATPLAYERS.Add(Tools.AccId); // add yourself to the list
-            Networking.COATPLAYERS.Add(r.Id()); // add the person requesting to the list
-            Chat.StaticReceive($"\\nReceived \"COAT_Request\"\\nCleared the \"COATPLAYERS\" list, Added {Tools.Name(Tools.AccId)} to the \"COATPLAYERS\" list, Sent \"COAT_ClientId\".");
-            Networking.Send(PacketType.COAT_ClientId, w => { w.Id(Tools.AccId); }); // send out ur id for others to write down
-        });
-
-        // write down coat client id.
-        Listen(PacketType.COAT_ClientId, r => { Chat.StaticReceive($"Received \"COAT_ClientId\", Added {Tools.Name(r.Id())} to the \"COATPLAYERS\" list."); Networking.COATPLAYERS.Add(r.Id()); });
     }
 
     public override void Update()

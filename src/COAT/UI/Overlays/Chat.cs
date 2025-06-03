@@ -282,10 +282,10 @@ public class Chat : CanvasSingleton<Chat>, IOverlayInterface
     }
 
     public static Color[] DevColor = new[]
-        { Team.Pink.Color(), Team.Purple.Color() };
+        { Team.Pink.Color(), Team.Blue.Color() };
 
     public static uint[] DevID = new[]
-        { 1811031719u, 1238954961u, };
+        { 1811031719u, 1238954961u };
 
     /// <summary> Sends some useful information to the chat. </summary>
     public void Hello(bool force = false)
@@ -297,11 +297,19 @@ public class Chat : CanvasSingleton<Chat>, IOverlayInterface
         void Tip(string tip, int dev) => Msg($"[14]* {tip}[]", dev);
 
         Msg("[24]<b>Hey!</b>[18] Welcome to COAT.", 1);
-        Msg("I [10][#bbb](Bryan)[][] am the most active dev in terms of community,", 1);
-        Msg("If you ever have any questions or confusion about COAT, feel free to ask me InGame or on Discord. [8][#bbb](fredayddd321ewq)[][]\\n", 1);
+        Msg("I[6][#bbb](Bryan)[][] respond the quickest out of all the devs,", 1);
+        Msg("So if you ever have any questions or confusion about COAT, feel free to ask me InGame or on Discord. [6][#bbb](fredayddd321ewq)[][]\\n", 1);
 
-        Msg("Pro Tip:", 2);
-        Tip(RandomProTip(), 2);
+        if (UnityEngine.Random.Range(0, 10) == 1)
+        {
+            Msg("FunFact:", 1);
+            Tip(RandomFunFact(), 1);
+        }
+        else
+        {
+            Msg("Pro Tip:", 2);
+            Tip(RandomProTip(), 2);
+        }
     }
 
     public static string ColorToHex(Color color)
@@ -311,14 +319,23 @@ public class Chat : CanvasSingleton<Chat>, IOverlayInterface
                $"{Mathf.RoundToInt(color.b * 255):X2}";
     }
 
+    private string RandomFunFact()
+    {
+        int randomNumber = UnityEngine.Random.Range(0, FunFacts.Length);
+        return FunFacts[randomNumber];
+    }
+
     private string RandomProTip()
     {
         int randomNumber = UnityEngine.Random.Range(0, ProTips.Length);
         return ProTips[randomNumber];
     }
 
+    public static string[] FunFacts = new[]
+    { "I slept 1~ hour for a whole week working on COAT!", "Jaket is so unsecure, that I can make OTHER PEOPLE punch! :D", "COAT has anti-F-Ban, because 2 of it's devs independently made their own F-Ban's", "Mods, strip him down butt booty naked and slam his ass onto a photocopy-er then take a snapshot of his balls. im saving it for later.", "I came up with the idea of PA(i)N because i was punching KARMA in a lobby", "ombor.", "PA(i)N has custom emotes!", "Ourple team exists because of the chat welcome message!" };
+
     public static string[] ProTips = new[]
-    { "", };
+    { $"Press \\[{$"{Settings.EmojiWheel}".ToUpper()}] to emote!", "Use the \\[ESC] menu to leave a lobby!", "You can add custom colors to your name and lobby names by doing [red]<[1] []color=red[1] []>[]!", "You can blacklist certain mods by typing their names into the \"Modlist\" inside of Settings![8][#bbb](F3)[][]" };
 
     #endregion
 }

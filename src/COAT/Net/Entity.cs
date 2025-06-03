@@ -80,6 +80,7 @@ public abstract class Entity : MonoBehaviour
 
     /// <summary> Writes the entity data to the writer. </summary>
     public abstract void Write(Writer w);
+    public abstract void GoofyWrite(Writer w, Vector3 position);
     /// <summary> Reads the entity data from the reader. </summary>
     public abstract void Read(Reader r);
 

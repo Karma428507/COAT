@@ -113,18 +113,25 @@ public class Home : CanvasSingleton<Home>, IMenuInterface
         else
             newServer.image.GetComponentInChildren<Text>().color = newServer.image.color = UnityEngine.Color.red;
 
-        //refresh.GetComponentInChildren<Text>().text = Bundle.Get(LobbyController.FetchingLobbies ? "lobby-list.wait" : "lobby-list.refresh");
+        refresh.GetComponentInChildren<Text>().text = Bundle.Get(LobbyController.FetchingLobbies ? "lobby-list.wait" : "lobby-list.refresh");
 
         // destroy old lobby entries if the search is completed
         if (!LobbyController.FetchingLobbies)
             foreach (Transform child in content)
                 Destroy(child.gameObject);
-        //if (Lobbies == null) goto rip;
+
+        Text text = UIB.Text("No lobbies are open", lobbyList.transform, new(0, 0, 1000, 650), align: TextAnchor.MiddleCenter);
+        void rip()
+        { 
+            text.gameObject.SetActive(text.IsActive()); 
+        }
+
+        if (Lobbies == null) rip();
 
         // look for the lobby using the search string
         var lobbies = search == "" ? Lobbies : Array.FindAll(Lobbies, lobby => lobby.GetData("name").ToLower().Contains(search));
 
-        //if (lobbies.Length <= 0) goto rip;
+        if (lobbies.Length <= 0) rip();
 
         float height = (lobbies.Length * 120);
         content.sizeDelta = new(1000f, height);
@@ -134,11 +141,13 @@ public class Home : CanvasSingleton<Home>, IMenuInterface
         {
             if (lobby.GetData("level") == "enu") return;
             bool isMultikill = LobbyController.IsMultikillLobby(lobby);
-            string serverName = isMultikill ? "[MULTIKILL] " + lobby.GetData("lobbyName") : lobby.GetData("name");
+            bool isCOAT = LobbyController.IsCOATLobby(lobby);
+            string serverName = isMultikill && !isCOAT ? "[MULTIKILL] " + lobby.GetData("lobbyName") : lobby.GetData("name");
 
             UIB.Table("LobbyEntry", content, new COAT.UI.Rect(0, y, 960, 100), entry =>
             {
-                UIB.Image(name, entry, new(0, 0, 960, 100), blue, fill: false);
+                if (isCOAT) UIB.Image("Lobby bg", entry, new(0f, 0f, 960f, 100f), white);
+                UIB.Image(name, entry, new(0, 0, 960, 100), (isCOAT ? darkblue : isMultikill ? red : blue), fill: false);
 
                 // text
                 var full = lobby.MemberCount <= 2 ? Green : lobby.MemberCount <= 4 ? Orange : Red;
@@ -148,7 +157,6 @@ public class Home : CanvasSingleton<Home>, IMenuInterface
                 UIB.Text("<color=#BBBBBB> TBD (most likely for filters)</color>", entry, new(-100, -30, 740, 50), align: TextAnchor.MiddleLeft);
 
                 // buttons
-
                 UIB.Button("Play", entry, new COAT.UI.Rect(380, -15, 180, 50), align: TextAnchor.MiddleCenter,
                     clicked: () => { if (isMultikill) Bundle.Hud("lobby.mk"); else LobbyController.JoinLobby(lobby); });
             });
@@ -156,9 +164,6 @@ public class Home : CanvasSingleton<Home>, IMenuInterface
             y -= 120;
         }
         return;
-
-    //rip:
-    //    UIB.Text("No lobbies are open", lobbyList.transform, new(0, 0, 1000, 650), align: TextAnchor.MiddleCenter);
     }
 
     /// <summary> Updates the list of public lobbies and rebuilds the menu. </summary>
