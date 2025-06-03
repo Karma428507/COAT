@@ -282,10 +282,13 @@ public class Chat : CanvasSingleton<Chat>, IOverlayInterface
     }
 
     public static Color[] DevColor = new[]
-        { Team.Pink.Color(), Team.Blue.Color() };
+        { Team.Pink.Color(), Team.Purple.Color() };
 
     public static uint[] DevID = new[]
-        { 1811031719u, 1238954961u };
+        { 1811031719u, 12389549611u };
+
+    public static string[] DevFallbackNames = new[]
+    { "<color=#0fc>Bryan</color>_-000-", "whyis2plus2" };
 
     /// <summary> Sends some useful information to the chat. </summary>
     public void Hello(bool force = false)
@@ -293,7 +296,13 @@ public class Chat : CanvasSingleton<Chat>, IOverlayInterface
         // if the last owner of the lobby is not equal to 0, then the lobby is not created for the first time
         if (LobbyController.LastOwner != 0L && !force) return;
 
-        void Msg(string msg, int dev) => Receive(ColorToHex(DevColor[dev-1]), BOT_PREFIX + Tools.Friend(DevID[dev-1]).Name, msg);
+        void Msg(string msg, int dev) 
+        {
+            string devname = Tools.Friend(DevID[dev - 1]).Name;
+            if (devname == "[unknown]") devname = DevFallbackNames[dev - 1];
+
+            Receive(ColorToHex(DevColor[dev - 1]), BOT_PREFIX + devname, msg); 
+        }
         void Tip(string tip, int dev) => Msg($"[14]* {tip}[]", dev);
 
         Msg("[24]<b>Hey!</b>[18] Welcome to COAT.", 1);
