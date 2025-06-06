@@ -65,6 +65,10 @@ public class Server : Endpoint, ISocketManager
                 Redirect(r, con);
             }
         });
+        Listen(PacketType.Style, r =>
+        {
+            if (ents[r.Id()] is RemotePlayer player) player.Doll.ReadSuit(r);
+        });
         ListenAndRedirect(PacketType.Punch, r =>
         {
             if (ents[r.Id()] is RemotePlayer player) player.Punch(r);

@@ -1,9 +1,11 @@
 namespace COAT.Assets;
 
+using System;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using static InputActions;
 
 /// <summary> Class that works with the assets of the game. </summary>
 public class GameAssets
@@ -23,27 +25,31 @@ public class GameAssets
     };
 
     /// <summary> List of internal names of all items. </summary>
-    public static readonly string[] Items = new[]
-    { "Apple Bait", "Maurice Bait", "SkullBlue", "SkullRed", "Soap", "Torch", "Florp/Florp_fbx" };
+    public static readonly string[] Items =
+    { "SkullBlue", "SkullRed", "Soap", "Torch", "Florp Throwable" };
+
+    /// <summary> List of internal names of all baits. </summary>
+    public static readonly string[] Baits =
+    { "Apple Bait", "Maurice Bait" };
 
     /// <summary> List of internal names of all dev plushies. </summary>
     public static readonly string[] Plushies = new[]
     {
-        "Jacob", "Mako", "HEALTH - Jake", "Dalia", "Jericho", "Meganeko", "Imp", "FlyingDog", "Dawg", "Sam",
-        "Cameron", "Gianni", "Salad", "Mandalore", "Joy", "Weyte", "Heck", "Hakita", "Lenval", "CabalCrow",
-        "Quetzal", "HEALTH - John", "PITR", "HEALTH - BJ", "Francis", "Vvizard", "Lucas", "Scott", "KeygenChurch", "V1Plush"
+        "Jacob", "Mako", "HEALTH - Jake", "Dalia", "Jericho", "Meganeko", "Tucker", "BigRock", "Dawg", "Sam",
+        "Cameron", "Gianni", "Salad", "Mandy", "Joy", "Weyte", "Heckteck", "Hakita", "Lenval", ". (CabalCrow) Variant",
+        "Quetzal", "HEALTH - John", "PITR", "HEALTH - BJ", "Francis", "Vvizard", "Lucas", "Scott", "KGC", "."
     };
 
     /// <summary> List of readable names of all dev plushies needed for the /plushy command. </summary>
     public static readonly string[] PlushiesButReadable = new[]
     {
         "Jacob", "Maximilian", "Jake", "Dalia", "Jericho", "Meganeko", "Tucker", "BigRock", "Victoria", "Samuel",
-        "Cameron", "Gianni", "Salad", "Mandalore", "Joy", "Weyte", "Heckteck", "Hakita", "Lenval", "CabalCrow",
+        "Cameron", "Gianni", "Salad", "Mandy", "Joy", "Weyte", "Heckteck", "Hakita", "Lenval", "CabalCrow",
         "Quetzal", "John", "Pitr", "BJ", "Francis", "Vvizard", "Lucas", "Scott", "KGC", "V1"
     };
     #region tools
 
-    private static GameObject Prefab(string name) => AssetHelper.LoadPrefab($"Assets/ULTRAKILL Assets/{name}.prefab");
+    private static GameObject Prefab(string name) => AssetHelper.LoadPrefab($"Assets/Prefabs/{name}.prefab");
 
     //private static void Material(string name, Cons<Material> cons) => Addressables.LoadAssetAsync<Material>($"Assets/Models/{name}.mat").Task.ContinueWith(t => cons(t.Result));
 
@@ -52,13 +58,13 @@ public class GameAssets
 
     public static GameObject Enemy(string name) => Prefab($"Enemies/{name}");
 
-    public static GameObject Item(string name) => Prefab($"Models/Objects/{name}");
+    public static GameObject Item(string name) => Prefab($"Items/{name}");
 
     public static GameObject Bait(string name) => Prefab($"Fishing/{name}");
 
     public static GameObject Fish(string name) => Prefab($"Fishing/Fishes/{name}");
 
-    public static GameObject Plushie(string name) => Prefab($"Credits Museum/Developers/{(name.StartsWith("!") ? name : $"{name}_fbx")}");
+    public static GameObject Plushie(string name) => Prefab($"Items/DevPlushies/DevPlushie{(name.StartsWith(".") ? name.Substring(1) : $" ({name})")}");
 
     /// <summary> Loads the torch prefab. </summary>
     public static GameObject Torch() => Prefab("Levels/Interactive/Altar (Torch) Variant");

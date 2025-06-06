@@ -21,6 +21,7 @@ using COAT.UI.Menus;
 using static Pal;
 using static Rect;
 using COAT;
+using COAT.World;
 
 /// <summary> Class that builds the entire interface of the mod. </summary>
 public class UIB
@@ -319,7 +320,7 @@ public class UIB
         var img = Table("Button", bind.transform, new(-64f, 0f, 128f, 32f, new(1f, .5f)), table =>
         {
         Image("Button Border", table, new(-64f, 0f, 128f, 32f, new(1f, .5f)), fill: false);
-            key = KeyText(Settings.KeyName(current), table, Size(128f, 32f), 16);
+            key = KeyText(Keybinds.KeyName(current), table, Size(128f, 32f), 16);
         });
         return Component<Button>(img.gameObject, button =>
         {

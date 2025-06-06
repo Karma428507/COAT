@@ -1,10 +1,10 @@
-/*namespace Jaket.Patches;
+namespace COAT.Patches;
 
 using HarmonyLib;
 using UnityEngine;
 
-using Jaket.Content;
-using Jaket.Net;
+using COAT.Content;
+using COAT.Net;
 
 [HarmonyPatch(typeof(EnemyIdentifier))]
 public class EnemyPatch
@@ -105,4 +105,3 @@ public class OtherPatch
     [HarmonyPatch(typeof(EventOnDestroy), "OnDestroy")]
     static bool Destroy() => LobbyController.Offline || LobbyController.IsOwner;
 }
-*/

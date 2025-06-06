@@ -59,12 +59,10 @@ public class DollAssets
         Bundle = LoadBundle();
 
         // cache the shader and the wing textures for future use
-
-        Shader = Utils.metalDec20.shader;
+        Events.Post(LoadAssets);
 
         WingTextures = new Texture[5];
         HandTextures = new Texture[4];
-        //Log.Error("Shader loaded");
 
         // loading wing textures from the bundle
         for (int i = 0; i < System.Enum.GetValues(typeof(Team)).Length - 1; i++)
@@ -74,11 +72,6 @@ public class DollAssets
 
         LoadAsync<Texture>("V3-hand", tex => HandTextures[1] = tex);
         LoadAsync<Texture>("V3-blast", tex => HandTextures[3] = tex);
-
-        // Error trying to get the in game arm assets
-        //HandTextures[0] = FistControl.Instance.blueArm.ToAsset().GetComponentInChildren<SkinnedMeshRenderer>().material.mainTexture;
-        //HandTextures[2] = FistControl.Instance.redArm.ToAsset().GetComponentInChildren<SkinnedMeshRenderer>().material.mainTexture;
-        //Log.Error("Old hands added");
 
         LoadAsync<Texture>("PainTexture", tex => PainTexture = tex);
 
@@ -94,6 +87,27 @@ public class DollAssets
             LoadAsync<Sprite>("V3-emoji-" + i, tex => EmojiIcons[index] = tex);
             LoadAsync<Sprite>("V3-emoji-" + i + "-glow", tex => EmojiGlows[index] = tex);
         }
+
+        // I guess async will improve performance a little bit
+        LoadAsync<Sprite>("V3-icon", sprite => Icon = sprite);
+        LoadAsync<AudioMixer>("sam-audio", mix =>
+        {
+            Mixer = mix;
+            Events.Post(() =>
+            {
+                Networking.LocalPlayer.Voice.outputAudioMixerGroup = Mixer.FindMatchingGroups("Master")[0];
+            });
+        });
+
+        Font = Bundle.LoadAsset<Font>("font.ttf");
+        FontTMP = TMP_FontAsset.CreateFontAsset(Font);
+    }
+
+    private static void LoadAssets()
+    {
+        Shader = Utils.metalDec20.shader;
+        HandTextures[0] = FistControl.Instance.blueArm.ToAsset().GetComponentInChildren<SkinnedMeshRenderer>().material.mainTexture;
+        HandTextures[2] = FistControl.Instance.redArm.ToAsset().GetComponentInChildren<SkinnedMeshRenderer>().material.mainTexture;
 
         // create prefabs of the player doll and its preview
         LoadAsync<GameObject>("Player Doll.prefab", prefab =>
@@ -111,20 +125,6 @@ public class DollAssets
 
             Preview = prefab;
         });
-
-        // I guess async will improve performance a little bit
-        LoadAsync<Sprite>("V3-icon", sprite => Icon = sprite);
-        LoadAsync<AudioMixer>("sam-audio", mix =>
-        {
-            Mixer = mix;
-            Events.Post(() =>
-            {
-                Networking.LocalPlayer.Voice.outputAudioMixerGroup = Mixer.FindMatchingGroups("Master")[0];
-            });
-        });
-
-        Font = Bundle.LoadAsset<Font>("font.ttf");
-        FontTMP = TMP_FontAsset.CreateFontAsset(Font);
     }
 
     /// <summary> Finds and loads an assets bundle. </summary>
@@ -232,7 +232,7 @@ public class DollAssets
         var remotePlayer = obj.AddComponent<RemotePlayer>();
         LocalPlayer localPlayer = new();
 
-        Writer.Write(w => localPlayer.Write(w), (IntPtr, Int) => Reader.Read(IntPtr, Int, r => 
+        Writer.Write(localPlayer.Write, (IntPtr, Int) => Reader.Read(IntPtr, Int, r => 
         {
             remotePlayer.Read(r);
         }), 48);

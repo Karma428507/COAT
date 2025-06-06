@@ -1,8 +1,5 @@
 namespace COAT;
 
-// TODO: fix the OnLobbyAction event and repair networking
-// Also put this in the coat folder :3
-
 using Steamworks;
 using System;
 using System.Collections.Generic;
@@ -66,6 +63,8 @@ public class Events : MonoSingleton<Events>
     public static void Post(Action task) => Tasks.Enqueue(task);
     /// <summary> Posts the task for execution in the next frame. </summary>
     public static void Post2(Action task) => Post(() => Post(task));
+
+
 
     private void Dozen() => EveryDozen.Fire();
     private void Second() => EverySecond.Fire();

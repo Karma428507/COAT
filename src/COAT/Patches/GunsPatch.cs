@@ -1,6 +1,7 @@
 namespace COAT.Patches;
 
 using HarmonyLib;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,11 +9,12 @@ using COAT.Content;
 using COAT.Net;
 using COAT.Net.Types;
 
-/*[HarmonyPatch]
+[HarmonyPatch]
 public class GunsPatch
 {
     [HarmonyPostfix]
-    [HarmonyPatch(typeof(GunControl), nameof(GunControl.SwitchWeapon), typeof(int), typeof(List<GameObject>), typeof(bool), typeof(bool), typeof(bool), typeof(bool))]
+    //[HarmonyPatch(typeof(GunControl), nameof(GunControl.SwitchWeapon), new Type[] {typeof(int), typeof(List<GameObject>)})]
+    [HarmonyPatch(typeof(GunControl), nameof(GunControl.SwitchWeapon))]
     static void GunSwitch() => Events.OnWeaponChanged.Fire();
 
     [HarmonyPostfix]
@@ -26,7 +28,7 @@ public class GunsPatch
     [HarmonyPrefix]
     [HarmonyPatch(typeof(WeaponIcon), nameof(WeaponIcon.UpdateIcon))]
     static bool GunIcon(WeaponIcon __instance) => __instance.GetComponentInParent<RemotePlayer>() == null;
-}*/
+}
 
 [HarmonyPatch]
 public class ArmsPatch

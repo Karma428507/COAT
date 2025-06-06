@@ -76,11 +76,13 @@ public class Plugin : MonoBehaviour
         Tools.CacheAccId();
 
         Commands.Commands.Load();
+        Keybinds.Load();
+
         Bundle.Load();
-        //Enemies.Load();
+        Events.Post(Enemies.Load);
         Events.OnLoaded += Weapons.Load;
         Bullets.Load(); // NOT EVEN qwq
-        //Items.Load();
+        Events.Post(Items.Load);
         DollAssets.Load();
 
         Administration.Load();
@@ -106,7 +108,5 @@ public class Plugin : MonoBehaviour
         // mark the plugin as initialized and log a message about it
         Initialized = true;
         Log.Info("COAT initialized!");
-
-        Log.Info("Plushy Count: " + GameAssets.Plushies.Length);
     }
 }

@@ -1,13 +1,12 @@
 namespace COAT.Content;
 
+using COAT.Assets;
+using COAT.Net;
+using COAT.Net.Types;
 using HarmonyLib;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-
-using COAT.Assets;
-using COAT.Net;
-using COAT.Net.Types;
 
 /// <summary> List of all items in the game and some useful methods. </summary>
 public class Items
@@ -18,6 +17,8 @@ public class Items
     /// <summary> Loads all items for future use. </summary>
     public static void Load()
     {
+        GameObject currentItem;
+
         Events.OnLoaded += () =>
         {
             if (LobbyController.Online) Events.Post2(SyncAll);
@@ -25,9 +26,18 @@ public class Items
         Events.OnLobbyEntered += () => Events.Post2(SyncAll);
 
         // Issue getting the first item
-        //foreach (var name in GameAssets.Items) Prefabs.Add(GameAssets.Item(name).transform);
-        // Wrong path name
-        foreach (var name in GameAssets.Plushies) Prefabs.Add(GameAssets.Plushie(name).transform);
+        foreach (var name in GameAssets.Baits)
+            if ((currentItem = GameAssets.Bait(name)) != null)
+                Prefabs.Add(currentItem.transform);
+            else Prefabs.Add(null);
+        foreach (var name in GameAssets.Items) 
+            if ((currentItem = GameAssets.Item(name)) != null)
+                    Prefabs.Add(currentItem.transform);
+            else Prefabs.Add(null);
+        foreach (var name in GameAssets.Plushies)
+            if ((currentItem = GameAssets.Plushie(name)) != null)
+                Prefabs.Add(currentItem.transform);
+            else Prefabs.Add(null);
     }
 
     /// <summary> Finds the entity type by item class and first/last child name. </summary>

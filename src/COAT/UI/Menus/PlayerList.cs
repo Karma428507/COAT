@@ -114,26 +114,26 @@ public class PlayerList : CanvasSingleton<PlayerList>, IMenuInterface
                 if (LobbyController.LastOwner == member.Id)
                     name = "★" + name;
 
-                // Load the main compodents of the UI
-                UIB.Button("Player", "", player, new(0, 0, 320f, 80f), /*Networking.GetTeam(member).Color()*/ Color.white, 24, clicked: () => SteamFriends.OpenUserOverlay(member.Id, "steamid"));
-
                 // this and the mask is just to add rounded borders btw
                 UnityEngine.UI.Image PFP = UIB.Image("PFP", player, new(-125, 0, 50, 50));
                 Mask PFPMASK = UIB.Mask($"PFP MASK OF {member.Name}", player, new(-125, 0, 50, 50), UIB.Background);
                 PFP.transform.SetParent(PFPMASK.transform);
 
+                // To load in the PFP
+                LoadPFP(member, PFP);
+
                 // add player name
                 UIB.Text(name, player, new(30, 12.5f, 230f, 30), align: TextAnchor.MiddleLeft);
 
+                // Load the main compodents of the UI
+                UIB.Button("Player", "", player, new(0, 0, 320f, 80f), Networking.GetTeam(member).Color(), 24, clicked: () => SteamFriends.OpenUserOverlay(member.Id, "steamid"));
+
                 // add the + button
-                UIB.Button("View", "+", player, new(135f, -15f, 30f, 30f), /*Networking.GetTeam(member).Color()*/ Color.white, 24, clicked: () => PlayerInfoMenu(member, player));
+                UIB.Button("View", "+", player, new(135f, -15f, 30f, 30f), Networking.GetTeam(member).Color(), 24, clicked: () => PlayerInfoMenu(member, player));
 
                 // (OLD) Add a ban button for the owner
                 //if (LobbyController.IsOwner && LobbyController.LastOwner != member.Id)
                 //    UIB.IconButton("X", player, Icon(45f, 52.5f), red, clicked: () => Administration.Ban(member.Id.AccountId));
-
-                // To load in the PFP
-                LoadPFP(member, PFP);
             });
         }
     }

@@ -45,6 +45,10 @@ public class Client : Endpoint, IConnectionManager
         {
             if (ents.TryGetValue(r.Id(), out var entity)) entity?.Kill(r);
         });
+        Listen(PacketType.Style, r =>
+        {
+            if (ents[r.Id()] is RemotePlayer player) player.Doll.ReadSuit(r);
+        });
         Listen(PacketType.Punch, r =>
         {
             if (ents[r.Id()] is RemotePlayer player) player.Punch(r);

@@ -119,12 +119,11 @@ public class Home : CanvasSingleton<Home>, IMenuInterface
         if (!LobbyController.FetchingLobbies)
             foreach (Transform child in content)
                 Destroy(child.gameObject);
-        //if (Lobbies == null) goto rip;
+        if (Lobbies == null) return;
 
         // look for the lobby using the search string
         var lobbies = search == "" ? Lobbies : Array.FindAll(Lobbies, lobby => lobby.GetData("name").ToLower().Contains(search));
-
-        //if (lobbies.Length <= 0) goto rip;
+        if (lobbies.Length <= 0) return;
 
         float height = (lobbies.Length * 120);
         content.sizeDelta = new(1000f, height);

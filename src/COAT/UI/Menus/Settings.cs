@@ -34,37 +34,6 @@ public class Settings : CanvasSingleton<Settings>, IMenuInterface
     public static bool DisableFreezeFrames;
 
     #endregion
-    #region controls
-
-    /// <summary> List of internal names of all key bindings. </summary>
-    public static readonly string[] Keybinds =
-    { "chat", "scroll-messages-up", "scroll-messages-down", "lobby-tab", "player-list", "settings", "player-indicators", "player-information", "emoji-wheel", "pointer", "spray", "self-destruction" };
-
-    /// <summary> Array with current control settings. </summary>
-    public static KeyCode[] CurrentKeys => new[]
-    { Chat, ScrollUp, ScrollDown, LobbyTab, PlayerList, Settingz, PlayerIndicators, PlayerInfo, EmojiWheel, Pointer, Spray, SelfDestruction, PanHit };
-
-    /// <summary> List of all key bindings in the mod. </summary>
-    public static KeyCode Chat, ScrollUp, ScrollDown, LobbyTab, PlayerList, Settingz, PlayerIndicators, PlayerInfo, EmojiWheel, Pointer, Spray, SelfDestruction, PanHit;
-
-    /// <summary> Gets the key binding value from its path. </summary>
-    public static KeyCode GetKey(string path, KeyCode def) => (KeyCode)pm.GetInt($"jaket.binds.{path}", (int)def);
-
-    /// <summary> Returns the name of the given key. </summary>
-    public static string KeyName(KeyCode key) => key switch
-    {
-        KeyCode.LeftAlt => "LEFT ALT",
-        KeyCode.RightAlt => "RIGHT ALT",
-        KeyCode.LeftShift => "LEFT SHIFT",
-        KeyCode.RightShift => "RIGHT SHIFT",
-        KeyCode.LeftControl => "LEFT CONTROL",
-        KeyCode.RightControl => "RIGHT CONTROL",
-        KeyCode.Return => "ENTER",
-        KeyCode.CapsLock => "CAPS LOCK",
-        _ => key.ToString().Replace("Alpha", "").Replace("Keypad", "Num ").ToUpper()
-    };
-
-    #endregion
     #region tts
 
     // <summary> Sam's voice volume. Limited by interval from 0 to 100. </summary>
@@ -112,19 +81,7 @@ public class Settings : CanvasSingleton<Settings>, IMenuInterface
         DefaultTeam = pm.GetInt("COAT.default-team");
         DisableFreezeFrames = pm.GetBool("jaket.disable-freeze", true);
 
-        Chat = GetKey("chat", KeyCode.Return);
-        ScrollUp = GetKey("scroll-messages-up", KeyCode.UpArrow);
-        ScrollDown = GetKey("scroll-messages-down", KeyCode.DownArrow);
-        LobbyTab = GetKey("lobby-tab", KeyCode.F1);
-        PlayerList = GetKey("player-list", KeyCode.F2);
-        Settingz = GetKey("settings", KeyCode.F3);
-        PlayerIndicators = GetKey("player-indicators", KeyCode.Z);
-        PlayerInfo = GetKey("player-information", KeyCode.X);
-        EmojiWheel = GetKey("emoji-wheel", KeyCode.B);
-        Pointer = GetKey("pointer", KeyCode.Mouse2);
-        Spray = GetKey("spray", KeyCode.T);
-        SelfDestruction = GetKey("self-destruction", KeyCode.K);
-        PanHit = GetKey("self-destruction", KeyCode.F);
+        
 
         DollAssets.Mixer?.SetFloat("Volume", TTSVolume / 2f - 30f);
     }
@@ -227,8 +184,8 @@ public class Settings : CanvasSingleton<Settings>, IMenuInterface
                 UIB.Button("Reset", "#settings.reset", controls, new(0f, 245f, 425f, 40f), clicked: ResetControls);
 
                 RectTransform ControlsScroll = UIB.Scroll("Controls Scroll", controls, new(0f, -60f, 445f, 520f), 445f, 520f).content;
-                for (int completedkeybinds = 0; completedkeybinds < Keybinds.Length; completedkeybinds++)
-                    UIB.KeyButton(Keybinds[completedkeybinds], CurrentKeys[completedkeybinds], ControlsScroll, new(0f, (-20f + completedkeybinds * -40f) + 260, 400f, 40f));
+                for (int completedkeybinds = 0; completedkeybinds < Keybinds.KeybindString.Length; completedkeybinds++)
+                    UIB.KeyButton(Keybinds.KeybindString[completedkeybinds], Keybinds.CurrentKeys[completedkeybinds], ControlsScroll, new(0f, (-20f + completedkeybinds * -40f) + 260, 400f, 40f));
             });
             #endregion
         });
@@ -258,7 +215,7 @@ public class Settings : CanvasSingleton<Settings>, IMenuInterface
                     ? KeyCode.LeftShift
                     : KeyCode.RightShift;
 
-        text.text = KeyName(key);
+        text.text = Keybinds.KeyName(key);
         pm.SetInt($"jaket.binds.{path}", (int)key);
         Load();
     }
@@ -381,11 +338,11 @@ public class Settings : CanvasSingleton<Settings>, IMenuInterface
 
     private void ResetControls()
     {
-        foreach (var name in Keybinds) pm.DeleteKey($"jaket.binds.{name}");
+        foreach (var name in Keybinds.KeybindString) pm.DeleteKey($"jaket.binds.{name}");
 
         Load();
-        for (int i = 0; i < Keybinds.Length; i++)
-            transform.GetChild(2).GetChild(i + 2).GetChild(0).GetChild(0).GetComponent<Text>().text = KeyName(CurrentKeys[i]);
+        for (int i = 0; i < Keybinds.KeybindString.Length; i++)
+            transform.GetChild(2).GetChild(i + 2).GetChild(0).GetChild(0).GetComponent<Text>().text = Keybinds.KeyName(Keybinds.CurrentKeys[i]);
     }
 
     #endregion

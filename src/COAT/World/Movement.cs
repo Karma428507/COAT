@@ -59,11 +59,6 @@ public class Movement : MonoSingleton<Movement>
     /// <summary> Third person camera target. If an emote is playing, the camera will aim at the local player, otherwise, at a remote player. </summary>
     private int targetPlayer;
 
-    /// <summary> Last pointer created by the player. </summary>
-    public Pointer Pointer;
-    /// <summary> Last spray created by the player. </summary>
-    //public Spray Spray;
-
     /// <summary> Creates a singleton of movement. </summary>
     public static void Load()
     {
@@ -103,81 +98,7 @@ public class Movement : MonoSingleton<Movement>
 
     private void Update()
     {
-        // Allows the user to escape from the menu
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            // YOU CAN ESCAPE
-            if (Tools.Scene == "Main Menu" && UI.CanUseMenu())
-            {
-                UI.PopStack();
-            }
-            else if (Tools.Scene != "Main Menu" && UI.CanUseIngame())
-            {
-                UI.PopStack();
-                UpdateState();
-            }
-        }
-
-        if (Tools.Scene == "Main Menu" || LobbyController.Offline) return;
-
-        // Uncomment this when you're working on settings and other UI
-        if (Input.GetKeyDown(Settings.LobbyTab)) UI.ToggleUI(Home.Instance);
-        if (Input.GetKeyDown(Settings.PlayerList)) UI.ToggleUI(PlayerList.Instance);
-        if (Input.GetKeyDown(Settings.Settingz)) UI.ToggleUI(Settings.Instance);
-
-        if (Input.GetKeyDown(Settings.ScrollUp)) Chat.Instance.ScrollMessages(true);
-        if (Input.GetKeyDown(Settings.ScrollDown)) Chat.Instance.ScrollMessages(false);
-
-        if (UI.Focused || Settings.Instance.Rebinding) return;
-
-        if (Input.GetKeyDown(Settings.Chat)) Chat.Instance.Toggle();
-        
-        if (Input.GetKeyDown(KeyCode.F4)) Debugging.Instance.Toggle();
-        /*if (Input.GetKeyDown(KeyCode.C) && Debugging.Shown) Debugging.Instance.Clear();
-
-        if (Input.GetKeyDown(Settings.PlayerIndicators)) PlayerIndicators.Instance.Toggle();
-        if (Input.GetKeyDown(Settings.PlayerInfo)) PlayerInfo.Instance.Toggle();*/
-
-        if (Input.GetKey(Settings.EmojiWheel) && !Home.Shown && !WeaponWheel.Instance.gameObject.activeSelf)
-        {
-            HoldTime += Time.deltaTime; // if the key has been pressed for 0.25 seconds, show the emoji wheel
-            if (!EmojiWheel.Shown && HoldTime > .25f) EmojiWheel.Instance.Show();
-        }
-        else
-        {
-            HoldTime = 0.075f; // 0 is too harsh for people with bad keyboards or weak fingers
-            if (EmojiWheel.Shown) EmojiWheel.Instance.Hide();
-        }
-
-        bool p = Input.GetKeyDown(Settings.Pointer), s = Input.GetKeyDown(Settings.Spray);
-        if ((p || s) && Physics.Raycast(cc.transform.position, cc.transform.forward, out var hit, float.MaxValue, mask))
-        {
-            if (p)
-            {
-                if (Pointer != null) Pointer.Lifetime = 4.5f;
-                Pointer = Pointer.Spawn(Networking.LocalPlayer.Team, hit.point, hit.normal);
-            }
-            //if (s) Spray = SprayManager.Spawn(hit.point, hit.normal);
-
-            if (LobbyController.Online) Networking.Send(p ? PacketType.Point : PacketType.Spray, w =>
-            {
-                w.Id(Tools.AccId);
-                w.Vector(hit.point);
-                w.Vector(hit.normal);
-            }, size: 32);
-        }
-
-        if (Input.GetKeyDown(Settings.SelfDestruction) && !UI.AnyDialog) nm.GetHurt(4200, false, 0f);
-
-        /*if (Input.GetKeyDown(Settings.PanHit) && !UI.AnyDialog)
-        {
-            if (Physics.Raycast(cc.transform.position, cc.transform.forward, out var hit, 1f, mask))
-            {
-
-            } else 
-
-            
-        }*/
+        if (LobbyController.Offline) return;
 
         if (pi.Fire1.WasPerformedThisFrame) targetPlayer--;
         if (pi.Fire2.WasPerformedThisFrame) targetPlayer++;

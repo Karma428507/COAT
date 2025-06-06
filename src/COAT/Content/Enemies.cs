@@ -1,13 +1,13 @@
 namespace COAT.Content;
 
-using System;
-using System.Collections.Generic;
-using UnityEngine;
-
 using COAT.Assets;
 using COAT.IO;
 using COAT.Net;
 using COAT.Net.Types;
+using System;
+using System.Collections.Generic;
+using System.Xml.Linq;
+using UnityEngine;
 
 /// <summary> List of all enemies in the game and some useful methods. </summary>
 public class Enemies
@@ -23,7 +23,7 @@ public class Enemies
     /// <summary> Loads all enemies for future use. </summary>
     public static void Load()
     {
-        Log.Error("Loading enemies");
+        GameObject currentEnemy;
 
         Events.OnLoaded += () =>
         {
@@ -31,11 +31,10 @@ public class Enemies
             if (Prefabs.Count != length) Prefabs.RemoveRange(length, Prefabs.Count - length);
         };
 
-        Log.Error("Checks enemy list");
-
-        foreach (var name in GameAssets.Enemies) Prefabs.Add(GameAssets.Enemy(name).GetComponentInChildren<EnemyIdentifier>());
-
-        Log.Error("Getting enemy names through assets done");
+        foreach (var name in GameAssets.Enemies)
+            if ((currentEnemy = GameAssets.Enemy(name)) != null)
+                Prefabs.Add(currentEnemy.GetComponentInChildren<EnemyIdentifier>());
+            else Prefabs.Add(null);
 
         for (var type = EntityType.Filth; type <= EntityType.Puppet; type++) Types[type] = typeof(global::Enemy);
         Types[EntityType.Insurrectionist] = typeof(Sisyphus); // bruh...
