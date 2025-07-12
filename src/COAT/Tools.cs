@@ -73,7 +73,7 @@ public class Tools
         // "Better than what I could of done in the weekend" - 𒀭𒅗𒅈𒈠
         // guys stop fucking making ur shit quotes
         // "𒌅𒊌𒅋𒀀𒆪𒂗𒍣" - 𒀭𒅗𒅈𒈠
-        // STTOPPPP WITHH THE FISHHH SKEELETON LANGGUAAGGGEEEE
+        // STTAAWPPPP WITHH THE FISHHH SKEELETON LANGGUAAGGGEEEE
 
         string childPath = null;
 
@@ -109,7 +109,10 @@ public class Tools
     public static GameObject Instantiate(GameObject obj, Vector3 position, Quaternion? rotation = null) => Object.Instantiate(obj, position, rotation ?? Quaternion.identity);
 
     public static void Destroy(Object obj) => Object.Destroy(obj);
+    public static void Destroy(string objName) => Destroy(Tools.ObjFind(objName));
     public static void DestroyImmediate(Object obj) => Object.DestroyImmediate(obj);
+
+    public static void SetActive(string objName, bool active) => Tools.ObjFind(objName).SetActive(active);
 
     #endregion
     #region resources
@@ -175,11 +178,18 @@ public class Tools
             OnEither();
     }
 
-    /// <summary> Spawn a Dummy entity, copies the player. </summary>
-    public static void Dummy()
+    /// <summary> Spawn a Dummy entity, and copies the players data. </summary>
+    public static void Dummy(uint id)
     {
-        //LocalPlayer HowMuchIsItForTheSandwich00ThatsA10DollarBaconEggAndCheese00BaBaBaconEggAndCheese0CheeseCheeseCheeseCheeseCheeseCheese0EhBaBaconEggAndChe = new LocalPlayer();
-        DollAssets.ProduceDoll();
+        Log.Info($"Creating Dummy with id: {id}");
+        DollAssets.ProduceDoll(id);
+    }
+
+    /// <summary> Wait a certain amount of seconds. </summary>
+    public static async Task WaitSeconds(float seconds)
+    {
+        int Seconds = (int)seconds * 1000;
+        await Task.Delay(Seconds);
     }
 
     #endregion
