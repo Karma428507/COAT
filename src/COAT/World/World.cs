@@ -34,11 +34,11 @@ public class World
 
     public static void ReadData(Reader r)
     {
-        Tools.Load(r.String());
+        Tools.Load(r.String()); // scene
 
         // Check version later
-        r.String();
+        r.String(); // hosts verison
 
-        PrefsManager.Instance.SetInt("difficulty", r.Byte());
+        PrefsManager.Instance.SetInt("difficulty", r.Byte()); // difficulty
     }
 }

@@ -290,14 +290,7 @@ public class Movement : MonoSingleton<Movement>
         if (Settings.DisableFreezeFrames || UI.AnyDialog) Time.timeScale = 1f;
 
         // disable cheats if they are prohibited in the lobby
-        if (CheatsController.Instance.cheatsEnabled && !LobbyController.IsOwner && !LobbyController.CheatsAllowed)
-        {
-            CheatsController.Instance.cheatsEnabled = false;
-            cm.transform.GetChild(0).GetChild(0).gameObject.SetActive(false);
-
-            (Tools.Get("idToCheat", cm) as Dictionary<string, ICheat>).Values.Do(cm.DisableCheat);
-            Bundle.Hud("lobby.cheats");
-        }
+        if (CheatsController.Instance.cheatsEnabled && !LobbyController.IsOwner && !LobbyController.CheatsAllowed) DisableCheats();
     
         // leave thee lobby if mods are off and u have a "not allowed" mod
         if (Plugin.Instance.HasIncompatibility && !LobbyController.IsOwner && !LobbyController.ModsAllowed)
@@ -322,6 +315,15 @@ public class Movement : MonoSingleton<Movement>
             nm.blackScreen.color = nm.blackScreen.color with { a = nm.blackScreen.color.a + .75f * Time.deltaTime };
             nm.youDiedText.color = nm.youDiedText.color with { a = nm.blackScreen.color.a * 1.25f };
         }*/
+    }
+
+    public static void DisableCheats(bool Hud = true)
+    {
+        CheatsController.Instance.cheatsEnabled = false;
+        cm.transform.GetChild(0).GetChild(0).gameObject.SetActive(false);
+
+        (Tools.Get("idToCheat", cm) as Dictionary<string, ICheat>).Values.Do(cm.DisableCheat);
+        if (Hud) Bundle.Hud("lobby.cheats");
     }
 
     private void GridUpdate()
