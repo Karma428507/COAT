@@ -24,7 +24,7 @@ using COAT.Content;
 public class Chat : CanvasSingleton<Chat>, IOverlayInterface
 {
     /// <summary> Prefix that will be added to BOT messages. </summary>
-    public const string BOT_PREFIX = "[#FF7F50][14]\\[BOT][][]";
+    public const string BOT_PREFIX = "[#F75][14]\\[BOT][][]";
     /// <summary> Prefix that will be added to TTS messages. </summary>
     public const string TTS_PREFIX = "[#F75][14]\\[TTS][][]";
     /// <summary> Prefox that will be added to HOST messages. </summary>
@@ -261,6 +261,20 @@ public class Chat : CanvasSingleton<Chat>, IOverlayInterface
     /// <summary> Writes a message to the chat, formatting it beforehand. </summary>
     public void Receive(string color, string author, string msg) => Receive($"<b>[{(color.StartsWith('#') ? color : $"#{color}")}]{author}[][#FF7F50]:[]</b> {Bundle.CutDangerous(msg)}");
 
+
+    public void NewReceive(string color, Friend author, string msg, bool tts = false)
+    {
+        string FormattedColor = (color.StartsWith('#') ? color : $"#{color}");
+        string FormattedName = author.Name.Replace("[", "\\[");
+        string FormattedMsg = Bundle.CutDangerous(msg);
+
+        string FormattedPrefixes = tts ? TTS_PREFIX : "";
+        FormattedPrefixes += author.Id == LobbyController.LastOwner ? HOST_PREFIX : "";
+        FormattedPrefixes += Networking.COATPLAYERS.Contains(author.Id.AccountId) ? COAT_PREFIX : "";
+
+        Receive($"<b>{FormattedPrefixes}[{FormattedColor}]{FormattedName}[][#F75]:[]</b> {FormattedMsg}");
+    }
+
     static Chat chat => Chat.Instance;
 
     /// <summary> Writes a message to the chat, formatting it beforehand. While being static, this is used for telling the user something. </summary>
@@ -282,7 +296,7 @@ public class Chat : CanvasSingleton<Chat>, IOverlayInterface
 
         //AudioSource.PlayClipAtPoint(SamAPI.Clip, NewMovement.Instance.transform.position);
 
-        Receive(color, TTS_PREFIX + author.Name.Replace("[", "\\["), msg);
+        NewReceive(color, author, msg, true);
     }
 
     public static Color[] DevColor = new[]
@@ -311,7 +325,7 @@ public class Chat : CanvasSingleton<Chat>, IOverlayInterface
 
         Msg("[24]<b>Hey!</b>[18] Welcome to COAT.", 1);
         Msg("I[6][#bbb](Bryan)[][] respond the quickest out of all the devs,", 1);
-        Msg("So if you ever have any questions or confusion about COAT, feel free to ask me InGame or on Discord. [6][#bbb](fredayddd321ewq)[][]\\n", 1);
+        Msg("So if you ever have any questions or confusion about COAT, feel free to ask me InGame or on Discord. [6][#bbb](@fredayddd321ewq)[][]\\n", 1);
 
         if (UnityEngine.Random.Range(0, 10) == 1)
         {
@@ -345,10 +359,10 @@ public class Chat : CanvasSingleton<Chat>, IOverlayInterface
     }
 
     public static string[] FunFacts = new[]
-    { "I slept 1~ hour for a whole week working on COAT!", "Jaket is so unsecure, that I can make OTHER PEOPLE punch! :D", "COAT has anti-F-Ban, because 2 of it's devs independently made their own F-Ban's", "Mods, strip him down butt booty naked and slam his ass onto a photocopy-er then take a snapshot of his balls. im saving it for later.", "I came up with the idea of PA(i)N because i was punching KARMA in a lobby", "ombor.", "PA(i)N has custom emotes!", "Ourple team exists because of the chat welcome message!" };
+    { "COAT has anti-F-Ban, because 2 of it's devs independently made their own F-Ban's", "Mods, strip him down butt booty naked and slam his ass onto a photocopy-er then take a snapshot of his balls. im saving it for later.", "I came up with the idea of P A (i) N because i was punching KARMA in a lobby", "ombor.", "P A (i) N *will have* custom emotes!", "Ourple team exists because of the  Pro Tips messages!", "this fun fact isnt fun but..\\n/hello Doesnt actually send the message to other players..", "umm.. uhh.. idfk man these are barely fun facts im not creative enough :c", "You can KnuckleBlaster a coin to send it flying!" };
 
     public static string[] ProTips = new[]
-    { $"Press \\[{$"{Settings.EmojiWheel}".ToUpper()}] to emote!", "Use the \\[ESC] menu to leave a lobby!", "You can add custom colors to your name and lobby names by doing [red]<[1] []color=red[1] []>[]!", "You can blacklist certain mods by typing their names into the \"Modlist\" inside of Settings![8][#bbb](F3)[][]" };
+    { $"Press \\[{$"{Settings.EmojiWheel}".ToUpper()}] to emote!", "Use the \\[ESC] menu to leave a lobby!", "You can add custom colors to your name and lobby names by doing [red]<[1] []color=red[1] []>[]!", "You can blacklist certain mods by typing their names into the \"Modlist\" inside of Settings![8][#bbb](F3)[][]", "Doing #/d with no tts sends a death message." };
 
     #endregion
 }
