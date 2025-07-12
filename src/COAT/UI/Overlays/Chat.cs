@@ -302,8 +302,8 @@ public class Chat : CanvasSingleton<Chat>, IOverlayInterface
     public static Color[] DevColor = new[]
         { Team.Pink.Color(), Team.Purple.Color() };
 
-    public static uint[] DevID = new[]
-        { 1811031719u, 12389549611u };
+    public static uint[] DevID = new uint[]
+        { 1811031719u, 1238954961u };
 
     public static string[] DevFallbackNames = new[]
     { "<color=#0fc>Bryan</color>_-000-", "whyis2plus2" };
