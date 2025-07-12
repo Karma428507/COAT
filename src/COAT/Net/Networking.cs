@@ -14,6 +14,7 @@ using COAT.Net.Endpoints;
 using COAT.Net.Types;
 using COAT.UI.Menus;
 using COAT.UI.Overlays;
+using System.Linq;
 
 /// <summary> Class responsible for updating endpoints, transmitting packets and managing entities. </summary>
 public class Networking
@@ -139,13 +140,6 @@ public class Networking
                 if (entity is RemotePlayer rp && rp.Owner == member.Id.AccountId) rp.NetKill(); // NET KILL IS SUCH A BAD ASS NAME OMG I LOVE YOUUUU
             });
         };
-
-        /*SteamMatchmaking.OnLobbyMemberKicked += (lobby, member) =>
-        {
-            if (!Administration.Banned.Contains(member?.Id.AccountId)) return;
-
-            Bundle.Hud("player.kicked", true, member?.Id.AccountId);
-        }*/
 
         SteamMatchmaking.OnChatMessage += (lobby, member, message) =>
         {
