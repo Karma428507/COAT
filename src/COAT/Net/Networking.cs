@@ -168,14 +168,14 @@ public class Networking
                 }
                 else if (message.StartsWith("#/s") && byte.TryParse(message.Substring(3), out byte team))
                 {
-                    //if (LocalPlayer.Team == (Team)team) StyleHUD.Instance.AddPoints(Mathf.RoundToInt(250f * StyleCalculator.Instance.airTime), "<color=#32CD32>FRATRICIDE</color>");
+                    if (LocalPlayer.Team == (Team)team) StyleHUD.Instance.AddPoints(Mathf.RoundToInt(250f * StyleCalculator.Instance.airTime), Bundle.ParseColors("[#3C3]FRATRICIDE"));
                 }
                 else if (message.StartsWith("#/r") && byte.TryParse(message.Substring(3), out byte rps))
                     Chat.Instance.Receive($"[#FFA500]{member.Name} has chosen {rps switch { 0 => "rock", 1 => "paper", 2 => "scissors", _ => "nothing" }}");
                 else if (message.StartsWith("/tts "))
                     Chat.Instance.ReceiveTTS(GetTeamColor(member), member, message.Substring(5));
                 else
-                    Chat.Instance.Receive(GetTeamColor(member), member.Name.Replace("[", "\\["), message);
+                    Chat.Instance.NewReceive(GetTeamColor(member), member, message);
             }
         };
     }
