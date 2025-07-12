@@ -8,7 +8,14 @@ using COAT.Net;
 public enum Team
 {
     // NOTE: dont add more than 8 teams
-    Yellow, Red, Green, Blue, Pink, Purple 
+    Yellow, 
+    Red, 
+    Green,
+    Blue,
+    Pink, 
+    
+    // COAT
+    Purple,
 }
 
 /// <summary> Extension class that allows you to get team data. </summary>
