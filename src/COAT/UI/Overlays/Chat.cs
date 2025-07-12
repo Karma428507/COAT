@@ -23,10 +23,14 @@ using COAT.Content;
 /// <summary> Front end of the chat, back end implemented via Steamworks. </summary>
 public class Chat : CanvasSingleton<Chat>, IOverlayInterface
 {
-    /// <summary> Prefix that will be added to bot messages. </summary>
+    /// <summary> Prefix that will be added to BOT messages. </summary>
     public const string BOT_PREFIX = "[#FF7F50][14]\\[BOT][][]";
     /// <summary> Prefix that will be added to TTS messages. </summary>
-    public const string TTS_PREFIX = "[#FF7F50][14]\\[TTS][][]";
+    public const string TTS_PREFIX = "[#F75][14]\\[TTS][][]";
+    /// <summary> Prefox that will be added to HOST messages. </summary>
+    public const string HOST_PREFIX = "[#F75][14]\\[HOST][][]";
+    /// <summary> Prefix that will be added to COAT messages. </summary>
+    public const string COAT_PREFIX = "[#FE7][14]\\[COAT][][]";
 
     /// <summary> Maximum length of chat message. </summary>
     public const int MAX_MESSAGE_LENGTH = 128;
