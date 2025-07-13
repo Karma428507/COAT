@@ -164,7 +164,11 @@ public class Networking
                     //Administration.Banned.Clear();
                     //Administration.Banned.AddRange(LobbyController.Lobby?.GetData("banned").Split(' ').Select(s => uint.TryParse(s, out uint value) ? value : 0).ToArray());
                     LobbyBannedData = LobbyController.Lobby?.GetData("banned");
+                    List<uint> ClientBannedData = Administration.Banned;
                     if (LobbyBannedData.Contains($"{id}")) Bundle.Msg("player.banned", Tools.Name(id));
+                    else return;
+                    ClientBannedData.Clear();
+                    ClientBannedData.AddRange(LobbyBannedData.Split(' ').Select(s => uint.TryParse(s, out uint value) ? value : 0));
                 }
                 else if (message.StartsWith("#/s") && byte.TryParse(message.Substring(3), out byte team))
                 {
