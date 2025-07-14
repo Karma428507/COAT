@@ -82,8 +82,8 @@ public class Home : CanvasSingleton<Home>, IMenuInterface
                 newServer = UIB.Button("New Server", optionList, new(0, y -= 88, 320f, 80f, new(.5f, 1f)),
                     red, 24, clicked: () => UI.PushStack(GamemodeList.Instance));
 
-                UIB.Button("Dummy", optionList, new(0, y -= 88, 320f, 80f, new(.5f, 1f)),
-                    black, 24, clicked: () => Tools.Dummy());
+                //UIB.Button("Dummy", optionList, new(0, y -= 88, 320f, 80f, new(.5f, 1f)),
+                //    black, 24, clicked: () => Tools.Dummy());
             });
 
             // Body portion

@@ -182,7 +182,7 @@ public class Tools
     public static void Dummy(uint id)
     {
         Log.Info($"Creating Dummy with id: {id}");
-        DollAssets.ProduceDoll(id);
+        DollAssets.ProduceDoll();
     }
 
     /// <summary> Wait a certain amount of seconds. </summary>
