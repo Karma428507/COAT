@@ -14,6 +14,7 @@ using COAT.Net.Endpoints;
 using COAT.Net.Types;
 using COAT.UI.Menus;
 using COAT.UI.Overlays;
+using System.Linq;
 
 /// <summary> Class responsible for updating endpoints, transmitting packets and managing entities. </summary>
 public class Networking
@@ -140,13 +141,6 @@ public class Networking
             });
         };
 
-        /*SteamMatchmaking.OnLobbyMemberKicked += (lobby, member) =>
-        {
-            if (!Administration.Banned.Contains(member?.Id.AccountId)) return;
-
-            Bundle.Hud("player.kicked", true, member?.Id.AccountId);
-        }*/
-
         SteamMatchmaking.OnChatMessage += (lobby, member, message) =>
         {
             string LobbyBannedData = LobbyController.Lobby?.GetData("banned");
@@ -170,18 +164,22 @@ public class Networking
                     //Administration.Banned.Clear();
                     //Administration.Banned.AddRange(LobbyController.Lobby?.GetData("banned").Split(' ').Select(s => uint.TryParse(s, out uint value) ? value : 0).ToArray());
                     LobbyBannedData = LobbyController.Lobby?.GetData("banned");
+                    List<uint> ClientBannedData = Administration.Banned;
                     if (LobbyBannedData.Contains($"{id}")) Bundle.Msg("player.banned", Tools.Name(id));
+                    else return;
+                    ClientBannedData.Clear();
+                    ClientBannedData.AddRange(LobbyBannedData.Split(' ').Select(s => uint.TryParse(s, out uint value) ? value : 0));
                 }
                 else if (message.StartsWith("#/s") && byte.TryParse(message.Substring(3), out byte team))
                 {
-                    if (LocalPlayer.Team == (Team)team) StyleHUD.Instance.AddPoints(Mathf.RoundToInt(250f * StyleCalculator.Instance.airTime), "<color=#32CD32>FRATRICIDE</color>");
+                    if (LocalPlayer.Team == (Team)team) StyleHUD.Instance.AddPoints(Mathf.RoundToInt(250f * StyleCalculator.Instance.airTime), Bundle.ParseColors("[#3C3]FRATRICIDE"));
                 }
                 else if (message.StartsWith("#/r") && byte.TryParse(message.Substring(3), out byte rps))
                     Chat.Instance.Receive($"[#FFA500]{member.Name} has chosen {rps switch { 0 => "rock", 1 => "paper", 2 => "scissors", _ => "nothing" }}");
                 else if (message.StartsWith("/tts "))
                     Chat.Instance.ReceiveTTS(GetTeamColor(member), member, message.Substring(5));
                 else
-                    Chat.Instance.Receive(GetTeamColor(member), member.Name.Replace("[", "\\["), message);
+                    Chat.Instance.NewReceive(GetTeamColor(member), member, message);
             }
         };
     }

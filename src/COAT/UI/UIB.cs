@@ -209,6 +209,20 @@ public class UIB
             image.type = type;
         });
 
+    /// <summary> Adds an image with the given sprite and adds a button. </summary>
+    public static Image ImageButton(string name, Transform parent, Rect r, Color? color = null, Sprite sprite = null, bool fill = true, ImageType type = ImageType.Sliced, Action clicked = null) =>
+        Component<Image>(Rect(name, parent, r).gameObject, image =>
+        {
+            image.color = color ?? white;
+            image.sprite = sprite ?? Background;
+            image.fillCenter = fill;
+            image.type = type;
+
+            Button button = image.gameObject.AddComponent<Button>();
+            button.targetGraphic = image;
+            button.onClick.AddListener(() => clicked());
+        });
+
     /// <summary> Adds an image with the given sprite. </summary>
     public static Image Image1(string name, Transform parent, Rect r, Color? color = null, Sprite sprite = null, bool fill = true, ImageType type = ImageType.Sliced) =>
         Component<Image>(Rect(name, parent, r).gameObject, image =>

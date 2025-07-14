@@ -54,7 +54,6 @@ public class PlayerList : CanvasSingleton<PlayerList>, IMenuInterface
             {
                 UIB.Image("Player Settings Border", player, new(0, 0, 1004f, 170f), null, fill: false);
 
-                // TODO: makje yhis worjk
                 float x = -24f;
                 foreach (Team team in System.Enum.GetValues(typeof(Team))) UIB.TeamButton(team, player, new(x += 64f, -130f, 56f, 56f, new(0f, 1f)), () =>
                 {
@@ -114,8 +113,11 @@ public class PlayerList : CanvasSingleton<PlayerList>, IMenuInterface
                 if (LobbyController.LastOwner == member.Id)
                     name = "★" + name;
 
+                // Load the main compodents of the UI
+                UIB.Button("Player", "", player, new(0, 0, 320f, 80f), Networking.GetTeam(member).Color(), 24, clicked: () => SteamFriends.OpenUserOverlay(member.Id, "steamid"));
+
                 // this and the mask is just to add rounded borders btw
-                UnityEngine.UI.Image PFP = UIB.Image("PFP", player, new(-125, 0, 50, 50));
+                UnityEngine.UI.Image PFP = UIB.ImageButton($"PFP OF {member.Name}", player, new(-125, 0, 50, 50), clicked: () => Tools.Dummy(member.Id.AccountId));
                 Mask PFPMASK = UIB.Mask($"PFP MASK OF {member.Name}", player, new(-125, 0, 50, 50), UIB.Background);
                 PFP.transform.SetParent(PFPMASK.transform);
 

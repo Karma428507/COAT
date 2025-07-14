@@ -40,8 +40,8 @@ public class Plugin : MonoBehaviour
     /// <summary> Path to the dll file of the mod. </summary>
     public string Location;
 
-    /// <summary> List of mods compatible with Jaket. </summary>
-    public static readonly string[] Compatible = { "Jaket", "CrosshairColorFixer", "IntroSkip", "Healthbars", "RcHud", "PluginConfigurator", "AngryLevelLoader" };
+    /// <summary> List of mods compatible with COAT. </summary>
+    public static readonly string[] Compatible = { "COAT", "CrosshairColorFixer", "IntroSkip", "Healthbars", "RcHud", "PluginConfigurator", "AngryLevelLoader" }; // TODO: add more later frfr gang ang
     /// <summary> Whether at least on incompatible mod is loaded. </summary>
     public bool HasIncompatibility;
     /// <summary> List of mods that are blacklisted in the lobby. </summary>

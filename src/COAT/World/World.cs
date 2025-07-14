@@ -73,7 +73,7 @@ public class World
     /// <summary> Reads data about the world: loads the level, sets difficulty and fires triggers. </summary>
     public static void ReadData(Reader r)
     {
-        Tools.Load(r.String());
+        Tools.Load(r.String()); // scene
 
         // if the mod version doesn't match the host's one, then reading the packet is complete, as this may lead to bigger bugs
         if (r.String() != Version.CURRENT)
