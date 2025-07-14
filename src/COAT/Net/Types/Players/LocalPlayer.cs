@@ -35,7 +35,7 @@ public class LocalPlayer : Entity
     /// <summary> Whether the next packet of drill damage will be skipped. </summary>
     private bool skip;
     /// <summary> Whether the current level is 4-4. Needed to sync fake slide animation. </summary>
-    private bool is44;
+    public bool is44;
 
     private void Awake()
     {
@@ -114,6 +114,31 @@ public class LocalPlayer : Entity
         w.Byte((byte)nm.hp);
         w.Byte((byte)Mathf.Floor(WeaponCharges.Instance.raicharge * 2.5f));
         w.Player(Team, weapon, Movement.Instance.Emoji, Movement.Instance.Rps, Chat.Shown);
+        w.Flags(
+            nm.walking,
+            nm.sliding || (is44 && nm.transform.position.y > 610f && nm.transform.position.y < 611f),
+            nm.gc.heavyFall,
+            !nm.gc.onGround,
+            nm.boost && !nm.sliding,
+            nm.ridingRocket != null,
+            Hook != Vector3.zero,
+            fc.shopping);
+    }
+    public override void GoofyWrite(Writer w, Vector3 position) { }
+
+    public void DumWrite(Writer w)
+    {
+        // Only added SOME of the packet data
+        UpdatesCount++;
+
+        w.Vector(nm.transform.position);
+        w.Float(nm.transform.eulerAngles.y);
+        w.Float(135f - Mathf.Clamp(CameraController.Instance.rotationX, -40f, 80f));
+        w.Vector(Hook);
+
+        w.Byte((byte)nm.hp);
+        w.Byte((byte)Mathf.Floor(WeaponCharges.Instance.raicharge * 2.5f));
+        w.Player(Team.Pink, (byte)6, Movement.Instance.Emoji, Movement.Instance.Rps, Chat.Shown);
         w.Flags(
             nm.walking,
             nm.sliding || (is44 && nm.transform.position.y > 610f && nm.transform.position.y < 611f),

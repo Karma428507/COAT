@@ -1,16 +1,20 @@
 namespace COAT.Assets;
 
+using System.Collections.Generic;
 using System.IO;
 using TMPro;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.ResourceLocations;
 using UnityEngine.Audio;
 using UnityEngine.Events;
 
 using COAT.Content;
+using COAT.World;
 using COAT.Net;
 using COAT.Net.Types;
 using COAT.UI.Menus;
+using COAT.UI.Overlays;
 using COAT.IO;
 
 /// <summary> Class that works with the assets bundle of the mod. </summary>
@@ -18,6 +22,9 @@ public class DollAssets
 {
     // idk if i should remove this
     public const string V1 = "36abcaae9708abc4d9e89e6ec73a2846";
+
+    static NewMovement nm => NewMovement.Instance;
+    static FistControl fc => FistControl.Instance;
 
     /// <summary> Bundle containing assets for player doll. </summary>
     public static AssetBundle Bundle;
@@ -65,9 +72,10 @@ public class DollAssets
         HandTextures = new Texture[4];
 
         // loading wing textures from the bundle
-        for (int i = 0; i < System.Enum.GetValues(typeof(Team)).Length - 1; i++)
+        for (int i = 0; i < WingTextures.Length; i++)
         {
-            LoadAsync<Texture>("V3-wings-" + ((Team)i).ToString(), tex => WingTextures[i] = tex);
+            var index = i; // C# sucks
+            LoadAsync<Texture>("V3-wings-" + ((Team)i).ToString(), tex => WingTextures[index] = tex);
         }
 
         LoadAsync<Texture>("V3-hand", tex => HandTextures[1] = tex);
@@ -200,13 +208,17 @@ public class DollAssets
         return obj.AddComponent<RemotePlayer>();
     }
 
-    static NewMovement nm => NewMovement.Instance;
+
+    static LocalPlayer localPlayer = new();
+    static Dictionary<uint, Entity> ents => Networking.Entities;
     /// <summary> Creates a new player doll from the prefab. </summary>
     public static void ProduceDoll()
     {
         // create a doll from the prefab obtained from the bundle
         // the instance is created on these coordinates so as not to collide with anything after the spawn
-        var obj = Tools.Instantiate(Doll, nm.transform.position, nm.transform.rotation);
+        /*var obj = Tools.Instantiate(Doll, nm.transform.position, nm.transform.rotation);
+        obj.name = "Net"; // idk bro#
+        obj.tag = "Dummy";
 
         // add components
         var enemyId = obj.AddComponent<EnemyIdentifier>();
@@ -226,16 +238,43 @@ public class DollAssets
         {
             rigidbody.gameObject.AddComponent<EnemyIdentifierIdentifier>();
             rigidbody.tag = MapTag(rigidbody.gameObject.tag);
-        } 
+            rigidbody.useGravity = true;
+        }
 
+        obj.tag = "Dummy"; // im doing this again incase rigid body is replacing it (i have no idea what the fuck is going on
         // add a script to further control the doll 
         var remotePlayer = obj.AddComponent<RemotePlayer>();
         LocalPlayer localPlayer = new();
 
-        Writer.Write(localPlayer.Write, (IntPtr, Int) => Reader.Read(IntPtr, Int, r => 
+
+        obj.tag = "1";
+        remotePlayer.Awake();
+        Writer.Write(w => localPlayer.DummyWrite(w), (IntPtr, Int) => Reader.Read(IntPtr, Int, r =>
         {
             remotePlayer.Read(r);
         }), 48);
+
+        remotePlayer.Start();
+        remotePlayer.Update();
+        remotePlayer.LateUpdate();*/
+
+        RemotePlayer remotePlayer = new();
+        Writer.Write(w =>
+        {
+            w.Id(localPlayer.Id);
+            w.Enum(localPlayer.Type);
+            localPlayer.DumWrite(w);
+        }, (Memory, Length) =>
+        {
+            Reader.Read(Memory, Length, r =>
+            {
+                var id = r.Id();
+                var type = r.Enum<EntityType>();
+
+                if (!ents.ContainsKey(id) || ents[id] == null) ents[id] = Entities.Get(id, type);
+                ents[id]?.Read(r);
+            });
+        }, 48);
     }
 
     /// <summary> Returns the hand texture currently in use. Depends on whether the player is in the lobby or not. </summary>
@@ -254,7 +293,7 @@ public static class Utils
         get
         {
             if (_metalDec20 == null)
-                _metalDec20 = Addressables.LoadAssetAsync<Material>("Assets/Materials/Environment/Metal/Metal Decoration 20.mat").WaitForCompletion();
+                _metalDec20 = UnityEngine.AddressableAssets.Addressables.LoadAssetAsync<Material>("Assets/Materials/Environment/Metal/Metal Decoration 20.mat").WaitForCompletion();
             return _metalDec20;
         }
     }

@@ -23,4 +23,5 @@ public class DeadBullet : Entity
 
     public override void Read(Reader r) { }
     public override void Write(Writer w) { }
+    public override void GoofyWrite(Writer w, Vector3 position) { }
 }

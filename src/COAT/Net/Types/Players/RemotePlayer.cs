@@ -33,7 +33,7 @@ public class RemotePlayer : Entity
     /// <summary> Last pointer created by the player. </summary>
     public Pointer Pointer;
 
-    public void Awake()
+    private void Awake()
     {
         Init(null, true);
         TryGetComponent(out Voice);
@@ -44,7 +44,7 @@ public class RemotePlayer : Entity
         hookX = new(); hookY = new(); hookZ = new();
     }
 
-    public void Start()
+    private void Start()
     {
         Doll = gameObject.AddComponent<Doll>();
         Doll.OnEmojiStart += () =>
@@ -61,7 +61,7 @@ public class RemotePlayer : Entity
         Doll.HookWinch.material = HookArm.Instance.GetComponent<LineRenderer>().material;
         ClearTrail(Doll.WingTrail, x, y, z);
 
-        // idols can target players, which is undesirable (they still do sometimes but wah wah cry about it)
+        // idols can target players, which is undesirable
         int index = EnemyTracker.Instance.enemies.IndexOf(EnemyId);
         if (index != -1)
         {
@@ -96,8 +96,8 @@ public class RemotePlayer : Entity
             foreach (Transform child in Doll.Hand) Destroy(child.gameObject);
             if ((LastWeapon = Weapon) != 0xFF)
             {
-                Weapons.Instantiate(Weapon, Doll.Hand);
-                WeaponsOffsets.Apply(Weapon, Doll.Hand);
+                //Weapons.Instantiate(Weapon, Doll.Hand);
+                //WeaponsOffsets.Apply(Weapon, Doll.Hand);
                 Doll.ApplySuit();
             }
         }
@@ -152,6 +152,7 @@ public class RemotePlayer : Entity
     /// <summary> Creates a pointer that will draw a line from itself to the player. </summary>
     public void Point(Reader r)
     {
+        // Worry later
         if (Pointer != null) Pointer.Lifetime = 4.5f;
         Pointer = Pointer.Spawn(Team, r.Vector(), r.Vector(), Doll.Head.transform);
     }
@@ -164,6 +165,24 @@ public class RemotePlayer : Entity
         UpdatesCount++;
 
         w.Float(x.Target); w.Float(y.Target); w.Float(z.Target);
+        w.Float(bodyRotation.Target);
+        w.Float(headRotation.Target);
+        w.Float(hookX.Target); w.Float(hookY.Target); w.Float(hookZ.Target);
+
+        w.Byte(Health);
+        w.Byte(RailCharge);
+
+        if (!Doll) return;
+
+        w.Player(Team, Weapon, Doll.Emoji, Doll.Rps, Typing);
+        Doll.WriteAnim(w);
+    }
+
+    public override void GoofyWrite(Writer w, Vector3 position)
+    {
+        UpdatesCount++;
+
+        w.Float(position.x); w.Float(position.y); w.Float(position.z);
         w.Float(bodyRotation.Target);
         w.Float(headRotation.Target);
         w.Float(hookX.Target); w.Float(hookY.Target); w.Float(hookZ.Target);

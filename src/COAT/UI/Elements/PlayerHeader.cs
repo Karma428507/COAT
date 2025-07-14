@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 using COAT;
+using COAT.Assets;
 using COAT.UI;
 using COAT.UI.Menus;
 
@@ -34,12 +35,13 @@ public class PlayerHeader
         {
             UIB.Table("Name", canvas, Size(width, 40f), table =>
             {
-                Text = UIB.Text(Name, table, Huge, size: 240);
+                Text = UIB.Text((Name != "[unknown]" ? Name : "Dummy"), table, Huge, size: 240);
 
                 Mask PFPMASK = UIB.Mask($"PFP MASK OF {Tools.Name(id)}", table, new((-width / 2) - 30, 0, 50, 50), UIB.Background);
                 Image PFP = UIB.Image("PFP", PFPMASK.transform, new(0, 0, 50, 50));
 
-                PlayerList.Instance.LoadPFP(Tools.Friend(id), PFP);
+                if (Name != "[unknown]") PlayerList.Instance.LoadPFP(Tools.Friend(id), PFP);
+                else PFP.sprite = DollAssets.Icon;
             });
             Text.transform.localScale /= 10f;
 
