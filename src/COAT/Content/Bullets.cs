@@ -88,6 +88,7 @@ public class Bullets
     public static byte CType(string name)
     {
         name = name.Contains("(") ? name.Substring(0, name.IndexOf("(")) : name;
+        Log.Debug($"Name: {name}");
         return (byte)Prefabs.FindIndex(prefab => prefab.name == name);
     }
     public static EntityType EType(string name) => name switch
@@ -101,6 +102,8 @@ public class Bullets
     /// <summary> Spawns a bullet with the given type or other data. </summary>
     public static void CInstantiate(Reader r)
     {
+        //Log.Debug("Bullet packet received");
+
         var obj = Entities.Mark(Prefabs[r.Byte()]);
         obj.transform.position = r.Vector();
         obj.transform.eulerAngles = r.Vector();
@@ -123,8 +126,11 @@ public class Bullets
 
         if (bullet.name != "Coin(Clone)" && bullet.name != "RL PRI(Clone)" && bullet.name != "RL ALT(Clone)")
         {
+            // this is causing all of the issues
             var type = CType(bullet.name);
             if (type == 0xFF) return; // how? these are probably enemy projectiles
+
+            //Log.Debug("Sending bullet");
 
             Networking.Send(PacketType.SpawnBullet, w =>
             {
@@ -142,6 +148,11 @@ public class Bullets
     /// <summary> Synchronizes the bullet or marks it as fake if it was downloaded from the network. </summary>
     public static void Sync(GameObject bullet, ref GameObject sourceWeapon, bool hasRigidbody, bool applyOffset, byte team = byte.MaxValue)
     {
+        if (LobbyController.Offline)
+            return;
+
+        //Log.Debug($"Bullet name {bullet.name}");
+
         if (sourceWeapon == null && bullet.name == "Net")
             sourceWeapon = Fake;
         else

@@ -68,7 +68,7 @@ public class DollAssets
         // cache the shader and the wing textures for future use
         Events.Post(LoadAssets);
 
-        WingTextures = new Texture[5];
+        WingTextures = new Texture[6];
         HandTextures = new Texture[4];
 
         // loading wing textures from the bundle

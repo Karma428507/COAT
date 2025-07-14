@@ -6,6 +6,7 @@ using COAT.Assets;
 using COAT.Content;
 using COAT.IO;
 using COAT.Net;
+using COAT.Net.Types.Players;
 using COAT.World;
 using HarmonyLib;
 using Jaket.Sprays;
@@ -80,9 +81,8 @@ public class Plugin : MonoBehaviour
 
         Bundle.Load();
         Events.Post(Enemies.Load);
-        Events.OnLoaded += Weapons.Load;
-        Bullets.Load(); // NOT EVEN qwq
         Events.Post(Items.Load);
+        Events.OnLoaded += Weapons.Initialize;
         DollAssets.Load();
 
         Administration.Load();
@@ -94,6 +94,8 @@ public class Plugin : MonoBehaviour
         //WorldActionsList.Load();
         Movement.Load();
         //SprayManager.Load();
+
+        PlayerData.Load();
 
         UI.UIB.Load();
         UI.UI.Load();

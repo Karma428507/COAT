@@ -4,6 +4,7 @@ using COAT.Assets;
 using COAT.Content;
 using COAT.IO;
 using COAT.UI.Elements;
+using Steamworks;
 using UnityEngine;
 
 public class RemotePlayer : Entity
@@ -32,6 +33,11 @@ public class RemotePlayer : Entity
     public PlayerHeader Header;
     /// <summary> Last pointer created by the player. </summary>
     public Pointer Pointer;
+
+    /// <summary> To determine if they are a COAT player </summary>
+    public bool COAT;
+    /// <summary> Username (COAT ONLY) </summary>
+    public string Username = null;
 
     private void Awake()
     {
@@ -96,8 +102,8 @@ public class RemotePlayer : Entity
             foreach (Transform child in Doll.Hand) Destroy(child.gameObject);
             if ((LastWeapon = Weapon) != 0xFF)
             {
-                //Weapons.Instantiate(Weapon, Doll.Hand);
-                //WeaponsOffsets.Apply(Weapon, Doll.Hand);
+                Weapons.Instantiate(Weapon, Doll.Hand);
+                WeaponsOffsets.Apply(Weapon, Doll.Hand);
                 Doll.ApplySuit();
             }
         }
@@ -155,6 +161,18 @@ public class RemotePlayer : Entity
         // Worry later
         if (Pointer != null) Pointer.Lifetime = 4.5f;
         Pointer = Pointer.Spawn(Team, r.Vector(), r.Vector(), Doll.Head.transform);
+    }
+
+    public string GetUsername(Friend author)
+    {
+        string name;
+
+        if (!COAT || Username == null)
+            return author.Name.Replace("[", "\\[");
+
+        name = $"({author.Name}) {Username}";
+
+        return name.Replace("[", "\\[");
     }
 
     #endregion

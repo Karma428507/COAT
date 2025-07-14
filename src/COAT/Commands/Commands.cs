@@ -1,18 +1,12 @@
 namespace COAT.Commands;
 
-using System;
-using System.Collections.Generic;
-using UnityEngine;
-
 using COAT.Assets;
-using COAT.Content;
 using COAT.Net;
 using COAT.UI.Menus;
 using COAT.UI.Overlays;
-using System.Diagnostics;
-using COAT.IO;
-using System.Runtime.CompilerServices;
-using COAT.Net.Types;
+using System;
+using UnityEngine;
+using static InputActions;
 
 /// <summary> List of chat commands used by the mod. </summary>
 public class Commands
@@ -149,9 +143,57 @@ public class Commands
         {
             void Msg(string msg) => chat.Receive($"[14]{msg}[]");
 
+            // man, I love how GITHUB reverted this
+            Msg("JAKET Leading developers:");
+            Msg("* [#0096FF]xzxADIxzx[] - the main developer of JAKET");
+            Msg("* [#8A2BE2]Sowler[] - owner of the JAKET Discord server");
+            Msg("* [#FFA000]Fumboy[] - textures and a part of animations");
+
+            Msg("JAKET Contributors:");
+            Msg("* [#00E666]Rey Hunter[] - really cool icons for emotes");
+            Msg("* [#00E666]Ardub[] - invaluable help with The Cyber Grind [12][#cccccc](he did 90% of the work)");
+            Msg("* [#00E666]Kekson1a[] - Steam Rich Presence support");
+
+            Msg("JAKET Translators:");
+            Msg("[#cccccc]NotPhobos - Spanish, sSAR - Italian, Theoyeah - French, Sowler - Polish,");
+            Msg("[#cccccc]Ukrainian, Poyozit - Portuguese, Fraku - Filipino, Iyad - Arabic");
+
+            Msg("COAT Leading developers:");
             Msg("Leading developers:");
             Msg("* [#0096FF]Karma[] - the main developer of this fork :3");
+            Msg("* [#0096FF]whyis2+2[] - UI");
+            Msg("* [#0096FF]bryan[] - UI");
+            Msg("* [#0096FF]archangel[] - UI");
             Msg("I'm going to add more things to this list later...");
+        });
+
+        Handler.Register("getname", "Gets username", args =>
+        {
+            string us = PrefsManager.Instance.GetString("COAT.username");
+
+            chat.Receive($"Username: {us}");
+            chat.Receive($"IS NULL? {us == null}");
+        });
+
+        Handler.Register("setname", "Sets username", args =>
+        {
+            if (args.Length == 0)
+            {
+                PrefsManager.Instance.SetString("COAT.username", null);
+            }
+            else
+            {
+                string name = "";
+
+                for (int i = 0; i < args.Length; i++)
+                    name += i == 0 ? args[i] : " " + args[i];
+
+                PrefsManager.Instance.SetString("COAT.username", name);
+            }
+
+            string us = PrefsManager.Instance.GetString("COAT.username");
+
+            chat.Receive($"Set the username to: {us}");
         });
     }
 }

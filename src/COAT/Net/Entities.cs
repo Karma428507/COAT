@@ -22,6 +22,22 @@ public class Entities
     {
         // Add the thing for players ONCE DollAssets.cs is fixed
         Providers.Add(EntityType.Player, DollAssets.CreateDoll);
+
+        for (var type = EntityType.Filth; type <= EntityType.Puppet; type++)
+        {
+            var sucks = type;
+            Providers.Add(sucks, () => Enemies.Instantiate(sucks));
+        }
+
+        for (var type = EntityType.AppleBait; type <= EntityType.V1; type++)
+        {
+            var sucks = type;
+            Providers.Add(sucks, () => Items.Instantiate(sucks));
+        }
+
+        Providers.Add(EntityType.Coin, () => Bullets.EInstantiate(EntityType.Coin));
+        Providers.Add(EntityType.Rocket, () => Bullets.EInstantiate(EntityType.Rocket));
+        Providers.Add(EntityType.Ball, () => Bullets.EInstantiate(EntityType.Ball));
     }
 
     /// <summary> Instantiates the given prefab and marks it with the Net tag. </summary>

@@ -174,7 +174,7 @@ public class Networking
                 }
                 else if (message.StartsWith("#/s") && byte.TryParse(message.Substring(3), out byte team))
                 {
-                    //if (LocalPlayer.Team == (Team)team) StyleHUD.Instance.AddPoints(Mathf.RoundToInt(250f * StyleCalculator.Instance.airTime), "<color=#32CD32>FRATRICIDE</color>");
+                    if (LocalPlayer.Team == (Team)team) StyleHUD.Instance.AddPoints(Mathf.RoundToInt(250f * StyleCalculator.Instance.airTime), "<color=#32CD32>FRATRICIDE</color>");
                 }
                 else if (message.StartsWith("#/r") && byte.TryParse(message.Substring(3), out byte rps))
                     Chat.Instance.Receive($"[#FFA500]{member.Name} has chosen {rps switch { 0 => "rock", 1 => "paper", 2 => "scissors", _ => "nothing" }}");
@@ -215,7 +215,9 @@ public class Networking
 
         List<uint> toRemove = new();
 
-        Entities.Values.DoIf(e => e == null || (e.Dead && e.LastUpdate < Time.time - 1f && !e.gameObject.activeSelf), e => toRemove.Add(e.Id));
+        Entities.Values.DoIf(e => e == null ||
+            (e.Dead && e.LastUpdate < Time.time - 1f && !e.gameObject.activeSelf),
+            e => toRemove.Add(e.Id));
         if (DeadBullet.Instance.LastUpdate < Time.time - 1f)
             Entities.DoIf(pair => pair.Value == DeadBullet.Instance, pair => toRemove.Add(pair.Key));
 

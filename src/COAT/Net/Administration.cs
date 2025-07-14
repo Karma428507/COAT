@@ -56,7 +56,7 @@ public class Administration
         Events.OnLobbyEntered += () => { Banned.Clear(); /*entityBullets.Clear(); entities.Clear(); plushies.Clear();*/ };
         Events.EverySecond += spam.Clear;
         Events.EverySecond += commonBullets.Clear;
-        //Events.EveryDozen += warnings.Clear;
+        Events.EveryDozen += warnings.Clear;
     }
 
     /// <summary> Bans the member from the lobby, or rather asks him to leave, because Valve hasn't added such functionality to their API. </summary>

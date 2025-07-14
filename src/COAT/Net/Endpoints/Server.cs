@@ -27,6 +27,9 @@ public class Server : Endpoint, ISocketManager
             var id = r.Id();
             var type = r.Enum<EntityType>();
 
+            //if (type != EntityType.Player)
+            //    Log.Debug($"Packet recieved, ID: {id}, Type: {type}");
+
             // player can only have one doll and its id should match the player's id
             if ((id == sender && type != EntityType.Player) || (id != sender && type == EntityType.Player)) return;
 
@@ -77,6 +80,43 @@ public class Server : Endpoint, ISocketManager
         {
             if (ents[r.Id()] is RemotePlayer player) player.Point(r);
         });
+
+        /*
+        ListenAndRedirect(PacketType.Spray, r => SprayManager.Spawn(r.Id(), r.Vector(), r.Vector()));
+
+        Listen(PacketType.ImageChunk, (con, sender, r) =>
+        {
+            var owner = r.Id(); r.Position = 1; // extract the spray owner
+
+            // stop an attempt to overwrite someone else's spray, because this can lead to tragic consequences
+            if (sender != owner)
+            {
+                Administration.Ban(sender);
+                Log.Warning($"[Server] {sender} was blocked due to an attempt to overwrite someone else's spray");
+            }
+            else
+            {
+                SprayDistributor.Download(r);
+                Redirect(r, con);
+            }
+        });
+
+        Listen(PacketType.RequestImage, (con, sender, r) =>
+        {
+            var owner = r.Id();
+            if (SprayDistributor.Requests.TryGetValue(owner, out var list)) list.Add(con);
+            else
+            {
+                list = new();
+                list.Add(con);
+                SprayDistributor.Requests.Add(owner, list);
+            }
+
+            Log.Debug($"[Server] Got an image request for spray#{owner}. Count: {list.Count}");
+        });
+
+        ListenAndRedirect(PacketType.ActivateObject, World.ReadAction);
+        */
 
         // PUT ALL COAT PACKETS BELOW THIS. JUST SO I DONT HAVE TO SEARCH THE MILKYWAY TO FIND A SINGLE FUCKING LIL GUY!!!
     }

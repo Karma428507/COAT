@@ -26,6 +26,9 @@ public class Client : Endpoint, IConnectionManager
             var id = r.Id();
             var type = r.Enum<EntityType>();
 
+            //if (type != EntityType.Player)
+            //    Log.Debug($"Packet recieved, ID: {id}, Type: {type}");
+
             if (!ents.ContainsKey(id) || ents[id] == null) ents[id] = Entities.Get(id, type);
             ents[id]?.Read(r);
         });
@@ -47,7 +50,8 @@ public class Client : Endpoint, IConnectionManager
         });
         Listen(PacketType.Style, r =>
         {
-            if (ents[r.Id()] is RemotePlayer player) player.Doll.ReadSuit(r);
+            if (ents[r.Id()] is RemotePlayer player)
+                player.Doll.ReadSuit(r);
         });
         Listen(PacketType.Punch, r =>
         {
@@ -57,6 +61,16 @@ public class Client : Endpoint, IConnectionManager
         {
             if (ents[r.Id()] is RemotePlayer player) player.Point(r);
         });
+
+        /* Work on later
+        Listen(PacketType.Spray, r => SprayManager.Spawn(r.Id(), r.Vector(), r.Vector()));
+
+        Listen(PacketType.ImageChunk, SprayDistributor.Download);
+
+        Listen(PacketType.ActivateObject, World.ReadAction);
+
+        Listen(PacketType.CyberGrindAction, CyberGrind.LoadPattern); 
+        */
 
         // PUT ALL COAT PACKETS BELOW THIS. JUST SO I DONT HAVE TO SEARCH THE MILKYWAY TO FIND A SINGLE FUCKING LIL GUY!!!
 

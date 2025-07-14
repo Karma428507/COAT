@@ -12,18 +12,19 @@ public class Weapons
     public static List<GameObject> Prefabs = new();
     
 
-    public static void Load()
+    public static void Initialize()
     {
         if (!KeepLoading || GunSetter.Instance == null)
             return;
 
-        Events.Post(LoadAssets);
+        Events.Post(Load);
+        Events.Post(Bullets.Load);
 
         KeepLoading = !KeepLoading;
     }
 
     /// <summary> Loads all weapons for future use. </summary>
-    public static void LoadAssets()
+    public static void Load()
     {
         // this is null so make this run until it works right
         Prefabs.AddRange(GunSetter.Instance.revolverPierce.ToAssets());
@@ -60,6 +61,7 @@ public class Weapons
     /// <summary> Spawns a weapon with the given type and assigns its parent transform. </summary>
     public static void Instantiate(byte type, Transform parent)
     {
+        Log.Debug($"Index {type}");
         var obj = Tools.Instantiate(Prefabs[type], parent);
 
         // weapon prefabs are disabled and located in the AlwaysOnTop layer

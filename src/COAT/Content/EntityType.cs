@@ -137,6 +137,8 @@ public enum EntityType
     Rocket,
     Ball,
 
+    CustomEntity = 0xFF,
+
     EnemyOffset = Filth,
     SecuritySystemOffset = SecuritySystem_Main,
     ItemOffset = AppleBait,

@@ -121,10 +121,10 @@ public class Home : CanvasSingleton<Home>, IMenuInterface
                 Destroy(child.gameObject);
         if (Lobbies == null) return;
 
-        Text text = UIB.Text("No lobbies are open", lobbyList.transform, new(0, 0, 1000, 650), align: TextAnchor.MiddleCenter);
+        //Text text = UIB.Text("No lobbies are open", lobbyList.transform, new(0, 0, 1000, 650), align: TextAnchor.MiddleCenter);
         void rip()
         { 
-            text.gameObject.SetActive(text.IsActive()); 
+            //text.gameObject.SetActive(text.IsActive());
         }
 
         if (Lobbies == null) rip();

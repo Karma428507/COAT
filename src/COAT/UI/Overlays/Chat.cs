@@ -1,24 +1,23 @@
 namespace COAT.UI.Overlays;
 
+using COAT.Assets;
+using COAT.Commands;
+using COAT.Content;
+using COAT.Net;
+using COAT.Net.Types;
+using COAT.UI.Menus;
+using COAT.World;
+using Sam;
 using Steamworks;
+using Steamworks.ServerList;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.EventSystems;
-
-using COAT.Assets;
-using COAT.Commands;
-using COAT.Net;
-using COAT.Net.Types;
-using COAT.World;
-using COAT.UI.Menus;
-using Sam;
-
+using UnityEngine.UI;
 using static Pal;
 using static Rect;
-using COAT.Content;
 
 /// <summary> Front end of the chat, back end implemented via Steamworks. </summary>
 public class Chat : CanvasSingleton<Chat>, IOverlayInterface
@@ -253,10 +252,21 @@ public class Chat : CanvasSingleton<Chat>, IOverlayInterface
         }
     }
 
-
     /// <summary> Writes a message to the chat, formatting it beforehand. </summary>
     public void Receive(string color, string author, string msg) => Receive($"<b>[{(color.StartsWith('#') ? color : $"#{color}")}]{author}[][#FF7F50]:[]</b> {Bundle.CutDangerous(msg)}");
 
+    /// <summary> Writes a message to the chat, formatting it beforehand. </summary>
+    /*public void Receive(string color, Friend author, string msg, bool TTS)
+    {
+        string username = TTS ? TTS_PREFIX : "";
+
+        if (Networking.Entities.TryGetValue(author.Id.AccountId, out var entity) && entity && entity is RemotePlayer player)
+            username += player.GetUsername(author);
+        else
+            username += author.Name.Replace("[", "\\[");
+
+        Receive($"<b>[{(color.StartsWith('#') ? color : $"#{color}")}]{username}[][#FF7F50]:[]</b> {Bundle.CutDangerous(msg)}");
+    }*/
     static Chat chat => Chat.Instance;
 
     /// <summary> Writes a message to the chat, formatting it beforehand. While being static, this is used for telling the user something. </summary>
@@ -285,7 +295,7 @@ public class Chat : CanvasSingleton<Chat>, IOverlayInterface
         { Team.Pink.Color(), Team.Purple.Color() };
 
     public static uint[] DevID = new[]
-        { 1811031719u, 12389549611u };
+        { 1811031719u, 1238954961u };
 
     public static string[] DevFallbackNames = new[]
     { "<color=#0fc>Bryan</color>_-000-", "whyis2plus2" };
@@ -344,7 +354,7 @@ public class Chat : CanvasSingleton<Chat>, IOverlayInterface
     { "I slept 1~ hour for a whole week working on COAT!", "Jaket is so unsecure, that I can make OTHER PEOPLE punch! :D", "COAT has anti-F-Ban, because 2 of it's devs independently made their own F-Ban's", "Mods, strip him down butt booty naked and slam his ass onto a photocopy-er then take a snapshot of his balls. im saving it for later.", "I came up with the idea of PA(i)N because i was punching KARMA in a lobby", "ombor.", "PA(i)N has custom emotes!", "Ourple team exists because of the chat welcome message!" };
 
     public static string[] ProTips = new[]
-    { $"Press \\[{$"{Settings.EmojiWheel}".ToUpper()}] to emote!", "Use the \\[ESC] menu to leave a lobby!", "You can add custom colors to your name and lobby names by doing [red]<[1] []color=red[1] []>[]!", "You can blacklist certain mods by typing their names into the \"Modlist\" inside of Settings![8][#bbb](F3)[][]" };
+    { $"Press \\[{$"{Keybinds.EmojiWheelKey}".ToUpper()}] to emote!", "Use the \\[ESC] menu to leave a lobby!", "You can add custom colors to your name and lobby names by doing [red]<[1] []color=red[1] []>[]!", "You can blacklist certain mods by typing their names into the \"Modlist\" inside of Settings![8][#bbb](F3)[][]" };
 
     #endregion
 }

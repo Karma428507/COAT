@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.ResourceLocations;
 using static InputActions;
 
 /// <summary> Class that works with the assets of the game. </summary>
@@ -19,7 +20,7 @@ public class GameAssets
     {
         "Zombie", "Projectile Zombie", "Super Projectile Zombie", "ShotgunHusk", "MinosBoss", "Stalker", "Sisyphus", "Ferryman",
         "SwordsMachineNonboss", "Drone", "Streetcleaner", "Mindflayer", "V2", "V2 Green Arm Variant", "Turret", "Gutterman",
-        "Guttertank", "Spider", "StatueEnemy", "Mass", "Idol", "Mannequin", "Minotaur", "Virtue",
+        "Guttertank", "Spider", "Cerberus", "Mass", "Idol", "Mannequin", "Minotaur", "Virtue",
         "Gabriel", "Gabriel 2nd Variant", "Wicked", "Flesh Prison", "DroneFlesh", "Flesh Prison 2", "DroneFleshCamera Variant", "DroneSkull Variant",
         "MinosPrime", "SisyphusPrime", "Cancerous Rodent", "Very Cancerous Rodent", "Mandalore", "Big Johninator", "Puppet"
     };
@@ -103,42 +104,22 @@ public class GameAssets
         string path = Path.Combine(Path.GetDirectoryName(Plugin.Instance.Location), "logs", "Assets.txt");
         List<string> ToWrite = new();
 
-        ToWrite.Add("Game Objects");
-
-        Addressables.InitializeAsync().Completed += (operationHandle) =>
+        foreach (var locator in Addressables.ResourceLocators)
         {
-            HashSet<string> primaryKeys = new HashSet<string>();
-
-            var resourceLocators = Addressables.ResourceLocators;
-            foreach (var locator in resourceLocators)
+            foreach (var key in locator.Keys)
             {
-                foreach (var key in locator.Keys)
+                if (locator.Locate(key, typeof(object), out IList<IResourceLocation> locations))
                 {
-                    locator.Locate(key, typeof(GameObject), out var gameObjectLocations);
-                    if (gameObjectLocations != null)
-                        foreach (var location in gameObjectLocations)
-                            if (location.ToString().Contains('/'))
-                                ToWrite.Add(location.ToString());
+                    foreach (var location in locations)
+                    {
+                        ToWrite.Add(location.PrimaryKey);
+                    }
                 }
             }
+        }
 
-            ToWrite.Add("Textures");
-
-            foreach (var locator in resourceLocators)
-            {
-                foreach (var key in locator.Keys)
-                {
-                    locator.Locate(key, typeof(Texture), out var textureLocations);
-                    if (textureLocations != null)
-                        foreach (var location in textureLocations)
-                            if (location.ToString().Contains('/'))
-                                ToWrite.Add(location.ToString());
-                }
-            }
-
-            Directory.CreateDirectory(Path.GetDirectoryName(path));
-            File.AppendAllLines(path, ToWrite);
-        };
+        Directory.CreateDirectory(Path.GetDirectoryName(path));
+        File.AppendAllLines(path, ToWrite);
     }
     #endregion
 }
