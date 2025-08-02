@@ -3,6 +3,7 @@ namespace COAT.Net;
 using HarmonyLib;
 using System.Collections.Generic;
 
+using COAT.Chat;
 using COAT.Content;
 using COAT.UI.Overlays;
 using COAT.UI.Menus;
@@ -63,7 +64,7 @@ public class Administration
     public static void Ban(uint id)
     {
         // who does the client think he is?!
-        if (!LobbyController.IsOwner) { Chat.StaticReceive("\"yo buddy u aint host, dont push it.\" - Bryan(dev)"); return; }
+        if (!LobbyController.IsOwner) { ChatUI.StaticReceive("\"yo buddy u aint host, dont push it.\" - Bryan(dev)"); return; }
 
         Networking.Send(PacketType.Ban, null, (data, size) =>
         {
@@ -82,13 +83,13 @@ public class Administration
     public static void Kick(uint id)
     {
         // who does the client think he is?!
-        if (!LobbyController.IsOwner) { Chat.StaticReceive("\"yo buddy u aint host, dont push it.\" - Bryan(dev)"); return; }
+        if (!LobbyController.IsOwner) { ChatUI.StaticReceive("\"yo buddy u aint host, dont push it.\" - Bryan(dev)"); return; }
 
         // send a SteamMatchMaking event for when players are kicked
         //SteamMatchmaking.OnLobbyMemberKicked.Invoke(LobbyController.Lobby, );
 
         // send a kick msg so jaket users also see it
-        Chat.Instance.Send($"<b>{Chat.BOT_PREFIX}</b> Player {Tools.Name(id)} was [#F75][18]\\[ KICKED ][][]");
+        ChatUI.Instance.Send($"<b>{ChatUtils.BOT_PREFIX}</b> Player {Tools.Name(id)} was [#F75][18]\\[ KICKED ][][]");
 
         // check if either the player is on coat, or not. if so, send kick packet. if not, send ban packet.
         if (Networking.COATPLAYERS.Contains(id))
@@ -126,7 +127,7 @@ public class Administration
     public static void Mute(uint id, bool mute)
     {
         // who does the client think he is?!
-        if (!LobbyController.IsOwner) { Chat.StaticReceive("\"yo buddy u aint host, dont push it.\" - Bryan(dev)"); return; }
+        if (!LobbyController.IsOwner) { ChatUI.StaticReceive("\"yo buddy u aint host, dont push it.\" - Bryan(dev)"); return; }
 
         // send a packet to disable the chat of the muted person
         //Networking.Send(PacketType.COAT_Mute, w => { w.Id(id); w.Bool(mute); });
@@ -135,10 +136,10 @@ public class Administration
         else Networking.MUTEDPLAYERS.Remove(id);
 
         if (mute) { Networking.MUTEDPLAYERS.Add(id);
-            Chat.Instance.Send($"<b>{Chat.BOT_PREFIX}</b> Player {Tools.Name(id)} was [#F75][18]\\[ MUTED ][][]");
+            ChatUI.Instance.Send($"<b>{ChatUtils.BOT_PREFIX}</b> Player {Tools.Name(id)} was [#F75][18]\\[ MUTED ][][]");
             LobbyController.Lobby?.SetData("mute", string.Join(" ", Networking.MUTEDPLAYERS)); } else {
             Networking.MUTEDPLAYERS.Remove(id);
-            Chat.Instance.Send($"<b>{Chat.BOT_PREFIX}</b> Player {Tools.Name(id)} was [#F75][18]\\[ UNMUTED ][][]");
+            ChatUI.Instance.Send($"<b>{ChatUtils.BOT_PREFIX}</b> Player {Tools.Name(id)} was [#F75][18]\\[ UNMUTED ][][]");
             LobbyController.Lobby?.SetData("mute", string.Join(" ", Networking.MUTEDPLAYERS)); }
     }
 

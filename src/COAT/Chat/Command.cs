@@ -1,4 +1,4 @@
-namespace COAT.Commands;
+namespace COAT.Chat;
 
 using System;
 

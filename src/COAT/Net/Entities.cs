@@ -3,6 +3,7 @@
 using COAT.Assets;
 using COAT.Content;
 using COAT.Net.Types;
+using COAT.World;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -34,6 +35,18 @@ public class Entities
             var sucks = type;
             Providers.Add(sucks, () => Items.Instantiate(sucks));
         }
+
+        Providers.Add(EntityType.Hand, () => World.Hand);
+        Providers.Add(EntityType.Leviathan, () => World.Leviathan);
+        Providers.Add(EntityType.Minotaur_Chase, () => World.Minotaur);
+
+        for (var type = EntityType.SecuritySystem_Main; type <= EntityType.SecuritySystem_Tower_; type++)
+        {
+            var sucks = type;
+            Providers.Add(sucks, () => World.SecuritySystem[sucks - EntityType.SecuritySystemOffset]);
+        }
+
+        Providers.Add(EntityType.Brain, () => World.Brain);
 
         Providers.Add(EntityType.Coin, () => Bullets.EInstantiate(EntityType.Coin));
         Providers.Add(EntityType.Rocket, () => Bullets.EInstantiate(EntityType.Rocket));

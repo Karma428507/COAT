@@ -24,7 +24,7 @@ public class UI
     /// <summary> Whether the player is focused on a input field. </summary>
     public static bool Focused => Focus != null && Focus.TryGetComponent<InputField>(out var f) && f.isActiveAndEnabled;
     /// <summary> Whether the player is in any of Jaket dialog. </summary>
-    public static bool AnyDialog => Chat.Shown || MenuStack.Count > 0 || (OptionsManager.Instance?.paused ?? false);
+    public static bool AnyDialog => ChatUI.Shown || MenuStack.Count > 0 || (OptionsManager.Instance?.paused ?? false);
     /// <summary> Whether any interface that blocks movement is currently visible. </summary>
     public static bool AnyMovementBlocking => AnyDialog || NewMovement.Instance.dead /*|| Movement.Instance.Emoji != 0xFF*/;
 
@@ -45,7 +45,7 @@ public class UI
         Settings.Load();
         Home.Build("Lobby List", false, true);
         MainMenuAccess.Build("Main Menu Access", false, true);
-        Chat.Build("Chat", true, true, hide: () => Chat.Instance.Field?.gameObject.SetActive(Chat.Shown = false));
+        ChatUI.Build("Chat", true, true, hide: () => ChatUI.Instance.Field?.gameObject.SetActive(ChatUI.Shown = false));
         GamemodeList.Build("Gamemode List", false, true);
         PlayerList.Build("Player List", false, true);
         Settings.Build("Settings", false, true);
@@ -61,7 +61,7 @@ public class UI
         Teleporter.Build("Teleporter", false, false, hide: () => { });
 
         // For overlay UI only
-        OverlayList.Add(Chat.Instance);
+        OverlayList.Add(ChatUI.Instance);
 
         MainMenuAccess.Instance.Toggle();
 

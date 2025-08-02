@@ -1,7 +1,7 @@
-/*namespace Jaket.Net.Types;
+namespace COAT.Net.Types;
 
-using Jaket.Content;
-using Jaket.IO;
+using COAT.Content;
+using COAT.IO;
 
 /// <summary> Representation of most enemies. Synchronizes only the position of an enemy. </summary>
 public class SimpleEnemy : Enemy
@@ -59,4 +59,3 @@ public class SimpleEnemy : Enemy
 
     #endregion
 }
-*/

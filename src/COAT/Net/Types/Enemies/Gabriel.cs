@@ -1,9 +1,9 @@
-/*namespace Jaket.Net.Types;
+namespace COAT.Net.Types;
 
 using UnityEngine;
 
-using Jaket.Content;
-using Jaket.IO;
+using COAT.Content;
+using COAT.IO;
 
 /// <summary> Representation of both encounters with Gabriel. </summary>
 public class Gabriel : Enemy
@@ -150,4 +150,3 @@ public class Gabriel : Enemy
 
     #endregion
 }
-*/

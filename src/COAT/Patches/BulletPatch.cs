@@ -96,10 +96,12 @@ public class CommonBulletsPatch
 [HarmonyPatch]
 public class EntityBulletsPatch
 {
+    // does this to prevent net coins from acting async
     [HarmonyPrefix]
     [HarmonyPatch(typeof(RevolverBeam), nameof(RevolverBeam.ExecuteHits))]
     static bool CoinFix(RevolverBeam __instance, RaycastHit currentHit) => __instance.name != "Net" || !(currentHit.transform?.CompareTag("Coin") ?? false);
 
+    // spawns a team coin and syncs
     [HarmonyPrefix]
     [HarmonyPatch(typeof(Coin), "Start")]
     static bool CoinSpawn(Coin __instance)
@@ -112,6 +114,7 @@ public class EntityBulletsPatch
         else return true;
     }
 
+    // main coin code?
     [HarmonyPrefix]
     [HarmonyPatch(typeof(Coin), "DelayedReflectRevolver")]
     static bool CoinReflect(Coin __instance, GameObject beam)
@@ -120,10 +123,12 @@ public class EntityBulletsPatch
         {
             __instance.GetComponent<TeamCoin>()?.Reflect(beam);
             return false;
+            //return true;
         }
         else return true;
     }
 
+    // read function name
     [HarmonyPrefix]
     [HarmonyPatch(typeof(Coin), "DelayedPunchflection")]
     static bool CoinPunch(Coin __instance)
@@ -136,6 +141,7 @@ public class EntityBulletsPatch
         else return true;
     }
 
+    // idk
     [HarmonyPrefix]
     [HarmonyPatch(typeof(Coin), "Bounce")]
     static bool CoinBounce(Coin __instance)
@@ -148,6 +154,8 @@ public class EntityBulletsPatch
         else return true;
     }
 
+    // this will prevent you from shooting it after it's on the ground
+    // so it's semi important
     [HarmonyPrefix]
     [HarmonyPatch(typeof(Coin), "OnCollisionEnter")]
     static bool CoinCollision() => LobbyController.Offline;

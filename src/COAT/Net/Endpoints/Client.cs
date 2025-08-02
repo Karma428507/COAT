@@ -26,9 +26,6 @@ public class Client : Endpoint, IConnectionManager
             var id = r.Id();
             var type = r.Enum<EntityType>();
 
-            //if (type != EntityType.Player)
-            //    Log.Debug($"Packet recieved, ID: {id}, Type: {type}");
-
             if (!ents.ContainsKey(id) || ents[id] == null) ents[id] = Entities.Get(id, type);
             ents[id]?.Read(r);
         });
@@ -36,7 +33,7 @@ public class Client : Endpoint, IConnectionManager
         Listen(PacketType.Ban, (con, sender, r) =>
         {
             if (sender != LobbyController.LastOwner.AccountId)
-            Chat.StaticReceive("you were banned...");
+            ChatUI.StaticReceive("you were banned...");
             LobbyController.LeaveLobby();
         });
         Listen(PacketType.SpawnBullet, Bullets.CInstantiate);
@@ -76,7 +73,7 @@ public class Client : Endpoint, IConnectionManager
 
         Listen(PacketType.COAT_Kick, r => 
         {
-            Chat.StaticReceive("you were kicked...");
+            ChatUI.StaticReceive("you were kicked...");
             LobbyController.LeaveLobby();
         });
 

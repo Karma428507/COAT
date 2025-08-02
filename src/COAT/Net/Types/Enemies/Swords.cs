@@ -1,9 +1,9 @@
-/*namespace Jaket.Net.Types;
+namespace COAT.Net.Types;
 
 using UnityEngine;
 
-using Jaket.Assets;
-using Jaket.Content;
+using COAT.Assets;
+using COAT.Content;
 
 /// <summary> Representation of a swordsmachine. </summary>
 public class Swords : SimpleEnemy
@@ -58,4 +58,3 @@ public class Swords : SimpleEnemy
         }
     }
 }
-*/

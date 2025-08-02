@@ -1,7 +1,7 @@
-/*namespace Jaket.Net.Types;
+namespace COAT.Net.Types;
 
-using Jaket.Content;
-using Jaket.IO;
+using COAT.Content;
+using COAT.IO;
 
 /// <summary> Representation of a hideous mass. </summary>
 public class Shrimp : Enemy
@@ -40,9 +40,8 @@ public class Shrimp : Enemy
         base.Read(r);
         if (IsOwner) return;
 
-        if (r.Length > 10) { x.Read(r); y.Read(r); z.Read(r); }
+        if (r.length > 10) { x.Read(r); y.Read(r); z.Read(r); }
     }
 
     #endregion
 }
-*/

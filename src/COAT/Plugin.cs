@@ -2,22 +2,19 @@
 
 using BepInEx;
 using BepInEx.Bootstrap;
+
 using COAT.Assets;
+using COAT.Chat;
 using COAT.Content;
 using COAT.IO;
 using COAT.Net;
 using COAT.Net.Types.Players;
 using COAT.World;
+
 using HarmonyLib;
 using Jaket.Sprays;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
-using UnityEngine.ResourceManagement.AsyncOperations;
-using UnityEngine.ResourceManagement.ResourceLocations;
 using UnityEngine.SceneManagement;
 
 /// <summary> Bootloader class needed to avoid destroying the mod by the game. </summary>
@@ -39,6 +36,9 @@ public class Plugin : MonoBehaviour
     public bool Initialized;
     /// <summary> Path to the dll file of the mod. </summary>
     public string Location;
+
+    /// <summary> Set this to false in release versions </summary>
+    public const bool DebugMode = true;
 
     /// <summary> List of mods compatible with COAT. </summary>
     public static readonly string[] Compatible = { "COAT", "CrosshairColorFixer", "IntroSkip", "Healthbars", "RcHud", "PluginConfigurator", "AngryLevelLoader" }; // TODO: add more later frfr gang ang
@@ -76,7 +76,7 @@ public class Plugin : MonoBehaviour
         Pointers.Allocate();
         Tools.CacheAccId();
 
-        Commands.Commands.Load();
+        ChatHandler.Load();
         Keybinds.Load();
 
         Bundle.Load();

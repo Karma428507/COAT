@@ -1,6 +1,6 @@
-/*namespace Jaket.Net.Types;
+namespace COAT.Net.Types;
 
-using Jaket.Content;
+using COAT.Content;
 
 /// <summary> Representation of a gutterman. </summary>
 public class Gutterman : SimpleEnemy
@@ -35,4 +35,3 @@ public class Gutterman : SimpleEnemy
 
     #endregion
 }
-*/

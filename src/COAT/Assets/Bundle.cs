@@ -186,10 +186,10 @@ public class Bundle
     public static void Hud2NS(string key, params string[] args) => text2Show = Format(key, args);
 
     /// <summary> Sends a localized message to the chat. </summary>
-    public static void Msg(string key) => Chat.Instance.Receive(Get(key), false);
+    public static void Msg(string key) => ChatUI.Instance.Receive(Get(key), false);
 
     /// <summary> Sends a localized & formatted message to the chat. </summary>
-    public static void Msg(string key, params string[] args) => Chat.Instance.Receive(Format(key, args), false);
+    public static void Msg(string key, params string[] args) => ChatUI.Instance.Receive(Format(key, args), false);
 
     #endregion
 }

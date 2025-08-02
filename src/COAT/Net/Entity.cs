@@ -60,6 +60,7 @@ public abstract class Entity : MonoBehaviour
             Owner = Tools.AccId;
 
             name = "Local";
+            // This adds the entity to the list
             Networking.Entities[Id] = this;
         }
 

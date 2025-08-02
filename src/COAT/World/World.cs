@@ -30,11 +30,11 @@ public class World
     /// <summary> Trolley with a teleport from the tunnel at level 7-1. </summary>
     public static Transform TunnelRoomba;
 
-    /*public static Hand Hand;
+    public static Hand Hand;
     public static Leviathan Leviathan;
     public static Minotaur Minotaur;
     public static SecuritySystem[] SecuritySystem = new SecuritySystem[7];
-    public static Brain Brain;*/
+    public static Brain Brain;
 
     /// <summary> Creates a singleton of world. </summary>
     public static void Load()

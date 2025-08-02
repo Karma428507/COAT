@@ -1,7 +1,7 @@
-/*namespace Jaket.Net.Types;
+namespace COAT.Net.Types;
 
-using Jaket.Content;
-using Jaket.IO;
+using COAT.Content;
+using COAT.IO;
 
 /// <summary> Representation of an idol. </summary>
 public class Idol : Enemy
@@ -60,7 +60,7 @@ public class Idol : Enemy
         base.Read(r);
         if (IsOwner) return;
 
-        if (r.Length > 14)
+        if (r.length > 14)
         {
             x.Read(r); y.Read(r); z.Read(r);
         }
@@ -76,4 +76,3 @@ public class Idol : Enemy
 
     #endregion
 }
-*/

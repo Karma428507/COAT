@@ -1,7 +1,7 @@
 namespace COAT.UI.Overlays;
 
 using COAT.Assets;
-using COAT.Commands;
+using COAT.Chat;
 using COAT.Content;
 using COAT.Net;
 using COAT.Net.Types;
@@ -20,16 +20,9 @@ using static Pal;
 using static Rect;
 
 /// <summary> Front end of the chat, back end implemented via Steamworks. </summary>
-public class Chat : CanvasSingleton<Chat>, IOverlayInterface
+public class ChatUI : CanvasSingleton<ChatUI>, IOverlayInterface
 {
-    /// <summary> Prefix that will be added to BOT messages. </summary>
-    public const string BOT_PREFIX = "[#F75][14]\\[BOT][][]";
-    /// <summary> Prefix that will be added to TTS messages. </summary>
-    public const string TTS_PREFIX = "[#F75][14]\\[TTS][][]";
-    /// <summary> Prefox that will be added to HOST messages. </summary>
-    public const string HOST_PREFIX = "[#F75][14]\\[HOST][][]";
-    /// <summary> Prefix that will be added to COAT messages. </summary>
-    public const string COAT_PREFIX = "[#FE7][14]\\[COAT][][]";
+    
 
     /// <summary> Maximum length of chat message. </summary>
     public const int MAX_MESSAGE_LENGTH = 128;
@@ -65,7 +58,7 @@ public class Chat : CanvasSingleton<Chat>, IOverlayInterface
 
     private void Start()
     {
-        Events.OnLobbyEntered += () => Hello(); // send some useful information to the chat so that players know about the mod's features
+        Events.OnLobbyEntered += () => ChatUtils.Hello(); // send some useful information to the chat so that players know about the mod's features
         AutoTTS = Settings.AutoTTS;
 
         list = UIB.Table("List", transform, Blh(WIDTH)).rectTransform;
@@ -145,9 +138,9 @@ public class Chat : CanvasSingleton<Chat>, IOverlayInterface
         msg = msg.Trim(); // remove extra spaces from the message before formatting
 
         // if the message is not empty, then send it to other players and remember it
-        if (Bundle.CutColors(msg).Trim() != "")
+        if (ChatParser.Parse(msg).Trim() != "")
         {
-            if (!Commands.Handler.Handle(msg)) LobbyController.Lobby?.SendChatString(AutoTTS ? "/tts " + msg : msg);
+            if (!ChatParser.IsCommand(msg)) LobbyController.Lobby?.SendChatString(AutoTTS ? "/tts " + msg : msg);
             messages.Insert(0, msg);
         }
 
@@ -155,6 +148,8 @@ public class Chat : CanvasSingleton<Chat>, IOverlayInterface
         messageIndex = -1;
         Events.Post(Toggle);
     }
+
+    #region Interface Stuff
 
     /// <summary> Toggles visibility of the chat. </summary>
     public void Toggle()
@@ -171,6 +166,7 @@ public class Chat : CanvasSingleton<Chat>, IOverlayInterface
         return true;
     }
 
+    #endregion
     #region scroll
 
     /// <summary> Scrolls messages through the list of messages sent by the player. </summary>
@@ -266,9 +262,9 @@ public class Chat : CanvasSingleton<Chat>, IOverlayInterface
         string FormattedName = author.Name.Replace("[", "\\[");
         string FormattedMsg = Bundle.CutDangerous(msg);
 
-        string FormattedPrefixes = tts ? TTS_PREFIX : "";
-        FormattedPrefixes += author.Id == LobbyController.LastOwner ? HOST_PREFIX : "";
-        FormattedPrefixes += Networking.COATPLAYERS.Contains(author.Id.AccountId) ? COAT_PREFIX : "";
+        string FormattedPrefixes = tts ? ChatUtils.TTS_PREFIX : "";
+        FormattedPrefixes += author.Id == LobbyController.LastOwner ? ChatUtils.HOST_PREFIX : "";
+        FormattedPrefixes += Networking.COATPLAYERS.Contains(author.Id.AccountId) ? ChatUtils.COAT_PREFIX : "";
 
         Receive($"<b>{FormattedPrefixes}[{FormattedColor}]{FormattedName}[][#F75]:[]</b> {FormattedMsg}");
     }
@@ -285,7 +281,8 @@ public class Chat : CanvasSingleton<Chat>, IOverlayInterface
 
         Receive($"<b>[{(color.StartsWith('#') ? color : $"#{color}")}]{username}[][#FF7F50]:[]</b> {Bundle.CutDangerous(msg)}");
     }*/
-    static Chat chat => Chat.Instance;
+
+    static ChatUI chat => ChatUI.Instance;
 
     /// <summary> Writes a message to the chat, formatting it beforehand. While being static, this is used for telling the user something. </summary>
     public static void StaticReceive(string color, string author, string msg) => chat.Receive($"<b>[#{color}]{author}[][#FF7F50]:[]</b> {msg}");
@@ -308,71 +305,6 @@ public class Chat : CanvasSingleton<Chat>, IOverlayInterface
 
         NewReceive(color, author, msg, true);
     }
-
-    public static Color[] DevColor = new[]
-        { Team.Pink.Color(), Team.Purple.Color() };
-
-    public static uint[] DevID = new uint[]
-        { 1811031719u, 1238954961u };
-
-    public static string[] DevFallbackNames = new[]
-    { "<color=#0fc>Bryan</color>_-000-", "whyis2plus2" };
-
-    /// <summary> Sends some useful information to the chat. </summary>
-    public void Hello(bool force = false)
-    {
-        // if the last owner of the lobby is not equal to 0, then the lobby is not created for the first time
-        if (LobbyController.LastOwner != 0L && !force) return;
-
-        void Msg(string msg, int dev) 
-        {
-            string devname = Tools.Friend(DevID[dev - 1]).Name;
-            if (devname == "[unknown]") devname = DevFallbackNames[dev - 1];
-
-            Receive(ColorToHex(DevColor[dev - 1]), BOT_PREFIX + devname, msg); 
-        }
-        void Tip(string tip, int dev) => Msg($"[14]* {tip}[]", dev);
-
-        Msg("[24]<b>Hey!</b>[18] Welcome to COAT.", 1);
-        Msg("I[6][#bbb](Bryan)[][] respond the quickest out of all the devs,", 1);
-        Msg("So if you ever have any questions or confusion about COAT, feel free to ask me InGame or on Discord. [6][#bbb](@fredayddd321ewq)[][]\\n", 1);
-
-        if (UnityEngine.Random.Range(0, 10) == 1)
-        {
-            Msg("FunFact:", 1);
-            Tip(RandomFunFact(), 1);
-        }
-        else
-        {
-            Msg("Pro Tip:", 2);
-            Tip(RandomProTip(), 2);
-        }
-    }
-
-    public static string ColorToHex(Color color)
-    {
-        return $"#{Mathf.RoundToInt(color.r * 255):X2}" +
-               $"{Mathf.RoundToInt(color.g * 255):X2}" +
-               $"{Mathf.RoundToInt(color.b * 255):X2}";
-    }
-
-    private string RandomFunFact()
-    {
-        int randomNumber = UnityEngine.Random.Range(0, FunFacts.Length);
-        return FunFacts[randomNumber];
-    }
-
-    private string RandomProTip()
-    {
-        int randomNumber = UnityEngine.Random.Range(0, ProTips.Length);
-        return ProTips[randomNumber];
-    }
-
-    public static string[] FunFacts = new[]
-    { "COAT has anti-F-Ban, because 2 of it's devs independently made their own F-Ban's", "Mods, strip him down butt booty naked and slam his ass onto a photocopy-er then take a snapshot of his balls. im saving it for later.", "I came up with the idea of P A (i) N because i was punching KARMA in a lobby", "ombor.", "P A (i) N *will have* custom emotes!", "Ourple team exists because of the  Pro Tips messages!", "this fun fact isnt fun but..\\n/hello Doesnt actually send the message to other players..", "umm.. uhh.. idfk man these are barely fun facts im not creative enough :c", "You can KnuckleBlaster a coin to send it flying!" };
-
-    public static string[] ProTips = new[]
-    { $"Press \\[{$"{Keybinds.EmojiWheelKey}".ToUpper()}] to emote!", "Use the \\[ESC] menu to leave a lobby!", "You can add custom colors to your name and lobby names by doing [red]<[1] []color=red[1] []>[]!", "You can blacklist certain mods by typing their names into the \"Modlist\" inside of Settings![8][#bbb](F3)[][]" };
 
     #endregion
 }

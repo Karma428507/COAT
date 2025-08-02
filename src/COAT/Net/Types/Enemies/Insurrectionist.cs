@@ -1,11 +1,11 @@
-/*namespace Jaket.Net.Types;
+namespace COAT.Net.Types;
 
 using HarmonyLib;
 using UnityEngine;
 
-using Jaket.Assets;
-using Jaket.Content;
-using Jaket.IO;
+using COAT.Assets;
+using COAT.Content;
+using COAT.IO;
 
 /// <summary> Representation of an insurrectionist. </summary>
 public class Insurrectionist : Enemy
@@ -127,4 +127,3 @@ public class Insurrectionist : Enemy
 
     #endregion
 }
-*/

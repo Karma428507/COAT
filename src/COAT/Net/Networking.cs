@@ -148,7 +148,7 @@ public class Networking
             bool bannedormuted = LobbyBannedData.Contains($"{member.Id.AccountId}") || LobbyMutedData.Contains($"{member.Id.AccountId}");
             if (!bannedormuted)
             {
-                if (message.Length > Chat.MAX_MESSAGE_LENGTH + 8) message = message.Substring(0, Chat.MAX_MESSAGE_LENGTH);
+                if (message.Length > ChatUI.MAX_MESSAGE_LENGTH + 8) message = message.Substring(0, ChatUI.MAX_MESSAGE_LENGTH);
 
                 if (message == "#/d")
                 {
@@ -175,11 +175,11 @@ public class Networking
                     if (LocalPlayer.Team == (Team)team) StyleHUD.Instance.AddPoints(Mathf.RoundToInt(250f * StyleCalculator.Instance.airTime), Bundle.ParseColors("[#3C3]FRATRICIDE"));
                 }
                 else if (message.StartsWith("#/r") && byte.TryParse(message.Substring(3), out byte rps))
-                    Chat.Instance.Receive($"[#FFA500]{member.Name} has chosen {rps switch { 0 => "rock", 1 => "paper", 2 => "scissors", _ => "nothing" }}");
+                    ChatUI.Instance.Receive($"[#FFA500]{member.Name} has chosen {rps switch { 0 => "rock", 1 => "paper", 2 => "scissors", _ => "nothing" }}");
                 else if (message.StartsWith("/tts "))
-                    Chat.Instance.ReceiveTTS(GetTeamColor(member), member, message.Substring(5));
+                    ChatUI.Instance.ReceiveTTS(GetTeamColor(member), member, message.Substring(5));
                 else
-                    Chat.Instance.NewReceive(GetTeamColor(member), member, message);
+                    ChatUI.Instance.NewReceive(GetTeamColor(member), member, message);
             }
         };
     }

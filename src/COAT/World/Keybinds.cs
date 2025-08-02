@@ -96,12 +96,12 @@ public class Keybinds : MonoSingleton<Keybinds>
         if (Input.GetKeyDown(Keybinds.PlayerListKey)) UI.ToggleUI(PlayerList.Instance);
         if (Input.GetKeyDown(Keybinds.SettingsKey)) UI.ToggleUI(Settings.Instance);
 
-        if (Input.GetKeyDown(Keybinds.ScrollUpKey)) Chat.Instance.ScrollMessages(true);
-        if (Input.GetKeyDown(Keybinds.ScrollDownKey)) Chat.Instance.ScrollMessages(false);
+        if (Input.GetKeyDown(Keybinds.ScrollUpKey)) ChatUI.Instance.ScrollMessages(true);
+        if (Input.GetKeyDown(Keybinds.ScrollDownKey)) ChatUI.Instance.ScrollMessages(false);
 
         if (UI.Focused || Settings.Instance.Rebinding) return;
 
-        if (Input.GetKeyDown(Keybinds.ChatKey)) Chat.Instance.Toggle();
+        if (Input.GetKeyDown(Keybinds.ChatKey)) ChatUI.Instance.Toggle();
 
         if (Input.GetKeyDown(KeyCode.F4)) Debugging.Instance.Toggle();
         if (Input.GetKeyDown(KeyCode.C) && Debugging.Shown) Debugging.Instance.Clear();

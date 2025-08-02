@@ -1,8 +1,8 @@
-/*namespace Jaket.Net.Types;
+namespace COAT.Net.Types;
 
 using UnityEngine;
 
-using Jaket.Content;
+using COAT.Content;
 
 /// <summary> Representation of both encounters with V2. </summary>
 public class V2 : SimpleEnemy
@@ -66,4 +66,3 @@ public class V2 : SimpleEnemy
 
     #endregion
 }
-*/

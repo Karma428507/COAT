@@ -1,10 +1,10 @@
-/*namespace Jaket.Net.Types;
+namespace COAT.Net.Types;
 
 using UnityEngine;
 using UnityEngine.AI;
 
-using Jaket.Content;
-using Jaket.IO;
+using COAT.Content;
+using COAT.IO;
 
 /// <summary> Representation of a spider body??? Who da hell gave this thing such name?! </summary>
 public class Body : Enemy
@@ -85,4 +85,3 @@ public class Body : Enemy
 
     #endregion
 }
-*/

@@ -1,6 +1,6 @@
-/*namespace Jaket.Net.Types;
+namespace COAT.Net.Types;
 
-using Jaket.Content;
+using COAT.Content;
 
 /// <summary> Representation of Something Wicked. </summary>
 public class Wicked : SimpleEnemy
@@ -22,4 +22,3 @@ public class Wicked : SimpleEnemy
 
     private void UpdateTarget() => Tools.Set("player", wicked, EnemyId.target?.targetTransform.gameObject);
 }
-*/

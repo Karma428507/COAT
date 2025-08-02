@@ -36,15 +36,15 @@ public class Enemies
                 Prefabs.Add(currentEnemy.GetComponentInChildren<EnemyIdentifier>());
             else Prefabs.Add(null);
 
-        for (var type = EntityType.Filth; type <= EntityType.Puppet; type++) Types[type] = typeof(global::Enemy);
-        Types[EntityType.Insurrectionist] = typeof(Sisyphus); // bruh...
+        for (var type = EntityType.Filth; type <= EntityType.Puppet; type++) Types[type] = typeof(SimpleEnemy);
+        Types[EntityType.Insurrectionist] = typeof(Insurrectionist);
         Types[EntityType.Swordsmachine] = typeof(SwordsMachine);
         Types[EntityType.V2] = typeof(V2);
         Types[EntityType.V2_GreenArm] = typeof(V2);
         Types[EntityType.Sentry] = typeof(Turret);
         Types[EntityType.Gutterman] = typeof(Gutterman);
-        Types[EntityType.MaliciousFace] = typeof(SpiderBody);
-        Types[EntityType.HideousMass] = typeof(Mass); // shrimp was such a good name qwq
+        Types[EntityType.MaliciousFace] = typeof(Body);
+        Types[EntityType.HideousMass] = typeof(Shrimp);
         Types[EntityType.Idol] = typeof(Idol);
         Types[EntityType.Gabriel] = typeof(Gabriel);
         Types[EntityType.Gabriel_Angry] = typeof(Gabriel);
@@ -102,21 +102,27 @@ public class Enemies
             enemyId.gameObject.AddComponent<Hand>();
             return true;
         }
+
         // there is no need to sync the fake, since the coins are synced
         if (Tools.Scene == "Level 5-2" && enemyId.name == "FerrymanIntro") return true;
+
         if (Tools.Scene == "Level 5-4" && enemyId.name == "Leviathan")
         {
             enemyId.gameObject.AddComponent<Leviathan>();
             return true;
         }
+
         if (Tools.Scene == "Level 7-1" && enemyId.name == "MinotaurChase")
         {
             enemyId.gameObject.AddComponent<Minotaur>();
             return true;
         }
+
         // the security system is a complex enemy consisting of several subenemies
         if (Tools.Scene == "Level 7-4" && enemyId.GetComponentInParent<CombinedBossBar>() != null) return true;
+
         if (Tools.Scene == "Level 7-4" && enemyId.name == "KillAllEnemiesChecker") return true; // what is that?!
+
         if (Tools.Scene == "Level 7-4" && enemyId.name == "Brain")
         {
             enemyId.gameObject.AddComponent<Brain>();

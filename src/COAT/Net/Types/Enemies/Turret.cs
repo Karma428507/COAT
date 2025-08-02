@@ -1,7 +1,7 @@
-/*namespace Jaket.Net.Types;
+namespace COAT.Net.Types;
 
-using Jaket.Content;
-using Jaket.IO;
+using COAT.Content;
+using COAT.IO;
 
 /// <summary> Representation of a turret. </summary>
 public class Turret : Enemy
@@ -71,4 +71,3 @@ public class Turret : Enemy
 
     #endregion
 }
-*/

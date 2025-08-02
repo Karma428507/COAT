@@ -36,7 +36,7 @@ public class MovementPatch
             // player death message
             LobbyController.Lobby?.SendChatString("#/d");
 
-            Chat.Instance.Field.gameObject.SetActive(false);
+            ChatUI.Instance.Field.gameObject.SetActive(false);
             Movement.Instance.OnDied();
         }
     }

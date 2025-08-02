@@ -1,10 +1,10 @@
-/*namespace Jaket.Net.Types;
+namespace COAT.Net.Types;
 
 using UnityEngine;
 
-using Jaket.Content;
-using Jaket.IO;
-using Jaket.World;
+using COAT.Content;
+using COAT.IO;
+using COAT.World;
 
 /// <summary> Representation of Minos' hand. </summary>
 public class Hand : Enemy
@@ -50,4 +50,3 @@ public class Hand : Enemy
 
     #endregion
 }
-*/
