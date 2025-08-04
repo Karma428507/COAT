@@ -29,7 +29,7 @@ public class Administration
     /// <summary> List of banned player ids. </summary>
     public static List<uint> Banned = new();
     /// <summary> List of banned player sprays. </summary>
-    //public static List<uint> BannedSprays = new();
+    public static List<uint> BannedSprays = new();
 
     private static Counter spam = new();
     private static Counter warnings = new();

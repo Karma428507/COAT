@@ -1,13 +1,13 @@
-/*namespace Jaket.Sprays;
+namespace COAT.Sprays;
 
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
-using Jaket.Assets;
-using Jaket.Net;
-using Jaket.UI.Dialogs;
-using Jaket.UI.Elements;
+using COAT.Assets;
+using COAT.Net;
+using COAT.UI.Menus;
+using COAT.UI.Elements;
 
 /// <summary> Saves sprays of players and loads sprays of the local player. </summary>
 public class SprayManager
@@ -112,4 +112,3 @@ public class SprayManager
         return Spawn(Tools.AccId, position, direction);
     }
 }
-*/

@@ -7,7 +7,7 @@ using System;
 using COAT.Content;
 using COAT.IO;
 using COAT.Net.Types;
-//using COAT.Sprays;
+using COAT.Sprays;
 using COAT.World;
 using System.Net;
 using COAT.UI.Overlays;
@@ -59,9 +59,9 @@ public class Client : Endpoint, IConnectionManager
             if (ents[r.Id()] is RemotePlayer player) player.Point(r);
         });
 
-        //Listen(PacketType.Spray, r => SprayManager.Spawn(r.Id(), r.Vector(), r.Vector()));
+        Listen(PacketType.Spray, r => SprayManager.Spawn(r.Id(), r.Vector(), r.Vector()));
 
-        //Listen(PacketType.ImageChunk, SprayDistributor.Download);
+        Listen(PacketType.ImageChunk, SprayDistributor.Download);
 
         Listen(PacketType.ActivateObject, World.ReadAction);
 

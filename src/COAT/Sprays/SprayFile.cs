@@ -1,4 +1,4 @@
-namespace Jaket.Sprays;
+namespace COAT.Sprays;
 
 using System.IO;
 using UnityEngine;

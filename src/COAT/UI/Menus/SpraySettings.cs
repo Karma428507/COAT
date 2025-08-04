@@ -1,4 +1,4 @@
-/*namespace Jaket.UI.Dialogs;
+namespace COAT.UI.Menus;
 
 using Steamworks;
 using System;
@@ -6,10 +6,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-using Jaket.Assets;
-using Jaket.Net;
-using Jaket.Sprays;
-using Jaket.World;
+using COAT.Assets;
+using COAT.Net;
+using COAT.Sprays;
+using COAT.World;
 
 using static Pal;
 using static Rect;
@@ -72,7 +72,7 @@ public class SpraySettings : CanvasSingleton<SpraySettings>
     // <summary> Toggles visibility of the spray settings. </summary>
     public void Toggle()
     {
-        if (!Shown) UI.HideCentralGroup();
+        //if (!Shown) UI.();
 
         gameObject.SetActive(Shown = !Shown);
         Movement.UpdateState();
@@ -159,4 +159,3 @@ public class SpraySettings : CanvasSingleton<SpraySettings>
         Rebuild();
     }
 }
-*/

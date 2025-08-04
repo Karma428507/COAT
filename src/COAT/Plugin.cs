@@ -12,7 +12,7 @@ using COAT.Net.Types.Players;
 using COAT.World;
 
 using HarmonyLib;
-using Jaket.Sprays;
+using COAT.Sprays;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -93,7 +93,7 @@ public class Plugin : MonoBehaviour
         World.World.Load();
         WorldActionsList.Load();
         Movement.Load();
-        //SprayManager.Load();
+        SprayManager.Load();
 
         PlayerData.Load();
 

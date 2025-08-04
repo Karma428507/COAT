@@ -1,11 +1,11 @@
-/*namespace Jaket.UI.Elements;
+namespace COAT.UI.Elements;
 
 using UnityEngine;
 using UnityEngine.UI;
 
-using Jaket.Net;
-using Jaket.Sprays;
-using Jaket.UI.Dialogs;
+using COAT.Net;
+using COAT.Sprays;
+using COAT.UI.Menus;
 
 /// <summary> Player-created spray containing an image, disappears in a few seconds after appearing. </summary>
 public class Spray : MonoBehaviour
@@ -78,4 +78,3 @@ public class Spray : MonoBehaviour
     public static float InCubic(float t) => t * t * t;
     public static float InOutCubic(float t) => t < 0.5 ? (InCubic(t * 2) / 2) : (1 - InCubic((1 - t) * 2) / 2);
 }
-*/

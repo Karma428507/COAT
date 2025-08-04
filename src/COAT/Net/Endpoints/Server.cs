@@ -7,7 +7,7 @@ using System;
 using COAT.Content;
 using COAT.IO;
 using COAT.Net.Types;
-//using COAT.Sprays;
+using COAT.Sprays;
 using COAT.UI.Overlays;
 using COAT.World;
 using System.Net;
@@ -78,7 +78,7 @@ public class Server : Endpoint, ISocketManager
             if (ents[r.Id()] is RemotePlayer player) player.Point(r);
         });
 
-        /*ListenAndRedirect(PacketType.Spray, r => SprayManager.Spawn(r.Id(), r.Vector(), r.Vector()));
+        ListenAndRedirect(PacketType.Spray, r => SprayManager.Spawn(r.Id(), r.Vector(), r.Vector()));
 
         Listen(PacketType.ImageChunk, (con, sender, r) =>
         {
@@ -109,7 +109,7 @@ public class Server : Endpoint, ISocketManager
             }
 
             Log.Debug($"[Server] Got an image request for spray#{owner}. Count: {list.Count}");
-        });*/
+        });
 
         ListenAndRedirect(PacketType.ActivateObject, World.ReadAction);
 

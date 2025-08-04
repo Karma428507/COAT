@@ -1,4 +1,4 @@
-/*namespace Jaket.Sprays;
+namespace COAT.Sprays;
 
 using Steamworks.Data;
 using System;
@@ -6,10 +6,10 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using UnityEngine;
 
-using Jaket.Content;
-using Jaket.IO;
-using Jaket.Net;
-using Jaket.UI.Dialogs;
+using COAT.Content;
+using COAT.IO;
+using COAT.Net;
+using COAT.UI.Menus;
 
 /// <summary> Class responsible for distributing sprays between clients. </summary>
 public static class SprayDistributor
@@ -99,7 +99,7 @@ public static class SprayDistributor
             if (Streams.TryGetValue(id, out var stream))
             {
                 Log.Warning("Overriding the old stream");
-                Marshal.FreeHGlobal(stream.mem);
+                Marshal.FreeHGlobal(stream.memory);
             }
             Log.Info("Downloading spray#" + id);
 
@@ -114,19 +114,18 @@ public static class SprayDistributor
                 return;
             }
 
-            stream.Bytes(r.Bytes(r.Length - 6));
-            if (stream.Position >= stream.Length)
+            stream.Bytes(r.Bytes(r.length - 6));
+            if (stream.Position >= stream.length)
             {
                 // handle the downloaded spray
-                Reader.Read(stream.mem, stream.Length, r => HandleSpray(id, r.Bytes(r.Length)));
+                Reader.Read(stream.memory, stream.length, r => HandleSpray(id, r.Bytes(r.length)));
 
-                Marshal.FreeHGlobal(stream.mem);
+                Marshal.FreeHGlobal(stream.memory);
                 Streams.Remove(id);
             }
-            if (Debug) Log.Debug($"Downloaded {100f * stream.Position / stream.Length:0.00}%");
+            if (Debug) Log.Debug($"Downloaded {100f * stream.Position / stream.length:0.00}%");
         }
     }
 
     #endregion
 }
-*/
