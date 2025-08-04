@@ -27,9 +27,6 @@ public class Server : Endpoint, ISocketManager
             var id = r.Id();
             var type = r.Enum<EntityType>();
 
-            //if (type != EntityType.Player)
-            //    Log.Debug($"Packet recieved, ID: {id}, Type: {type}");
-
             // player can only have one doll and its id should match the player's id
             if ((id == sender && type != EntityType.Player) || (id != sender && type == EntityType.Player)) return;
 
@@ -81,8 +78,7 @@ public class Server : Endpoint, ISocketManager
             if (ents[r.Id()] is RemotePlayer player) player.Point(r);
         });
 
-        /*
-        ListenAndRedirect(PacketType.Spray, r => SprayManager.Spawn(r.Id(), r.Vector(), r.Vector()));
+        /*ListenAndRedirect(PacketType.Spray, r => SprayManager.Spawn(r.Id(), r.Vector(), r.Vector()));
 
         Listen(PacketType.ImageChunk, (con, sender, r) =>
         {
@@ -113,10 +109,9 @@ public class Server : Endpoint, ISocketManager
             }
 
             Log.Debug($"[Server] Got an image request for spray#{owner}. Count: {list.Count}");
-        });
+        });*/
 
         ListenAndRedirect(PacketType.ActivateObject, World.ReadAction);
-        */
 
         // PUT ALL COAT PACKETS BELOW THIS. JUST SO I DONT HAVE TO SEARCH THE MILKYWAY TO FIND A SINGLE FUCKING LIL GUY!!!
     }

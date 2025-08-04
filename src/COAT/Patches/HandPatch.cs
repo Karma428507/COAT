@@ -1,9 +1,9 @@
-/*namespace Jaket.Patches;
+namespace COAT.Patches;
 
 using HarmonyLib;
 
-using Jaket.Net;
-using Jaket.World;
+using COAT.Net;
+using COAT.World;
 
 [HarmonyPatch(typeof(MinosArm))]
 public class HandPatch
@@ -24,4 +24,3 @@ public class HandPatch
     [HarmonyPatch("SlamRight")]
     static void SlamRight() { if (World.Hand && World.Hand.IsOwner) World.Hand.HandPos = 2; }
 }
-*/

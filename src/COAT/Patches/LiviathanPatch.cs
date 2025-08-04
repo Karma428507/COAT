@@ -1,8 +1,8 @@
-/*namespace Jaket.Patches;
+namespace COAT.Patches;
 
 using HarmonyLib;
 
-using Jaket.World;
+using COAT.World;
 
 [HarmonyPatch]
 public class LeviathanPatch
@@ -46,4 +46,3 @@ public class LeviathanPatch
         if (World.Leviathan && World.Leviathan.IsOwner) World.Leviathan.Attack = 1;
     }
 }
-*/

@@ -1,9 +1,9 @@
-/*namespace Jaket.Patches;
+namespace COAT.Patches;
 
 using HarmonyLib;
 
-using Jaket.Net;
-using Jaket.World;
+using COAT.Net;
+using COAT.World;
 
 [HarmonyPatch(typeof(MinotaurChase))]
 public class MinotaurPatch
@@ -24,4 +24,3 @@ public class MinotaurPatch
     [HarmonyPatch("HandSwing")]
     static void Hand() { if (World.Minotaur && World.Minotaur.IsOwner) World.Minotaur.Attack = 2; }
 }
-*/

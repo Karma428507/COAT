@@ -59,15 +59,13 @@ public class Client : Endpoint, IConnectionManager
             if (ents[r.Id()] is RemotePlayer player) player.Point(r);
         });
 
-        /* Work on later
-        Listen(PacketType.Spray, r => SprayManager.Spawn(r.Id(), r.Vector(), r.Vector()));
+        //Listen(PacketType.Spray, r => SprayManager.Spawn(r.Id(), r.Vector(), r.Vector()));
 
-        Listen(PacketType.ImageChunk, SprayDistributor.Download);
+        //Listen(PacketType.ImageChunk, SprayDistributor.Download);
 
         Listen(PacketType.ActivateObject, World.ReadAction);
 
         Listen(PacketType.CyberGrindAction, CyberGrind.LoadPattern); 
-        */
 
         // PUT ALL COAT PACKETS BELOW THIS. JUST SO I DONT HAVE TO SEARCH THE MILKYWAY TO FIND A SINGLE FUCKING LIL GUY!!!
 

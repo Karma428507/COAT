@@ -38,7 +38,7 @@ public class Enemies
 
         for (var type = EntityType.Filth; type <= EntityType.Puppet; type++) Types[type] = typeof(SimpleEnemy);
         Types[EntityType.Insurrectionist] = typeof(Insurrectionist);
-        Types[EntityType.Swordsmachine] = typeof(SwordsMachine);
+        Types[EntityType.Swordsmachine] = typeof(Swords);
         Types[EntityType.V2] = typeof(V2);
         Types[EntityType.V2_GreenArm] = typeof(V2);
         Types[EntityType.Sentry] = typeof(Turret);

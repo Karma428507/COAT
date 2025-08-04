@@ -1,13 +1,13 @@
-/*namespace Jaket.Patches;
+namespace COAT.Patches;
 
 using HarmonyLib;
 using System.Collections.Generic;
 using ULTRAKILL.Cheats;
 using UnityEngine;
 
-using Jaket.Net;
-using Jaket.Net.Types;
-using Jaket.World;
+using COAT.Net;
+using COAT.Net.Types;
+using COAT.World;
 
 [HarmonyPatch(typeof(ActivateArena))]
 public class ArenaPatch
@@ -98,12 +98,13 @@ public class TramPatch
 [HarmonyPatch]
 public class ActionPatch
 {
-    [HarmonyPostfix]
+    // Find alternative later
+    /*[HarmonyPostfix]
     [HarmonyPatch(typeof(ObjectActivator), nameof(ObjectActivator.Activate))]
     static void Activate(ObjectActivator __instance)
     {
         if (LobbyController.Online) World.SyncAction(__instance.gameObject);
-    }
+    }*/
 
     [HarmonyPostfix]
     [HarmonyPatch(typeof(FinalDoor), nameof(FinalDoor.Open))]
@@ -151,4 +152,3 @@ public class ActionPatch
         if (LobbyController.Online && LobbyController.IsOwner) World.SyncAction(__instance, 6);
     }
 }
-*/

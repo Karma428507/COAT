@@ -91,7 +91,7 @@ public class Plugin : MonoBehaviour
         Entities.Load();
 
         World.World.Load();
-        //WorldActionsList.Load();
+        WorldActionsList.Load();
         Movement.Load();
         //SprayManager.Load();
 

@@ -1,10 +1,10 @@
-﻿/*namespace Jaket.World;
+﻿namespace COAT.World;
 
 using UnityEngine;
 
-using Jaket.Content;
-using Jaket.IO;
-using Jaket.Net;
+using COAT.Content;
+using COAT.IO;
+using COAT.Net;
 
 /// <summary> Class responsible for Cyber Grind synchronization. </summary>
 public class CyberGrind
@@ -76,4 +76,3 @@ public class CyberGrind
         else Movement.Instance.CyberRespawn();
     }
 }
-*/
