@@ -3,6 +3,7 @@
 using COAT.Assets;
 using COAT.Chat;
 using COAT.Content;
+using COAT.Entities;
 using COAT.Net;
 using COAT.UI.Overlays;
 using System;

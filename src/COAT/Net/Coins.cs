@@ -6,7 +6,6 @@ using UnityEngine;
 using COAT.Content;
 using COAT.Net.Types;
 
-// I'm not touching this...
 /// <summary> List of all living coins and methods for finding targets. </summary>
 public class Coins
 {

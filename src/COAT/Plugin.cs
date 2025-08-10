@@ -6,9 +6,10 @@ using BepInEx.Bootstrap;
 using COAT.Assets;
 using COAT.Chat;
 using COAT.Content;
+using COAT.Entities;
 using COAT.IO;
 using COAT.Net;
-using COAT.Net.Types.Players;
+using COAT.Net.Types;
 using COAT.World;
 
 using HarmonyLib;
@@ -41,7 +42,7 @@ public class Plugin : MonoBehaviour
     public const bool DebugMode = true;
 
     /// <summary> List of mods compatible with COAT. </summary>
-    public static readonly string[] Compatible = { "COAT", "CrosshairColorFixer", "IntroSkip", "Healthbars", "RcHud", "PluginConfigurator", "AngryLevelLoader" }; // TODO: add more later frfr gang ang
+    public static readonly string[] Compatible = { "COAT", "WesV2", "CrosshairColorFixer", "IntroSkip", "Healthbars", "RcHud", "PluginConfigurator", "AngryLevelLoader" }; // TODO: add more later frfr gang ang
     /// <summary> Whether at least on incompatible mod is loaded. </summary>
     public bool HasIncompatibility;
     /// <summary> List of mods that are blacklisted in the lobby. </summary>
@@ -70,35 +71,41 @@ public class Plugin : MonoBehaviour
     {
         if (Initialized) return;
 
-        // notify players about the availability of an update so that they no longer whine to me about something not working
+        // Initialize the important utilities
         //Version.Check4Update();
         Stats.StartRecord();
         Pointers.Allocate();
         Tools.CacheAccId();
 
-        ChatHandler.Load();
-        Keybinds.Load();
-
-        Bundle.Load();
-        Events.Post(Enemies.Load);
-        Events.Post(Items.Load);
-        Events.OnLoaded += Weapons.Initialize;
-        DollAssets.Load();
-
+        // Networking
         Administration.Load();
         LobbyController.Load();
         Networking.Load();
-        Entities.Load();
 
-        World.World.Load();
-        WorldActionsList.Load();
+        // Loads the asset
+        Bundle.Load();
+        DollAssets.Load();
+
+        // Player services
+        UI.Menus.Settings.Load(); // planning on removing this from settings soon
+        Keybinds.Load();
         Movement.Load();
-        SprayManager.Load();
 
-        PlayerData.Load();
-
+        // Loads UI
         UI.UIB.Load();
         UI.UI.Load();
+
+        // Entities stuff and weapons
+        Net.Entities.Load();
+        Events.Post(Enemies.Load);
+        Events.Post(Items.Load);
+        Events.OnLoaded += Weapons.Initialize;
+        
+        // Rest of multiplayer
+        World.World.Load();
+        LevelManager.Load();
+        ChatHandler.Load();
+        SprayManager.Load();
 
         // initialize harmony and patch all the necessary classes
         new Harmony("Meow :3").PatchAll();

@@ -4,7 +4,7 @@ using HarmonyLib;
 using UnityEngine;
 
 using COAT.Assets;
-using COAT.Content;
+using COAT.Entities;
 using COAT.IO;
 
 /// <summary> Representation of an insurrectionist. </summary>

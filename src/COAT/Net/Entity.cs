@@ -1,10 +1,9 @@
 ﻿namespace COAT.Net;
 
 using COAT.Content;
+using COAT.Entities;
 using COAT.IO;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using UnityEngine;
 
 /// <summary>
@@ -97,7 +96,6 @@ public abstract class Entity : MonoBehaviour
         Networking.Send(PacketType.KillEntity, w => w.Id(Id), size: 4);
     }
 
-    // Research later
     /// <summary> Class for interpolating floating point values. </summary>
     public class FloatLerp
     {

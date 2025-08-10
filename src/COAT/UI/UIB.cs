@@ -16,12 +16,14 @@ using ImageType = UnityEngine.UI.Image.Type;
 using COAT.Assets;
 using COAT.Content;
 using COAT.UI.Menus;
-//using Jaket.Net;
+using COAT.Net;
 
 using static Pal;
 using static Rect;
 using COAT;
 using COAT.World;
+
+// NOTE: THIS WILL BE BROKEN APART INTO DIFFERENT CLASSES IN WIDGETS
 
 /// <summary> Class that builds the entire interface of the mod. </summary>
 public class UIB
@@ -323,8 +325,8 @@ public class UIB
     }
 
     /// <summary> Adds a button that opens the profile of the given member. </summary>
-    //public static Button ProfileButton(Friend member, Transform parent, Rect r) =>
-    //    Button(member.Name, parent, r, Networking.GetTeam(member).Color(), 24, clicked: () => SteamFriends.OpenUserOverlay(member.Id, "steamid"));
+    public static Button ProfileButton(Friend member, Transform parent, Rect r) =>
+        Button(member.Name, parent, r, Networking.GetTeam(member).Color(), 24, clicked: () => SteamFriends.OpenUserOverlay(member.Id, "steamid"));
 
     /// <summary> Adds a button that changes the given keybind. </summary>
     public static Button KeyButton(string name, KeyCode current, Transform parent, Rect r)

@@ -1,6 +1,6 @@
 namespace COAT.Net.Types;
 
-using COAT.Content;
+using COAT.Entities;
 
 /// <summary> Representation of a gutterman. </summary>
 public class Gutterman : SimpleEnemy

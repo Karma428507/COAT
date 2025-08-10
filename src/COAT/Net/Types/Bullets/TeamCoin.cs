@@ -4,6 +4,7 @@ using UnityEngine;
 
 using COAT.Assets;
 using COAT.Content;
+using COAT.Entities;
 using COAT.IO;
 
 using static COAT.UI.Pal;

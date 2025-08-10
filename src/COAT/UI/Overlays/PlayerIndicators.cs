@@ -1,4 +1,4 @@
-/*namespace Jaket.UI.Fragments;
+namespace COAT.UI.Overlays;
 
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,9 +6,9 @@ using UnityEngine.UI;
 
 using ImageType = UnityEngine.UI.Image.Type;
 
-using Jaket.Content;
-using Jaket.Net;
-using Jaket.Net.Types;
+using COAT.Content;
+using COAT.Net;
+using COAT.Net.Types;
 
 using static Rect;
 
@@ -88,4 +88,3 @@ public class PlayerIndicators : CanvasSingleton<PlayerIndicators>
         indicator.rectTransform.localEulerAngles = new Vector3(0f, 0f, 180f - angle + indicator.fillAmount * 180f);
     }
 }
-*/

@@ -1,6 +1,7 @@
-namespace COAT.Content;
+namespace COAT.Entities;
 
 using COAT.Assets;
+using COAT.Content;
 using COAT.IO;
 using COAT.Net;
 using COAT.Net.Types;

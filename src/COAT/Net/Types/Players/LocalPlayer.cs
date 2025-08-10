@@ -2,6 +2,7 @@
 
 using COAT.Assets;
 using COAT.Content;
+using COAT.Entities;
 using COAT.IO;
 using COAT.UI;
 using COAT.UI.Overlays;

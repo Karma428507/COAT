@@ -2,6 +2,7 @@
 
 using COAT.Assets;
 using COAT.Content;
+using COAT.Entities;
 using COAT.Net.Types;
 using COAT.World;
 using System;

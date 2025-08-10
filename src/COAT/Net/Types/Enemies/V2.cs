@@ -2,7 +2,7 @@ namespace COAT.Net.Types;
 
 using UnityEngine;
 
-using COAT.Content;
+using COAT.Entities;
 
 /// <summary> Representation of both encounters with V2. </summary>
 public class V2 : SimpleEnemy

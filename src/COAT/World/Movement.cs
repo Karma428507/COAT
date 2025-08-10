@@ -13,7 +13,7 @@ using COAT.Net;
 using COAT.Net.Types;
 //using Jaket.Sprays;
 using COAT.UI;
-using COAT.UI.Elements;
+using COAT.UI.Widgets;
 using COAT.UI.Menus;
 using COAT.UI.Overlays;
 using COAT.UI.Fragments;

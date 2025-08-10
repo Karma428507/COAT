@@ -14,6 +14,7 @@ using COAT.UI.Menus;
 //using COAT.Net;
 //using COAT.World;
 using COAT.IO;
+using COAT.Net.Types;
 
 /// <summary> Lobby controller with several useful methods and properties. </summary>
 public class LobbyController
@@ -49,7 +50,7 @@ public class LobbyController
     /// <summary> Whether the given lobby is created via Multikill. </summary>
     public static bool IsMultikillLobby(Lobby lobby) => lobby.Data.Any(pair => pair.Key == "mk_lobby");
     /// <summary> Whether the given lobby is created via COAT. </summary>
-    public static bool IsCOATLobby(Lobby lobby) => lobby.Data.Any(pair => pair.Key == "COAT_lobby");
+    public static bool IsCOATLobby(Lobby lobby) => lobby.Data.Any(pair => pair.Key == "COAT");
 
     /// <summary> Creates the necessary listeners for proper work. </summary>
     public static void Load()
@@ -118,22 +119,40 @@ public class LobbyController
             Lobby = task.Result;
 
             Lobby?.SetJoinable(true);
+
+            // activate this when the server is built for coat only features
+            if (true)
+                Lobby?.SetData("jaket", "true");
+            else
+                Lobby?.SetData("COAT", "true");
+
+            // have this data be added manually in the manager
             switch (sudoLobby.type)
-            {
-                case 0: Lobby?.SetPrivate(); break;
-                case 1: Lobby?.SetFriendsOnly(); break;
-                case 2: Lobby?.SetPublic(); break;
-            }
-            Lobby?.SetData("jaket", "true");
-            Lobby?.SetData("name", "[COAT] " + sudoLobby.name);
-            Lobby?.SetData("level", MapMap(Tools.Scene));
-            Lobby?.SetData("pvp", sudoLobby.pvp ? "True" : "False");
-            Lobby?.SetData("cheats", sudoLobby.cheats ? "True" : "False");
-            Lobby?.SetData("mods", sudoLobby.modded ? "True" : "False");
-            Lobby?.SetData("heal-bosses", sudoLobby.healBosses ? "True" : "False");
+                {
+                    case 0: Lobby?.SetPrivate(); break;
+                    case 1: Lobby?.SetFriendsOnly(); break;
+                    case 2: Lobby?.SetPublic(); break;
+                }
+
+            // general non-savable data
             Lobby?.SetData("banned", "");
             Lobby?.SetData("mute", "");
+            // make this lowercase
             Lobby?.SetData("BlacklistedMods", string.Join(' ', Settings.PersonalBlacklistedMods));
+
+            // general savable data
+            Lobby?.SetData("name", "[COAT] " + sudoLobby.name);
+            Lobby?.SetData("cheats", sudoLobby.cheats ? "True" : "False");
+            Lobby?.SetData("mods", sudoLobby.modded ? "True" : "False");
+
+            // Only normal gamemodes would display the level
+            if (true)
+                Lobby?.SetData("level", MapMap(Tools.Scene));
+
+            // normal campaign savable data
+            Lobby?.SetData("pvp", sudoLobby.pvp ? "True" : "False");
+            Lobby?.SetData("heal-bosses", sudoLobby.healBosses ? "True" : "False");
+            
         });
     }
 
@@ -155,6 +174,7 @@ public class LobbyController
         if (!IsOwner && loadMainMenu) Tools.Load("Main Menu");
 
         Networking.Clear();
+        PlayerData.PlayerList.Clear();
         Events.OnLobbyAction.Fire();
     }
 

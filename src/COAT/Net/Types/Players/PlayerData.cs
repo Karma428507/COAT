@@ -1,76 +1,59 @@
-﻿namespace COAT.Net.Types.Players;
+﻿namespace COAT.Net.Types;
 
+using COAT.Content;
 using COAT.IO;
-using System;
+using COAT.Net;
+using Steamworks.Data;
 using System.Collections.Generic;
-using System.Text;
 
-using UnityEngine;
-
-// maybe move somewhere else later?
-public static class PlayerData
+/* Packet structure
+ *
+ *  1  B    | Packet type
+ *  1  B    | Color R
+ *  1  B    | Color G
+ *  1  B    | Color B
+ *  20 B    | Reserved
+ *
+ */
+public class PlayerData
 {
-    public static Dictionary<uint, CoatPlayerData> CoatData = new Dictionary<uint, CoatPlayerData>();
-    public static CoatPlayerData LocalData;
+    public static Dictionary<uint, PlayerData> PlayerList = new Dictionary<uint, PlayerData>();
+    public static PlayerData LocalData;
 
-    /// <summary> Loads the saved data to the local data </summary>
-    public static void Load()
-    {
-        LocalData = new CoatPlayerData();
-        LocalData.Name = PrefsManager.Instance.GetString("COAT.username");
-    }
+    // Data related to COAT players
+    public UnityEngine.Color Color;
 
-    /// <summary> Removes a player ID when they leave </summary>
-
+    /// <summary> Mass sends there info and a formal request letter. </summary>
     public static void OnEnter()
     {
+        LocalData = new PlayerData();
+        LocalData.Color = Networking.LocalPlayer.Team.Color();
 
+        Networking.Send(PacketType.COAT_PlayerPacketSend, Write, size: 23);
+        Networking.Send(PacketType.COAT_PlayerPacketRequest, w => w.Id(Tools.AccId), size: 4);
     }
 
-    /// <summary> Removes a player ID when they leave </summary>
-    public static void OnLeave()
-    {
-
-    }
-
+    /// <summary> Writes the data to send. </summary>
     public static void Write(Writer w)
     {
-        w.Byte(0);
-        w.Byte(0);
-        w.Byte(0);
+        w.Byte((byte)(LocalData.Color.r * 255));
+        w.Byte((byte)(LocalData.Color.g * 255));
+        w.Byte((byte)(LocalData.Color.b * 255));
         w.Int(0);
     }
 
-    public static void Read(uint player, Reader r)
+    /// <summary> Reads the data and adds it to the list. </summary>
+    public static void Read(Connection con, uint sender, Reader r)
     {
-        CoatPlayerData data = new CoatPlayerData();
-        r.Byte();   // R, G
-        r.Byte();   // B, ?
-        r.Byte();   // ?
-        // add tts info
-        r.Int();    // ?
-        //Encoding.Unicode.GetBytes(r.String))
+        PlayerData data = new PlayerData();
+        data.Color = new UnityEngine.Color(r.Byte() / 255, r.Byte() / 255, r.Byte() / 255);
+        r.Int();
+
+        PlayerList.Add(con, data);
     }
-}
 
-public struct CoatPlayerData
-{
-    /* Packet structure
-     *
-     *  1 B     | Packet type
-     *  4 Bi    | Color R
-     *  4 Bi    | Color G
-     *  4 Bi    | Color B
-     *  4 Bi    | Reserved
-     *  5 B     | Reserved
-     *  16 B    | Username (zero or EOL termination)
-     *
-     */
-
-    public Color Color;
-
-    public string Name;
-
-    // Admin stuff
-    public bool SentRequest;
+    /// <summary> Sends the packet after being asked. </summary>
+    public static void WriteRequest(Reader r) =>
+        Writer.Write(w => { w.Enum(PacketType.COAT_PlayerPacketSend); Write(w); },
+            (data, size) => Tools.Send(r.Id(), data, size), 24);
 }

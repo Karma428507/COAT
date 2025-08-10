@@ -4,7 +4,7 @@ using System;
 using UnityEngine;
 
 using COAT.IO;
-using COAT.Content;
+using COAT.Entities;
 
 /// <summary> Entity whose ownership can be transferred to another client at any time. </summary>
 public abstract class OwnableEntity : Entity

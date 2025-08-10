@@ -102,6 +102,7 @@ public class Networking
                 COATPLAYERS.Clear(); // clear list so then u can update it
                 COATPLAYERS.Add(Tools.AccId); // add yourself to the list
                 Send(PacketType.COAT_Request, w => { w.Id(Tools.AccId); }); // request others id's
+                PlayerData.OnEnter();
             }
 
             Settings.GetDefaultTeam(out Team team);
@@ -130,6 +131,8 @@ public class Networking
 
             Bundle.Msg("player.left", member.Name);
             if (!LobbyController.IsOwner) return;
+
+            PlayerData.PlayerList.Remove(member.Id.AccountId);
 
             // returning the exited player's entities back to the host owner & close the connection
             FindCon(member.Id.AccountId)?.Close();

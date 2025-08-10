@@ -3,7 +3,7 @@ namespace COAT.Net.Types;
 using UnityEngine;
 
 using COAT.Assets;
-using COAT.Content;
+using COAT.Entities;
 
 /// <summary> Representation of a swordsmachine. </summary>
 public class Swords : SimpleEnemy

@@ -3,7 +3,7 @@ namespace COAT.Net.Types;
 using UnityEngine;
 using UnityEngine.AI;
 
-using COAT.Content;
+using COAT.Entities;
 using COAT.IO;
 
 /// <summary> Representation of a spider body??? Who da hell gave this thing such name?! </summary>

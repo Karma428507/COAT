@@ -2,7 +2,7 @@ namespace COAT.Patches;
 
 using HarmonyLib;
 
-using COAT.Content;
+using COAT.Entities;
 using COAT.Net.Types;
 
 [HarmonyPatch(typeof(ItemIdentifier))]

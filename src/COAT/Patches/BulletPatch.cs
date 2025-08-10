@@ -4,6 +4,7 @@ using HarmonyLib;
 using UnityEngine;
 
 using COAT.Content;
+using COAT.Entities;
 using COAT.Net;
 using COAT.Net.Types;
 

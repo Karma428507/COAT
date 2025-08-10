@@ -1,6 +1,6 @@
 namespace COAT.Net.Types;
 
-using COAT.Content;
+using COAT.Entities;
 using COAT.IO;
 
 /// <summary> Representation of a hideous mass. </summary>

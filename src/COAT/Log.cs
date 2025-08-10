@@ -1,5 +1,6 @@
 namespace COAT;
 
+using COAT.IO;
 using COAT.Net;
 using plog;
 using System;
@@ -30,7 +31,7 @@ public class Log
     public static void Load()
     {
         Logger = new("COAT");
-        LogPath = Path.Combine(Path.GetDirectoryName(Plugin.Instance.Location), "logs", $"Log {Time.Replace(':', '.')}.txt");
+        LogPath = FileManager.MergeDLLPath("logs", $"Log {Time.Replace(':', '.')}.txt");
 
         void info()
         {
@@ -71,9 +72,7 @@ public class Log
     {
         if (ToWrite.Count == 0) return;
 
-        Directory.CreateDirectory(Path.GetDirectoryName(LogPath)); // ensure that the folder is exists
-        File.AppendAllLines(LogPath, ToWrite);
-
+        FileManager.CreateAppendFile(LogPath, ToWrite);
         ToWrite.Clear();
     }
 

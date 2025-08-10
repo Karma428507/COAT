@@ -3,7 +3,7 @@ namespace COAT.Patches;
 using HarmonyLib;
 using UnityEngine;
 
-using COAT.Content;
+using COAT.Entities;
 using COAT.Net;
 
 [HarmonyPatch(typeof(EnemyIdentifier))]

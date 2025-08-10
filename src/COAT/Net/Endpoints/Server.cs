@@ -5,10 +5,10 @@ using Steamworks.Data;
 using System;
 
 using COAT.Content;
+using COAT.Entities;
 using COAT.IO;
 using COAT.Net.Types;
 using COAT.Sprays;
-using COAT.UI.Overlays;
 using COAT.World;
 using System.Net;
 using Unity.Audio;
@@ -114,6 +114,10 @@ public class Server : Endpoint, ISocketManager
         ListenAndRedirect(PacketType.ActivateObject, World.ReadAction);
 
         // PUT ALL COAT PACKETS BELOW THIS. JUST SO I DONT HAVE TO SEARCH THE MILKYWAY TO FIND A SINGLE FUCKING LIL GUY!!!
+        
+        // put admin stuff later (me too lazy rn :P)
+        Listen(PacketType.COAT_PlayerPacketSend, PlayerData.Read);
+        Listen(PacketType.COAT_PlayerPacketRequest, PlayerData.WriteRequest);
     }
 
     public override void Update()

@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-using COAT.Content;
+using COAT.Entities;
 using COAT.Net;
 using COAT.Net.Types;
 

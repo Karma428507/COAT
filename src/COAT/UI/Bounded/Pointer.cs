@@ -1,4 +1,4 @@
-namespace COAT.UI.Elements;
+namespace COAT.UI.Bounded;
 
 using UnityEngine;
 

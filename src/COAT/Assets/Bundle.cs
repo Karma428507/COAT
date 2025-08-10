@@ -6,7 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-
+using COAT.IO;
 using COAT.UI.Overlays;
 
 /// <summary> Class that loads translations from files in the bundles folder and returns translated lines by keys. </summary>
@@ -29,13 +29,12 @@ public class Bundle
     /// <summary> Loads the translation specified in the settings. </summary>
     public static void Load()
     {
-        var root = Path.GetDirectoryName(Plugin.Instance.Location);
         #region r2mm fix
 
-        var bundles = Path.Combine(root, "bundles");
+        var bundles = FileManager.MergeDLLPath("bundles");
         if (!Directory.Exists(bundles)) Directory.CreateDirectory(bundles);
 
-        foreach (var prop in Directory.EnumerateFiles(root, "*.properties"))
+        foreach (var prop in Directory.EnumerateFiles(FileManager.GetDLLRoot(), "*.properties"))
         {
             var dest = Path.Combine(bundles, Path.GetFileName(prop));
 
@@ -65,7 +64,7 @@ public class Bundle
             return;
         }
 
-        var file = Path.Combine(root, "bundles", $"{Files[localeId]}.properties");
+        var file = FileManager.MergeDLLPath("bundles", $"{Files[localeId]}.properties");
         string[] lines;
         try
         {

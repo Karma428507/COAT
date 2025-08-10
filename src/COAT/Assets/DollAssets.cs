@@ -136,14 +136,8 @@ public class DollAssets
     }
 
     /// <summary> Finds and loads an assets bundle. </summary>
-    public static AssetBundle LoadBundle()
-    {
-        string assembly = Plugin.Instance.Location;
-        string directory = Path.GetDirectoryName(assembly);
-        string bundle = Path.Combine(directory, "jaket-assets.bundle");
-
-        return AssetBundle.LoadFromFile(bundle);
-    }
+    public static AssetBundle LoadBundle() =>
+        AssetBundle.LoadFromFile(FileManager.MergeDLLPath("jaket-assets.bundle"));
 
     /// <summary> Finds and asynchronously loads an asset. </summary>
     public static void LoadAsync<T>(string name, UnityAction<T> cons) where T : Object

@@ -88,6 +88,8 @@ public class Settings : CanvasSingleton<Settings>, IMenuInterface
 
     private void Start()
     {
+
+
         UIB.Table("Settings", transform, Size(1400f, 800f), table =>
         {
             UIB.Image("Settings Border", table, new(0f, 0f, 1400f, 800f), null, fill: false);

@@ -16,8 +16,6 @@ using System.Threading.Tasks;
 using COAT.Patches;
 using COAT.Net;
 
-//using Jaket.World;
-
 /// <summary> Class that loads and manages the interface of the mod. </summary>
 public class UI
 {
@@ -26,7 +24,7 @@ public class UI
     /// <summary> Whether the player is in any of Jaket dialog. </summary>
     public static bool AnyDialog => ChatUI.Shown || MenuStack.Count > 0 || (OptionsManager.Instance?.paused ?? false);
     /// <summary> Whether any interface that blocks movement is currently visible. </summary>
-    public static bool AnyMovementBlocking => AnyDialog || NewMovement.Instance.dead /*|| Movement.Instance.Emoji != 0xFF*/;
+    public static bool AnyMovementBlocking => AnyDialog || NewMovement.Instance.dead || Movement.Instance.Emoji != 0xFF;
 
     /// <summary> Object on which the player is focused. </summary>
     public static GameObject Focus => EventSystem.current?.currentSelectedGameObject;
@@ -42,7 +40,7 @@ public class UI
     {
         Root = Tools.Create("UI").transform;
 
-        Settings.Load();
+        
         Home.Build("Lobby List", false, true);
         MainMenuAccess.Build("Main Menu Access", false, true);
         ChatUI.Build("Chat", true, true, hide: () => ChatUI.Instance.Field?.gameObject.SetActive(ChatUI.Shown = false));
@@ -51,10 +49,9 @@ public class UI
         Settings.Build("Settings", false, true);
 
         Debugging.Build("Debugging Menu", false, false);
-        WIP.Build("WIP", false, false);
         PlayerInfo.Build("Player Information", false, false, scene => scene == "Main Menu", () => { if (PlayerInfo.Shown) PlayerInfo.Instance.Toggle(); });
-        /*SpraySettings.Build("Spray Settings", false, true);
-        PlayerIndicators.Build("Player Indicators", false, false, scene => scene == "Main Menu");*/
+        SpraySettings.Build("Spray Settings", false, true);
+        PlayerIndicators.Build("Player Indicators", false, false, scene => scene == "Main Menu");
 
         EmojiWheel.Build("Emoji Wheel", false, false);
         Skateboard.Build("Skateboard", false, false);

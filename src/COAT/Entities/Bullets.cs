@@ -1,9 +1,10 @@
-namespace COAT.Content;
+namespace COAT.Entities;
 
 using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+using COAT.Content;
 using COAT.IO;
 using COAT.Net;
 using COAT.Net.Types;

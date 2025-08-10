@@ -5,13 +5,12 @@ using Steamworks.Data;
 using System;
 
 using COAT.Content;
+using COAT.Entities;
 using COAT.IO;
 using COAT.Net.Types;
 using COAT.Sprays;
 using COAT.World;
-using System.Net;
 using COAT.UI.Overlays;
-using System.Net.Mail;
 
 // Handler for players joining the server
 public class Client : Endpoint, IConnectionManager
@@ -80,6 +79,9 @@ public class Client : Endpoint, IConnectionManager
             if (r.Bool()) Networking.MUTEDPLAYERS.Add(r.Id());
             else Networking.MUTEDPLAYERS.Remove(r.Id());
         });
+
+        Listen(PacketType.COAT_PlayerPacketSend, PlayerData.Read);
+        Listen(PacketType.COAT_PlayerPacketRequest, PlayerData.WriteRequest);
     }
 
     public override void Update()

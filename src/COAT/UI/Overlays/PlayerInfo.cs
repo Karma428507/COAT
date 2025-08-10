@@ -1,4 +1,4 @@
-namespace COAT.UI.Fragments;
+namespace COAT.UI.Overlays;
 
 using System.Collections.Generic;
 using UnityEngine.UI;
@@ -6,7 +6,7 @@ using UnityEngine.UI;
 using COAT.Content;
 using COAT.Net;
 using COAT.Net.Types;
-using COAT.UI.Elements;
+using COAT.UI.Widgets;
 
 using static Rect;
 

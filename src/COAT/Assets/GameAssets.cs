@@ -1,8 +1,8 @@
 namespace COAT.Assets;
 
+using COAT.IO;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.ResourceLocations;
@@ -94,13 +94,13 @@ public class GameAssets
     //public static void GabLine(string name, Cons<AudioClip> output) => Sound($"Voices/Gabriel/{name}.ogg", output);
 
     #endregion
-    #region Debug
+    #region debug
     public static List<GameObject> gameObjects = new List<GameObject>();
 
     /// <summary> A debug function to fill a list of asset addresses </summary>
     public static void LoadAddresses()
     {
-        string path = Path.Combine(Path.GetDirectoryName(Plugin.Instance.Location), "logs", "Assets.txt");
+        string path = FileManager.MergeDLLPath("Assets.txt");
         List<string> ToWrite = new();
 
         foreach (var locator in Addressables.ResourceLocators)
@@ -117,8 +117,7 @@ public class GameAssets
             }
         }
 
-        Directory.CreateDirectory(Path.GetDirectoryName(path));
-        File.AppendAllLines(path, ToWrite);
+        FileManager.CreateAppendFile(path, ToWrite);
     }
     #endregion
 }

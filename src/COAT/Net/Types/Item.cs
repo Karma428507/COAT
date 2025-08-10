@@ -3,7 +3,7 @@ namespace COAT.Net.Types;
 using HarmonyLib;
 using UnityEngine;
 
-using COAT.Content;
+using COAT.Entities;
 using COAT.IO;
 
 /// <summary> Representation of all items in the game, except glasses and books. </summary>

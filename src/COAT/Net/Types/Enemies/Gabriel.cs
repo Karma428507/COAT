@@ -2,7 +2,7 @@ namespace COAT.Net.Types;
 
 using UnityEngine;
 
-using COAT.Content;
+using COAT.Entities;
 using COAT.IO;
 
 /// <summary> Representation of both encounters with Gabriel. </summary>

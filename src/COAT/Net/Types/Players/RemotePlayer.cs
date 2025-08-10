@@ -2,8 +2,9 @@
 
 using COAT.Assets;
 using COAT.Content;
+using COAT.Entities;
 using COAT.IO;
-using COAT.UI.Elements;
+using COAT.UI.Bounded;
 using Steamworks;
 using UnityEngine;
 

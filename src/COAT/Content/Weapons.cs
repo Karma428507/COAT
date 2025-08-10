@@ -1,6 +1,7 @@
 namespace COAT.Content;
 
 using COAT;
+using COAT.Entities;
 using System.Collections.Generic;
 using UnityEngine;
 

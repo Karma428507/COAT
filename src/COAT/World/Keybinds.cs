@@ -2,8 +2,9 @@
 
 using COAT.Content;
 using COAT.Net;
+using COAT.Sprays;
 using COAT.UI;
-using COAT.UI.Elements;
+using COAT.UI.Bounded;
 using COAT.UI.Fragments;
 using COAT.UI.Menus;
 using COAT.UI.Overlays;
@@ -23,7 +24,7 @@ public class Keybinds : MonoSingleton<Keybinds>
     /// <summary> Last pointer created by the player. </summary>
     public Pointer Pointers;
     /// <summary> Last spray created by the player. </summary>
-    //public Spray Spray;
+    public Spray Spray;
 
     /// <summary> List of internal names of all key bindings. </summary>
     public static readonly string[] KeybindString =
@@ -106,8 +107,8 @@ public class Keybinds : MonoSingleton<Keybinds>
         if (Input.GetKeyDown(KeyCode.F4)) Debugging.Instance.Toggle();
         if (Input.GetKeyDown(KeyCode.C) && Debugging.Shown) Debugging.Instance.Clear();
 
-        /*if (Input.GetKeyDown(Keybinds.PlayerIndicatorsKey)) PlayerIndicators.Instance.Toggle();
-        if (Input.GetKeyDown(Keybinds.PlayerInfoKey)) PlayerInfo.Instance.Toggle();*/
+        if (Input.GetKeyDown(Keybinds.PlayerIndicatorsKey)) PlayerIndicators.Instance.Toggle();
+        if (Input.GetKeyDown(Keybinds.PlayerInfoKey)) PlayerInfo.Instance.Toggle();
 
         if (Input.GetKey(Keybinds.EmojiWheelKey) && !Home.Shown && !WeaponWheel.Instance.gameObject.activeSelf)
         {
@@ -128,7 +129,7 @@ public class Keybinds : MonoSingleton<Keybinds>
                 if (Pointers != null) Pointers.Lifetime = 4.5f;
                 Pointers = Pointer.Spawn(Networking.LocalPlayer.Team, hit.point, hit.normal);
             }
-            //if (s) Spray = SprayManager.Spawn(hit.point, hit.normal);
+            if (s) Spray = SprayManager.Spawn(hit.point, hit.normal);
 
             if (LobbyController.Online) Networking.Send(p ? PacketType.Point : PacketType.Spray, w =>
             {
