@@ -142,16 +142,16 @@ public class LobbyController
 
             // general savable data
             Lobby?.SetData("name", "[COAT] " + sudoLobby.name);
-            Lobby?.SetData("cheats", sudoLobby.cheats ? "True" : "False");
-            Lobby?.SetData("mods", sudoLobby.modded ? "True" : "False");
+            Lobby?.SetData("cheats", sudoLobby.cheats.ToString());
+            Lobby?.SetData("mods", sudoLobby.modded.ToString());
 
             // Only normal gamemodes would display the level
             if (true)
                 Lobby?.SetData("level", MapMap(Tools.Scene));
 
             // normal campaign savable data
-            Lobby?.SetData("pvp", sudoLobby.pvp ? "True" : "False");
-            Lobby?.SetData("heal-bosses", sudoLobby.healBosses ? "True" : "False");
+            Lobby?.SetData("pvp", sudoLobby.pvp.ToString());
+            Lobby?.SetData("heal-bosses", sudoLobby.healBosses.ToString());
             
         });
     }
