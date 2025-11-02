@@ -13,7 +13,6 @@ using COAT.Net;
 using static Pal;
 using static Rect;
 using UnityEngine.UI.Extensions;
-using COAT.Gamemodes;
 using System.Collections.Generic;
 using COAT.UI.Menus;
 using UnityEngine.SceneManagement;
@@ -80,7 +79,7 @@ public class Home : CanvasSingleton<Home>, IMenuInterface
                     orange, 24, clicked: LobbyController.JoinByCode);
 
                 newServer = UIB.Button("New Server", optionList, new(0, y -= 88, 320f, 80f, new(.5f, 1f)),
-                    red, 24, clicked: () => UI.PushStack(GamemodeList.Instance));
+                    red, 24, clicked: () => UI.PushStack(ServerCreation.Instance));
 
                 //UIB.Button("Dummy", optionList, new(0, y -= 88, 320f, 80f, new(.5f, 1f)),
                 //    black, 24, clicked: () => Tools.Dummy());

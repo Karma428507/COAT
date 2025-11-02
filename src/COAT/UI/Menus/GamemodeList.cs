@@ -2,7 +2,6 @@
 
 using COAT;
 using COAT.Assets;
-using COAT.Gamemodes;
 using COAT.Net;
 using COAT.UI;
 using COAT.UI.Widgets;
@@ -16,7 +15,7 @@ using static Rect;
 using static COAT.IO.SaveManager;
 using Rect = Rect;
 
-public class GamemodeList : CanvasSingleton<GamemodeList>, IMenuInterface
+public class ServerCreation : CanvasSingleton<ServerCreation>, IMenuInterface
 {
     public static ServerOptions Options;
 
@@ -29,12 +28,13 @@ public class GamemodeList : CanvasSingleton<GamemodeList>, IMenuInterface
     //private Transform normalMenu;
     private Transform gamemodeMenu;
     
-    private ShadowOptionList shadowOptionList;
+    //private ShadowOptionList shadowOptionList;
 
-    private GamemodeTypes selectedGamemode = GamemodeTypes.NormalCampain;
+    //private GamemodeTypes selectedGamemode = GamemodeTypes.NormalCampain;
+    
     private void Start()
     {
-        Dictionary<string, Action> buttons = new Dictionary<string, Action>();
+        /*Dictionary<string, Action> buttons = new Dictionary<string, Action>();
 
         foreach (GamemodeTypes type in Enum.GetValues(typeof(GamemodeTypes)))
         {
@@ -54,7 +54,7 @@ public class GamemodeList : CanvasSingleton<GamemodeList>, IMenuInterface
 
         shadowOptionList = ShadowOptionList.Build(transform, "--GAMEMODES--", buttons);
 
-        UIB.Text("[ UNDER CONSTUCTION ]", transform, new(0f, 0f, 1000f, 50f), size: 50).GetComponent<RectTransform>().localRotation = new Quaternion(0f, 0f, .2164f, .9763f);
+        UIB.Text("[ UNDER CONSTUCTION ]", transform, new(0f, 0f, 1000f, 50f), size: 50).GetComponent<RectTransform>().localRotation = new Quaternion(0f, 0f, .2164f, .9763f);*/
 
         table = UIB.Table("Server Creator", transform, new(0, 0, 900, 500), table =>
         {
@@ -64,7 +64,6 @@ public class GamemodeList : CanvasSingleton<GamemodeList>, IMenuInterface
             // main settings menu
             UIB.Table("Server Creator", table, new(-225, 0, 400, 450), options =>
             {
-
                 UIB.Image(name, options, new(0, 0, 400, 450), null, fill: false);
 
                 field = UIB.Field("#lobby-tab.name", options, Rect.Tgl(40), cons: name => Options.Name = name);
@@ -79,14 +78,14 @@ public class GamemodeList : CanvasSingleton<GamemodeList>, IMenuInterface
                 // Change to player limit slider later with the max of 16
                 difficulty = UIB.Button("WIP", options, Rect.Btn(120));
 
-                //pvp = UIB.Toggle("#lobby-tab.allow-pvp", options, Rect.Tgl(160), clicked: allow => creationLobby.pvp = allow);
+                pvp = UIB.Toggle("#lobby-tab.allow-pvp", options, Rect.Tgl(160), clicked: allow => Options.pvp = allow);
                 cheats = UIB.Toggle("#lobby-tab.allow-cheats", options, Rect.Tgl(200), clicked: allow => Options.Cheats = allow);
                 myEnemy = UIB.Toggle("#lobby-tab.allow-mods", options, Rect.Tgl(240), clicked: allow => Options.Mods = allow);
-                //bosses = UIB.Toggle("#lobby-tab.heal-bosses", options, Rect.Tgl(280), 20, allow => creationLobby.healBosses = allow);
+                bosses = UIB.Toggle("#lobby-tab.heal-bosses", options, Rect.Tgl(280), 20, allow => Options.healBosses = allow);
 
                 UIB.Button("Play", options, new Rect(0, -190, 380, 40), Pal.white, 24, clicked: () =>
                 {
-                    GamemodeManager.GetList(gamemode, GameMode => GameMode.Start());
+                    //GamemodeManager.GetList(gamemode, GameMode => GameMode.Start());
 
                     UI.PushStack(new ServerDiffifcultySelect());
                 });
@@ -102,10 +101,10 @@ public class GamemodeList : CanvasSingleton<GamemodeList>, IMenuInterface
     {
         Log.Debug("Rebuilt");
 
-        //pvp.isOn = creationLobby.pvp;
+        pvp.isOn = Options.pvp;
         cheats.isOn = Options.Cheats;
         myEnemy.isOn = Options.Mods;
-        //bosses.isOn = creationLobby.healBosses;
+        bosses.isOn = Options.healBosses;
 
         accessibility.GetComponentInChildren<Text>().text = Bundle.Get(Options.ServerType switch
         {
@@ -116,12 +115,12 @@ public class GamemodeList : CanvasSingleton<GamemodeList>, IMenuInterface
         });
     }
         
-    private void LoadServerCreator(GamemodeTypes type)
+    /*private void LoadServerCreator(GamemodeTypes type)
     {
         //serverCreatorTable.transform.DetachChildren();
         //foreach (Transform child in normalMenu) Destroy(child.gameObject);
         foreach (Transform child in gamemodeMenu) Destroy(child.gameObject);
-    }
+    }*/
 
     public void Toggle()
     {

@@ -5,7 +5,7 @@ using System.Text;
 using COAT;
 using UnityEngine;
 
-namespace COAT.Gamemodes
+namespace Gamemodes
 {
     public enum GamemodeTypes
     {
@@ -26,7 +26,7 @@ namespace COAT.Gamemodes
             {
                 if (Convert.ToInt16(type) == gamemode)
                 {
-                    GamemodeManager.GamemodeList.TryGetValue(type, out Gamemode List);
+                    GamemodeList.TryGetValue(type, out Gamemode List);
                     Class(List);
                 }
             }

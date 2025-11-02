@@ -44,7 +44,7 @@ public class UI
         Home.Build("Lobby List", false, true);
         MainMenuAccess.Build("Main Menu Access", false, true);
         ChatUI.Build("Chat", true, true, hide: () => ChatUI.Instance.Field?.gameObject.SetActive(ChatUI.Shown = false));
-        GamemodeList.Build("Gamemode List", false, true);
+        ServerCreation.Build("Gamemode List", false, true);
         PlayerList.Build("Player List", false, true);
         Settings.Build("Settings", false, true);
 

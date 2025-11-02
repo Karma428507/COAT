@@ -6,7 +6,7 @@ using UnityEngine;
 
 using COAT;
 
-namespace COAT.Gamemodes
+namespace Gamemodes
 {
     public class PAiN : Gamemode
     {

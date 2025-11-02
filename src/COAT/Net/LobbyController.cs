@@ -11,8 +11,6 @@ using UnityEngine.UI;
 using COAT.Assets;
 using COAT.UI;
 using COAT.UI.Menus;
-//using COAT.Net;
-//using COAT.World;
 using COAT.IO;
 using COAT.Net.Types;
 
@@ -128,10 +126,10 @@ public class LobbyController
             // general non-savable data
             Lobby?.SetData("banned", "");
             Lobby?.SetData("mute", "");
-            Lobby?.SetData("blacklistedmods", string.Join(' ', Settings.PersonalBlacklistedMods));
+            Lobby?.SetData("blacklistedMods", string.Join(' ', Settings.PersonalBlacklistedMods));
 
             // have this data be added manually in the manager
-            switch (GamemodeList.Options.ServerType)
+            switch (ServerCreation.Options.ServerType)
             {
                 case 0: Lobby?.SetPrivate(); break;
                 case 1: Lobby?.SetFriendsOnly(); break;
@@ -139,9 +137,9 @@ public class LobbyController
             }
 
             // general savable data
-            Lobby?.SetData("name", "[COAT] " + GamemodeList.Options.Name);
-            Lobby?.SetData("cheats", GamemodeList.Options.Cheats ? "True" : "False");
-            Lobby?.SetData("mods", GamemodeList.Options.Mods ? "True" : "False");
+            Lobby?.SetData("name", "[COAT] " + ServerCreation.Options.Name);
+            Lobby?.SetData("cheats", ServerCreation.Options.Cheats ? "True" : "False");
+            Lobby?.SetData("mods", ServerCreation.Options.Mods ? "True" : "False");
 
             // Only normal gamemodes would display the level
             if (true)
