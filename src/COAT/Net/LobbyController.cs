@@ -89,7 +89,7 @@ public class LobbyController
             if (ServerDiffifcultySelect.loadViaServer)
             {
                 Log.Debug("Creating server...");
-                CreateLobby(GamemodeList.creationLobby);
+                CreateLobby();
                 ServerDiffifcultySelect.loadViaServer = false;
             }
         };
@@ -107,12 +107,11 @@ public class LobbyController
     #region control
 
     /// <summary> Asynchronously creates a new lobby with custom settings and connects to it. </summary>
-    public static void CreateLobby(SudoLobby sudoLobby)
+    public static void CreateLobby()
     {
         if (Lobby != null || CreatingLobby) return;
         CreatingLobby = true;
 
-        sudoLobby.Debug();
         SteamMatchmaking.CreateLobbyAsync(8).ContinueWith(task =>
         {
             CreatingLobby = false; IsOwner = true;
@@ -126,32 +125,31 @@ public class LobbyController
             else
                 Lobby?.SetData("COAT", "true");
 
-            // have this data be added manually in the manager
-            switch (sudoLobby.type)
-                {
-                    case 0: Lobby?.SetPrivate(); break;
-                    case 1: Lobby?.SetFriendsOnly(); break;
-                    case 2: Lobby?.SetPublic(); break;
-                }
-
             // general non-savable data
             Lobby?.SetData("banned", "");
             Lobby?.SetData("mute", "");
-            // make this lowercase
-            Lobby?.SetData("BlacklistedMods", string.Join(' ', Settings.PersonalBlacklistedMods));
+            Lobby?.SetData("blacklistedmods", string.Join(' ', Settings.PersonalBlacklistedMods));
+
+            // have this data be added manually in the manager
+            switch (GamemodeList.Options.ServerType)
+            {
+                case 0: Lobby?.SetPrivate(); break;
+                case 1: Lobby?.SetFriendsOnly(); break;
+                case 2: Lobby?.SetPublic(); break;
+            }
 
             // general savable data
-            Lobby?.SetData("name", "[COAT] " + sudoLobby.name);
-            Lobby?.SetData("cheats", sudoLobby.cheats ? "True" : "False");
-            Lobby?.SetData("mods", sudoLobby.modded ? "True" : "False");
+            Lobby?.SetData("name", "[COAT] " + GamemodeList.Options.Name);
+            Lobby?.SetData("cheats", GamemodeList.Options.Cheats ? "True" : "False");
+            Lobby?.SetData("mods", GamemodeList.Options.Mods ? "True" : "False");
 
             // Only normal gamemodes would display the level
             if (true)
                 Lobby?.SetData("level", MapMap(Tools.Scene));
 
             // normal campaign savable data
-            Lobby?.SetData("pvp", sudoLobby.pvp ? "True" : "False");
-            Lobby?.SetData("heal-bosses", sudoLobby.healBosses ? "True" : "False");
+            //Lobby?.SetData("pvp", sudoLobby.pvp ? "True" : "False");
+            //Lobby?.SetData("heal-bosses", sudoLobby.healBosses ? "True" : "False");
             
         });
     }
@@ -200,6 +198,8 @@ public class LobbyController
             }
             else Log.Warning($"Couldn't join a lobby. Result is {task.Result}");
         });
+
+        SaveManager.SaveLobby();
     }
 
     #endregion
@@ -244,36 +244,4 @@ public class LobbyController
     };
 
     #endregion
-}
-
-public class SudoLobby
-{
-    public string name;
-    public byte type;
-    public bool pvp;
-    public bool cheats;
-    public bool modded;
-    public bool healBosses;
-
-    public SudoLobby(bool pvp, bool cheats, bool modded, bool healBosses)
-    {
-        name = $"{SteamClient.Name}'s Lobby";
-        type = 0;
-        this.pvp = pvp;
-        this.cheats = cheats;
-        this.modded = modded;
-        this.healBosses = healBosses;
-    }
-
-    public SudoLobby() : this(false, false, true, false) { }
-
-    public void Debug()
-    {
-        Log.Debug($"Sudo lobby {name}\n");
-        Log.Debug($"\tType: {type}\n");
-        Log.Debug($"\tPvP: {pvp}\n");
-        Log.Debug($"\tCheats: {cheats}\n");
-        Log.Debug($"\tMods: {modded}\n");
-        Log.Debug($"\tHeal: {healBosses}\n");
-    }
 }

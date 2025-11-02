@@ -14,6 +14,7 @@ using static Pal;
 using static Rect;
 using COAT.Net;
 using System.Net.Sockets;
+using COAT.UI.Widgets;
 
 /// <summary> Global mod settings not related to the lobby. </summary>
 public class Settings : CanvasSingleton<Settings>, IMenuInterface
@@ -71,6 +72,8 @@ public class Settings : CanvasSingleton<Settings>, IMenuInterface
     GameObject DTXT;
     /// <summary> Input field for typing blacklisted mods. </summary>
     InputField Field;
+    /// <summary> List of buttons (for main and sprays for now). </summary>
+    ShadowOptionList shadowOptionList;
 
     /// <summary> Loads and applies all settings. </summary>
     public static void Load()
@@ -81,14 +84,18 @@ public class Settings : CanvasSingleton<Settings>, IMenuInterface
         DefaultTeam = pm.GetInt("COAT.default-team");
         DisableFreezeFrames = pm.GetBool("jaket.disable-freeze", true);
 
-        
-
         DollAssets.Mixer?.SetFloat("Volume", TTSVolume / 2f - 30f);
     }
 
     private void Start()
     {
+        Dictionary<string, Action> buttons = new Dictionary<string, Action>()
+        {
+            {"Main Settings", MainOptionList},
+            {"Spray Settings", SprayOptionList}
+        };
 
+        shadowOptionList = ShadowOptionList.Build(transform, "#settings.general", buttons);
 
         UIB.Table("Settings", transform, Size(1400f, 800f), table =>
         {
@@ -316,6 +323,17 @@ public class Settings : CanvasSingleton<Settings>, IMenuInterface
         team = enumValue;
     }
 
+    #region Button nonsense
+    private void MainOptionList()
+    {
+
+    }
+
+    private void SprayOptionList()
+    {
+
+    }
+    #endregion
     #region reset
 
     private void ResetGeneral()

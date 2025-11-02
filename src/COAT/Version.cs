@@ -12,7 +12,7 @@ using static COAT.UI.Rect;
 public class Version
 {
     /// <summary> Current version of the mod installed by the player. </summary>
-    public const string CURRENT = "0.0.1";
+    public const string CURRENT = "1.0.0";
     /// <summary> Repository of the mod, where the newest version will be taken from. </summary>
     public const string REPO = "Karma428507/COAT";
     /// <summary> Github API URL. I think it's not difficult to guess. </summary>
@@ -56,6 +56,6 @@ public class Version
     public static void Label(Transform parent)
     {
         var r = Blw(36f, 40f);
-        UIB.Table("Version", parent, r, table => UIB.Text($"Jaket version is {CURRENT}", table, r.Text, Color.grey));
+        UIB.Table("Version", parent, r, table => UIB.Text($"COAT version is {CURRENT}", table, r.Text, Color.grey));
     }
 }

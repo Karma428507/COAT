@@ -85,6 +85,7 @@ public class Plugin : MonoBehaviour
         // Loads the asset
         Bundle.Load();
         DollAssets.Load();
+        SaveManager.Load();
 
         // Player services
         UI.Menus.Settings.Load(); // planning on removing this from settings soon

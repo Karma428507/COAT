@@ -1,161 +1,131 @@
-﻿using System;
-using UnityEngine;
-using UnityEngine.UI;
-using COAT.Gamemodes;
+﻿namespace COAT.UI.Menus;
+
+using COAT;
 using COAT.Assets;
+using COAT.Gamemodes;
 using COAT.Net;
 using COAT.UI;
-using COAT;
+using COAT.UI.Widgets;
+using System;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
 
-//using static Pal;
-//using static Rect;
+using static Pal;
+using static Rect;
+using static COAT.IO.SaveManager;
+using Rect = Rect;
 
-namespace COAT.UI.Menus
+public class GamemodeList : CanvasSingleton<GamemodeList>, IMenuInterface
 {
-    public class GamemodeList : CanvasSingleton<GamemodeList>, IMenuInterface
+    public static ServerOptions Options;
+
+    private Toggle pvp, cheats, myEnemy, bosses;
+    private Button accessibility, difficulty;
+    private InputField field;
+    private int gamemode = 1;
+
+    private Image table;
+    //private Transform normalMenu;
+    private Transform gamemodeMenu;
+    
+    private ShadowOptionList shadowOptionList;
+
+    private GamemodeTypes selectedGamemode = GamemodeTypes.NormalCampain;
+    private void Start()
     {
-        public static SudoLobby creationLobby;
+        Dictionary<string, Action> buttons = new Dictionary<string, Action>();
 
-        private Toggle pvp, cheats, myEnemy, bosses;
-        private Button accessibility, difficulty;
-        private InputField field;
-        //private int diff = 0;
-        private int gamemode = 1;
-
-        private Image table;
-        //private Transform normalMenu;
-        private Transform gamemodeMenu;
-
-        private GamemodeTypes selectedGamemode = GamemodeTypes.NormalCampain;
-        private void Start()
+        foreach (GamemodeTypes type in Enum.GetValues(typeof(GamemodeTypes)))
         {
-            creationLobby = new SudoLobby();
-
-            UIB.Button("", transform, new Rect(0, 0, 2000, 2000), clicked: Toggle);
-
-            table = UIB.Table("Server Creator", transform, new(300, 0, 900, 500), table =>
+            GamemodeManager.GamemodeList.TryGetValue(type, out var list);
+            buttons.Add(list.Name, () =>
             {
-                // for an outline
-                UIB.Image(name, table, new(0, 0, 900, 500), null, fill: false);
+                if (type == GamemodeTypes.PAiN) gamemode = 0;
+                else if (type == GamemodeTypes.NormalCampain) gamemode = 1;
+                else HudMessageReceiver.Instance?.SendHudMessage("This Gamemode isn't working right now,\nplease fucking deal with it.");
 
-                // main settings menu
-                UIB.Table("Server Creator", table, new(-225, 0, 400, 450), options =>
+                LoadServerCreator(type);
+                GamemodeManager.GetList(gamemode, GameMode => GameMode.LoadSettings(gamemodeMenu));
+            });
+        }
+
+        UIB.Button("", transform, new Rect(0, 0, 2000, 2000), clicked: Toggle);
+
+        shadowOptionList = ShadowOptionList.Build(transform, "--GAMEMODES--", buttons);
+
+        UIB.Text("[ UNDER CONSTUCTION ]", transform, new(0f, 0f, 1000f, 50f), size: 50).GetComponent<RectTransform>().localRotation = new Quaternion(0f, 0f, .2164f, .9763f);
+
+        table = UIB.Table("Server Creator", transform, new(0, 0, 900, 500), table =>
+        {
+            // for an outline
+            UIB.Image(name, table, new(0, 0, 900, 500), null, fill: false);
+
+            // main settings menu
+            UIB.Table("Server Creator", table, new(-225, 0, 400, 450), options =>
+            {
+
+                UIB.Image(name, options, new(0, 0, 400, 450), null, fill: false);
+
+                field = UIB.Field("#lobby-tab.name", options, Rect.Tgl(40), cons: name => Options.Name = name);
+                field.text = Options.Name;
+
+                accessibility = UIB.Button("#lobby-tab.private", options, Rect.Btn(80), clicked: () =>
                 {
-
-                    UIB.Image(name, options, new(0, 0, 400, 450), null, fill: false);
-
-                    field = UIB.Field("#lobby-tab.name", options, Rect.Tgl(40), cons: name => creationLobby.name = name);
-                    field.text = creationLobby.name;
-
-                    accessibility = UIB.Button("#lobby-tab.private", options, Rect.Btn(80), clicked: () =>
-                    {
-                        creationLobby.type = (byte)((int)(++creationLobby.type) % 3);
-                        Rebuild();
-                    });
-
-                    difficulty = UIB.Button("N/A", options, Rect.Btn(120), clicked: () =>
-                    {
-                        //diff = (byte)((int)(++diff) % 5);
-                        //Rebuild();
-                    });
-
-                    pvp = UIB.Toggle("#lobby-tab.allow-pvp", options, Rect.Tgl(160), clicked: allow => creationLobby.pvp = allow);
-                    cheats = UIB.Toggle("#lobby-tab.allow-cheats", options, Rect.Tgl(200), clicked: allow => creationLobby.cheats = allow);
-                    myEnemy = UIB.Toggle("#lobby-tab.allow-mods", options, Rect.Tgl(240), clicked: allow => creationLobby.modded = allow);
-                    bosses = UIB.Toggle("#lobby-tab.heal-bosses", options, Rect.Tgl(280), 20, allow => creationLobby.healBosses = allow);
-
-                    UIB.Button("Play", options, new Rect(0, -190, 380, 40), Pal.white, 24, clicked: () =>
-                    { // my balls itch
-                        GamemodeManager.GetList(gamemode, GameMode => GameMode.Start());
-
-                        UI.PushStack(new ServerDiffifcultySelect());
-                    });
+                    Options.ServerType = (byte)((int)(++Options.ServerType) % 3);
+                    Rebuild();
                 });
 
-                // gamemode settings menu
-                gamemodeMenu = UIB.Image(name, table, new(225, 0, 400, 450), null, fill: false).transform;
-                Rebuild();
+                // Change to player limit slider later with the max of 16
+                difficulty = UIB.Button("WIP", options, Rect.Btn(120));
 
-            });
+                //pvp = UIB.Toggle("#lobby-tab.allow-pvp", options, Rect.Tgl(160), clicked: allow => creationLobby.pvp = allow);
+                cheats = UIB.Toggle("#lobby-tab.allow-cheats", options, Rect.Tgl(200), clicked: allow => Options.Cheats = allow);
+                myEnemy = UIB.Toggle("#lobby-tab.allow-mods", options, Rect.Tgl(240), clicked: allow => Options.Mods = allow);
+                //bosses = UIB.Toggle("#lobby-tab.heal-bosses", options, Rect.Tgl(280), 20, allow => creationLobby.healBosses = allow);
 
-            UIB.Table("Gamemode List", transform, new(-500, 0, 400, 126 * Enum.GetNames(typeof(GamemodeTypes)).Length), table =>
-            {
-                gamemode = 1;
-                int y = 48 * Enum.GetNames(typeof(GamemodeTypes)).Length;
-
-                UIB.Image(name, table, new(0, 0, 400, 126 * Enum.GetNames(typeof(GamemodeTypes)).Length), null, fill: false);
-
-                foreach (GamemodeTypes type in Enum.GetValues(typeof(GamemodeTypes)))
+                UIB.Button("Play", options, new Rect(0, -190, 380, 40), Pal.white, 24, clicked: () =>
                 {
-                    var div = UIB.Table("LobbyEntry", table, new Rect(0, y, 350f, 100f), entry =>
-                    {
-                        GamemodeManager.GamemodeList.TryGetValue(type, out var list);
-                        UIB.Text(list.Name, entry, new(0, 20f, 350f, 100f));
+                    GamemodeManager.GetList(gamemode, GameMode => GameMode.Start());
 
-                        // buttons
-                        UIB.Button(" ", entry, new Rect(0, 0, 350f, 100),
-                            null, 24, TextAnchor.UpperLeft, () => {
-                                // TODO: make this shit work, once we start trying to make gamemodes
-                                if (type == GamemodeTypes.PAiN) gamemode = 0;
-                                else if (type == GamemodeTypes.NormalCampain) gamemode = 1;
-                                else HudMessageReceiver.Instance?.SendHudMessage("This Gamemode isn't working right now,\nplease fucking deal with it.");
-
-                                LoadServerCreator(type);
-                                GamemodeManager.GetList(gamemode, GameMode => GameMode.LoadSettings(gamemodeMenu));
-                            });
-                    });
-
-                    if (type == selectedGamemode)
-                        div.color = Color.yellow;
-
-                    y -= 120;
-                }
-                
-                UIB.Text("[ UNDER CONSTUCTION ]", table, new(0f, 0f, 1000f, 50f), size: 50).GetComponent<RectTransform>().localRotation = new Quaternion(0f, 0f, .2164f, .9763f);
+                    UI.PushStack(new ServerDiffifcultySelect());
+                });
             });
-        }
 
-        private void Rebuild()
+            // gamemode settings menu
+            gamemodeMenu = UIB.Image(name, table, new(225, 0, 400, 450), null, fill: false).transform;
+            Rebuild();
+        });
+    }
+
+    private void Rebuild()
+    {
+        Log.Debug("Rebuilt");
+
+        //pvp.isOn = creationLobby.pvp;
+        cheats.isOn = Options.Cheats;
+        myEnemy.isOn = Options.Mods;
+        //bosses.isOn = creationLobby.healBosses;
+
+        accessibility.GetComponentInChildren<Text>().text = Bundle.Get(Options.ServerType switch
         {
-            pvp.isOn = creationLobby.pvp;
-            cheats.isOn = creationLobby.cheats;
-            myEnemy.isOn = creationLobby.modded;
-            bosses.isOn = creationLobby.healBosses;
-
-            accessibility.GetComponentInChildren<Text>().text = Bundle.Get(creationLobby.type switch
-            {
-                0 => "lobby-tab.private",
-                1 => "lobby-tab.fr-only",
-                2 => "lobby-tab.public",
-                _ => "lobby-tab.default"
-            });
-
-            /*difficulty.GetComponentInChildren<Text>().text = diff switch
-            {
-                0 => "HARMLESS",
-                1 => "LENIENT",
-                2 => "STANDARD",
-                3 => "VIOLENT",
-                4 => "BRUTAL",
-                _ => "ULTRAKILL MUST DIE"
-            };
-
-            creationLobby.Debug();*/
-        }
+            0 => "lobby-tab.private",
+            1 => "lobby-tab.fr-only",
+            2 => "lobby-tab.public",
+            _ => "lobby-tab.default"
+        });
+    }
         
-        private void LoadServerCreator(GamemodeTypes type)
-        {
-            //serverCreatorTable.transform.DetachChildren();
-            //foreach (Transform child in normalMenu) Destroy(child.gameObject);
-            foreach (Transform child in gamemodeMenu) Destroy(child.gameObject);
-        }
+    private void LoadServerCreator(GamemodeTypes type)
+    {
+        //serverCreatorTable.transform.DetachChildren();
+        //foreach (Transform child in normalMenu) Destroy(child.gameObject);
+        foreach (Transform child in gamemodeMenu) Destroy(child.gameObject);
+    }
 
-        public void Toggle()
-        {
-            gameObject.SetActive(Shown = !Shown);
-            
-            //Movement.UpdateState();
-        }
+    public void Toggle()
+    {
+        gameObject.SetActive(Shown = !Shown);
     }
 }
 
