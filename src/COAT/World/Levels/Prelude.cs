@@ -1,6 +1,8 @@
 ﻿namespace COAT.World.Levels;
 
+using COAT.Input;
 using COAT.UI;
+
 using UnityEngine;
 
 public class Level01 : LevelModule

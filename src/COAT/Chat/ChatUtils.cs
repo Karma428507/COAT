@@ -1,10 +1,10 @@
 ﻿namespace COAT.Chat;
 
 using COAT.Content;
+using COAT.Input;
 using COAT.Net;
 using COAT.Net.Types;
 using COAT.UI.Overlays;
-using COAT.World;
 using Sam;
 using Steamworks;
 using System;

@@ -3,6 +3,7 @@
 using UnityEngine;
 
 using COAT.Content;
+using COAT.Input;
 using COAT.IO;
 using COAT.Net;
 

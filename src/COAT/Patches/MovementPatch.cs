@@ -11,6 +11,7 @@ using COAT.UI;
 using COAT.UI.Overlays;
 using COAT.UI.Fragments;
 using COAT.World;
+using COAT.Input;
 
 [HarmonyPatch(typeof(NewMovement))]
 public class MovementPatch
@@ -37,7 +38,7 @@ public class MovementPatch
             LobbyController.Lobby?.SendChatString("#/d");
 
             ChatUI.Instance.Field.gameObject.SetActive(false);
-            Movement.Instance.OnDied();
+            Emotes.Instance.OnDied();
         }
     }
 }

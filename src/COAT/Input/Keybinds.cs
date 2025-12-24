@@ -1,4 +1,4 @@
-﻿namespace COAT.World;
+﻿namespace COAT.Input;
 
 using COAT.Content;
 using COAT.Net;
@@ -93,35 +93,35 @@ public class Keybinds : MonoSingleton<Keybinds>
         if (Tools.Scene == "Main Menu" || LobbyController.Offline) return;
 
         // Uncomment this when you're working on settings and other UI
-        if (Input.GetKeyDown(Keybinds.LobbyTabKey)) UI.ToggleUI(Home.Instance);
-        if (Input.GetKeyDown(Keybinds.PlayerListKey)) UI.ToggleUI(PlayerList.Instance);
-        if (Input.GetKeyDown(Keybinds.SettingsKey)) UI.ToggleUI(Settings.Instance);
+        if (Input.GetKeyDown(LobbyTabKey)) UI.ToggleUI(Home.Instance);
+        if (Input.GetKeyDown(PlayerListKey)) UI.ToggleUI(PlayerList.Instance);
+        if (Input.GetKeyDown(SettingsKey)) UI.ToggleUI(Settings.Instance);
 
-        if (Input.GetKeyDown(Keybinds.ScrollUpKey)) ChatUI.Instance.ScrollMessages(true);
-        if (Input.GetKeyDown(Keybinds.ScrollDownKey)) ChatUI.Instance.ScrollMessages(false);
+        if (Input.GetKeyDown(ScrollUpKey)) ChatUI.Instance.ScrollMessages(true);
+        if (Input.GetKeyDown(ScrollDownKey)) ChatUI.Instance.ScrollMessages(false);
 
         if (UI.Focused || Settings.Instance.Rebinding) return;
 
-        if (Input.GetKeyDown(Keybinds.ChatKey)) ChatUI.Instance.Toggle();
+        if (Input.GetKeyDown(ChatKey)) ChatUI.Instance.Toggle();
 
         if (Input.GetKeyDown(KeyCode.F4)) Debugging.Instance.Toggle();
         if (Input.GetKeyDown(KeyCode.C) && Debugging.Shown) Debugging.Instance.Clear();
 
-        if (Input.GetKeyDown(Keybinds.PlayerIndicatorsKey)) PlayerIndicators.Instance.Toggle();
-        if (Input.GetKeyDown(Keybinds.PlayerInfoKey)) PlayerInfo.Instance.Toggle();
+        if (Input.GetKeyDown(PlayerIndicatorsKey)) PlayerIndicators.Instance.Toggle();
+        if (Input.GetKeyDown(PlayerInfoKey)) PlayerInfo.Instance.Toggle();
 
-        if (Input.GetKey(Keybinds.EmojiWheelKey) && !Home.Shown && !WeaponWheel.Instance.gameObject.activeSelf)
+        if (Input.GetKey(EmojiWheelKey) && !Home.Shown && !WeaponWheel.Instance.gameObject.activeSelf)
         {
-            Movement.Instance.HoldTime += Time.deltaTime; // if the key has been pressed for 0.25 seconds, show the emoji wheel
-            if (!EmojiWheel.Shown && Movement.Instance.HoldTime > .25f) EmojiWheel.Instance.Show();
+            Emotes.Instance.HoldTime += Time.deltaTime; // if the key has been pressed for 0.25 seconds, show the emoji wheel
+            if (!EmojiWheel.Shown && Emotes.Instance.HoldTime > .25f) EmojiWheel.Instance.Show();
         }
         else
         {
-            Movement.Instance.HoldTime = 0.075f; // 0 is too harsh for people with bad keyboards or weak fingers
+            Emotes.Instance.HoldTime = 0.075f; // 0 is too harsh for people with bad keyboards or weak fingers
             if (EmojiWheel.Shown) EmojiWheel.Instance.Hide();
         }
 
-        bool p = Input.GetKeyDown(Keybinds.PointerKey), s = Input.GetKeyDown(Keybinds.SprayKey);
+        bool p = Input.GetKeyDown(PointerKey), s = Input.GetKeyDown(SprayKey);
         if ((p || s) && Physics.Raycast(cc.transform.position, cc.transform.forward, out var hit, float.MaxValue, mask))
         {
             if (p)
@@ -139,7 +139,7 @@ public class Keybinds : MonoSingleton<Keybinds>
             }, size: 32);
         }
 
-        if (Input.GetKeyDown(Keybinds.SelfDestructionKey) && !UI.AnyDialog) nm.GetHurt(4200, false, 0f);
+        if (Input.GetKeyDown(SelfDestructionKey) && !UI.AnyDialog) nm.GetHurt(4200, false, 0f);
 
         /*if (Input.GetKeyDown(Keybinds.PanHit) && !UI.AnyDialog)
         {

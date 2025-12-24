@@ -3,6 +3,7 @@
 using COAT.Assets;
 using COAT.Content;
 using COAT.Entities;
+using COAT.Input;
 using COAT.IO;
 using COAT.UI;
 using COAT.UI.Overlays;
@@ -114,7 +115,7 @@ public class LocalPlayer : Entity
 
         w.Byte((byte)nm.hp);
         w.Byte((byte)Mathf.Floor(WeaponCharges.Instance.raicharge * 2.5f));
-        w.Player(Team, weapon, Movement.Instance.Emoji, Movement.Instance.Rps, ChatUI.Shown);
+        w.Player(Team, weapon, Emotes.Instance.Emoji, Emotes.Instance.Rps, ChatUI.Shown);
         w.Flags(
             nm.walking,
             nm.sliding || (is44 && nm.transform.position.y > 610f && nm.transform.position.y < 611f),
@@ -139,7 +140,7 @@ public class LocalPlayer : Entity
 
         w.Byte((byte)nm.hp);
         w.Byte((byte)Mathf.Floor(WeaponCharges.Instance.raicharge * 2.5f));
-        w.Player(Team.Pink, (byte)6, Movement.Instance.Emoji, Movement.Instance.Rps, ChatUI.Shown);
+        w.Player(Team.Pink, (byte)6, Emotes.Instance.Emoji, Emotes.Instance.Rps, ChatUI.Shown);
         w.Flags(
             nm.walking,
             nm.sliding || (is44 && nm.transform.position.y > 610f && nm.transform.position.y < 611f),

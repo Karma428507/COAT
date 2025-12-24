@@ -7,6 +7,7 @@ using COAT.Assets;
 using COAT.Chat;
 using COAT.Content;
 using COAT.Entities;
+using COAT.Input;
 using COAT.IO;
 using COAT.Net;
 using COAT.Net.Types;

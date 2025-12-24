@@ -9,11 +9,12 @@ using COAT.Assets;
 using COAT.World;
 
 using static Rect;
+using COAT.Input;
 
 /// <summary> Skateboard stamina and speed. </summary>
 public class Skateboard : CanvasSingleton<Skateboard>
 {
-    static Movement mm => Movement.Instance;
+    static Emotes mm => Emotes.Instance;
     static NewMovement nm => NewMovement.Instance;
     static ColorBlindSettings cb => ColorBlindSettings.Instance;
 

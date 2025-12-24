@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using ULTRAKILL.Cheats;
 using UnityEngine;
 
+using COAT.Input;
 using COAT.Net;
 using COAT.Net.Types;
 using COAT.World;

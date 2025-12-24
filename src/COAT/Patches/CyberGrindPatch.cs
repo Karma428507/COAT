@@ -3,6 +3,7 @@
 using HarmonyLib;
 using UnityEngine.UI;
 
+using COAT.Input;
 using COAT.Net;
 using COAT.World;
 

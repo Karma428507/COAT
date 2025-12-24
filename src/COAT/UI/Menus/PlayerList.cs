@@ -1,20 +1,16 @@
 namespace COAT.UI.Menus;
 
-using COAT.Assets;
-using COAT.Content;
-using COAT.Net;
-//using COAT.Net.Types;
-using COAT.World;
 using Steamworks;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Numerics;
-using System.Reflection;
-using System.Security.Cryptography;
-using ULTRAKILL.Cheats;
+
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.UIElements;
+
+using COAT.Assets;
+using COAT.Content;
+using COAT.Input;
+using COAT.Net;
+//using COAT.Net.Types;
+
 using static Pal;
 using static Rect;
 

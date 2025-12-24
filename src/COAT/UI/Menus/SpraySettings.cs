@@ -7,9 +7,9 @@ using UnityEngine;
 using UnityEngine.UI;
 
 using COAT.Assets;
+using COAT.Input;
 using COAT.Net;
 using COAT.Sprays;
-using COAT.World;
 
 using static Pal;
 using static Rect;

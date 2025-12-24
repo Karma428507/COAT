@@ -7,7 +7,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 using COAT.Assets;
-using COAT.World;
+using COAT.Input;
 using COAT.Content;
 
 using static Pal;
@@ -91,8 +91,11 @@ public class Settings : CanvasSingleton<Settings>, IMenuInterface
     {
         Dictionary<string, Action> buttons = new Dictionary<string, Action>()
         {
-            {"Main Settings", MainOptionList},
-            {"Spray Settings", SprayOptionList}
+            {"General", MainOptionList},
+            {"Controls", ControlOptionList},
+            {"Spray Settings", SprayOptionList},
+            {"Moderation (WIP)", ModerationOptionList},
+            {"Mod list (WIP)", ModOptionList}
         };
 
         shadowOptionList = ShadowOptionList.Build(transform, "#settings.general", buttons);
@@ -329,7 +332,22 @@ public class Settings : CanvasSingleton<Settings>, IMenuInterface
 
     }
 
+    private void ControlOptionList()
+    {
+
+    }
+
     private void SprayOptionList()
+    {
+
+    }
+
+    private void ModerationOptionList()
+    {
+
+    }
+
+    private void ModOptionList()
     {
 
     }

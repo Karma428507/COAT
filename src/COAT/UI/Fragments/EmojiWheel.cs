@@ -8,6 +8,7 @@ using COAT.World;
 
 using static System.Array;
 using static Rect;
+using COAT.Input;
 
 /// <summary> Wheel for selecting emotions that will be displayed as an animation of the player doll. </summary>
 public class EmojiWheel : CanvasSingleton<EmojiWheel>
@@ -129,9 +130,9 @@ public class EmojiWheel : CanvasSingleton<EmojiWheel>
         Movement.UpdateState();
 
         // randomize RPS index if RPS emote is selected
-        if (selected == 3 && !Second) Movement.Instance.Rps = (byte)Random.Range(0, 3);
+        if (selected == 3 && !Second) Emotes.Instance.Rps = (byte)Random.Range(0, 3);
 
         // play emote if the selected segment is not a page transition
-        if (selected != 4) Movement.Instance.StartEmoji((byte)(Second ? selected + 6 : selected));
+        if (selected != 4) Emotes.Instance.StartEmoji((byte)(Second ? selected + 6 : selected));
     }
 }

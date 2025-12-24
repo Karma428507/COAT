@@ -166,7 +166,7 @@ public class Tools
     public static void OnFocusLost(Action OnEnter = null, Action OnFocusOff = null, Action OnEither = null)
     {
         // focus lost because the player entered a message
-        if (OnEnter != null && (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)))
+        if (OnEnter != null && (UnityEngine.Input.GetKeyDown(KeyCode.Return) || UnityEngine.Input.GetKeyDown(KeyCode.KeypadEnter)))
             OnEnter();
 
         // focus lost for some other reason

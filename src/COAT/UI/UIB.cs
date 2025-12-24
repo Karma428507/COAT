@@ -13,15 +13,16 @@ using UnityEngine.UI.Extensions;
 using ScaleMode = UnityEngine.UI.CanvasScaler.ScaleMode;
 using ImageType = UnityEngine.UI.Image.Type;
 
+using COAT;
 using COAT.Assets;
 using COAT.Content;
-using COAT.UI.Menus;
+using COAT.Input;
 using COAT.Net;
+using COAT.UI.Menus;
 
 using static Pal;
 using static Rect;
-using COAT;
-using COAT.World;
+
 
 // NOTE: THIS WILL BE BROKEN APART INTO DIFFERENT CLASSES IN WIDGETS
 

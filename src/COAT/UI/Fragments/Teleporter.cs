@@ -3,7 +3,7 @@ namespace COAT.UI.Fragments;
 using UnityEngine;
 using UnityEngine.UI;
 
-using COAT.World;
+using COAT.Input;
 
 using static Pal;
 

@@ -15,6 +15,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using COAT.Patches;
 using COAT.Net;
+using COAT.Input;
 
 /// <summary> Class that loads and manages the interface of the mod. </summary>
 public class UI
@@ -24,7 +25,7 @@ public class UI
     /// <summary> Whether the player is in any of Jaket dialog. </summary>
     public static bool AnyDialog => ChatUI.Shown || MenuStack.Count > 0 || (OptionsManager.Instance?.paused ?? false);
     /// <summary> Whether any interface that blocks movement is currently visible. </summary>
-    public static bool AnyMovementBlocking => AnyDialog || NewMovement.Instance.dead || Movement.Instance.Emoji != 0xFF;
+    public static bool AnyMovementBlocking => AnyDialog || NewMovement.Instance.dead || Emotes.Instance.Emoji != 0xFF;
 
     /// <summary> Object on which the player is focused. </summary>
     public static GameObject Focus => EventSystem.current?.currentSelectedGameObject;
