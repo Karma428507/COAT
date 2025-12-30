@@ -7,14 +7,15 @@ using UnityEngine;
 using UnityEngine.UI;
 
 using COAT.Assets;
-using COAT.Input;
 using COAT.Content;
+using COAT.Input;
+using COAT.Net;
+using COAT.UI.Widgets;
 
 using static Pal;
 using static Rect;
-using COAT.Net;
-using System.Net.Sockets;
-using COAT.UI.Widgets;
+using COAT.Sprays;
+
 
 /// <summary> Global mod settings not related to the lobby. </summary>
 public class Settings : CanvasSingleton<Settings>, IMenuInterface
@@ -64,6 +65,11 @@ public class Settings : CanvasSingleton<Settings>, IMenuInterface
     /// <summary> General settings buttons. </summary>
     private Button lang, feed, knkl;
 
+    /// <summary> Horriable, just horriable</summary>
+    [Obsolete]
+    private int SettingsPage = 0;
+    private Image GeneralPage, ControlPage, ModerationPage;
+
     /// <summary> List of blacklisted mods. </summary>
     RectTransform content;
     /// <summary> Default team table. </summary>
@@ -100,95 +106,65 @@ public class Settings : CanvasSingleton<Settings>, IMenuInterface
 
         shadowOptionList = ShadowOptionList.Build(transform, "#settings.general", buttons);
 
-        UIB.Table("Settings", transform, Size(1400f, 800f), table =>
+        GeneralPage = UIB.Table("Settings", transform, Size(600f, 800f), table =>
         {
-            UIB.Image("Settings Border", table, new(0f, 0f, 1400f, 800f), null, fill: false);
-
-            // All UI above the LineBreak.
-            #region top
-            UIB.IconButton("X", table, new COAT.UI.Rect(630f, 330f, 100f, 100f), red, clicked: UI.PopStack);
-
-            UIB.Table("Settings Text Box", table, new COAT.UI.Rect(-60f, 330f, 1240f, 100f), list => { UIB.Image("Settings Text Box Border", list, new(0, 0, 1240f, 100f), null, fill: false); });
-
-            UIB.Image1("LineBreak", table, new(0f, 277f, 1355f, 4f), Pal.white, null, true);
-            UIB.Text("Settings", table, new(-427f, 333.5f, 445f, 186f), Pal.white, 75, TextAnchor.MiddleLeft);
-            #endregion
+            UIB.Image("Settings Border", table, new(0f, 0f, 600f, 800f), null, fill: false);
 
             // All UI below the LineBreak.
-            #region bottom
-            #region General and Player Apyearence
-            UIB.Table("General", table, new(-457f, 161f, 445f, 199f), general =>
+            UIB.Text("General", table, new(10f, 360f, 560f, 40f), Pal.white, 40, TextAnchor.MiddleLeft);
+
+            UIB.Button("#settings.reset", table, new(-40f, 310f, 425f, 40f), clicked: ResetGeneral);
+
+            lang = UIB.Button("Language", table, new(-40f, 260f, 425f, 40f), clicked: () => // this may look like a ctrl+c ctrl+v but.. its actually not. i only realised after that its 1:1
             {
-                UIB.Image("General Border", general, new(0f, 0f, 445f, 199f), null, fill: false);
-                UIB.Text("General", general, new(0f, 69.5f/*this isnt a joke, my calculations made this number*/, 425f, 42f), Pal.white, 48, TextAnchor.MiddleLeft);
+                pm.SetString("jaket.locale", Bundle.Codes[Language = ++Language % Bundle.Codes.Length]); 
+                Rebuild();
+            });
 
-                UIB.Button("#settings.reset", general, new(0f, 25f, 425f, 40f), clicked: ResetGeneral);
+            UIB.Toggle("#settings.freeze", table, new(-90f, -180, 320f, 32f, new(.5f, 1f)), 22, _ =>
+            {
+                pm.SetBool("jaket.disable-freeze", DisableFreezeFrames = _);
+            }).isOn = DisableFreezeFrames;
 
-                lang = UIB.Button("Language", general, new(0f, -25f, 425f, 40f), clicked: () => // this may look like a ctrl+c ctrl+v but.. its actually not. i only realised after that its 1:1
+            UIB.Image1("LineBreak", table, new(0f, 190f, 560f, 4f), Pal.white, null, true);
+
+            UIB.Text("Appearance", table, new(10f, 160f, 560f, 40f), Pal.white, 40, TextAnchor.MiddleLeft);
+
+            UIB.Text("FEEDBACKER:", table, new(-40f, 120f, 405f, 42f), align: TextAnchor.MiddleLeft);
+            feed = UIB.Button("FEEDBACKER:", "", table, Wtf(-280f, 80f), clicked: () =>
+            {
+                pm.SetInt("jaket.feed-color", FeedColor = ++FeedColor % 3);
+                Rebuild();
+            }); 
+            
+            UIB.Text("KNUCKLE:", table, new(-40f, 82f, 405f, 42f), align: TextAnchor.MiddleLeft);
+            knkl = UIB.Button("KNUCKLE:", "", table, Wtf(-318f, 80f), clicked: () =>
+            {
+                pm.SetInt("jaket.knkl-color", KnuckleColor = ++KnuckleColor % 3);
+                Rebuild();
+            });
+
+            GetDefaultTeam(out Team enumValue);
+            Defa = UIB.Table("Default Team", table, new(-40f, 0f, 425f, 40f), enumValue.Color(), team =>
+            {
+                DTXT = UIB.Text("Default Team:", team, new(0f, 40f, 425f, 40f), enumValue.Color(), 22, TextAnchor.MiddleLeft).gameObject;
+                team.gameObject.AddComponent<Button>().onClick.AddListener(() => 
                 {
-                    pm.SetString("jaket.locale", Bundle.Codes[Language = ++Language % Bundle.Codes.Length]); 
-                    Rebuild();
+                    ChangeDefaultTeamBy(1);
+                    GetDefaultTeam(out Team enumValue);
+
+                    Defa.GetComponentInChildren<Image>().color = enumValue.Color();
+                    DTXT.GetComponent<Text>().color = enumValue.Color();
                 });
+            }).gameObject;
 
-                UIB.Toggle("#settings.freeze", general, Tgl(171f), 22, _ =>
-                {
-                    pm.SetBool("jaket.disable-freeze", DisableFreezeFrames = _);
-                }).isOn = DisableFreezeFrames;
-            });
+        });
 
-            UIB.Table("Player Apyearence", table, new(-457, -166f, 445f, 427f), playerapyearence =>
-            {
-                UIB.Image("Player Apyearence Border", playerapyearence, new(0f, 0f, 445f, 427f), null, fill: false);
-                UIB.Text("Apyearence", playerapyearence, new(0f, 183.5f, 425f, 42f), Pal.white, 48, TextAnchor.MiddleLeft);
+        ControlPage = UIB.Table("Settings", transform, Size(600f, 800f), table =>
+        {
+            UIB.Image("Settings Border", table, new(0f, 0f, 600f, 800f), null, fill: false);
 
-                UIB.Text("FEEDBACKER:", playerapyearence, new(0f, 140f, 405f, 42f), align: TextAnchor.MiddleLeft);
-                feed = UIB.Button("FEEDBACKER:", "", playerapyearence, Wtf(-75f, 240f), clicked: () =>
-                {
-                    pm.SetInt("jaket.feed-color", FeedColor = ++FeedColor % 3);
-                    Rebuild();
-                }); 
-
-                UIB.Text("KNUCKLE:", playerapyearence, new(0f, 92f, 405f, 42f), align: TextAnchor.MiddleLeft);
-                knkl = UIB.Button("KNUCKLE:", "", playerapyearence, Wtf(-123f, 240f), clicked: () =>
-                {
-                    pm.SetInt("jaket.knkl-color", KnuckleColor = ++KnuckleColor % 3);
-                    Rebuild();
-                });
-
-                GetDefaultTeam(out Team enumValue);
-                Defa = UIB.Table("Default Team", playerapyearence, new(0f, -183f, 425f, 40f), enumValue.Color(), team =>
-                {
-                    DTXT = UIB.Text("Default Team:", team, new(0f, 40f, 425f, 40f), enumValue.Color(), 22, TextAnchor.MiddleLeft).gameObject;
-                    team.gameObject.AddComponent<Button>().onClick.AddListener(() => 
-                    {
-                       ChangeDefaultTeamBy(1);
-                       GetDefaultTeam(out Team enumValue);
-
-                       Defa.GetComponentInChildren<Image>().color = enumValue.Color();
-                       DTXT.GetComponent<Text>().color = enumValue.Color();
-                   });
-                }).gameObject;
-            });
-            #endregion
-
-            #region Moderatiun and Modlist
-            UIB.Table("Moderatiun", table, new(0f, 84f, 445f, 352f), moderatiun =>
-            {
-                UIB.Image("Moderatiun Border", moderatiun, new(0f, 0f, 445f, 352f), null, fill: false);
-                UIB.Text("Moderatiun", moderatiun, new(0f, 146f, 425f, 42f), Pal.white, 48, TextAnchor.MiddleLeft);
-            });
-
-            UIB.Table("Modlist", table, new(0f, -243f, 445f, 274f), modlist =>
-            {
-                UIB.Image("Modlist Border", modlist, new(0f, 0f, 445f, 274f), null, fill: false);
-                UIB.Text("Modlist", modlist, new(0f, 107f, 425f, 42f), Pal.white, 48, TextAnchor.MiddleLeft);
-
-                Field = UIB.Field("Modlist Field", modlist, new(100f, 105f, 212.5f, 40f), 22, OnFocusLost);
-                content = UIB.CustSpeedScroll("Modlist Scroll", 3.625f, modlist, new(0f, -24f, 425f, 206f)).content;
-            });
-            #endregion
-
-            UIB.Table("Controls", table, new(457f, -60f, 445f, 640f), controls =>
+            UIB.Table("Controls", table, new(0f, 0f, 600f, 800f), controls =>
             {
                 UIB.Image("Controls Border", controls, new(0f, 0f, 445f, 640f), null, fill: false);
                 UIB.Text("Controls", controls, new(0f, 290f, 425f, 42f), Pal.white, 48, TextAnchor.MiddleLeft);
@@ -199,8 +175,35 @@ public class Settings : CanvasSingleton<Settings>, IMenuInterface
                 for (int completedkeybinds = 0; completedkeybinds < Keybinds.KeybindString.Length; completedkeybinds++)
                     UIB.KeyButton(Keybinds.KeybindString[completedkeybinds], Keybinds.CurrentKeys[completedkeybinds], ControlsScroll, new(0f, (-20f + completedkeybinds * -40f) + 260, 400f, 40f));
             });
-            #endregion
         });
+
+        ModerationPage = UIB.Table("Settings", transform, Size(600f, 800f), table =>
+        {
+            UIB.Image("Settings Border", table, new(0f, 0f, 600f, 800f), null, fill: false);
+
+            UIB.Table("Moderatiun", table, new(0f, 0f, 600f, 800f), moderatiun =>
+            {
+                UIB.Image("Moderatiun Border", moderatiun, new(0f, 0f, 445f, 352f), null, fill: false);
+                UIB.Text("Moderatiun", moderatiun, new(0f, 146f, 425f, 42f), Pal.white, 48, TextAnchor.MiddleLeft);
+            });
+        });
+
+        /*ModsPage = UIB.Table("Settings", transform, Size(600f, 800f), table =>
+        {
+            UIB.Image("Settings Border", table, new(0f, 0f, 600f, 800f), null, fill: false);
+
+            UIB.Table("Modlist", table, new(0f, -243f, 445f, 274f), modlist =>
+            {
+                UIB.Image("Modlist Border", modlist, new(0f, 0f, 445f, 274f), null, fill: false);
+                UIB.Text("Modlist", modlist, new(0f, 107f, 425f, 42f), Pal.white, 48, TextAnchor.MiddleLeft);
+
+                Field = UIB.Field("Modlist Field", modlist, new(100f, 105f, 212.5f, 40f), 22, OnFocusLost);
+                content = UIB.CustSpeedScroll("Modlist Scroll", 3.625f, modlist, new(0f, -24f, 425f, 206f)).content;
+            });
+        });*/
+
+        ControlPage.enabled = false;
+        ModerationPage.enabled = false;
 
         COAT.Version.Label(transform);
         Rebuild();
@@ -271,6 +274,43 @@ public class Settings : CanvasSingleton<Settings>, IMenuInterface
         // update the color of the feedbacker and knuckleblaster
         Events.OnWeaponChanged.Fire();
 
+        // Change the settings page in the worse way
+        switch (SettingsPage)
+        {
+            case 0:
+                GeneralPage.enabled = true;
+                ControlPage.enabled = false;
+                ModerationPage.enabled = false;
+
+                if (SpraySettings.Instance.enabled)
+                    SpraySettings.Instance.Toggle(); 
+                break;
+            case 1:
+                GeneralPage.enabled = false;
+                ControlPage.enabled = true;
+                ModerationPage.enabled = false;
+
+                if (SpraySettings.Instance.enabled)
+                    SpraySettings.Instance.Toggle();
+                break;
+            case 2:
+                GeneralPage.enabled = false;
+                ControlPage.enabled = false;
+                ModerationPage.enabled = false;
+
+                if (!SpraySettings.Instance.enabled)
+                    SpraySettings.Instance.Toggle();
+                break;
+            case 3:
+                GeneralPage.enabled = false;
+                ControlPage.enabled = false;
+                ModerationPage.enabled = true;
+
+                if (SpraySettings.Instance.enabled)
+                    SpraySettings.Instance.Toggle(); 
+                break;
+        }
+
         //for (int i = 0; i < 10; i++) this is for debugging
         //    Administration.BlacklistMod($"e{i}");
 
@@ -327,29 +367,26 @@ public class Settings : CanvasSingleton<Settings>, IMenuInterface
     }
 
     #region Button nonsense
-    private void MainOptionList()
+    private void MenuOptionSet(int option)
     {
+        if (SettingsPage == option)
+            return;
 
+        SettingsPage = option;
+        Rebuild();
     }
 
-    private void ControlOptionList()
-    {
+    private void MainOptionList() => MenuOptionSet(0);
 
-    }
+    private void ControlOptionList() => MenuOptionSet(1);
 
-    private void SprayOptionList()
-    {
+    private void SprayOptionList() => MenuOptionSet(2);
 
-    }
-
-    private void ModerationOptionList()
-    {
-
-    }
+    private void ModerationOptionList() => MenuOptionSet(3);
 
     private void ModOptionList()
     {
-
+        HudMessageReceiver.Instance?.SendHudMessage("Mod option list WIP");
     }
     #endregion
     #region reset
