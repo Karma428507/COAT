@@ -1,21 +1,19 @@
 namespace COAT.UI;
 
-using COAT;
-using COAT.UI.Fragments;
-using COAT.UI.Menus;
-using COAT.UI.Overlays;
-using COAT.World;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-using System.Collections.Generic;
-using HarmonyLib;
-using System.Linq;
-using System.Threading.Tasks;
+using COAT;
 using COAT.Patches;
 using COAT.Net;
 using COAT.Input;
+using COAT.UI.Menus;
+using COAT.UI.Menus.Sub;
+using COAT.UI.Screen;
 
 /// <summary> Class that loads and manages the interface of the mod. </summary>
 public class UI

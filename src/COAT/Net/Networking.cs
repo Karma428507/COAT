@@ -13,7 +13,7 @@ using COAT.IO;
 using COAT.Net.Endpoints;
 using COAT.Net.Types;
 using COAT.UI.Menus;
-using COAT.UI.Overlays;
+using COAT.UI.Screen;
 using System.Linq;
 
 /// <summary> Class responsible for updating endpoints, transmitting packets and managing entities. </summary>

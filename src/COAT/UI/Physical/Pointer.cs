@@ -1,4 +1,4 @@
-namespace COAT.UI.Bounded;
+namespace COAT.UI.Physical;
 
 using UnityEngine;
 
@@ -6,7 +6,7 @@ using COAT.Assets;
 using COAT.Content;
 using COAT.UI;
 
-using static Rect;
+using static Elements.Rect;
 
 /// <summary> Player-created pointer, disappears in a few seconds after appearing. </summary>
 public class Pointer : MonoBehaviour

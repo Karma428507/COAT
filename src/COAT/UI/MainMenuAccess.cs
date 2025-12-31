@@ -1,12 +1,12 @@
-namespace COAT.UI.Fragments;
+namespace COAT.UI;
 
 using UnityEngine;
 
 //using Jaket.Net;
-using COAT.UI;
+using COAT.UI.Elements;
 using COAT.UI.Menus;
 
-using static Rect;
+using static Elements.Rect;
 using UnityEngine.UI;
 using System.Linq;
 using TMPro;

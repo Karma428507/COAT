@@ -1,20 +1,15 @@
 namespace COAT.Assets;
 
 using System.Collections.Generic;
-using System.IO;
 using TMPro;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
-using UnityEngine.ResourceManagement.ResourceLocations;
 using UnityEngine.Audio;
 using UnityEngine.Events;
 
 using COAT.Content;
-using COAT.World;
 using COAT.Net;
 using COAT.Net.Types;
 using COAT.UI.Menus;
-using COAT.UI.Overlays;
 using COAT.IO;
 
 /// <summary> Class that works with the assets bundle of the mod. </summary>

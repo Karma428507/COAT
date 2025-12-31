@@ -1,4 +1,4 @@
-namespace COAT.UI.Widgets;
+namespace COAT.UI.Screen.Sub;
 
 using UnityEngine;
 using UnityEngine.UI;
@@ -6,8 +6,8 @@ using UnityEngine.UI;
 using COAT.Net.Types;
 using COAT.UI;
 
-using static Pal;
-using static Rect;
+using static Elements.Pal;
+using static Elements.Rect;
 
 /// <summary> Interface element displaying information about the player such as name, health and railgun charge. </summary>
 public class PlayerInfoEntry : MonoBehaviour

@@ -4,16 +4,16 @@ using COAT;
 using COAT.Assets;
 using COAT.Net;
 using COAT.UI;
-using COAT.UI.Widgets;
+using COAT.UI.Elements;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-using static Pal;
-using static Rect;
+using static Elements.Pal;
+using static Elements.Rect;
 using static COAT.IO.SaveManager;
-using Rect = Rect;
+using Rect = Elements.Rect;
 
 public class ServerCreation : CanvasSingleton<ServerCreation>, IMenuInterface
 {

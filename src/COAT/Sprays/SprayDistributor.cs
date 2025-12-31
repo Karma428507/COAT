@@ -9,7 +9,7 @@ using UnityEngine;
 using COAT.Content;
 using COAT.IO;
 using COAT.Net;
-using COAT.UI.Menus;
+using COAT.UI.Menus.Sub;
 
 /// <summary> Class responsible for distributing sprays between clients. </summary>
 public static class SprayDistributor

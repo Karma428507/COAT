@@ -1,4 +1,4 @@
-﻿namespace COAT.UI.Widgets;
+﻿namespace COAT.UI.Elements;
 
 using COAT.Assets;
 using COAT.Content;
@@ -38,7 +38,7 @@ public class ShadowOptionList : MonoBehaviour
         UIB.Table("General", name, transform, Tlw(550, 1050), table =>
         {
             // add a seperator then the option buttons later
-            content = UIB.Scroll("Button List", table, new COAT.UI.Rect(0, -25, 320f, 970)).content;
+            content = UIB.Scroll("Button List", table, new(0, -25, 320f, 970)).content;
         });
 
         Rebuild();

@@ -6,8 +6,9 @@ using COAT.Assets;
 using COAT.Content;
 using COAT.Entities;
 using COAT.IO;
+using COAT.UI;
 
-using static COAT.UI.Pal;
+using static UI.Elements.Pal;
 
 /// <summary> Representation of a coin that has a team and the corresponding mechanics. </summary>
 public class TeamCoin : OwnableEntity

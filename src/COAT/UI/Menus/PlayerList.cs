@@ -5,14 +5,13 @@ using Steamworks;
 using UnityEngine;
 using UnityEngine.UI;
 
-using COAT.Assets;
 using COAT.Content;
 using COAT.Input;
 using COAT.Net;
-//using COAT.Net.Types;
+using COAT.UI.Elements;
 
-using static Pal;
-using static Rect;
+using static Elements.Pal;
+using static Elements.Rect;
 
 /// <summary> List of all players and teams. </summary>
 public class PlayerList : CanvasSingleton<PlayerList>, IMenuInterface
@@ -43,7 +42,7 @@ public class PlayerList : CanvasSingleton<PlayerList>, IMenuInterface
             UIB.Table("Players", "#player-list.list", table, new(512f, 0f, 336f, 760f), player =>
             {
                 UIB.Image("Players Border", player, new(0, 0, 336f, 760f), null, fill: false);
-                content = UIB.Scroll("Player Scroll List", player, new COAT.UI.Rect(0, -25, 625f, 760f - 50f)).content;
+                content = UIB.Scroll("Player Scroll List", player, new(0, -25, 625f, 760f - 50f)).content;
             });
 
             UIB.Table("Player Settings", "player settings", table, new(-178, 295, 1004f, 170), player =>
@@ -113,7 +112,7 @@ public class PlayerList : CanvasSingleton<PlayerList>, IMenuInterface
                 UIB.Button("Player", "", player, new(0, 0, 320f, 80f), Networking.GetTeam(member).Color(), 24, clicked: () => SteamFriends.OpenUserOverlay(member.Id, "steamid"));
 
                 // this and the mask is just to add rounded borders btw
-                UnityEngine.UI.Image PFP = UIB.ImageButton($"PFP OF {member.Name}", player, new(-125, 0, 50, 50), clicked: () => Tools.Dummy(member.Id.AccountId));
+                Image PFP = UIB.ImageButton($"PFP OF {member.Name}", player, new(-125, 0, 50, 50), clicked: () => Tools.Dummy(member.Id.AccountId));
                 Mask PFPMASK = UIB.Mask($"PFP MASK OF {member.Name}", player, new(-125, 0, 50, 50), UIB.Background);
                 PFP.transform.SetParent(PFPMASK.transform);
 
@@ -152,27 +151,27 @@ public class PlayerList : CanvasSingleton<PlayerList>, IMenuInterface
         {
             // set parent to the player table
             InfoMenu.transform.SetParent(parent);
-            InfoMenu.GetComponent<RectTransform>().sizeDelta = new UnityEngine.Vector2(120f, 120f); // move the info menu back into hell from earth
-            InfoMenu.GetComponent<RectTransform>().anchoredPosition = new UnityEngine.Vector2(265, 0); // (i put it at like 99999f, 99999f, 0f, 0f)
+            InfoMenu.GetComponent<RectTransform>().sizeDelta = new Vector2(120f, 120f); // move the info menu back into hell from earth
+            InfoMenu.GetComponent<RectTransform>().anchoredPosition = new Vector2(265, 0); // (i put it at like 99999f, 99999f, 0f, 0f)
 
             // if ur not host, you cant ban or kick. so only show those if ur host. if else? mute.
             if (LobbyController.LastOwner.AccountId == Tools.AccId)
             {
                 // Ban Button
-                UnityEngine.UI.Button BanButton = UIB.Button("Ban", "B", InfoMenu.transform, new(-25, 25, 45, 45), Color.red, 24, clicked: () => Administration.Ban(member.Id.AccountId));
-                BanButton.GetComponent<UnityEngine.UI.Image>().maskable = false;
+                Button BanButton = UIB.Button("Ban", "B", InfoMenu.transform, new(-25, 25, 45, 45), Color.red, 24, clicked: () => Administration.Ban(member.Id.AccountId));
+                BanButton.GetComponent<Image>().maskable = false;
                 BanButton.GetComponentInChildren<Text>().maskable = false;
 
                 // Kick Button
-                UnityEngine.UI.Button KickButton = UIB.Button("Kick", "K", InfoMenu.transform, new(25, 25, 45, 45), Pal.orange, 24, clicked: () => Administration.Kick(member.Id.AccountId));
-                KickButton.GetComponent<UnityEngine.UI.Image>().maskable = false;
+                Button KickButton = UIB.Button("Kick", "K", InfoMenu.transform, new(25, 25, 45, 45), Pal.orange, 24, clicked: () => Administration.Kick(member.Id.AccountId));
+                KickButton.GetComponent<Image>().maskable = false;
                 KickButton.GetComponentInChildren<Text>().maskable = false;
 
                 // Mute Button
-                UnityEngine.UI.Button MuteButton = UIB.Button("Mute/Unmute", "Mute", InfoMenu.transform, new(0, -25, 95, 45), Color.yellow, 24, clicked: () => Administration.Mute(member.Id.AccountId, !Networking.MUTEDPLAYERS.Contains(member.Id.AccountId)));
+                Button MuteButton = UIB.Button("Mute/Unmute", "Mute", InfoMenu.transform, new(0, -25, 95, 45), Color.yellow, 24, clicked: () => Administration.Mute(member.Id.AccountId, !Networking.MUTEDPLAYERS.Contains(member.Id.AccountId)));
                 MuteButton.GetComponentInChildren<Text>().text = $"{(Networking.MUTEDPLAYERS.Contains(member.Id.AccountId) ? "Unmute" : "Mute")}"; // sets the text to "mute" or "unmute" based on if its.. well.. mute or unmute u dumbass
                 MuteButton.GetComponentInChildren<Text>().maskable = false;
-                MuteButton.GetComponent<UnityEngine.UI.Image>().maskable = false;
+                MuteButton.GetComponent<Image>().maskable = false;
             }
             else 
             {
@@ -185,15 +184,15 @@ public class PlayerList : CanvasSingleton<PlayerList>, IMenuInterface
         }
         else
         {
-            InfoMenu.GetComponent<RectTransform>().sizeDelta = new UnityEngine.Vector2(0, 0); // SEND IT BACK TO EARTH!!!
-            InfoMenu.GetComponent<RectTransform>().anchoredPosition = new UnityEngine.Vector2(99999, 99999); // YEAA!!!! (tbh idk why i set the size to 0f, 0f)
+            InfoMenu.GetComponent<RectTransform>().sizeDelta = new Vector2(0, 0); // SEND IT BACK TO EARTH!!!
+            InfoMenu.GetComponent<RectTransform>().anchoredPosition = new Vector2(99999, 99999); // YEAA!!!! (tbh idk why i set the size to 0f, 0f)
         }
     }
 
-    public async void LoadPFP(Friend member, UnityEngine.UI.Image PFP)
+    public async void LoadPFP(Friend member, Image PFP)
     {
         Texture2D image = await Tools.GetSteamPFP(member, new(50, 50), 3);
-        PFP.sprite = Sprite.Create(image, new Rect(0, 0, 50, 50), new UnityEngine.Vector2(0.5f, 0.5f));
+        PFP.sprite = Sprite.Create(image, new(0, 0, 50, 50), new Vector2(0.5f, 0.5f));
     }
 
     public void Mute(uint id)

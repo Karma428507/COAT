@@ -1,4 +1,4 @@
-namespace COAT.UI.Menus;
+namespace COAT.UI.Menus.Sub;
 
 using Steamworks;
 using System;
@@ -11,8 +11,8 @@ using COAT.Input;
 using COAT.Net;
 using COAT.Sprays;
 
-using static Pal;
-using static Rect;
+using static Elements.Pal;
+using static Elements.Rect;
 
 /// <summary> Global spray settings not related to the lobby. </summary>
 public class SpraySettings : CanvasSingleton<SpraySettings>

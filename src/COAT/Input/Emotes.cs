@@ -1,19 +1,12 @@
 ﻿namespace COAT.Input;
 
 using COAT.Assets;
-using COAT.Content;
 using COAT.Net;
 using COAT.Net.Types;
-using COAT.Sprays;
 using COAT.UI;
-using COAT.UI.Bounded;
-using COAT.UI.Fragments;
-using COAT.UI.Menus;
-using COAT.UI.Overlays;
+using COAT.UI.Screen;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.UIElements;
 
 public class Emotes : MonoSingleton<Emotes>
 {

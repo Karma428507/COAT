@@ -1,4 +1,4 @@
-namespace COAT.UI.Overlays;
+namespace COAT.UI.Screen;
 
 using System.Collections.Generic;
 using UnityEngine.UI;
@@ -6,9 +6,9 @@ using UnityEngine.UI;
 using COAT.Content;
 using COAT.Net;
 using COAT.Net.Types;
-using COAT.UI.Widgets;
+using COAT.UI.Screen.Sub;
 
-using static Rect;
+using static Elements.Rect;
 
 /// <summary> Teammates information displayed in the bottom right corner of the screen. </summary>
 public class PlayerInfo : CanvasSingleton<PlayerInfo>

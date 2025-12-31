@@ -1,11 +1,11 @@
-namespace COAT.UI.Fragments;
+namespace COAT.UI.Screen;
 
 using UnityEngine;
 using UnityEngine.UI;
 
 using COAT.Input;
 
-using static Pal;
+using static Elements.Pal;
 
 /// <summary> In fact, it's just a flash needed to make the teleportation look better. </summary>
 public class Teleporter : CanvasSingleton<Teleporter>

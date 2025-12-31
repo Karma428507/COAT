@@ -105,7 +105,7 @@ public class Plugin : MonoBehaviour
         
         // Rest of multiplayer
         World.World.Load();
-        LevelManager.Load();
+        WorldActionsList.Load();
         ChatHandler.Load();
         SprayManager.Load();
 

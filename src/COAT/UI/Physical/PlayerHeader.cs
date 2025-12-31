@@ -1,4 +1,4 @@
-namespace COAT.UI.Bounded;
+namespace COAT.UI.Physical;
 
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,8 +8,8 @@ using COAT.Assets;
 using COAT.UI;
 using COAT.UI.Menus;
 
-using static Pal;
-using static Rect;
+using static Elements.Pal;
+using static Elements.Rect;
 
 /// <summary> Header containing nickname and health. </summary>
 public class PlayerHeader

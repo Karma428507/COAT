@@ -3,13 +3,8 @@
 using COAT.Content;
 using COAT.Input;
 using COAT.Net;
-using COAT.Net.Types;
-using COAT.UI.Overlays;
-using Sam;
-using Steamworks;
+using COAT.UI.Screen;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using UnityEngine;
 
 public static class ChatUtils

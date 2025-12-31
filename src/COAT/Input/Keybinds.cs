@@ -4,13 +4,11 @@ using COAT.Content;
 using COAT.Net;
 using COAT.Sprays;
 using COAT.UI;
-using COAT.UI.Bounded;
-using COAT.UI.Fragments;
+using COAT.UI.Physical;
 using COAT.UI.Menus;
-using COAT.UI.Overlays;
+using COAT.UI.Screen;
 
 using UnityEngine;
-
 
 public class Keybinds : MonoSingleton<Keybinds>
 {

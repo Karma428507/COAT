@@ -5,11 +5,8 @@ using System.Collections.Generic;
 
 using COAT.Chat;
 using COAT.Content;
-using COAT.UI.Overlays;
+using COAT.UI.Screen;
 using COAT.UI.Menus;
-using Steamworks;
-using System.Linq;
-using COAT.Assets;
 
 /// <summary> Class dedicated to protecting the lobby from unfavorable people. </summary>
 public class Administration

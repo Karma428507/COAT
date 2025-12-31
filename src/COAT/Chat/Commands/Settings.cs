@@ -1,7 +1,7 @@
 ﻿namespace COAT.Chat.Commands;
 
 using COAT.Chat;
-using COAT.UI.Overlays;
+using COAT.UI.Screen;
 using UnityEngine;
 
 /// <summary> Commands to change chat settings </summary>

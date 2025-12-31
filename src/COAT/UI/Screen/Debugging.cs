@@ -1,4 +1,4 @@
-namespace COAT.UI.Overlays;
+namespace COAT.UI.Screen;
 
 using System.Collections.Generic;
 using System.Linq;
@@ -9,8 +9,8 @@ using UnityEngine.UI.Extensions;
 using COAT.IO;
 using COAT.Net;
 
-using static Pal;
-using static Rect;
+using static Elements.Pal;
+using static Elements.Rect;
 
 /// <summary> Tab containing different information about the load on the network. </summary>
 public class Debugging : CanvasSingleton<Debugging>

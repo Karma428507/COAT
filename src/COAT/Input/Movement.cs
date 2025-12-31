@@ -12,7 +12,7 @@ using COAT.Net;
 using COAT.Net.Types;
 using COAT.UI;
 using COAT.UI.Menus;
-using COAT.UI.Fragments;
+using COAT.UI.Screen;
 using System;
 
 /// <summary> Class responsible for additions to control and local display of emotions. </summary>

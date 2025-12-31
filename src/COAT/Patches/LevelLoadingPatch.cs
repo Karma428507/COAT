@@ -1,14 +1,14 @@
 namespace COAT.Patches;
 
+using System;
+
 using HarmonyLib;
 using UnityEngine.UI;
 
 using COAT.Assets;
 using COAT.Net;
 
-using static COAT.UI.Pal;
-using System;
-using COAT.UI.Menus;
+using static UI.Elements.Pal;
 
 [HarmonyPatch]
 public class LevelLoadingPatch

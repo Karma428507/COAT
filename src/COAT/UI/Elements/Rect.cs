@@ -1,4 +1,4 @@
-namespace COAT.UI;
+namespace COAT.UI.Elements;
 
 using UnityEngine;
 

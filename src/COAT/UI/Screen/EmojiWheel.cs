@@ -1,14 +1,13 @@
-namespace COAT.UI.Fragments;
+namespace COAT.UI.Screen;
 
 using UnityEngine;
 using UnityEngine.UI.Extensions;
 
 using COAT.Assets;
-using COAT.World;
+using COAT.Input;
 
 using static System.Array;
-using static Rect;
-using COAT.Input;
+using static Elements.Rect;
 
 /// <summary> Wheel for selecting emotions that will be displayed as an animation of the player doll. </summary>
 public class EmojiWheel : CanvasSingleton<EmojiWheel>

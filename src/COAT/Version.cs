@@ -4,11 +4,11 @@ using System;
 using UnityEngine;
 using UnityEngine.Networking;
 
-using COAT.Assets;
 using COAT.UI;
 
-using static COAT.UI.Rect;
+using static UI.Elements.Rect;
 
+[Obsolete("Must be reworked at release")]
 public class Version
 {
     /// <summary> Current version of the mod installed by the player. </summary>

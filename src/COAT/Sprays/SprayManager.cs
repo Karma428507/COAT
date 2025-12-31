@@ -6,8 +6,8 @@ using UnityEngine;
 
 using COAT.Assets;
 using COAT.Net;
-using COAT.UI.Menus;
-using COAT.UI.Bounded;
+using COAT.UI.Menus.Sub;
+using COAT.UI.Physical;
 
 /// <summary> Saves sprays of players and loads sprays of the local player. </summary>
 public class SprayManager

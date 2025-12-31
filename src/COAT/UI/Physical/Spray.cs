@@ -1,11 +1,11 @@
-namespace COAT.UI.Bounded;
+namespace COAT.UI.Physical;
 
 using UnityEngine;
 using UnityEngine.UI;
 
 using COAT.Net;
 using COAT.Sprays;
-using COAT.UI.Menus;
+using COAT.UI.Menus.Sub;
 
 /// <summary> Player-created spray containing an image, disappears in a few seconds after appearing. </summary>
 public class Spray : MonoBehaviour

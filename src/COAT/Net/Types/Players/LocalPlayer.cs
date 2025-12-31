@@ -6,12 +6,7 @@ using COAT.Entities;
 using COAT.Input;
 using COAT.IO;
 using COAT.UI;
-using COAT.UI.Overlays;
-using COAT.World;
-using Steamworks.Ugc;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using COAT.UI.Screen;
 using UnityEngine;
 
 public class LocalPlayer : Entity

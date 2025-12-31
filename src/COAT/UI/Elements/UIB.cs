@@ -1,4 +1,4 @@
-using COAT.UI;
+using COAT.UI.Elements;
 
 namespace COAT.UI;
 
@@ -12,6 +12,7 @@ using UnityEngine.UI.Extensions;
 
 using ScaleMode = UnityEngine.UI.CanvasScaler.ScaleMode;
 using ImageType = UnityEngine.UI.Image.Type;
+using Rect = Rect;
 
 using COAT;
 using COAT.Assets;

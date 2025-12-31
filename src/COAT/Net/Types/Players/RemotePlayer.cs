@@ -4,7 +4,7 @@ using COAT.Assets;
 using COAT.Content;
 using COAT.Entities;
 using COAT.IO;
-using COAT.UI.Bounded;
+using COAT.UI.Physical;
 using Steamworks;
 using UnityEngine;
 

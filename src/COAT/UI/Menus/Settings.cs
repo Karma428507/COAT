@@ -10,12 +10,11 @@ using COAT.Assets;
 using COAT.Content;
 using COAT.Input;
 using COAT.Net;
-using COAT.UI.Widgets;
+using COAT.UI.Elements;
+using COAT.UI.Menus.Sub;
 
-using static Pal;
-using static Rect;
-using COAT.Sprays;
-
+using static Elements.Pal;
+using static Elements.Rect;
 
 /// <summary> Global mod settings not related to the lobby. </summary>
 public class Settings : CanvasSingleton<Settings>, IMenuInterface
@@ -160,7 +159,9 @@ public class Settings : CanvasSingleton<Settings>, IMenuInterface
 
         });
 
-        ControlPage = UIB.Table("Settings", transform, Size(600f, 800f), table =>
+        GeneralPage.enabled = false;
+
+        /*ControlPage = UIB.Table("Settings", transform, Size(600f, 800f), table =>
         {
             UIB.Image("Settings Border", table, new(0f, 0f, 600f, 800f), null, fill: false);
 
@@ -188,6 +189,9 @@ public class Settings : CanvasSingleton<Settings>, IMenuInterface
             });
         });
 
+        ControlPage.enabled = false;
+        ModerationPage.enabled = false;*/
+
         /*ModsPage = UIB.Table("Settings", transform, Size(600f, 800f), table =>
         {
             UIB.Image("Settings Border", table, new(0f, 0f, 600f, 800f), null, fill: false);
@@ -201,9 +205,6 @@ public class Settings : CanvasSingleton<Settings>, IMenuInterface
                 content = UIB.CustSpeedScroll("Modlist Scroll", 3.625f, modlist, new(0f, -24f, 425f, 206f)).content;
             });
         });*/
-
-        ControlPage.enabled = false;
-        ModerationPage.enabled = false;
 
         COAT.Version.Label(transform);
         Rebuild();

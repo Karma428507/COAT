@@ -2,16 +2,14 @@
 
 using Steamworks.Data;
 using System;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
 using COAT.Assets;
 using COAT.Net;
-//using Jaket.World;
 
-using static Pal;
-using static Rect;
+using static Elements.Pal;
+using static Elements.Rect;
 using UnityEngine.UI.Extensions;
 using System.Collections.Generic;
 using COAT.UI.Menus;
@@ -43,13 +41,13 @@ public class Home : CanvasSingleton<Home>, IMenuInterface
             UIB.Image(name, table, new(0, 0, 1400f, 800f), null, fill: false);
 
             // Top row of buttons
-            UIB.IconButton("X", table, new COAT.UI.Rect(630f, 330f, 100f, 100f), red, clicked: UI.PopStack);
+            UIB.IconButton("X", table, new(630f, 330f, 100f, 100f), red, clicked: UI.PopStack);
 
-            filters = UIB.Table("FilterPanel", table, new COAT.UI.Rect(-60f, 330f, 1240f, 100f), list =>
+            filters = UIB.Table("FilterPanel", table, new(-60f, 330f, 1240f, 100f), list =>
             {
                 UIB.Image(name, list, new(0, 0, 1240f, 100f), null, fill: false);
 
-                refresh = UIB.IconButton("Refresh", list, new COAT.UI.Rect(-512, 0f, 200f, 86f), blue, clicked: Refresh);
+                refresh = UIB.IconButton("Refresh", list, new(-512, 0f, 200f, 86f), blue, clicked: Refresh);
                 UIB.Field("#lobby-list.search", list, new(96f, 0f, 1016f, 86f), cons: text =>
                 {
                     search = text.Trim().ToLower();
@@ -57,9 +55,9 @@ public class Home : CanvasSingleton<Home>, IMenuInterface
                 });
             });
 
-            UIB.Text("<size=25>Options</size>", table, new COAT.UI.Rect(510f, 230, 340, 60), align: TextAnchor.MiddleCenter);
+            UIB.Text("<size=25>Options</size>", table, new(510f, 230, 340, 60), align: TextAnchor.MiddleCenter);
 
-            misc = UIB.Table("OptionList", table, new COAT.UI.Rect(510f, -90f, 340, 580f), list =>
+            misc = UIB.Table("OptionList", table, new(510f, -90f, 340, 580f), list =>
             {
                 UIB.Image(name, list, new(0, 0, 340, 580f), null, fill: false);
 
@@ -86,7 +84,7 @@ public class Home : CanvasSingleton<Home>, IMenuInterface
             });
 
             // Body portion
-            lobbyList = UIB.Table("LobbyList", table, new COAT.UI.Rect(-180f, -60f, 1000f, 640f), list =>
+            lobbyList = UIB.Table("LobbyList", table, new(-180f, -60f, 1000f, 640f), list =>
             {
                 UIB.Image(name, list, new(0, 0, 1000f, 640f), null, fill: false);
                 content = UIB.Scroll("List", list, new(0f, 0f, 1000f, 640f)).content;
@@ -144,7 +142,7 @@ public class Home : CanvasSingleton<Home>, IMenuInterface
             bool isCOAT = LobbyController.IsCOATLobby(lobby);
             string serverName = isMultikill && !isCOAT ? "[MULTIKILL] " + lobby.GetData("lobbyName") : lobby.GetData("name");
 
-            UIB.Table("LobbyEntry", content, new COAT.UI.Rect(0, y, 960, 100), entry =>
+            UIB.Table("LobbyEntry", content, new(0, y, 960, 100), entry =>
             {
                 if (isCOAT) UIB.Image("Lobby bg", entry, new(0f, 0f, 960f, 100f), white);
                 UIB.Image(name, entry, new(0, 0, 960, 100), (isCOAT ? darkblue : isMultikill ? red : blue), fill: false);
@@ -157,7 +155,7 @@ public class Home : CanvasSingleton<Home>, IMenuInterface
                 UIB.Text("<color=#BBBBBB> TBD (most likely for filters)</color>", entry, new(-100, -30, 740, 50), align: TextAnchor.MiddleLeft);
 
                 // buttons
-                UIB.Button("Play", entry, new COAT.UI.Rect(380, -15, 180, 50), align: TextAnchor.MiddleCenter,
+                UIB.Button("Play", entry, new(380, -15, 180, 50), align: TextAnchor.MiddleCenter,
                     clicked: () => { if (isMultikill) Bundle.Hud("lobby.mk"); else LobbyController.JoinLobby(lobby); });
             });
 

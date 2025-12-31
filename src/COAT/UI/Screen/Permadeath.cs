@@ -1,10 +1,10 @@
-namespace COAT.UI.Menus;
+namespace COAT.UI.Screen;
 
-using static Pal;
-using static Rect;
+using static Elements.Pal;
+using static Elements.Rect;
 
 /// <summary> UI for endless mode and 0-S. </summary>
-public class Permadeath : CanvasSingleton<Settings>, IMenuInterface
+public class Permadeath : CanvasSingleton<Permadeath> // WHY
 {
     private void Start()
     {

@@ -1,29 +1,26 @@
-namespace COAT.UI.Overlays;
+namespace COAT.UI.Screen;
+
+using System.Collections;
+using System.Collections.Generic;
+
+using Steamworks;
+using UnityEngine;
+using UnityEngine.UI;
 
 using COAT.Assets;
 using COAT.Chat;
-using COAT.Content;
 using COAT.Input;
 using COAT.Net;
 using COAT.Net.Types;
 using COAT.UI.Menus;
 using Sam;
-using Steamworks;
-using Steamworks.ServerList;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.UI;
-using static Pal;
-using static Rect;
+
+using static Elements.Pal;
+using static Elements.Rect;
 
 /// <summary> Front end of the chat, back end implemented via Steamworks. </summary>
 public class ChatUI : CanvasSingleton<ChatUI>, IOverlayInterface
 {
-    
-
     /// <summary> Maximum length of chat message. </summary>
     public const int MAX_MESSAGE_LENGTH = 128;
     /// <summary> How many messages at a time will be shown. </summary>
