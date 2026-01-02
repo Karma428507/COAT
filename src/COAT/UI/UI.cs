@@ -38,7 +38,6 @@ public class UI
     public static void Load()
     {
         Root = Tools.Create("UI").transform;
-
         
         Home.Build("Lobby List", false, true);
         MainMenuAccess.Build("Main Menu Access", false, true);
@@ -49,12 +48,18 @@ public class UI
 
         Debugging.Build("Debugging Menu", false, false);
         PlayerInfo.Build("Player Information", false, false, scene => scene == "Main Menu", () => { if (PlayerInfo.Shown) PlayerInfo.Instance.Toggle(); });
-        SpraySettings.Build("Spray Settings", false, true);
         PlayerIndicators.Build("Player Indicators", false, false, scene => scene == "Main Menu");
 
         EmojiWheel.Build("Emoji Wheel", false, false);
         Skateboard.Build("Skateboard", false, false);
         Teleporter.Build("Teleporter", false, false, hide: () => { });
+
+        // Remove when UI overhaul
+        GeneralSettings.Build("General Settings", false, true);
+        ControlSettings.Build("Control Settings", false, true);
+        SpraySettings.Build("Spray Settings", false, true);
+        ModerationSettings.Build("Moderation Settings", false, true);
+
 
         // For overlay UI only
         OverlayList.Add(ChatUI.Instance);

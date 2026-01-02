@@ -15,7 +15,7 @@ using static Elements.Pal;
 using static Elements.Rect;
 
 /// <summary> Global spray settings not related to the lobby. </summary>
-public class SpraySettings : CanvasSingleton<SpraySettings>
+public class SpraySettings : SettingsPage<SpraySettings>
 {
     static PrefsManager pm => PrefsManager.Instance;
 
@@ -70,13 +70,8 @@ public class SpraySettings : CanvasSingleton<SpraySettings>
     private void OpenFolder() => Application.OpenURL($"file://{SprayManager.Folder.Replace("\\", "/")}");
 
     // <summary> Toggles visibility of the spray settings. </summary>
-    public void Toggle()
+    public override void Toggle()
     {
-        //if (!Shown) UI.();
-
-        gameObject.SetActive(Shown = !Shown);
-        Movement.UpdateState();
-
         if (Shown && transform.childCount > 0) Rebuild();
         if (!Shown) SprayDistributor.UploadLocal();
     }
