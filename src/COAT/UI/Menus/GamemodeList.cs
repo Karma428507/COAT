@@ -14,6 +14,7 @@ using static Elements.Pal;
 using static Elements.Rect;
 using static COAT.IO.SaveManager;
 using Rect = Elements.Rect;
+using COAT.IO;
 
 public class ServerCreation : CanvasSingleton<ServerCreation>, IMenuInterface
 {
@@ -71,7 +72,9 @@ public class ServerCreation : CanvasSingleton<ServerCreation>, IMenuInterface
 
                 accessibility = UIB.Button("#lobby-tab.private", options, Rect.Btn(80), clicked: () =>
                 {
+                    Log.Info($"Server type before: {Options.ServerType}");
                     Options.ServerType = (byte)((int)(++Options.ServerType) % 3);
+                    Log.Info($"Server type after: {Options.ServerType}");
                     Rebuild();
                 });
 
@@ -87,25 +90,29 @@ public class ServerCreation : CanvasSingleton<ServerCreation>, IMenuInterface
                 {
                     //GamemodeManager.GetList(gamemode, GameMode => GameMode.Start());
 
+                    Options.Name = field.text;
+                    SaveLobby();
                     UI.PushStack(new ServerDiffifcultySelect());
                 });
             });
 
             // gamemode settings menu
             gamemodeMenu = UIB.Image(name, table, new(225, 0, 400, 450), null, fill: false).transform;
+            
+            // Load the options
+            LoadLobby();
+
+            pvp.isOn = Options.pvp;
+            cheats.isOn = Options.Cheats;
+            myEnemy.isOn = Options.Mods;
+            bosses.isOn = Options.healBosses;
             Rebuild();
         });
     }
 
     private void Rebuild()
     {
-        Log.Debug("Rebuilt");
-
-        pvp.isOn = Options.pvp;
-        cheats.isOn = Options.Cheats;
-        myEnemy.isOn = Options.Mods;
-        bosses.isOn = Options.healBosses;
-
+        // Rebuild UI element
         accessibility.GetComponentInChildren<Text>().text = Bundle.Get(Options.ServerType switch
         {
             0 => "lobby-tab.private",

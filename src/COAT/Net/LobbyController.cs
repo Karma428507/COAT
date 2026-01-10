@@ -137,7 +137,7 @@ public class LobbyController
             }
 
             // general savable data
-            Lobby?.SetData("name", "[COAT] " + ServerCreation.Options.Name);
+            Lobby?.SetData("name", "<color=#20AAFF>[COAT]</color> " + ServerCreation.Options.Name);
             Lobby?.SetData("cheats", ServerCreation.Options.Cheats ? "True" : "False");
             Lobby?.SetData("mods", ServerCreation.Options.Mods ? "True" : "False");
 

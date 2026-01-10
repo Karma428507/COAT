@@ -1,15 +1,12 @@
 namespace COAT.UI.Menus;
 
-using Steamworks;
-
-using UnityEngine;
-using UnityEngine.UI;
-
 using COAT.Content;
 using COAT.Input;
 using COAT.Net;
 using COAT.UI.Elements;
-
+using Steamworks;
+using UnityEngine;
+using UnityEngine.UI;
 using static Elements.Pal;
 using static Elements.Rect;
 
@@ -24,20 +21,9 @@ public class PlayerList : CanvasSingleton<PlayerList>, IMenuInterface
 
     private void Start()
     {
-        UIB.Table("Teams", "#player-list.team", transform, Tlw(16f + 166f / 2f, 166f), table =>
+        UIB.Table("ServerSettings", transform, Size(1400, 800f), table =>
         {
-            UIB.Text("#player-list.info", table, Btn(71f) with { Height = 46f }, size: 16);
-        });
-
-        //UIB.Table("List", "#player-list.list", transform, Tlw(198f + 800 / 2f, 800f), table =>
-        //{
-        //    content = UIB.Scroll("List", table, new Jaket.UI.Rect(0, -1, 336f, 800 - 90f)).content;
-        //});
-
-
-        UIB.Table("PlayerList", transform, Size(1400, 800f), table =>
-        {
-            UIB.Image("PlayerList Border", table, new(0, 0, 1400f, 800f), null, fill: false);
+            UIB.Image("ServerSettings Border", table, new(0, 0, 1400f, 800f), null, fill: false);
 
             UIB.Table("Players", "#player-list.list", table, new(512f, 0f, 336f, 760f), player =>
             {
@@ -49,6 +35,8 @@ public class PlayerList : CanvasSingleton<PlayerList>, IMenuInterface
             {
                 UIB.Image("Player Settings Border", player, new(0, 0, 1004f, 170f), null, fill: false);
 
+                UIB.Text("Team:", player, new(-300, 0f, 100f, 56f));
+
                 float x = -24f;
                 foreach (Team team in System.Enum.GetValues(typeof(Team))) UIB.TeamButton(team, player, new(x += 64f, -130f, 56f, 56f, new(0f, 1f)), () =>
                 {
@@ -57,11 +45,23 @@ public class PlayerList : CanvasSingleton<PlayerList>, IMenuInterface
 
                     Rebuild();
                 });
+
+                UIB.Table("WIP", "", player, new(197f, -20f, 550f, 100f), wip =>
+                {
+                    UIB.Image("Border", wip, new(0, 0, 550f, 100f), Color.red, fill: false);
+                    UIB.Text("WIP", wip, new(0f, 0f, 550f, 56f), size: 50);
+                }).color = Color.gray * 0.5f;
             });
 
             UIB.Table("Server Settings", "server settings", table, new(-178, -95, 1004f, 570f), server =>
             {
                 UIB.Image("Server Settings Border", server, new(0, 0, 1004f, 570f), null, fill: false);
+
+                UIB.Table("WIP", "", server, new(251f, -20f, 462f, 490f), wip =>
+                {
+                    UIB.Image("Border", wip, new(0, 0, 462f, 490f), Color.red, fill: false);
+                    UIB.Text("WIP", wip, new(0f, 0f, 550f, 56f), size: 50);
+                }).color = Color.gray * 0.5f;
             });
         });
 
@@ -86,7 +86,6 @@ public class PlayerList : CanvasSingleton<PlayerList>, IMenuInterface
         // destroy old player list
         //if (transform.childCount > 3) Destroy(transform.GetChild(3).gameObject);
         if (content.childCount > 0) foreach (Transform child in content) Destroy(child.gameObject);
-        //if (LobbyController.Offline) return;
 
         float height = (LobbyController.Lobby.Value.MemberCount * 88) + 24f;
         float y = 44f;

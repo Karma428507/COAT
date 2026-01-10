@@ -55,14 +55,15 @@ public static class SaveManager
     #region Lobby Data
     public static void SaveLobby()
     {
-        Log.Debug("Saved :3");
-
         pm.SetString("name", ServerCreation.Options.Name);
         pm.SetBool("cheats", ServerCreation.Options.Cheats);
         pm.SetBool("mods", ServerCreation.Options.Mods);
         pm.SetInt("maxplayers", ServerCreation.Options.MaxPlayers);
         pm.SetInt("servertype", ServerCreation.Options.ServerType);
         //pm.SetInt("gamemode", (int)GamemodeList.Options.Gamemode);
+
+        pm.SetBool("pvp", ServerCreation.Options.pvp);
+        pm.SetBool("heal", ServerCreation.Options.healBosses);
     }
 
     public static void LoadLobby()
@@ -73,6 +74,9 @@ public static class SaveManager
         ServerCreation.Options.MaxPlayers = (short)pm.GetInt("maxplayers", (int)lobbyGeneral["maxplayers"]);
         ServerCreation.Options.ServerType = (byte)pm.GetInt("servertype", (int)lobbyGeneral["servertype"]);
         //GamemodeList.Options.Gamemode = (GamemodeTypes)pm.GetInt("gamemode", (int)lobbyGeneral["gamemode"]);
+
+        ServerCreation.Options.pvp = pm.GetBool("pvp", false);
+        ServerCreation.Options.healBosses = pm.GetBool("heal", false);
     }
 
     private static void LobbySetData()
