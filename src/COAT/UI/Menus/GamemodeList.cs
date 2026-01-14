@@ -2,19 +2,19 @@
 
 using COAT;
 using COAT.Assets;
+using COAT.IO;
 using COAT.Net;
 using COAT.UI;
 using COAT.UI.Elements;
 using System;
 using System.Collections.Generic;
+using System.Numerics;
 using UnityEngine;
 using UnityEngine.UI;
-
+using static COAT.IO.SaveManager;
 using static Elements.Pal;
 using static Elements.Rect;
-using static COAT.IO.SaveManager;
 using Rect = Elements.Rect;
-using COAT.IO;
 
 public class ServerCreation : CanvasSingleton<ServerCreation>, IMenuInterface
 {
@@ -97,8 +97,12 @@ public class ServerCreation : CanvasSingleton<ServerCreation>, IMenuInterface
             });
 
             // gamemode settings menu
-            gamemodeMenu = UIB.Image(name, table, new(225, 0, 400, 450), null, fill: false).transform;
-            
+            UIB.Table("WIP", "", table, new(225f, 0f, 400f, 450f), wip =>
+            {
+                UIB.Image("Border", wip, new(0, 0, 400f, 450f), Color.red, fill: false);
+                UIB.Text("WIP", wip, new(0f, 0f, 550f, 56f), size: 50);
+            }).color = Color.gray * 0.5f;
+
             // Load the options
             LoadLobby();
 

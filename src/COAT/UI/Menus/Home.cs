@@ -139,13 +139,15 @@ public class Home : CanvasSingleton<Home>, IMenuInterface
         {
             if (lobby.GetData("level") == "enu") return;
             bool isMultikill = LobbyController.IsMultikillLobby(lobby);
+            bool isPolarite = LobbyController.IsPolariteLobby(lobby);
             bool isCOAT = LobbyController.IsCOATLobby(lobby);
             string serverName = isMultikill && !isCOAT ? "[MULTIKILL] " + lobby.GetData("lobbyName") : lobby.GetData("name");
+            serverName = isPolarite && !isCOAT ? "[POLARITE] " + lobby.GetData("LobbyName") : serverName;
 
             UIB.Table("LobbyEntry", content, new(0, y, 960, 100), entry =>
             {
                 if (isCOAT) UIB.Image("Lobby bg", entry, new(0f, 0f, 960f, 100f), white);
-                UIB.Image(name, entry, new(0, 0, 960, 100), (isCOAT ? darkblue : isMultikill ? red : blue), fill: false);
+                UIB.Image(name, entry, new(0, 0, 960, 100), (isCOAT ? darkblue : isMultikill || isPolarite ? red : blue), fill: false);
 
                 // text
                 var full = lobby.MemberCount <= 2 ? Green : lobby.MemberCount <= 4 ? Orange : Red;
@@ -154,9 +156,9 @@ public class Home : CanvasSingleton<Home>, IMenuInterface
                 UIB.Text($" <size=50>{serverName}</size>", entry, new(-100, 20, 740, 50), align: TextAnchor.MiddleLeft);
                 UIB.Text("<color=#BBBBBB> TBD (most likely for filters)</color>", entry, new(-100, -30, 740, 50), align: TextAnchor.MiddleLeft);
 
-                // buttons
+                // buttons (change the lobby.mk later)
                 UIB.Button("Play", entry, new(380, -15, 180, 50), align: TextAnchor.MiddleCenter,
-                    clicked: () => { if (isMultikill) Bundle.Hud("lobby.mk"); else LobbyController.JoinLobby(lobby); });
+                    clicked: () => { if (isMultikill || isPolarite) Bundle.Hud("lobby.mk"); else LobbyController.JoinLobby(lobby); });
             });
 
             y -= 120;

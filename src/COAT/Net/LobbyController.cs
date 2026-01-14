@@ -27,10 +27,14 @@ public class LobbyController
     /// <summary> Whether the player owns the lobby. </summary>
     public static bool IsOwner;
 
+    /// <summary> Current lobby name (for hosts only) </summary>
+    public static string ServerName;
+
     /// <summary> Whether a lobby is creating right now. </summary>
     public static bool CreatingLobby;
     /// <summary> Whether a list of public lobbies is being fetched right now. </summary>
     public static bool FetchingLobbies;
+
 
     /// <summary> Whether PvP is allowed in this lobby. </summary>
     public static bool PvPAllowed => Lobby?.GetData("pvp") == "True";
@@ -47,6 +51,8 @@ public class LobbyController
     public static void ScaleHealth(ref float health) => health *= 1f + Math.Min(Lobby?.MemberCount - 1 ?? 1, 1) * PPP;
     /// <summary> Whether the given lobby is created via Multikill. </summary>
     public static bool IsMultikillLobby(Lobby lobby) => lobby.Data.Any(pair => pair.Key == "mk_lobby");
+    /// <summary> Whether the given lobby is created via Polarite. </summary>
+    public static bool IsPolariteLobby(Lobby lobby) => lobby.Data.Any(pair => pair.Key == "LobbyName");
     /// <summary> Whether the given lobby is created via COAT. </summary>
     public static bool IsCOATLobby(Lobby lobby) => lobby.Data.Any(pair => pair.Key == "COAT");
 
@@ -137,6 +143,7 @@ public class LobbyController
             }
 
             // general savable data
+            ServerName = ServerCreation.Options.Name;
             Lobby?.SetData("name", "<color=#20AAFF>[COAT]</color> " + ServerCreation.Options.Name);
             Lobby?.SetData("cheats", ServerCreation.Options.Cheats ? "True" : "False");
             Lobby?.SetData("mods", ServerCreation.Options.Mods ? "True" : "False");
@@ -146,8 +153,8 @@ public class LobbyController
                 Lobby?.SetData("level", MapMap(Tools.Scene));
 
             // normal campaign savable data
-            //Lobby?.SetData("pvp", sudoLobby.pvp ? "True" : "False");
-            //Lobby?.SetData("heal-bosses", sudoLobby.healBosses ? "True" : "False");
+            Lobby?.SetData("pvp", ServerCreation.Options.pvp ? "True" : "False");
+            Lobby?.SetData("heal-bosses", ServerCreation.Options.healBosses ? "True" : "False");
             
         });
     }

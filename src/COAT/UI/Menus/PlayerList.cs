@@ -1,14 +1,18 @@
 namespace COAT.UI.Menus;
 
+using COAT.Assets;
 using COAT.Content;
 using COAT.Input;
 using COAT.Net;
+using COAT.Net.Types;
 using COAT.UI.Elements;
 using Steamworks;
 using UnityEngine;
 using UnityEngine.UI;
+
 using static Elements.Pal;
 using static Elements.Rect;
+using Rect = Elements.Rect;
 
 /// <summary> List of all players and teams. </summary>
 public class PlayerList : CanvasSingleton<PlayerList>, IMenuInterface
@@ -18,6 +22,12 @@ public class PlayerList : CanvasSingleton<PlayerList>, IMenuInterface
     //Transform PlayerListTransform;
     Friend LastInfoed;
     bool ShowPlayerInfoMenu = false;
+
+    private Toggle pvp, cheats, myEnemy, bosses;
+    private Button accessibility, difficulty;
+    private InputField field;
+
+    private Image clientBlock;
 
     private void Start()
     {
@@ -57,12 +67,46 @@ public class PlayerList : CanvasSingleton<PlayerList>, IMenuInterface
             {
                 UIB.Image("Server Settings Border", server, new(0, 0, 1004f, 570f), null, fill: false);
 
+                field = UIB.Field("#lobby-tab.name", server, new(-321f, -60f, 320f, 32f, new(.5f, 1f)), cons: name =>
+                    LobbyController.Lobby?.SetData("name", "<color=#20AAFF>[COAT]</color> " + (LobbyController.ServerName = name)));
+
+                accessibility = UIB.Button("#lobby-tab.private", server, new(-321f, -120f, 320f, 40f, new(.5f, 1f)), clicked: () =>
+                {
+                    ServerCreation.Options.ServerType = (byte)((int)(++ServerCreation.Options.ServerType) % 3);
+                    Rebuild();
+                });
+
+                // Change to player limit slider later with the max of 16
+                difficulty = UIB.Button("WIP", server, new(-321f, -160f, 320f, 40f, new(.5f, 1f)));
+
+                pvp = UIB.Toggle("#lobby-tab.allow-pvp", server, Rect.Tgl(200), clicked: allow =>
+                    LobbyController.Lobby?.SetData("pvp", allow ? "True" : "False"));
+                cheats = UIB.Toggle("#lobby-tab.allow-cheats", server, Rect.Tgl(240), clicked: allow =>
+                    LobbyController.Lobby?.SetData("cheats", allow ? "True" : "False"));
+                myEnemy = UIB.Toggle("#lobby-tab.allow-mods", server, Rect.Tgl(280), clicked: allow =>
+                    LobbyController.Lobby?.SetData("mods", allow ? "True" : "False"));
+                bosses = UIB.Toggle("#lobby-tab.heal-bosses", server, Rect.Tgl(320), 20, allow =>
+                    LobbyController.Lobby?.SetData("heal-bosses", allow ? "True" : "False"));
+
+                pvp.isOn = ServerCreation.Options.pvp;
+                cheats.isOn = ServerCreation.Options.Cheats;
+                myEnemy.isOn = ServerCreation.Options.Mods;
+                bosses.isOn = ServerCreation.Options.healBosses;
+
                 UIB.Table("WIP", "", server, new(251f, -20f, 462f, 490f), wip =>
                 {
                     UIB.Image("Border", wip, new(0, 0, 462f, 490f), Color.red, fill: false);
                     UIB.Text("WIP", wip, new(0f, 0f, 550f, 56f), size: 50);
                 }).color = Color.gray * 0.5f;
             });
+
+            clientBlock = UIB.Table("Client Block", "", table, new(-178, -95, 1004f, 570f), block =>
+            {
+                UIB.Image("Border", block, new(0, 0, 1004f, 570f), Color.red, fill: false);
+                UIB.Text("Host only", block, new(0f, 0f, 570f, 570f), size: 75); 
+            });
+            clientBlock.color = Color.black * 0.5f;
+            clientBlock.enabled = false;
         });
 
         Version.Label(transform);
@@ -86,6 +130,23 @@ public class PlayerList : CanvasSingleton<PlayerList>, IMenuInterface
         // destroy old player list
         //if (transform.childCount > 3) Destroy(transform.GetChild(3).gameObject);
         if (content.childCount > 0) foreach (Transform child in content) Destroy(child.gameObject);
+
+        // Set the server information
+        field.text = LobbyController.ServerName;
+
+        accessibility.GetComponentInChildren<Text>().text = Bundle.Get(ServerCreation.Options.ServerType switch
+        {
+            0 => "lobby-tab.private",
+            1 => "lobby-tab.fr-only",
+            2 => "lobby-tab.public",
+            _ => "lobby-tab.default"
+        });
+
+        // Blocks off server controls if needed
+        if (LobbyController.IsOwner)
+            clientBlock.enabled = false;
+        else
+            clientBlock.enabled = true;
 
         float height = (LobbyController.Lobby.Value.MemberCount * 88) + 24f;
         float y = 44f;
