@@ -27,7 +27,8 @@ public class PlayerList : CanvasSingleton<PlayerList>, IMenuInterface
     private Button accessibility, difficulty;
     private InputField field;
 
-    private Image clientBlock;
+    private Image clientBlockBase, clientBlockBorder;
+    private Text clientBlockText;
 
     private void Start()
     {
@@ -79,13 +80,13 @@ public class PlayerList : CanvasSingleton<PlayerList>, IMenuInterface
                 // Change to player limit slider later with the max of 16
                 difficulty = UIB.Button("WIP", server, new(-321f, -160f, 320f, 40f, new(.5f, 1f)));
 
-                pvp = UIB.Toggle("#lobby-tab.allow-pvp", server, Rect.Tgl(200), clicked: allow =>
+                pvp = UIB.Toggle("#lobby-tab.allow-pvp", server, new(-321f, -200f, 320f, 32f, new(.5f, 1f)), clicked: allow =>
                     LobbyController.Lobby?.SetData("pvp", allow ? "True" : "False"));
-                cheats = UIB.Toggle("#lobby-tab.allow-cheats", server, Rect.Tgl(240), clicked: allow =>
+                cheats = UIB.Toggle("#lobby-tab.allow-cheats", server, new(-321f, -240f, 320f, 32f, new(.5f, 1f)), clicked: allow =>
                     LobbyController.Lobby?.SetData("cheats", allow ? "True" : "False"));
-                myEnemy = UIB.Toggle("#lobby-tab.allow-mods", server, Rect.Tgl(280), clicked: allow =>
+                myEnemy = UIB.Toggle("#lobby-tab.allow-mods", server, new(-321f, -280f, 320f, 32f, new(.5f, 1f)), clicked: allow =>
                     LobbyController.Lobby?.SetData("mods", allow ? "True" : "False"));
-                bosses = UIB.Toggle("#lobby-tab.heal-bosses", server, Rect.Tgl(320), 20, allow =>
+                bosses = UIB.Toggle("#lobby-tab.heal-bosses", server, new(-321f, -320f, 320f, 32f, new(.5f, 1f)), 20, allow =>
                     LobbyController.Lobby?.SetData("heal-bosses", allow ? "True" : "False"));
 
                 pvp.isOn = ServerCreation.Options.pvp;
@@ -100,13 +101,13 @@ public class PlayerList : CanvasSingleton<PlayerList>, IMenuInterface
                 }).color = Color.gray * 0.5f;
             });
 
-            clientBlock = UIB.Table("Client Block", "", table, new(-178, -95, 1004f, 570f), block =>
+            clientBlockBase = UIB.Table("Client Block", "", table, new(-178, -95, 1004f, 570f), block =>
             {
-                UIB.Image("Border", block, new(0, 0, 1004f, 570f), Color.red, fill: false);
-                UIB.Text("Host only", block, new(0f, 0f, 570f, 570f), size: 75); 
+                clientBlockBorder = UIB.Image("Border", block, new(0, 0, 1004f, 570f), Color.red, fill: false);
+                clientBlockText = UIB.Text("Host only", block, new(0f, 0f, 570f, 570f), size: 75); 
             });
-            clientBlock.color = Color.black * 0.5f;
-            clientBlock.enabled = false;
+            clientBlockBase.color = Color.black * 0.5f;
+            clientBlockBase.enabled = false;
         });
 
         Version.Label(transform);
@@ -142,11 +143,26 @@ public class PlayerList : CanvasSingleton<PlayerList>, IMenuInterface
             _ => "lobby-tab.default"
         });
 
+        // this is SO spaghetti
+        switch (ServerCreation.Options.ServerType)
+        {
+            case 0: LobbyController.Lobby?.SetPrivate(); break;
+            case 1: LobbyController.Lobby?.SetFriendsOnly(); break;
+            case 2: LobbyController.Lobby?.SetPublic(); break;
+        }
+
         // Blocks off server controls if needed
-        if (LobbyController.IsOwner)
-            clientBlock.enabled = false;
-        else
-            clientBlock.enabled = true;
+        if (LobbyController.IsOwner) {
+            clientBlockBase.enabled = false;
+            clientBlockBorder.enabled = false;
+            clientBlockText.enabled = false;
+
+        } else {
+            clientBlockBase.enabled = true;
+            clientBlockBorder.enabled = true;
+            clientBlockText.enabled = true;
+
+        }
 
         float height = (LobbyController.Lobby.Value.MemberCount * 88) + 24f;
         float y = 44f;

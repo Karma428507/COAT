@@ -19,15 +19,18 @@ public class MainMenuAccess : CanvasSingleton<MainMenuAccess>
     private Transform table;
     /// <summary> Loads the leftside element </summary>
     private GameObject leftside;
-    /// <summary> Main menu table. </summary>
-    //private GameObject menu;
-    /// <summary> literally just the "PLAY" button </summary>
-    private GameObject Continue;
+    /// <summary> Literally just the "PLAY" button </summary>
+    private GameObject play;
+    /// <summary> Simple bool to just stop an error from popping up </summary>
+    private bool ranOnce = false;
 
     private void Start()
     {
         // Activate this every time the main menu is loaded
-        Events.OnMainMenuLoaded += Rebuild;
+        Events.OnMainMenuLoaded += () => {
+            ranOnce = false;
+            Rebuild();
+        };
         Rebuild();
     }
 
@@ -35,20 +38,21 @@ public class MainMenuAccess : CanvasSingleton<MainMenuAccess>
     public void Toggle()
     {
         gameObject.SetActive(Shown = !Shown);
-        Log.Debug($"Toggle value: {Shown}");
-
         Rebuild();
     }
 
     /// <summary> Creates the menu button </summary>
     public void Rebuild()
     {
+        if (ranOnce)
+            return;
+
         // Sets the parent for the leftside UI and remove the text
         leftside = Tools.ObjFindMainScene("Canvas/Main Menu (1)/LeftSide");
 
         // scale down the continue button to make room for the lobbybutton
-        Continue = Tools.ObjFindMainScene("Canvas/Main Menu (1)/LeftSide/Continue");
-        Continue.GetComponent<RectTransform>().sizeDelta = new Vector2(207.5f, 70f);
+        play = Tools.ObjFindMainScene("Canvas/Main Menu (1)/LeftSide/Continue");
+        play.GetComponent<RectTransform>().sizeDelta = new Vector2(207.5f, 70f);
 
         // create a button to show the lobby list
         var LobbyButton = Tools.Instantiate(leftside.transform.Find("Continue").gameObject, leftside.transform);
@@ -63,9 +67,8 @@ public class MainMenuAccess : CanvasSingleton<MainMenuAccess>
 
         // set the lobbybutton as the parent for the continue button so then they activate at the same time
         RectTransform LobbyButtonRect = LobbyButton.GetComponent<RectTransform>();
-        Continue.transform.SetParent(LobbyButtonRect, true);
-        Continue.SetActive(true);
-
+        play.transform.SetParent(LobbyButtonRect, true);
+        play.SetActive(true);
 
         // activate the lobbybutton (and as well the continue button)
         leftside.GetComponent<ObjectActivateInSequence>().objectsToActivate[4] = LobbyButton;
@@ -75,5 +78,7 @@ public class MainMenuAccess : CanvasSingleton<MainMenuAccess>
         // I would set the position to this but is sends the table very far away
         //table.gameObject.transform.position = new(210, -180f, 0f);
         table.gameObject.AddComponent<HudOpenEffect>();
+
+        ranOnce = true;
     }
 }
