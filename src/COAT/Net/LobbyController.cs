@@ -54,7 +54,7 @@ public class LobbyController
     /// <summary> Whether the given lobby is created via Polarite. </summary>
     public static bool IsPolariteLobby(Lobby lobby) => lobby.Data.Any(pair => pair.Key == "LobbyName");
     /// <summary> Whether the given lobby is created via COAT. </summary>
-    public static bool IsCOATLobby(Lobby lobby) => lobby.Data.Any(pair => pair.Key == "COAT");
+    public static bool IsCOATLobby(Lobby lobby) => Lobby?.GetData("client") == "COAT";
 
     /// <summary> Creates the necessary listeners for proper work. </summary>
     public static void Load()
@@ -124,10 +124,10 @@ public class LobbyController
             Lobby?.SetJoinable(true);
 
             // activate this when the server is built for coat only features
-            if (true)
-                Lobby?.SetData("jaket", "true");
+            if (false)
+                Lobby?.SetData("client", "jaket");
             else
-                Lobby?.SetData("COAT", "true");
+                Lobby?.SetData("client", "COAT");
 
             // general non-savable data
             Lobby?.SetData("banned", "");
