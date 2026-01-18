@@ -1,19 +1,18 @@
 ﻿namespace COAT.UI.Menus;
 
-using Steamworks.Data;
-using System;
-using UnityEngine;
-using UnityEngine.UI;
-
 using COAT.Assets;
 using COAT.Net;
-
+using COAT.Net.Endpoints;
+using COAT.UI.Menus;
+using Steamworks.Data;
+using System;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using UnityEngine.UI.Extensions;
 using static Elements.Pal;
 using static Elements.Rect;
-using UnityEngine.UI.Extensions;
-using System.Collections.Generic;
-using COAT.UI.Menus;
-using UnityEngine.SceneManagement;
 
 /// <summary> Browser for public lobbies that receives the list via Steam API and displays it in the scrollbar. </summary>
 public class Home : CanvasSingleton<Home>, IMenuInterface
@@ -27,7 +26,7 @@ public class Home : CanvasSingleton<Home>, IMenuInterface
     /// <summary> Content of the lobby list. </summary>
     private RectTransform content;
     private RectTransform optionList;
-    private Button newServer;
+    private Button newServer, joinCode, copyCode;
 
     /// <summary> Panels to organize the UI </summary>
     private UnityEngine.UI.Image filters;
@@ -70,17 +69,16 @@ public class Home : CanvasSingleton<Home>, IMenuInterface
                 UIB.Button("Settings", optionList, new(0, y -= 88, 320f, 80f, new(.5f, 1f)),
                     yellow, 24, clicked: () => UI.PushStack(Settings.Instance));
 
-                /*UIB.Button("Spray Settings", optionList, new(0, y -= 88, 320f, 80f, new(.5f, 1f)),
-                    green, 24, clicked: SpraySettings.Instance.Toggle);*/
+                copyCode = UIB.Button("Copy The Code", optionList, new(0, y -= 88, 320f, 80f, new(.5f, 1f)),
+                    orange, 24, clicked: LobbyController.CopyCode);
 
-                UIB.Button("Join By Code", optionList, new(0, y -= 88, 320f, 80f, new(.5f, 1f)),
-                    orange, 24, clicked: LobbyController.JoinByCode);
+                joinCode = UIB.Button("Join By Code", optionList, new(0, y, 320f, 80f, new(.5f, 1f)),
+                    blue, 24, clicked: LobbyController.JoinByCode);
 
                 newServer = UIB.Button("New Server", optionList, new(0, y -= 88, 320f, 80f, new(.5f, 1f)),
                     red, 24, clicked: () => UI.PushStack(ServerCreation.Instance));
 
-                //UIB.Button("Dummy", optionList, new(0, y -= 88, 320f, 80f, new(.5f, 1f)),
-                //    black, 24, clicked: () => Tools.Dummy());
+                copyCode.gameObject.SetActive(false);
             });
 
             // Body portion
@@ -105,12 +103,20 @@ public class Home : CanvasSingleton<Home>, IMenuInterface
     /// <summary> Rebuilds the lobby list to match the list on Steam servers. </summary>
     public void Rebuild()
     {
-        if (LobbyController.Online)
-            newServer.image.GetComponentInChildren<Text>().color = newServer.image.color = UnityEngine.Color.gray;
-        else
-            newServer.image.GetComponentInChildren<Text>().color = newServer.image.color = UnityEngine.Color.red;
-
         refresh.GetComponentInChildren<Text>().text = Bundle.Get(LobbyController.FetchingLobbies ? "lobby-list.wait" : "lobby-list.refresh");
+
+        if (LobbyController.Online)
+        {
+            newServer.image.GetComponentInChildren<Text>().color = newServer.image.color = UnityEngine.Color.gray;
+            copyCode.gameObject.SetActive(true);
+            joinCode.gameObject.SetActive(false);
+        }
+        else
+        {
+            newServer.image.GetComponentInChildren<Text>().color = newServer.image.color = UnityEngine.Color.red;
+            copyCode.gameObject.SetActive(false);
+            joinCode.gameObject.SetActive(true);
+        }
 
         // destroy old lobby entries if the search is completed
         if (!LobbyController.FetchingLobbies)
@@ -137,17 +143,16 @@ public class Home : CanvasSingleton<Home>, IMenuInterface
         float y = 60 * (lobbies.Length - 1);
         foreach (var lobby in lobbies)
         {
-            if (lobby.GetData("level") == "enu") return;
-            bool isMultikill = LobbyController.IsMultikillLobby(lobby);
-            bool isPolarite = LobbyController.IsPolariteLobby(lobby);
-            bool isCOAT = LobbyController.IsCOATLobby(lobby);
-            string serverName = isMultikill && !isCOAT ? "[MULTIKILL] " + lobby.GetData("lobbyName") : lobby.GetData("name");
-            serverName = isPolarite && !isCOAT ? "[POLARITE] " + lobby.GetData("LobbyName") : serverName;
+            // idk if I should keep this
+            //if (lobby.GetData("level") == "enu") return;
+            string client = "";
+            bool isCOAT = LobbyController.IsCoatClient(lobby, ref client);
+
+            string serverName = !isCOAT ? $"[{client}] {lobby.GetData("lobbyName")}" : lobby.GetData("name");
 
             UIB.Table("LobbyEntry", content, new(0, y, 960, 100), entry =>
             {
-                if (isCOAT) UIB.Image("Lobby bg", entry, new(0f, 0f, 960f, 100f), white);
-                UIB.Image(name, entry, new(0, 0, 960, 100), (isCOAT ? darkblue : isMultikill || isPolarite ? red : blue), fill: false);
+                UIB.Image(name, entry, new(0, 0, 960, 100), (isCOAT ? darkblue : red), fill: false);
 
                 // text
                 var full = lobby.MemberCount <= 2 ? Green : lobby.MemberCount <= 4 ? Orange : Red;
@@ -158,12 +163,16 @@ public class Home : CanvasSingleton<Home>, IMenuInterface
 
                 // buttons (change the lobby.mk later)
                 UIB.Button("Play", entry, new(380, -15, 180, 50), align: TextAnchor.MiddleCenter,
-                    clicked: () => { if (isMultikill || isPolarite) Bundle.Hud("lobby.mk"); else LobbyController.JoinLobby(lobby); });
+                    clicked: () => {
+                        if (!isCOAT) HudMessageReceiver.Instance?.SendHudMessage($"Server is an {client.ToLower()} server");
+                        else LobbyController.JoinLobby(lobby);
+                    });
             });
 
             y -= 120;
         }
-        return;
+
+        
     }
 
     /// <summary> Updates the list of public lobbies and rebuilds the menu. </summary>

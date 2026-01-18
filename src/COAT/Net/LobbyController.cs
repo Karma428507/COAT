@@ -49,12 +49,6 @@ public class LobbyController
 
     /// <summary> Scales health to increase difficulty. </summary>
     public static void ScaleHealth(ref float health) => health *= 1f + Math.Min(Lobby?.MemberCount - 1 ?? 1, 1) * PPP;
-    /// <summary> Whether the given lobby is created via Multikill. </summary>
-    public static bool IsMultikillLobby(Lobby lobby) => lobby.Data.Any(pair => pair.Key == "mk_lobby");
-    /// <summary> Whether the given lobby is created via Polarite. </summary>
-    public static bool IsPolariteLobby(Lobby lobby) => lobby.Data.Any(pair => pair.Key == "LobbyName");
-    /// <summary> Whether the given lobby is created via COAT. </summary>
-    public static bool IsCOATLobby(Lobby lobby) => Lobby?.GetData("client") == "COAT";
 
     /// <summary> Creates the necessary listeners for proper work. </summary>
     public static void Load()
@@ -62,6 +56,8 @@ public class LobbyController
         // get the owner id when entering the lobby
         SteamMatchmaking.OnLobbyEntered += lobby =>
         {
+            string client = "";
+
             if (lobby.Owner.Id != 0L) LastOwner = lobby.Owner.Id;
 
             if (lobby.GetData("banned").Contains(Tools.AccId.ToString()))
@@ -69,10 +65,10 @@ public class LobbyController
                 LeaveLobby();
                 Bundle.Hud2NS("lobby.banned");
             }
-            if (IsMultikillLobby(lobby))
+            if (!IsCoatClient(lobby, ref client))
             {
                 LeaveLobby();
-                Bundle.Hud("lobby.mk");
+                HudMessageReceiver.Instance?.SendHudMessage($"Server is an {client.ToLower()} server");
             }
         };
         // and leave the lobby if the owner has left it
@@ -247,6 +243,37 @@ public class LobbyController
         "CreditsMuseum2" => "Museum",
         _ => map.Substring("Level ".Length)
     };
+
+    /// <summary> Detects the server's client and gives a string for custom clients. </summary>
+    public static bool IsCoatClient(Lobby lobby, ref string client)
+    {
+        // For clients that follow the jaket standard
+        if (lobby.Data.Any(pair => pair.Key == "client"))
+        {
+            if (lobby.GetData("client") == "COAT")
+                return true;
+
+            client = lobby.GetData("client").ToUpper();
+            return false;
+        }
+
+        // For multikill
+        if (lobby.Data.Any(pair => pair.Key == "mk_lobby"))
+        {
+            client = "MULTIKILL";
+            return false;
+        }
+
+        // For polarite
+        if (lobby.Data.Any(pair => pair.Key == "LobbyName"))
+        {
+            client = "POLARITE";
+            return false;
+        }
+
+        client = "UNKNOWN";
+        return false;
+    }
 
     #endregion
 }
