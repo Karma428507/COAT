@@ -153,18 +153,15 @@ public class ControlSettings : SettingsPage<ControlSettings>
         {
             UIB.Image("Settings Border", table, new(0f, 0f, 600f, 800f), null, fill: false);
 
-            UIB.Table("Controls", table, new(0f, 0f, 600f, 800f), controls =>
-            {
-                UIB.Image("Controls Border", controls, new(0f, 0f, 445f, 640f), null, fill: false);
-                UIB.Text("Controls", controls, new(0f, 290f, 425f, 42f), Pal.white, 48, TextAnchor.MiddleLeft);
+            UIB.Text("Controls", table, new(-60f, 360f, 425f, 42f), Pal.white, 48, TextAnchor.MiddleLeft);
 
-                UIB.Button("Reset", "#settings.reset", controls, new(0f, 245f, 425f, 40f), clicked: ResetControls);
+            UIB.Button("Reset", "#settings.reset", table, new(0f, 310f, 560f, 40f), clicked: ResetControls);
 
-                RectTransform ControlsScroll = UIB.Scroll("Controls Scroll", controls, new(0f, -60f, 445f, 520f), 445f, 520f).content;
-                for (int completedkeybinds = 0; completedkeybinds < Keybinds.KeybindString.Length; completedkeybinds++)
-                    UIB.KeyButton(Keybinds.KeybindString[completedkeybinds], Keybinds.CurrentKeys[completedkeybinds], ControlsScroll, new(0f, (-20f + completedkeybinds * -40f) + 260, 400f, 40f));
-            });
+            RectTransform ControlsScroll = UIB.Scroll("Controls Scroll", table, new(0f, 10f, 560f, 520f), 445f, 520f).content;
+            for (int completedkeybinds = 0; completedkeybinds < Keybinds.KeybindString.Length; completedkeybinds++)
+                UIB.KeyButton(Keybinds.KeybindString[completedkeybinds], Keybinds.CurrentKeys[completedkeybinds], ControlsScroll, new(0f, (-20f + completedkeybinds * -40f) + 260, 560f, 40f));
         });
+
         Rebuild();
     }
 
@@ -204,11 +201,8 @@ public class ModerationSettings : SettingsPage<ModerationSettings>
         {
             UIB.Image("Settings Border", table, new(0f, 0f, 600f, 800f), null, fill: false);
 
-            UIB.Table("Moderatiun", table, new(0f, 0f, 600f, 800f), moderatiun =>
-            {
-                UIB.Image("Moderatiun Border", moderatiun, new(0f, 0f, 445f, 352f), null, fill: false);
-                UIB.Text("Moderatiun", moderatiun, new(0f, 146f, 425f, 42f), Pal.white, 48, TextAnchor.MiddleLeft);
-            });
+            // Old name was "Moderatium" which sounds like a title for the Imperium of Man
+            UIB.Text("Moderation", table, new(0f, 356f, 560, 42f), white, 48, TextAnchor.MiddleLeft);
         });
         Rebuild();
     }

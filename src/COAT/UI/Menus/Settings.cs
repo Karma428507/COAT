@@ -149,13 +149,13 @@ public class Settings : CanvasSingleton<Settings>, IMenuInterface
         gameObject.SetActive(Shown = !Shown);
         Movement.UpdateState();
 
-        /*if (!Shown)
+        if (!Shown)
         {
             GeneralSettings.Instance.Toggle(false);
             ControlSettings.Instance.Toggle(false);
             SpraySettings.Instance.Toggle(false);
             ModerationSettings.Instance.Toggle(false);
-        }*/
+        }
     }
 
     /// <summary> checks if the player presses enter, clicks off, etc. </summary>

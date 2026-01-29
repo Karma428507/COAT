@@ -49,7 +49,7 @@ public class SpraySettings : SettingsPage<SpraySettings>
     {
         UIB.Table("Settings", "#sprays.name", transform, Size(664f, 760f), table =>
         {
-            UIB.IconButton("X", table, Icon(304f, 28f), red, clicked: Toggle);
+            UIB.Image("Settings Border", table, new(0f, 0f, 664f, 760f), null, fill: false);
 
             sprays = UIB.Rect("Sprays", table, new(-164f, -20f, 320f, 720f));
             players = UIB.Rect("Players", table, new(164f, -20f, 320f, 720f));
@@ -112,6 +112,12 @@ public class SpraySettings : SettingsPage<SpraySettings>
         for (int i = 1; i < players.childCount; i++) Destroy(players.GetChild(i).gameObject);
         if ((LobbyController.Lobby?.MemberCount ?? 0) <= 1)
         {
+            if (LobbyController.Offline)
+            {
+                UIB.Text("Player not in server.", players, Size(320f, 48f), grey);
+                return;
+            }
+
             UIB.Text("#sprays.alone", players, Size(320f, 48f), grey);
             return;
         }

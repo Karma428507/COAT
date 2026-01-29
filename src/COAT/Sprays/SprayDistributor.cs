@@ -80,6 +80,10 @@ public static class SprayDistributor
     /// <summary> Uploads the current spray to the server. </summary>
     public static void UploadLocal()
     {
+        // It was that easy?
+        if (LobbyController.Offline)
+            return;
+
         // there is no point in sending the spray to the distributor if you haven't changed it
         if (SprayManager.Uploaded || SprayManager.CurrentSpray == null) return;
         Log.Info("Uploading the current spray...");
