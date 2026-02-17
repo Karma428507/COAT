@@ -79,6 +79,7 @@ public class Plugin : MonoBehaviour
         Tools.CacheAccId();
 
         // Networking
+        Moderation.Load();
         Administration.Load();
         LobbyController.Load();
         Networking.Load();

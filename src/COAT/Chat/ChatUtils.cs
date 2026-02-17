@@ -3,6 +3,7 @@
 using COAT.Content;
 using COAT.Input;
 using COAT.Net;
+using COAT.UI.Elements;
 using COAT.UI.Screen;
 using System;
 using UnityEngine;
@@ -18,11 +19,10 @@ public static class ChatUtils
     /// <summary> Prefix that will be added to COAT messages. </summary>
     public const string COAT_PREFIX = "[#FE7][14]\\[COAT][][]";
 
-    public static Color[] DevColor = new[]
+    /*public static Color[] DevColor = new[]
         { Team.Pink.Color(), Team.Purple.Color() };
 
     public static uint[] DevID = new uint[]
-        { 1811031719u, 1238954961u };
 
     public static string[] DevFallbackNames = new[]
     { "<color=#0fc>Bryan</color>_-000-", "whyis2plus2" };
@@ -64,6 +64,11 @@ public static class ChatUtils
             Msg("Pro Tip:", 2);
             Tip(GetRandom(ProTips), 2);
         }
+    }*/
+
+    public static void Hello(bool force = false)
+    {
+        void Msg(string message) => ChatUI.Instance.Receive(Pal.Darkblue, BOT_PREFIX + "John COAT", message);
     }
 
     public static string ColorToHex(Color color)

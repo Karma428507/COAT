@@ -250,14 +250,14 @@ public class ChatUI : CanvasSingleton<ChatUI>, IOverlayInterface
     }
 
     /// <summary> Writes a message to the chat, formatting it beforehand. </summary>
-    public void Receive(string color, string author, string msg) => Receive($"<b>[{(color.StartsWith('#') ? color : $"#{color}")}]{author}[][#FF7F50]:[]</b> {Bundle.CutDangerous(msg)}");
+    public void Receive(string color, string author, string msg) => Receive($"<b>[{(color.StartsWith('#') ? color : $"#{color}")}]{author}[][#FF7F50]:[]</b> {Moderation.ParseMessage(Bundle.CutDangerous(msg))}");
 
 
     public void NewReceive(string color, Friend author, string msg, bool tts = false)
     {
         string FormattedColor = (color.StartsWith('#') ? color : $"#{color}");
         string FormattedName = author.Name.Replace("[", "\\[");
-        string FormattedMsg = Bundle.CutDangerous(msg);
+        string FormattedMsg = Moderation.ParseMessage(Bundle.CutDangerous(msg));
 
         string FormattedPrefixes = tts ? ChatUtils.TTS_PREFIX : "";
         FormattedPrefixes += author.Id == LobbyController.LastOwner ? ChatUtils.HOST_PREFIX : "";
