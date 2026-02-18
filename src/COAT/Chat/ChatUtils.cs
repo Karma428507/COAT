@@ -69,6 +69,9 @@ public static class ChatUtils
     public static void Hello(bool force = false)
     {
         void Msg(string message) => ChatUI.Instance.Receive(Pal.Darkblue, BOT_PREFIX + "John COAT", message);
+
+        Msg("Welcome to COAT, for a list of commands, type in /help");
+        Msg("If you want to talk without typing /tts for each message, type in /tts-auto");
     }
 
     public static string ColorToHex(Color color)

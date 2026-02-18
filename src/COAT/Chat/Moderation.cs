@@ -1,10 +1,8 @@
 ﻿namespace COAT.Chat;
 
-using HarmonyLib;
-using System;
+using COAT.UI.Menus;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 // I never been so uncomfortable coding something before
 public static class Moderation
@@ -69,6 +67,9 @@ public static class Moderation
 
     public static string ParseMessage(string message)
     {
+        if (!Settings.EnableModeration)
+            return message;
+
         string[] returnWords = message.Split(' ');
         string[] words = returnWords.Select(s => s.ToLower()).ToArray();
 
@@ -97,12 +98,10 @@ public static class Moderation
             {
                 if (combinator == word)
                 {
-                    returnWords.SetValue(CensorWord.Substring(0, returnWords[i].Length), i);
+                    returnWords.SetValue("{" + CensorWord.Substring(0, returnWords[i].Length) + "}", i);
                     break;
                 }
             }
-
-            Log.Debug(combinator);
         }
 
         return string.Join(" ", returnWords);

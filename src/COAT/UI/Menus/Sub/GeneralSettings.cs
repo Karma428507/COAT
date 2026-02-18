@@ -203,6 +203,11 @@ public class ModerationSettings : SettingsPage<ModerationSettings>
 
             // Old name was "Moderatium" which sounds like a title for the Imperium of Man
             UIB.Text("Moderation", table, new(0f, 356f, 560, 42f), white, 48, TextAnchor.MiddleLeft);
+
+            UIB.Toggle("Enable Moderation", table, new(-90f, -100, 320f, 32f, new(.5f, 1f)), 22, _ =>
+            {
+                pm.SetBool("COAT.enable-moderation", Settings.EnableModeration = _);
+            }).isOn = Settings.EnableModeration;
         });
         Rebuild();
     }

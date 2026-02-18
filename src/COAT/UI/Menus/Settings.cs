@@ -35,6 +35,9 @@ public class Settings : CanvasSingleton<Settings>, IMenuInterface
     public static bool DisableFreezeFrames;
 
     #endregion
+    #region moderation
+    public static bool EnableModeration;
+    #endregion
     #region tts
 
     // <summary> Sam's voice volume. Limited by interval from 0 to 100. </summary>
@@ -76,11 +79,15 @@ public class Settings : CanvasSingleton<Settings>, IMenuInterface
     /// <summary> Loads and applies all settings. </summary>
     public static void Load()
     {
+        // General settings
         Language = Bundle.LoadedLocale;
         FeedColor = pm.GetInt("jaket.feed-color");
         KnuckleColor = pm.GetInt("jaket.knkl-color");
         DefaultTeam = pm.GetInt("COAT.default-team");
         DisableFreezeFrames = pm.GetBool("jaket.disable-freeze", true);
+
+        // Moderation settings
+        EnableModeration = pm.GetBool("COAT.enable-moderation", true);
 
         DollAssets.Mixer?.SetFloat("Volume", TTSVolume / 2f - 30f);
     }
