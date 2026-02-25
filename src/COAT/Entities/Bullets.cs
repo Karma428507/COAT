@@ -112,7 +112,7 @@ public class Bullets
         obj.transform.position = r.Vector();
         obj.transform.eulerAngles = r.Vector();
 
-        if (r.length == 27) Coins.PaintBeam(obj, r.Enum<Team>());
+        if (r.length == 27) Coins.Paint(obj, r.Enum<Team>());
         if (r.length == 38) obj.GetComponent<Rigidbody>().velocity = r.Vector();
     }
     public static Entity EInstantiate(EntityType type) => Entities.Mark(Prefabs[type switch

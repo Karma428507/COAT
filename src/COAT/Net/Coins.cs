@@ -107,7 +107,7 @@ public class Coins
     public static bool Punchcast(out RaycastHit hit) => Physics.Raycast(cc.position, cc.forward, out hit, float.PositiveInfinity, mask);
 
     /// <summary> Paints the given revolver beam in the color of the given team. This must only be used with RV1 PRI. </summary>
-    public static void PaintBeam(GameObject beam, Team team)
+    public static void Paint(GameObject beam, Team team)
     {
         var rb = beam.GetComponent<RevolverBeam>();
         rb.noMuzzleflash = true;

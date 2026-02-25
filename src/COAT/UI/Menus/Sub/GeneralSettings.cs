@@ -208,6 +208,11 @@ public class ModerationSettings : SettingsPage<ModerationSettings>
             {
                 pm.SetBool("COAT.enable-moderation", Settings.EnableModeration = _);
             }).isOn = Settings.EnableModeration;
+
+            UIB.Toggle("Enable Consequences", table, new(-90f, -100, 320f, 32f, new(.5f, 1f)), 22, _ =>
+            {
+                pm.SetBool("COAT.enable-consequence", Settings.EnableModeration = _);
+            }).isOn = Settings.EnableModeration;
         });
         Rebuild();
     }
