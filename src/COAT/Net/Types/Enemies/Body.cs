@@ -53,8 +53,8 @@ public class Body : Enemy
     {
         base.Write(w);
 
-        w.Bool(EnemyId.spider.currentCE != null);
-        if (EnemyId.spider.currentCE == null) w.Vector(transform.position);
+        //w.Bool(EnemyId.spider.chargeEffect. != null);
+        //if (EnemyId.spider.currentCE == null) w.Vector(transform.position);
     }
 
     public override void Read(Reader r)

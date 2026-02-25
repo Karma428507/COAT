@@ -6,7 +6,7 @@ using COAT.Entities;
 using COAT.IO;
 
 /// <summary> Representation of both encounters with Gabriel. </summary>
-public class Gabriel : Enemy
+/*public class Gabriel : Enemy
 {
     global::Gabriel gabriel1;
     GabrielSecond gabriel2;
@@ -149,4 +149,4 @@ public class Gabriel : Enemy
     }
 
     #endregion
-}
+}*/

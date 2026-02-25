@@ -128,9 +128,9 @@ public class Enemies
         {
             enemyId.gameObject.AddComponent<Brain>();
             return true;
-        }*/
+        }
 
-        if (LobbyController.IsOwner || enemyId.TryGetComponent<Sandbox.SandboxEnemy>(out _))
+        if (LobbyController.IsOwner || enemyId.TryGetComponent<Sandbox>(out _))
         {
             enemyId.gameObject.AddComponent(Types[Type(enemyId)]);
             return true;
@@ -139,7 +139,9 @@ public class Enemies
         {
             Tools.DestroyImmediate(enemyId.name != "Body" && enemyId.name != "StatueBoss" ? enemyId.gameObject : enemyId.transform.parent.gameObject);
             return false;
-        }
+        }*/
+
+        return false;
     }
 
     /// <summary> Synchronizes the damage dealt to the enemy. </summary>

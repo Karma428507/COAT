@@ -20,7 +20,7 @@ public class PlayerIndicators : CanvasSingleton<PlayerIndicators>
     /// <summary> List of indicators themselves. </summary>
     private List<Image> indicators = new();
 
-    protected override void Awake()
+    private void Awake()
     {
         Events.OnLobbyEntered += () => { if (!Shown) Toggle(); };
         Events.OnTeamChanged += Rebuild;

@@ -149,9 +149,9 @@ public class RemotePlayer : Entity
                 blast.GetComponentInChildren<Explosion>().sourceWeapon = Bullets.Fake;
                 break;
             case 2:
-                var shock = Instantiate(NewMovement.Instance.gc.shockwave, transform.position, Quaternion.identity).GetComponent<PhysicalShockwave>();
-                shock.name = "Net";
-                shock.force = r.Float();
+                //var shock = Instantiate(NewMovement.Instance.gc., transform.position, Quaternion.identity).GetComponent<PhysicalShockwave>();
+                //shock.name = "Net";
+                //shock.force = r.Float();
                 break;
         }
     }

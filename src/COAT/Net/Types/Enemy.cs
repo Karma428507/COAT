@@ -71,8 +71,8 @@ public class Enemy : OwnableEntity
     /// <summary> Sets the health of the enemy to the given value. </summary>
     public void SetHealth(float health)
     {
-        if (EnemyId.drone) EnemyId.drone.health = health;
-        if (EnemyId.spider) EnemyId.spider.health = health; // there are spiders?
+        if (EnemyId.drone) EnemyId.drone.Enemy.health = health;
+        if (EnemyId.spider) EnemyId.spider.spider.health = health; // there are spiders?
         if (EnemyId.zombie) EnemyId.zombie.health = health;
         if (EnemyId.statue) EnemyId.statue.health = health;
         if (EnemyId.machine) EnemyId.machine.health = health;
