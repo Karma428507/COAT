@@ -1,10 +1,10 @@
-namespace COAT.Patches;
+namespace Patches.Enemy;
 
 using HarmonyLib;
 
 using COAT.World;
 
-[HarmonyPatch]
+/*[HarmonyPatch]
 public class LeviathanPatch
 {
     [HarmonyPostfix]
@@ -45,4 +45,4 @@ public class LeviathanPatch
     {
         if (World.Leviathan && World.Leviathan.IsOwner) World.Leviathan.Attack = 1;
     }
-}
+}*/

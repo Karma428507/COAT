@@ -1,4 +1,4 @@
-namespace COAT.Patches;
+namespace Patches.Mechanics;
 
 using HarmonyLib;
 using UnityEngine;
@@ -8,7 +8,7 @@ using COAT.Entities;
 using COAT.Net;
 using COAT.Net.Types;
 
-[HarmonyPatch]
+/*[HarmonyPatch]
 public class CommonBulletsPatch
 {
     [HarmonyPrefix]
@@ -200,4 +200,4 @@ public class EntityBulletsPatch
     [HarmonyPostfix]
     [HarmonyPatch(typeof(Cannonball), nameof(Cannonball.Unlaunch))]
     static void CannonballHook(Cannonball __instance) => __instance.GetComponent<Bullet>()?.TakeOwnage();
-}
+}*/

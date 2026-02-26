@@ -1,4 +1,4 @@
-namespace COAT.Patches;
+namespace Patches.Mechanics;
 
 using HarmonyLib;
 using ULTRAKILL.Cheats;
@@ -11,7 +11,7 @@ using COAT.UI;
 using COAT.UI.Screen;
 using COAT.Input;
 
-[HarmonyPatch(typeof(NewMovement))]
+/*[HarmonyPatch(typeof(NewMovement))]
 public class MovementPatch
 {
     [HarmonyPrefix]
@@ -73,4 +73,4 @@ public class CommonPatch
     {
         if (EmojiWheel.Shown) __instance.gameObject.SetActive(false);
     }
-}
+}*/

@@ -1,4 +1,4 @@
-namespace COAT.Patches;
+namespace Patches.Level;
 
 using System;
 
@@ -8,9 +8,9 @@ using UnityEngine.UI;
 using COAT.Assets;
 using COAT.Net;
 
-using static UI.Elements.Pal;
+using static COAT.UI.Elements.Pal;
 
-[HarmonyPatch]
+/*[HarmonyPatch]
 public class LevelLoadingPatch
 {
     [HarmonyPostfix]
@@ -66,4 +66,4 @@ public class RankPatch
             __instance.totalRank.text = Bundle.CutColors(__instance.totalRank.text);
         }
     }
-}
+}*/

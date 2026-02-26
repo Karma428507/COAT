@@ -1,4 +1,4 @@
-namespace COAT.Patches;
+namespace Patches.Enemy;
 
 using HarmonyLib;
 using UnityEngine;
@@ -6,7 +6,7 @@ using UnityEngine;
 using COAT.Entities;
 using COAT.Net;
 
-[HarmonyPatch(typeof(EnemyIdentifier))]
+/*[HarmonyPatch(typeof(EnemyIdentifier))]
 public class EnemyPatch
 {
     [HarmonyPrefix]
@@ -104,4 +104,4 @@ public class OtherPatch
     [HarmonyPrefix]
     [HarmonyPatch(typeof(EventOnDestroy), "OnDestroy")]
     static bool Destroy() => LobbyController.Offline || LobbyController.IsOwner;
-}
+}*/

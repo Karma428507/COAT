@@ -1,4 +1,4 @@
-namespace COAT.Patches;
+namespace Patches.Level;
 
 using HarmonyLib;
 using System.Collections.Generic;
@@ -10,7 +10,7 @@ using COAT.Net;
 using COAT.Net.Types;
 using COAT.World;
 
-[HarmonyPatch(typeof(ActivateArena))]
+/*[HarmonyPatch(typeof(ActivateArena))]
 public class ArenaPatch
 {
     [HarmonyPrefix]
@@ -105,7 +105,7 @@ public class ActionPatch
     static void Activate(ObjectActivator __instance)
     {
         if (LobbyController.Online) World.SyncAction(__instance.gameObject);
-    }*/
+    }*
 
     [HarmonyPostfix]
     [HarmonyPatch(typeof(FinalDoor), nameof(FinalDoor.Open))]
@@ -152,4 +152,4 @@ public class ActionPatch
     {
         if (LobbyController.Online && LobbyController.IsOwner) World.SyncAction(__instance, 6);
     }
-}
+}*/

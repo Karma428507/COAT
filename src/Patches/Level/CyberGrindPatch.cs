@@ -1,4 +1,4 @@
-﻿namespace COAT.Patches;
+﻿namespace Patches.Level;
 
 using HarmonyLib;
 using UnityEngine.UI;
@@ -7,7 +7,7 @@ using COAT.Input;
 using COAT.Net;
 using COAT.World;
 
-[HarmonyPatch(typeof(EndlessGrid))]
+/*[HarmonyPatch(typeof(EndlessGrid))]
 public class CyberGrindPatch
 {
     [HarmonyPrefix]
@@ -62,4 +62,4 @@ public class CyberDeathPatch
     [HarmonyPrefix]
     [HarmonyPatch(nameof(FinalCyberRank.GameOver))]
     static bool GameOver() => LobbyController.Offline || CyberGrind.PlayersAlive() == 0;
-}
+}*/

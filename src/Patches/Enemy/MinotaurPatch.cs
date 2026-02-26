@@ -1,11 +1,11 @@
-namespace COAT.Patches;
+namespace Patches.Enemy;
 
 using HarmonyLib;
 
 using COAT.Net;
 using COAT.World;
 
-[HarmonyPatch(typeof(MinotaurChase))]
+/*[HarmonyPatch(typeof(MinotaurChase))]
 public class MinotaurPatch
 {
     [HarmonyPostfix]
@@ -23,4 +23,4 @@ public class MinotaurPatch
     [HarmonyPostfix]
     [HarmonyPatch("HandSwing")]
     static void Hand() { if (World.Minotaur && World.Minotaur.IsOwner) World.Minotaur.Attack = 2; }
-}
+}*/

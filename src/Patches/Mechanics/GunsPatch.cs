@@ -1,4 +1,4 @@
-namespace COAT.Patches;
+namespace Patches.Mechanics;
 
 using HarmonyLib;
 using System;
@@ -9,7 +9,7 @@ using COAT.Entities;
 using COAT.Net;
 using COAT.Net.Types;
 
-[HarmonyPatch]
+/*[HarmonyPatch]
 public class GunsPatch
 {
     [HarmonyPostfix]
@@ -58,4 +58,4 @@ public class ArmsPatch
         lp.Hook = ___forcingFistControl ? ___hookPoint : Vector3.zero;
         if (__instance.state == HookState.Pulling && ___lightTarget && ___caughtEid.name == "Net") ___caughtEid.GetComponent<Enemy>()?.TakeOwnage();
     }
-}
+}*/
