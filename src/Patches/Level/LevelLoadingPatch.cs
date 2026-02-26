@@ -1,16 +1,15 @@
 namespace Patches.Level;
 
-using System;
-
 using HarmonyLib;
 using UnityEngine.UI;
 
+using COAT;
 using COAT.Assets;
 using COAT.Net;
 
 using static COAT.UI.Elements.Pal;
 
-/*[HarmonyPatch]
+[HarmonyPatch]
 public class LevelLoadingPatch
 {
     [HarmonyPostfix]
@@ -42,7 +41,7 @@ public class LevelLoadingPatch
     static bool LevelChanger() => AfterLevel();
 }
 
-[HarmonyPatch]
+/*[HarmonyPatch]
 public class RankPatch
 {
     [HarmonyPostfix]
