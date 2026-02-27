@@ -100,7 +100,7 @@ public class Plugin : MonoBehaviour
 
         // Entities stuff and weapons
         Net.Entities.Load();
-        Events.Post(Enemies.Load);
+        //Events.Post(Enemies.Load);
         Events.Post(Items.Load);
         Events.OnLoaded += Weapons.Initialize;
         

@@ -2,10 +2,11 @@ namespace Patches.Mechanics;
 
 using HarmonyLib;
 
+using COAT;
 using COAT.Entities;
 using COAT.Net.Types;
 
-/*[HarmonyPatch(typeof(ItemIdentifier))]
+[HarmonyPatch(typeof(ItemIdentifier))]
 public class ItemPatch
 {
     [HarmonyPrefix]
@@ -15,4 +16,4 @@ public class ItemPatch
     [HarmonyPrefix]
     [HarmonyPatch("PickUp")]
     static void PickUp(ItemIdentifier __instance) => __instance.GetComponent<Item>()?.PickUp();
-}*/
+}

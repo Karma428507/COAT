@@ -5,7 +5,7 @@ using HarmonyLib;
 using COAT.Net;
 using COAT.World;
 
-/*[HarmonyPatch(typeof(MinosArm))]
+[HarmonyPatch(typeof(MinosArm))]
 public class HandPatch
 {
     [HarmonyPrefix]
@@ -23,4 +23,4 @@ public class HandPatch
     [HarmonyPostfix]
     [HarmonyPatch("SlamRight")]
     static void SlamRight() { if (World.Hand && World.Hand.IsOwner) World.Hand.HandPos = 2; }
-}*/
+}
