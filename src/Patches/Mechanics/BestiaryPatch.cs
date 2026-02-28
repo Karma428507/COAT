@@ -6,7 +6,7 @@ using UnityEngine;
 
 using COAT.Assets;
 
-/*[HarmonyPatch(typeof(EnemyInfoPage), "Start")]
+[HarmonyPatch(typeof(EnemyInfoPage), "Start")]
 public class BestiaryPatch
 {
     static void Prefix(ref SpawnableObjectsDatabase ___objects)
@@ -44,4 +44,4 @@ public class BestiaryEntry
     public string name, type, description, strategy;
     /// <summary> Loads the V3 bestiary entry from the bundle. </summary>
     public static BestiaryEntry Load() => JsonUtility.FromJson<BestiaryEntry>(DollAssets.Bundle.LoadAsset<TextAsset>("V3-bestiary-entry").text);
-}*/
+}
