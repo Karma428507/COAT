@@ -1,4 +1,4 @@
-namespace Patches.Mechanics;
+namespace Patches.Enemy;
 
 using HarmonyLib;
 

@@ -42,6 +42,8 @@ public class TeamCoin : OwnableEntity
     /// <summary> Effects indicate the current state of the coin. </summary>
     private GameObject effect;
 
+    /// <summary> Timer for when the coin isn't doing anything and can be deleted. </summary>
+    private float timeToDelete = 1f;
     /// <summary> Beam that the coin will reflect. </summary>
     private GameObject beam;
     /// <summary> Target that will be hit by reflection. </summary>
@@ -61,7 +63,7 @@ public class TeamCoin : OwnableEntity
             if (Team != player.Value?.Team)
             {
                 Team = player.Value?.Team ?? Networking.LocalPlayer.Team;
-                mat ??= GetComponent<Renderer>().material;
+                mat ??= GetComponentInChildren<MeshRenderer>().material;
                 trail ??= GetComponent<TrailRenderer>();
 
                 mat.mainTexture = DollAssets.CoinTexture;
@@ -83,7 +85,26 @@ public class TeamCoin : OwnableEntity
 
     private void Update() => Stats.MTE(() =>
     {
-        if (IsOwner || Dead) return;
+        if (Dead) return;
+        
+        if (IsOwner)
+        {
+            if (shot) return;
+
+            if (Rb.velocity.magnitude < 1f)
+            {
+                timeToDelete -= Time.deltaTime * 10f;
+            }
+            else
+            {
+                timeToDelete = 1f;
+            }
+
+            if (timeToDelete <= 0f)
+                NetKill();
+
+            return;
+        }
 
         transform.position = new(x.Get(LastUpdate), y.Get(LastUpdate), z.Get(LastUpdate));
         if (lastQuadrupled != quadrupled && (lastQuadrupled = quadrupled))
@@ -157,9 +178,9 @@ public class TeamCoin : OwnableEntity
         quadrupled = true;
         Effect(coin.enemyFlash, 15f);
 
-        var light = effect.GetComponent<Light>();
-        light.color = Team.Color();
-        light.intensity = 10f;
+        //var light = effect.GetComponent<Light>();
+        //light.color = Team.Color();
+        //light.intensity = 10f;
     }
 
     private void Reset()

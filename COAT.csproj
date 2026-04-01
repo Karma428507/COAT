@@ -5,6 +5,7 @@
     <AssemblyName>COAT</AssemblyName>
     <Description>A moderated and more advanced version of Jaket.</Description>
     <Version>1.3.42</Version>
+    <DebugType>embedded</DebugType>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <LangVersion>latest</LangVersion>
     <RestoreAdditionalProjectSources>

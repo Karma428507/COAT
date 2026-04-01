@@ -8,6 +8,7 @@ using COAT.Content;
 using COAT.Entities;
 using COAT.Net;
 using COAT.Net.Types;
+using System;
 
 [HarmonyPatch]
 public class CommonBulletsPatch
@@ -103,7 +104,6 @@ public class EntityBulletsPatch
     [HarmonyPatch(typeof(RevolverBeam), nameof(RevolverBeam.ExecuteHits))]
     static bool CoinFix(RevolverBeam __instance, RaycastHit currentHit) => __instance.name != "Net" || !(currentHit.transform?.CompareTag("Coin") ?? false);
 
-    // spawns a team coin and syncs
     [HarmonyPrefix]
     [HarmonyPatch(typeof(Coin), "Start")]
     static bool CoinSpawn(Coin __instance)
@@ -115,6 +115,10 @@ public class EntityBulletsPatch
         }
         else return true;
     }
+
+    [HarmonyPrefix]
+    [HarmonyPatch(typeof(Coin), "Update")]
+    static bool CoinUpdate() => LobbyController.Offline;
 
     // main coin code?
     [HarmonyPrefix]
@@ -161,8 +165,6 @@ public class EntityBulletsPatch
     [HarmonyPrefix]
     [HarmonyPatch(typeof(Coin), "OnCollisionEnter")]
     static bool CoinCollision() => LobbyController.Offline;
-
-
 
     [HarmonyPostfix]
     [HarmonyPatch(typeof(Grenade), "Start")] // DO NOT USE AWAKE
