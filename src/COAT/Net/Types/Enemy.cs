@@ -66,6 +66,21 @@ public class Enemy : OwnableEntity
     public virtual void Kill() => EnemyId.InstaKill();
 
     #endregion
+    #region IO
+
+    /// <summary> This method gets the basic data of the enemy like radiance, sandbox and boss </summary>
+    public override void Read(Reader r)
+    {
+        base.Read(r);
+    }
+
+    /// <summary> This method sets the basic data of the enemy like radiance, sandbox and boss </summary>
+    public override void Write(Writer w)
+    {
+        base.Write(w);
+    }
+
+    #endregion
     #region health
 
     /// <summary> Sets the health of the enemy to the given value. </summary>

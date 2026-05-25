@@ -5,11 +5,17 @@ using System;
 using UnityEngine;
 
 using COAT.Assets;
+using COAT.Net;
+using COAT.Entities;
+using System.Linq;
+using COAT;
 
-[HarmonyPatch(typeof(EnemyInfoPage), "Start")]
+[HarmonyPatch]
 public class BestiaryPatch
 {
-    static void Prefix(ref SpawnableObjectsDatabase ___objects)
+    [HarmonyPrefix]
+    [HarmonyPatch(typeof(EnemyInfoPage), "Start")]
+    static void Start(ref SpawnableObjectsDatabase ___objects)
     {
         // there is no point in adding V3 twice
         if (Array.Exists(___objects.enemies, obj => obj.identifier == "jaket.v3")) return;
@@ -34,6 +40,18 @@ public class BestiaryPatch
         Array.Resize(ref ___objects.enemies, ___objects.enemies.Length + 1);
         Array.Copy(___objects.enemies, 15, ___objects.enemies, 16, ___objects.enemies.Length - 16);
         ___objects.enemies[15] = v3;
+    }
+
+    /// <summary> This prevents enemies not from prelude from being shown in the bestiary or sandbox. </summary>
+    [HarmonyPostfix]
+    [HarmonyPatch(typeof(BestiaryData), "GetEnemy")]
+    static void PostGet(ref int __result, EnemyType enemy)
+    {
+        if (LobbyController.Offline)
+            return;
+
+        if (!Enemies.allowedEnemies.Contains(enemy))
+            __result = 0;
     }
 }
 

@@ -120,10 +120,7 @@ public class LobbyController
             Lobby?.SetJoinable(true);
 
             // activate this when the server is built for coat only features
-            if (false)
-                Lobby?.SetData("client", "jaket");
-            else
-                Lobby?.SetData("client", "COAT");
+            Lobby?.SetData("client", "COAT");
 
             // general non-savable data
             Lobby?.SetData("banned", "");

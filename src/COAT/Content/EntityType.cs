@@ -59,6 +59,11 @@ public enum EntityType
     SecuritySystem_Mortar, SecuritySystem_Mortar_,
     SecuritySystem_Tower, SecuritySystem_Tower_,
     Brain,
+    Providence,
+    Power,
+    DeathCatcher,
+    MirrorReaper,
+    Geryon,
 
     AppleBait,
     SkullBait,

@@ -148,7 +148,8 @@ public class Home : CanvasSingleton<Home>, IMenuInterface
             string client = "";
             bool isCOAT = LobbyController.IsCoatClient(lobby, ref client);
 
-            string serverName = !isCOAT ? $"[{client}] {lobby.GetData("lobbyName")}" : lobby.GetData("name");
+            string serverName = isCOAT || client == "JAKET" ? lobby.GetData("name") : lobby.GetData("lobbyName");
+            if (!isCOAT) serverName = $"[{client}] {serverName}";
 
             UIB.Table("LobbyEntry", content, new(0, y, 960, 100), entry =>
             {

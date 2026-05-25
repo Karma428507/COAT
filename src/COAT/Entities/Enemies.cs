@@ -17,6 +17,16 @@ public class Enemies
     public static List<EnemyIdentifier> Prefabs = new();
     /// <summary> Dictionary of entity types to their classes. </summary>
     public static Dictionary<EntityType, Type> Types = new();
+    /// <summary> Allowed enemy types for COAT. </summary>
+    public static readonly EnemyType[] allowedEnemies =
+    {
+        EnemyType.Filth,
+        EnemyType.Stray,
+        EnemyType.Schism,
+        EnemyType.MaliciousFace,
+        EnemyType.Cerberus,
+        EnemyType.Wicked
+    };
 
     /// <summary> Whether damage and death of enemies must be logged. </summary>
     public static bool Debug;
