@@ -23,8 +23,9 @@ public class Enemies
         EnemyType.Filth,
         EnemyType.Stray,
         EnemyType.Schism,
-        EnemyType.MaliciousFace,
+        EnemyType.Swordsmachine,
         EnemyType.Cerberus,
+        EnemyType.MaliciousFace,
         EnemyType.Wicked
     };
 
@@ -47,9 +48,16 @@ public class Enemies
                 Prefabs.Add(currentEnemy.GetComponentInChildren<EnemyIdentifier>());
             else Prefabs.Add(null);
 
-        for (var type = EntityType.Filth; type <= EntityType.Puppet; type++) Types[type] = typeof(SimpleEnemy);
+        Types[EntityType.Filth] = typeof(FilthEnemy);
+        Types[EntityType.Stray] = typeof(SimpleEnemy);
+        Types[EntityType.Schism] = typeof(SimpleEnemy);
+        Types[EntityType.Swordsmachine] = typeof(SwordsEnemy);
+        Types[EntityType.Cerberus] = typeof(CerberusEnemy);
+        Types[EntityType.MaliciousFace] = typeof(FilthEnemy);
+        Types[EntityType.SomethingWicked] = typeof(WickedEnemy);
+
+        /*for (var type = EntityType.Filth; type <= EntityType.Puppet; type++) Types[type] = typeof(SimpleEnemy);
         Types[EntityType.Insurrectionist] = typeof(Insurrectionist);
-        Types[EntityType.Swordsmachine] = typeof(Swords);
         Types[EntityType.V2] = typeof(V2);
         Types[EntityType.V2_GreenArm] = typeof(V2);
         Types[EntityType.Sentry] = typeof(Turret);
@@ -59,8 +67,7 @@ public class Enemies
         Types[EntityType.Idol] = typeof(Idol);
         Types[EntityType.Gabriel] = typeof(Gabriel);
         Types[EntityType.Gabriel_Angry] = typeof(Gabriel);
-        Types[EntityType.SomethingWicked] = typeof(Wicked);
-        Types[EntityType.Johninator] = typeof(V2);
+        Types[EntityType.Johninator] = typeof(V2);*/
     }
 
     /// <summary> Finds the entity type by enemy class and type, taking into account the fact that some enemies have the same types. </summary>

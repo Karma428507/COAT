@@ -3,7 +3,7 @@ namespace COAT.Net.Types;
 using COAT.Entities;
 
 /// <summary> Representation of Something Wicked. </summary>
-public class Wicked : SimpleEnemy
+public class WickedEnemy : SimpleEnemy
 {
     global::Wicked wicked;
 

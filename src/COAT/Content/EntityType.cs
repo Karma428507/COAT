@@ -12,16 +12,56 @@ public enum EntityType
     None = -1,
     Player,
 
+    // ====================
+    // Enemies
+    // ====================
+
+    // Angels
+    Gabriel,
+    Virtue,
+    Gabriel_Angry,
+    Providence,
+    Power,
+    PowerWithEffect,
+
+    // Demons
+    MaliciousFace,
+    Cerberus,
+    CerberusStatue,
+    CerberusStatueWhite,
+    HideousMass,
+    Idol,
+    Leviathan,
+    LeviathanTail,
+    Mannequin,
+    MannequinPose,
+    Minotaur,
+    Minotaur_Chase,
+    DeathCatcher,
+    DeathCatcherCase,
+    DeathCatcherCaseEndless,
+    DeathCatcherClosed,
+    Geryon,
+    
+    // Husks
     Filth,
     Stray,
     Schism,
     Soldier,
+    Hand,
     TheCorpseOfKingMinos,
     Stalker,
     Insurrectionist,
     Ferryman,
+    MirrorReaper,
+    MirrorReaperCyber,
+
+    // Machines
     Swordsmachine,
-    Drone,
+    Swordsmachine_Boss,
+    Swordsmachine_Tundra,
+    Swordsmachine_Agony,
+    Drone, // There's flesh, ghost and skull varients but idk what they do rn
     Streetcleaner,
     Mindflayer,
     V2,
@@ -29,42 +69,34 @@ public enum EntityType
     Sentry,
     Gutterman,
     Guttertank,
-    MaliciousFace,
-    Cerberus,
-    HideousMass,
-    Idol,
-    Mannequin,
-    Minotaur,
-    Virtue,
-    Gabriel,
-    Gabriel_Angry,
-    SomethingWicked,
-    FleshPrison,
-    FleshPrison_Eye,
-    FleshPanopticon,
-    FleshPanopticon_Eye,
-    FleshPanopticon_Face,
-    MinosPrime,
-    SisyphusPrime,
-    CancerousRodent,
-    VeryCancerousRodent,
-    Mandalore,
-    Johninator,
-    Puppet,
-    Hand,
-    Leviathan,
-    Minotaur_Chase,
     SecuritySystem_Main,
     SecuritySystem_RocketLauncher, SecuritySystem_RocketLauncher_,
     SecuritySystem_Mortar, SecuritySystem_Mortar_,
     SecuritySystem_Tower, SecuritySystem_Tower_,
     Brain,
-    Providence,
-    Power,
-    DeathCatcher,
-    MirrorReaper,
-    Geryon,
 
+    // Misc
+    SomethingWicked,
+    CancerousRodent,
+    VeryCancerousRodent,
+    FleshPrison,
+    FleshPrison_Eye,
+    FleshPanopticon_Eye,
+    FleshPanopticon_Face,
+    MinosPrime,
+    Mandalore,
+    FleshPanopticon,
+    SisyphusPrime,
+    Johninator,
+    Puppet,
+
+
+
+    // ====================
+    // Items
+    // ====================
+
+    // General Items
     AppleBait,
     SkullBait,
     BlueSkull,
@@ -73,6 +105,7 @@ public enum EntityType
     Torch,
     Florp,
 
+    // Plushies (Organize later)
     Jacob,
     Mako,
     Jake,
@@ -137,11 +170,13 @@ public enum EntityType
     Vvizard,
     Weyte,
     Zombie,*/
-
+    
+    // Bullets
     Coin,
     Rocket,
     Ball,
 
+    SandboxEntity = 0x80,
     CustomEntity = 0xFF,
 
     EnemyOffset = Filth,

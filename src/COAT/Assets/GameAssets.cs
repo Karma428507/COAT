@@ -17,11 +17,29 @@ public class GameAssets
     /// <summary> List of internal names of all enemies. </summary>
     public static readonly string[] Enemies = new[]
     {
-        "Zombie", "Projectile Zombie", "Super Projectile Zombie", "ShotgunHusk", "MinosBoss", "Stalker", "Sisyphus", "Ferryman",
-        "SwordsMachineNonboss", "Drone", "Streetcleaner", "Mindflayer", "V2", "V2 Green Arm Variant", "Turret", "Gutterman",
-        "Guttertank", "Spider", "Cerberus", "Mass", "Idol", "Mannequin", "Minotaur", "Virtue",
-        "Gabriel", "Gabriel 2nd Variant", "Wicked", "Flesh Prison", "DroneFlesh", "Flesh Prison 2", "DroneFleshCamera Variant", "DroneSkull Variant",
-        "MinosPrime", "SisyphusPrime", "Cancerous Rodent", "Very Cancerous Rodent", "Mandalore", "Big Johninator", "Puppet"
+        // Angels
+        "Gabriel", "Virtue", "Gabriel 2nd", "Providence", "Power", "PowerWithSpawnEffect",
+
+        // Demons
+        "Malicious Face", "Cerberus", "CerberusStatue", "CerberusStatueWhite", "Mass",
+        "Idol", "LeviathanHead", "LeviathanTail Variant", "Mannequin", "MannequinPoserWithEnemy",
+        "Minotaur", "MinotaurChase", "Deathcatcher", "DeathcatcherCase", "DeathcatcherCaseEndless",
+        "DeathcatcherClosed", "Cerberus", // Geryon is going to be cerberus because Hakita hates me
+
+        // Husks
+        "Filth", "Stray", "Schism", "Soldier", "MinosArm", "MinosBoss", "Stalker", "Sisyphus",
+        "Ferryman", "MirrorReaper", "MirrorReaperCyberGrind",
+
+        // Machines
+        "SwordsMachine NonBoss", "SwordsMachine Boss", "SwordsMachine Tundra", "SwordsMachine Agony",
+        "Drone", "Streetcleaner", "Mindflayer", "V2", "V2 Green Arm Variant", "Turret", "Gutterman",
+        "Guttertank", "Drone", "CentaurRocketLauncher", "Drone", "CentaurMortar", "Drone", "CentaurTower",
+        "Drone", "Brain",
+
+        // Misc
+        "Wicked", "Cancerous Rodent", "Very Cancerous Rodent", "Flesh Prison", "DroneFlesh",
+        "DroneFleshCamera Variant", "DroneSkull Variant", "MinosPrime", "Mandalore", "Flesh Panopticon",
+        "SisyphusPrime", "Big Johninator", "Puppet"
     };
 
     /// <summary> List of internal names of all items. </summary>

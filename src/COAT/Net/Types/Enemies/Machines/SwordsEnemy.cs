@@ -6,12 +6,12 @@ using COAT.Assets;
 using COAT.Entities;
 
 /// <summary> Representation of a swordsmachine. </summary>
-public class Swords : SimpleEnemy
+public class SwordsEnemy : SimpleEnemy
 {
     SwordsMachine swords;
 
     /// <summary> The first phase of the boss at 0-3. </summary>
-    private static Swords firstPhase;
+    private static SwordsEnemy firstPhase;
     /// <summary> Whether the next swordsmachine will be an agony or tundra. </summary>
     private static bool agonyOrTundra;
 

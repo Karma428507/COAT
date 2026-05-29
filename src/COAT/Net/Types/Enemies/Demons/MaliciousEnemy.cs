@@ -5,9 +5,9 @@ using UnityEngine.AI;
 
 using COAT.Entities;
 using COAT.IO;
+using System.Reflection;
 
-/// <summary> Representation of a spider body??? Who da hell gave this thing such name?! </summary>
-public class Body : Enemy
+public class MaliciousEnemy : Enemy
 {
     /// <summary> Whether the malicious face is charging a shot. </summary>
     private bool charging, lastCharging;
@@ -53,8 +53,10 @@ public class Body : Enemy
     {
         base.Write(w);
 
-        //w.Bool(EnemyId.spider.chargeEffect. != null);
-        //if (EnemyId.spider.currentCE == null) w.Vector(transform.position);
+        Log.Debug("Write check");
+        System.Type maurice = typeof(MaliciousFace);
+        FieldInfo charge = maurice.GetField("charging", BindingFlags.NonPublic | BindingFlags.Instance);
+        Log.Debug($"Charging?: {charge.GetValue(EnemyId.spider)}");
     }
 
     public override void Read(Reader r)
