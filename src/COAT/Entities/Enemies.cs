@@ -5,6 +5,7 @@ using COAT.Content;
 using COAT.IO;
 using COAT.Net;
 using COAT.Net.Types;
+using Sandbox;
 using System;
 using System.Collections.Generic;
 using System.Xml.Linq;
@@ -48,12 +49,18 @@ public class Enemies
                 Prefabs.Add(currentEnemy.GetComponentInChildren<EnemyIdentifier>());
             else Prefabs.Add(null);
 
+        foreach (var id in Prefabs)
+            if (id != null)
+                Log.Debug($"\t- {id.name}");
+            else
+                Log.Debug($"\t- NULL");
+
         Types[EntityType.Filth] = typeof(FilthEnemy);
         Types[EntityType.Stray] = typeof(SimpleEnemy);
         Types[EntityType.Schism] = typeof(SimpleEnemy);
         Types[EntityType.Swordsmachine] = typeof(SwordsEnemy);
         Types[EntityType.Cerberus] = typeof(CerberusEnemy);
-        Types[EntityType.MaliciousFace] = typeof(FilthEnemy);
+        Types[EntityType.MaliciousFace] = typeof(MaliciousEnemy);
         Types[EntityType.SomethingWicked] = typeof(WickedEnemy);
 
         /*for (var type = EntityType.Filth; type <= EntityType.Puppet; type++) Types[type] = typeof(SimpleEnemy);
@@ -75,8 +82,12 @@ public class Enemies
     {
         if (id == null) return EntityType.None;
 
+        Log.Debug($"ID: [{id.name}]");
+        Log.Debug($"Class: [{id.enemyClass}]");
+        Log.Debug($"Type: [{id.enemyType}]");
+
         // there are the necessary crutches, because developers incorrectly set the types of some enemies
-        switch (id.name.Contains("(") ? id.name.Substring(0, id.name.IndexOf("(")).Trim() : id.name)
+        /*switch (id.name.Contains("(") ? id.name.Substring(0, id.name.IndexOf("(")).Trim() : id.name)
         {
             case "V2 Green Arm Variant": return EntityType.V2_GreenArm;
             case "V2 Green Arm": return EntityType.V2_GreenArm;
@@ -86,7 +97,7 @@ public class Enemies
             case "Mandalore": return EntityType.Mandalore;
             case "Big Johninator": return EntityType.Johninator;
             case "Big Johnator": return EntityType.Johninator;
-        }
+        }*/
 
         // the remaining enemies can be found by their type
         int index = Prefabs.FindIndex(prefab => prefab.enemyClass == id.enemyClass && prefab.enemyType == id.enemyType);
@@ -111,6 +122,13 @@ public class Enemies
     /// <summary> Synchronizes the enemy between network members. </summary>
     public static bool Sync(EnemyIdentifier enemyId)
     {
+        // Remove after debugging
+        if (enemyId == null)
+        {
+            Log.Debug("Enemy null");
+            return true;
+        }
+        
         if (LobbyController.Offline || enemyId.dead || enemyId.name == "Net") return true;
 
         // worry about syncing later
@@ -145,19 +163,21 @@ public class Enemies
         {
             enemyId.gameObject.AddComponent<Brain>();
             return true;
-        }
+        }*/
 
-        if (LobbyController.IsOwner || enemyId.TryGetComponent<Sandbox>(out _))
+        enemyId.TryGetComponent<EnemySpawnableInstance>(out var component);
+        
+        Log.Debug($"Is sandbox enemy: {component != null}");
+        Log.Debug($"Enemy type: {Type(enemyId).ToString()}");
+        Log.Debug($"Types exist: {Types[Type(enemyId)] != null}");
+
+        if (LobbyController.IsOwner || component.sourceObject != null)
         {
             enemyId.gameObject.AddComponent(Types[Type(enemyId)]);
             return true;
         }
-        else
-        {
-            Tools.DestroyImmediate(enemyId.name != "Body" && enemyId.name != "StatueBoss" ? enemyId.gameObject : enemyId.transform.parent.gameObject);
-            return false;
-        }*/
-
+        
+        Tools.DestroyImmediate(enemyId.name != "Body" && enemyId.name != "StatueBoss" ? enemyId.gameObject : enemyId.transform.parent.gameObject);
         return false;
     }
 

@@ -3,10 +3,11 @@ namespace Patches.Enemy;
 using HarmonyLib;
 using UnityEngine;
 
+using COAT;
 using COAT.Entities;
 using COAT.Net;
 
-/*[HarmonyPatch(typeof(EnemyIdentifier))]
+[HarmonyPatch(typeof(EnemyIdentifier))]
 public class EnemyPatch
 {
     [HarmonyPrefix]
@@ -40,7 +41,7 @@ public class LogicPatch
         if (LobbyController.Online && (Tools.Scene == "Level 0-2" || Tools.Scene == "Level 0-3" || Tools.Scene == "Level 1-3")) ___bossVersion = true;
     }
 
-    [HarmonyPrefix]
+    /*[HarmonyPrefix]
     [HarmonyPatch(typeof(V2), "Start")]
     static void IntroV2(V2 __instance)
     {
@@ -84,7 +85,7 @@ public class LogicPatch
     static void OutroG2(ref bool ___bossVersion)
     {
         if (LobbyController.Online && Tools.Scene == "Level 6-2") ___bossVersion = true;
-    }
+    }*/
 
     [HarmonyPrefix]
     [HarmonyPatch(typeof(Wicked), "Update")]
@@ -104,4 +105,4 @@ public class OtherPatch
     [HarmonyPrefix]
     [HarmonyPatch(typeof(EventOnDestroy), "OnDestroy")]
     static bool Destroy() => LobbyController.Offline || LobbyController.IsOwner;
-}*/
+}

@@ -25,7 +25,7 @@ public class Entities
         // Add the thing for players ONCE DollAssets.cs is fixed
         Providers.Add(EntityType.Player, DollAssets.CreateDoll);
 
-        /*for (var type = EntityType.Filth; type <= EntityType.Puppet; type++)
+        for (var type = EntityType.Filth; type <= EntityType.Puppet; type++)
         {
             var sucks = type;
             Providers.Add(sucks, () => Enemies.Instantiate(sucks));
@@ -37,7 +37,7 @@ public class Entities
             Providers.Add(sucks, () => Items.Instantiate(sucks));
         }
 
-        Providers.Add(EntityType.Hand, () => World.Hand);
+        /*Providers.Add(EntityType.Hand, () => World.Hand);
         Providers.Add(EntityType.Leviathan, () => World.Leviathan);
         Providers.Add(EntityType.Minotaur_Chase, () => World.Minotaur);
 

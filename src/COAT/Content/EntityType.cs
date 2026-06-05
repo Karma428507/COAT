@@ -179,7 +179,7 @@ public enum EntityType
     SandboxEntity = 0x80,
     CustomEntity = 0xFF,
 
-    EnemyOffset = Filth,
+    EnemyOffset = Gabriel,
     SecuritySystemOffset = SecuritySystem_Main,
     ItemOffset = AppleBait,
     PlushyOffset = CabalCrow,
