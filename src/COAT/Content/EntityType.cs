@@ -27,14 +27,9 @@ public enum EntityType
     // Demons
     MaliciousFace,
     Cerberus,
-    CerberusStatue,
-    CerberusStatueWhite,
     HideousMass,
     Idol,
-    Leviathan,
-    LeviathanTail,
     Mannequin,
-    MannequinPose,
     Minotaur,
     Minotaur_Chase,
     DeathCatcher,
@@ -90,7 +85,12 @@ public enum EntityType
     Johninator,
     Puppet,
 
-
+    // NULL DEMONS
+    CerberusStatue,
+    CerberusStatueWhite,
+    Leviathan,
+    LeviathanTail,
+    MannequinPose,
 
     // ====================
     // Items

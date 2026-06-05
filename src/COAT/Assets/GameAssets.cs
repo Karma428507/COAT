@@ -21,9 +21,8 @@ public class GameAssets
         "Gabriel", "Virtue", "Gabriel 2nd", "Providence", "Power", "PowerWithSpawnEffect",
 
         // Demons
-        "Malicious Face", "Cerberus", "CerberusStatue", "CerberusStatueWhite", "Mass",
-        "Idol", "LeviathanHead", "LeviathanTail Variant", "Mannequin", "MannequinPoserWithEnemy",
-        "Minotaur", "MinotaurChase", "Deathcatcher", "DeathcatcherCase", "DeathcatcherCaseEndless",
+        "Malicious Face", "Cerberus", "Mass", "Idol", "Mannequin", "Minotaur",
+        "MinotaurChase", "Deathcatcher", "DeathcatcherCase", "DeathcatcherCaseEndless",
         "DeathcatcherClosed", "Cerberus", // Geryon is going to be cerberus because Hakita hates me
 
         // Husks
@@ -40,6 +39,10 @@ public class GameAssets
         "Wicked", "Cancerous Rodent", "Very Cancerous Rodent", "Flesh Prison", "DroneFlesh",
         "DroneFleshCamera Variant", "DroneSkull Variant", "MinosPrime", "Mandalore", "Flesh Panopticon",
         "SisyphusPrime", "Big Johninator", "Puppet"
+
+        // NULL
+        //"CerberusStatue", "CerberusStatueWhite", "LeviathanHead", "LeviathanTail Variant",
+        //"MannequinPoserWithEnemy"
     };
 
     /// <summary> List of internal names of all items. </summary>

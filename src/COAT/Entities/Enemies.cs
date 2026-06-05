@@ -49,12 +49,6 @@ public class Enemies
                 Prefabs.Add(currentEnemy.GetComponentInChildren<EnemyIdentifier>());
             else Prefabs.Add(null);
 
-        foreach (var id in Prefabs)
-            if (id != null)
-                Log.Debug($"\t- {id.name}");
-            else
-                Log.Debug($"\t- NULL");
-
         Types[EntityType.Filth] = typeof(FilthEnemy);
         Types[EntityType.Stray] = typeof(SimpleEnemy);
         Types[EntityType.Schism] = typeof(SimpleEnemy);
@@ -81,10 +75,6 @@ public class Enemies
     public static EntityType Type(EnemyIdentifier id)
     {
         if (id == null) return EntityType.None;
-
-        Log.Debug($"ID: [{id.name}]");
-        Log.Debug($"Class: [{id.enemyClass}]");
-        Log.Debug($"Type: [{id.enemyType}]");
 
         // there are the necessary crutches, because developers incorrectly set the types of some enemies
         /*switch (id.name.Contains("(") ? id.name.Substring(0, id.name.IndexOf("(")).Trim() : id.name)

@@ -16,7 +16,6 @@ public class SimpleEnemy : Enemy
     protected virtual void Start()
     {
         SpawnEffect();
-        Boss(Type == EntityType.Cerberus && Tools.Scene == "Level 0-5", 80f, 1, "CERBERUS, GUARDIAN OF HELL");
         Boss(Type == EntityType.TheCorpseOfKingMinos, 160f, 2);
         Boss(Type == EntityType.Ferryman && Tools.Scene == "Level 5-2", 90f, 2);
         Boss(Type == EntityType.Minotaur && Tools.Scene == "Level 7-1", 80f, 1);

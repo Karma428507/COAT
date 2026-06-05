@@ -6,21 +6,20 @@ using UnityEngine.AI;
 using COAT.Entities;
 using COAT.IO;
 
-public class FilthEnemy : Enemy
+public class FilthEnemy : SimpleEnemy
 {
     /// <summary> Whether the filth is about to jump (brutal). </summary>
     private bool crouching;
 
-    private void Awake()
+    protected override void Awake()
     {
         Init(_ => Enemies.Type(EnemyId));
+        InitTransfer();
     }
 
-    private void Start()
+    protected override void Start()
     {
         SpawnEffect();
-        
-        transform.parent.position = transform.position + Vector3.down * 10f; // teleport the spawn effect
     }
 
     private void Update() => Stats.MTE(() =>
@@ -40,7 +39,6 @@ public class FilthEnemy : Enemy
     public override void Read(Reader r)
     {
         base.Read(r);
-        if (IsOwner) return;
     }
 
     public override void Kill()
