@@ -38,11 +38,6 @@ public class MaliciousEnemy : Enemy
 
     private void Update() => Stats.MTE(() =>
     {
-        Log.Debug("Write check");
-        System.Type maurice = typeof(MaliciousFace);
-        FieldInfo charge = maurice.GetField("charging", BindingFlags.NonPublic | BindingFlags.Instance);
-        Log.Debug($"Charging?: {charge.GetValue(EnemyId.spider)}");
-
         if (IsOwner || Dead) return;
 
         transform.position = new(x.Get(LastUpdate), y.Get(LastUpdate), z.Get(LastUpdate));
@@ -56,7 +51,14 @@ public class MaliciousEnemy : Enemy
 
     public override void Write(Writer w)
     {
+        // To get the charging variable
+        PropertyInfo charge = typeof(MaliciousFace).GetProperty("charging", BindingFlags.NonPublic | BindingFlags.Instance);
+        
         base.Write(w);
+
+        w.Bool((bool)charge.GetValue(EnemyId.spider));
+        if (!(bool)charge.GetValue(EnemyId.spider))
+            w.Vector(transform.position);
     }
 
     public override void Read(Reader r)
