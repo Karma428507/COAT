@@ -45,13 +45,6 @@ public class World
         {
             if (LobbyController.Online && LobbyController.IsOwner && Tools.Pending != "Main Menu")
             {
-                // Set this to loop through a list of valid levels
-                /*if (Tools.Pending != "Level 1-1")
-                {
-                    Tools.Load("EarlyAccessEnd");
-                    return;
-                }*/
-
                 Activated.Clear();
                 Networking.Send(PacketType.Level, WriteData, size: 256);
             }
@@ -69,11 +62,13 @@ public class World
     private static void RedirectBlockedLevels()
     {
         string[] AllowedLevels = {
+            "Tutorial",
             "Level 0-1",
             "Level 0-2",
             "Level 0-3",
             "Level 0-4",
             "Level 0-5",
+            "Level 0-S",
             "uk_construct"
         };
 
@@ -110,7 +105,6 @@ public class World
                 Tools.ObjFindMainScene(YoutubePath).GetComponent<Image>().color = new Color(.7f, 0f, 0f);
                 Tools.ObjFindMainScene(YoutubePath).GetComponent<Button>().interactable = false;
 
-
                 // Adds buttons for host and client
                 if (LobbyController.IsOwner)
                 {
@@ -120,13 +114,17 @@ public class World
                     vector3.y += 135f;
                     button.transform.position = vector3;
 
-                    newButton.onClick.AddListener(() => Tools.Load("uk_construct"));
+                    // idk why this isn't working
+                    button.onClick.RemoveAllListeners();
+                    button.onClick.m_Calls.Clear();
+                    button.onClick.AddListener(() => Tools.Load("uk_construct"));
                 }
                 else
                 {
                     button.GetComponentInChildren<TextMeshProUGUI>().text = "LEAVE SERVER";
                 }
-                    return;
+                
+                return;
             }
 
             // Below deals with correcting the levels

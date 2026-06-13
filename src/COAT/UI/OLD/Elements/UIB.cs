@@ -25,7 +25,7 @@ using static Pal;
 using static Rect;
 
 
-// NOTE: THIS WILL BE BROKEN APART INTO DIFFERENT CLASSES IN WIDGETS
+// NOTE: This will be cut down significantly after the new UI is added
 
 /// <summary> Class that builds the entire interface of the mod. </summary>
 public class UIB
@@ -45,7 +45,7 @@ public class UIB
         Action fix;
         Events.OnLoaded += fix = () => Events.Post(() =>
         {
-            //HudMessageReceiver.Instance.text.font = DollAssets.FontTMP;
+            HudMessageReceiver.Instance.text.font = DollAssets.FontTMP;
             //NewMovement.Instance.youDiedText.font = DollAssets.Font;
 
             // fix the sorting order to display hud messages on top of other interface fragments
@@ -261,6 +261,12 @@ public class UIB
         {
             diamond.color = color ?? white;
             diamond.A = a; diamond.B = b; diamond.C = c; diamond.D = d;
+        });
+
+    public static RawImage RawImage(string name, Transform parent, Rect r) =>
+        Component<RawImage>(Rect(name, parent, r).gameObject, rawImage =>
+        {
+
         });
 
     #endregion

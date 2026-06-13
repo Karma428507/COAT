@@ -1,13 +1,12 @@
 namespace COAT.UI.Physical;
 
-using UnityEngine;
-using UnityEngine.UI;
-
 using COAT;
 using COAT.Assets;
 using COAT.UI;
 using COAT.UI.Menus;
-
+//using System.Numerics;
+using UnityEngine;
+using UnityEngine.UI;
 using static Elements.Pal;
 using static Elements.Rect;
 
@@ -37,11 +36,16 @@ public class PlayerHeader
             {
                 Text = UIB.Text((Name != "[unknown]" ? Name : "Dummy"), table, Huge, size: 240);
 
-                Mask PFPMASK = UIB.Mask($"PFP MASK OF {Tools.Name(id)}", table, new((-width / 2) - 30, 0, 50, 50), UIB.Background);
-                Image PFP = UIB.Image("PFP", PFPMASK.transform, new(0, 0, 50, 50));
-
-                if (Name != "[unknown]") PlayerList.Instance.LoadPFP(Tools.Friend(id), PFP);
-                else PFP.sprite = DollAssets.Icon;
+                Mask avatarMask = UIB.Mask("Avatar mask", table, new((-width / 2) - 30, 0, 50, 50), UIB.Background);
+                RawImage avatar = UIB.RawImage($"Avatar of {Tools.Name(id)}", avatarMask.transform, new(0, 0, 50, 50));
+                
+                if (Name != "[unknown]")
+                {
+                    SteamController.FetchAvatar(avatar.GetComponentInChildren<RawImage>(), Tools.Friend(id));
+                    avatar.transform.rotation *= Quaternion.Euler(0, 0, 180);
+                    avatar.transform.localScale = new Vector3(-1, 1, 1);
+                }
+                else avatar.GetComponentInChildren<RawImage>().texture = DollAssets.Icon.texture;
             });
             Text.transform.localScale /= 10f;
 

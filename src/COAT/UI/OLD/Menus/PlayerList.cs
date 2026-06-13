@@ -187,13 +187,12 @@ public class PlayerList : CanvasSingleton<PlayerList>, IMenuInterface
                 // Load the main compodents of the UI
                 UIB.Button("Player", "", player, new(0, 0, 320f, 80f), Networking.GetTeam(member).Color(), 24, clicked: () => SteamFriends.OpenUserOverlay(member.Id, "steamid"));
 
-                // this and the mask is just to add rounded borders btw
-                Image PFP = UIB.ImageButton($"PFP OF {member.Name}", player, new(-125, 0, 50, 50), clicked: () => Tools.Dummy(member.Id.AccountId));
-                Mask PFPMASK = UIB.Mask($"PFP MASK OF {member.Name}", player, new(-125, 0, 50, 50), UIB.Background);
-                PFP.transform.SetParent(PFPMASK.transform);
-
-                // To load in the PFP
-                LoadPFP(member, PFP);
+                // To load in the pfp using SteamController
+                Mask avatarMask = UIB.Mask("Avatar mask", player, new(-125, 0, 50, 50), UIB.Background);
+                RawImage avatar = UIB.RawImage($"Avatar of {member.Name}", avatarMask.transform, new(0, 0, 50, 50));
+                SteamController.FetchAvatar(avatar.GetComponentInChildren<RawImage>(), member);
+                avatar.transform.rotation *= Quaternion.Euler(0, 0, 180);
+                avatar.transform.localScale = new Vector3(-1, 1, 1);
 
                 // add player name
                 UIB.Text(name, player, new(30, 12.5f, 230f, 30), align: TextAnchor.MiddleLeft);
@@ -203,16 +202,12 @@ public class PlayerList : CanvasSingleton<PlayerList>, IMenuInterface
 
                 // add the + button
                 UIB.Button("View", "+", player, new(135f, -15f, 30f, 30f), Networking.GetTeam(member).Color(), 24, clicked: () => PlayerInfoMenu(member, player));
-
-                // (OLD) Add a ban button for the owner
-                //if (LobbyController.IsOwner && LobbyController.LastOwner != member.Id)
-                //    UIB.IconButton("X", player, Icon(45f, 52.5f), red, clicked: () => Administration.Ban(member.Id.AccountId));
             });
         }
     }
 
     /// <summary> Make the PlayerInfoMenu, actually fucking exist. </summary>
-    private void PlayerInfoMenu(Steamworks.Friend member, Transform parent)
+    private void PlayerInfoMenu(Friend member, Transform parent)
     {
         bool show; // bool for checking to either turn on or off the infomenu (also acts as a toggle)
         if (LastInfoed.Id.AccountId == member.Id.AccountId)
@@ -263,12 +258,6 @@ public class PlayerList : CanvasSingleton<PlayerList>, IMenuInterface
             InfoMenu.GetComponent<RectTransform>().sizeDelta = new Vector2(0, 0); // SEND IT BACK TO EARTH!!!
             InfoMenu.GetComponent<RectTransform>().anchoredPosition = new Vector2(99999, 99999); // YEAA!!!! (tbh idk why i set the size to 0f, 0f)
         }
-    }
-
-    public async void LoadPFP(Friend member, Image PFP)
-    {
-        Texture2D image = await Tools.GetSteamPFP(member, new(50, 50), 3);
-        PFP.sprite = Sprite.Create(image, new(0, 0, 50, 50), new Vector2(0.5f, 0.5f));
     }
 
     public void Mute(uint id)

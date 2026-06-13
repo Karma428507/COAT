@@ -5,12 +5,13 @@ using System.Collections.Generic;
 using ULTRAKILL.Cheats;
 using UnityEngine;
 
+using COAT;
 using COAT.Input;
 using COAT.Net;
 using COAT.Net.Types;
 using COAT.World;
 
-/*[HarmonyPatch(typeof(ActivateArena))]
+[HarmonyPatch(typeof(ActivateArena))]
 public class ArenaPatch
 {
     [HarmonyPrefix]
@@ -72,7 +73,8 @@ public class RoomPatch
     }
 }
 
-[HarmonyPatch(typeof(TramControl))]
+// Work on later since prelude doesn't have trams (thankfully)
+/*[HarmonyPatch(typeof(TramControl))]
 public class TramPatch
 {
     [HarmonyPrefix]
@@ -94,18 +96,18 @@ public class TramPatch
     [HarmonyPrefix]
     [HarmonyPatch("FixedUpdate")]
     static bool Update() => LobbyController.Offline; // disable check for player distance
-}
+}*/
 
 [HarmonyPatch]
 public class ActionPatch
 {
     // Find alternative later
-    /*[HarmonyPostfix]
-    [HarmonyPatch(typeof(ObjectActivator), nameof(ObjectActivator.Activate))]
+    [HarmonyPostfix]
+    [HarmonyPatch(typeof(ObjectActivator), nameof(ObjectActivator.Activate), new[] {typeof(bool)})]
     static void Activate(ObjectActivator __instance)
     {
         if (LobbyController.Online) World.SyncAction(__instance.gameObject);
-    }*
+    }
 
     [HarmonyPostfix]
     [HarmonyPatch(typeof(FinalDoor), nameof(FinalDoor.Open))]
@@ -152,4 +154,4 @@ public class ActionPatch
     {
         if (LobbyController.Online && LobbyController.IsOwner) World.SyncAction(__instance, 6);
     }
-}*/
+}

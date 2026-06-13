@@ -16,7 +16,7 @@ public class DiscordPatch
     {
         // update the discord activity so everyone can know I've been working hard
         if (!LobbyController.Online) return;
-        ___cachedActivity.State = "Testing multiplayer via COAT :3";
+        ___cachedActivity.State = "Testing multiplayer via COAT";
         ___cachedActivity.Details = $"Member Count: {LobbyController.Lobby?.MemberCount}/{LobbyController.Lobby?.MaxMembers}";
     }
 

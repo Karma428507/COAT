@@ -107,7 +107,7 @@ public class Networking
 
             Settings.GetDefaultTeam(out Team team);
 
-            Networking.LocalPlayer.Team = team;
+            LocalPlayer.Team = team;
             Events.OnTeamChanged.Fire();
 
             if (PlayerList.Shown) PlayerList.Instance.Rebuild();

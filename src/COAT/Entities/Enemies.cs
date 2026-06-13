@@ -112,13 +112,6 @@ public class Enemies
     /// <summary> Synchronizes the enemy between network members. </summary>
     public static bool Sync(EnemyIdentifier enemyId)
     {
-        // Remove after debugging
-        if (enemyId == null)
-        {
-            Log.Debug("Enemy null");
-            return true;
-        }
-        
         if (LobbyController.Offline || enemyId.dead || enemyId.name == "Net") return true;
 
         // worry about syncing later
@@ -156,10 +149,6 @@ public class Enemies
         }*/
 
         enemyId.TryGetComponent<EnemySpawnableInstance>(out var component);
-        
-        Log.Debug($"Is sandbox enemy: {component != null}");
-        Log.Debug($"Enemy type: {Type(enemyId).ToString()}");
-        Log.Debug($"Types exist: {Types[Type(enemyId)] != null}");
 
         if (LobbyController.IsOwner || component.sourceObject != null)
         {

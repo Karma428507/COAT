@@ -41,12 +41,12 @@ public class LevelLoadingPatch
     static bool LevelChanger() => AfterLevel();
 }
 
-/*[HarmonyPatch]
+[HarmonyPatch]
 public class RankPatch
 {
-    [HarmonyPostfix]
-    [HarmonyPatch(typeof(GameStateManager), "CanSubmitScores", MethodType.Getter)]
-    static void ScoresSubmission(ref bool __result) => __result &= !Networking.WasMultiplayerUsed;
+    [HarmonyPrefix]
+    [HarmonyPatch(typeof(LeaderboardController), nameof(LeaderboardController.SubmitLevelScore))]
+    static bool ScoresSubmission() => !Networking.WasMultiplayerUsed;
 
     [HarmonyPostfix]
     [HarmonyPatch(typeof(FinalRank), nameof(FinalRank.SetInfo))]
@@ -65,4 +65,4 @@ public class RankPatch
             __instance.totalRank.text = Bundle.CutColors(__instance.totalRank.text);
         }
     }
-}*/
+}
