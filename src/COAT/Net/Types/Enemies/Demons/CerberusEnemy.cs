@@ -19,7 +19,7 @@ public class CerberusEnemy : Enemy
     private void Start()
     {
         SpawnEffect();
-        Boss(Tools.Scene == "Level 0-5", 25f);
+        Boss(Tools.Scene == "Level 0-5", 80f);
     }
 
     private void Update() => Stats.MTE(() =>

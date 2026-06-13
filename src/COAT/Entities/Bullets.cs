@@ -63,7 +63,7 @@ public class Bullets
             else
             if (weapon.TryGetComponent<Chainsaw>(out var chainsaw))
             {
-                //Add(Tools.Get("chainsaw", chainsaw) as GameObject, "CH");
+                //Add(chainsaw.gameObject, "CH");
                 Log.Debug("Chainsaw added");
             }
             else

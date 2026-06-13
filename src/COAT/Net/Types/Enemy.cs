@@ -87,7 +87,7 @@ public class Enemy : OwnableEntity
     public void SetHealth(float health)
     {
         if (EnemyId.drone) EnemyId.drone.Enemy.health = health;
-        if (EnemyId.spider) EnemyId.spider.spider.health = health; // there are spiders?
+        if (EnemyId.spider) EnemyId.spider.spider.health = health;
         if (EnemyId.zombie) EnemyId.zombie.health = health;
         if (EnemyId.statue) EnemyId.statue.health = health;
         if (EnemyId.machine) EnemyId.machine.health = health;

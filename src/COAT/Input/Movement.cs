@@ -51,8 +51,9 @@ public class Movement : MonoSingleton<Movement>
                 // have this option be setting based
                 // because I hate this
 
-                nm.modNoJump = LobbyController.Online;
-                HookArm.Instance.gameObject.SetActive(LobbyController.Offline);
+                // Disabled for now
+                //nm.modNoJump = LobbyController.Online;
+                //HookArm.Instance.gameObject.SetActive(LobbyController.Offline);
             }
 
             if (fakeDeath)

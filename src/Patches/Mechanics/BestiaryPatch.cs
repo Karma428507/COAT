@@ -8,7 +8,6 @@ using COAT.Assets;
 using COAT.Net;
 using COAT.Entities;
 using System.Linq;
-using COAT;
 
 [HarmonyPatch]
 public class BestiaryPatch

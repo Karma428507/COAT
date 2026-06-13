@@ -21,6 +21,7 @@ public class CommonBulletsPatch
     [HarmonyPatch(typeof(Projectile), "Start")]
     static void Projectile(Projectile __instance) => Bullets.Sync(__instance.gameObject, ref __instance.sourceWeapon, false, true);
 
+    // Issue here
     [HarmonyPrefix]
     [HarmonyPatch(typeof(GasolineProjectile), MethodType.Constructor)]
     static void Gasoline(GasolineProjectile __instance) => Events.Post(() => Bullets.Sync(__instance.gameObject, true, false));

@@ -5,9 +5,6 @@ using COAT.Net;
 using plog;
 using System;
 using System.Collections.Generic;
-using System.IO;
-
-//using Jaket.Net;
 
 /// <summary> Custom logger used only by the mod for convenience. </summary>
 public class Log

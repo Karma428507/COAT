@@ -24,9 +24,12 @@ public class SwordsEnemy : SimpleEnemy
 
     protected override void Start()
     {
-        Log.Debug($"Health: {EnemyId.machine.health}");
-        bool prelude = (Tools.Scene == "Level 0-2" && EnemyId.machine.health != 300) || Tools.Scene == "Level 0-3";
+        bool intro = swords.transform.position.y <= 320;
+        bool prelude = (Tools.Scene == "Level 0-2" && !intro) || Tools.Scene == "Level 0-3";
         bool castleVein = Tools.Scene == "Level 1-3";
+
+        if (intro && Tools.Scene == "Level 0-2")
+            EnemyId.machine.health = 300;
 
         SpawnEffect();
         Boss(prelude || castleVein, prelude ? 125f : 50f, castleVein || firstPhase != null ? 1 : 2, prelude

@@ -138,15 +138,5 @@ public class Keybinds : MonoSingleton<Keybinds>
         }
 
         if (Input.GetKeyDown(SelfDestructionKey) && !UI.AnyDialog) nm.GetHurt(4200, false, 0f);
-
-        /*if (Input.GetKeyDown(Keybinds.PanHit) && !UI.AnyDialog)
-        {
-            if (Physics.Raycast(cc.transform.position, cc.transform.forward, out var hit, 1f, mask))
-            {
-
-            } else 
-
-            
-        }*/
     }
 }
