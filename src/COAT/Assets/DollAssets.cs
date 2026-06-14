@@ -205,48 +205,6 @@ public class DollAssets
     {
         // create a doll from the prefab obtained from the bundle
         // the instance is created on these coordinates so as not to collide with anything after the spawn
-        /*var obj = Tools.Instantiate(Doll, nm.transform.position, nm.transform.rotation);
-        obj.name = "Net"; // idk bro#
-        obj.tag = "Dummy";
-
-        // add components
-        var enemyId = obj.AddComponent<EnemyIdentifier>();
-        var machine = obj.AddComponent<Machine>();
-
-        enemyId.enemyClass = EnemyClass.Machine;
-        enemyId.enemyType = EnemyType.V2;
-        enemyId.dontCountAsKills = true;
-        enemyId.weaknesses = new string[0];
-        enemyId.burners = new();
-        enemyId.activateOnDeath = new GameObject[0];
-        machine.destroyOnDeath = new GameObject[0];
-        machine.hurtSounds = new AudioClip[0];
-
-        // add enemy identifier to all doll parts so that bullets can hit it
-        foreach (var rigidbody in obj.transform.GetChild(0).GetComponentsInChildren<Rigidbody>())
-        {
-            rigidbody.gameObject.AddComponent<EnemyIdentifierIdentifier>();
-            rigidbody.tag = MapTag(rigidbody.gameObject.tag);
-            rigidbody.useGravity = true;
-        }
-
-        obj.tag = "Dummy"; // im doing this again incase rigid body is replacing it (i have no idea what the fuck is going on
-        // add a script to further control the doll 
-        var remotePlayer = obj.AddComponent<RemotePlayer>();
-        LocalPlayer localPlayer = new();
-
-
-        obj.tag = "1";
-        remotePlayer.Awake();
-        Writer.Write(w => localPlayer.DummyWrite(w), (IntPtr, Int) => Reader.Read(IntPtr, Int, r =>
-        {
-            remotePlayer.Read(r);
-        }), 48);
-
-        remotePlayer.Start();
-        remotePlayer.Update();
-        remotePlayer.LateUpdate();*/
-
         RemotePlayer remotePlayer = new();
         Writer.Write(w =>
         {

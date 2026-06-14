@@ -99,7 +99,7 @@ public class Client : Endpoint, IConnectionManager
         });
 
         Manager.Connection.Flush();
-        Pointers.Reset();
+        Pointers.SoftBuffer.Reset();
     }
 
     public override void Close() => Manager?.Close();

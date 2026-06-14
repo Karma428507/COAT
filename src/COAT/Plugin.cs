@@ -75,7 +75,7 @@ public class Plugin : MonoBehaviour
         // Initialize the important utilities
         //Version.Check4Update();
         Stats.StartRecord();
-        Pointers.Allocate();
+        Pointers.Load();
         Tools.CacheAccId();
 
         // Networking
@@ -85,6 +85,7 @@ public class Plugin : MonoBehaviour
         Networking.Load();
 
         // Loads the asset
+        AssemblyAssets.Load();
         Bundle.Load();
         DollAssets.Load();
         SaveManager.Load();

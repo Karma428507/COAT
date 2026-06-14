@@ -12,7 +12,7 @@ public class Writer : IO
 
     public static void Write(Action<Writer> cons, Action<IntPtr, int> result, int memoryAmount)
     {
-        Writer instance = new(Pointers.Allocate(memoryAmount), memoryAmount);
+        Writer instance = new(Pointers.SoftBuffer.Allocate(memoryAmount), memoryAmount);
         cons(instance);
         result(instance.memory, instance.Position);
     } 

@@ -89,12 +89,11 @@ public class Server : Endpoint, ISocketManager
             {
                 Administration.Ban(sender);
                 Log.Warning($"[Server] {sender} was blocked due to an attempt to overwrite someone else's spray");
+                return;
             }
-            else
-            {
-                SprayDistributor.Download(r);
-                Redirect(r, con);
-            }
+
+            SprayDistributor.Download(r);
+            Redirect(r, con);
         });
 
         Listen(PacketType.RequestImage, (con, sender, r) =>
@@ -135,7 +134,7 @@ public class Server : Endpoint, ISocketManager
         });
 
         foreach (var con in Manager.Connected) con.Flush();
-        Pointers.Reset();
+        Pointers.SoftBuffer.Reset();
     }
 
     public override void Close() => Manager?.Close();
