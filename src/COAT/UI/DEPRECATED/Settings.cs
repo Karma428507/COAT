@@ -13,8 +13,8 @@ using COAT.Net;
 using COAT.UI.Elements;
 using COAT.UI.Menus.Sub;
 
-using static Elements.Pal;
-using static Elements.Rect;
+using static Utils.Pal;
+using static Utils.Rect;
 
 /// <summary> Global mod settings not related to the lobby. </summary>
 public class Settings : CanvasSingleton<Settings>, IMenuInterface

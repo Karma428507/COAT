@@ -6,7 +6,7 @@ using COAT.Entities;
 using COAT.Input;
 using COAT.IO;
 using COAT.UI;
-using COAT.UI.Screen;
+using COAT.UI.Overlay;
 using UnityEngine;
 
 public class LocalPlayer : Entity

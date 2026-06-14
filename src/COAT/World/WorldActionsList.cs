@@ -13,7 +13,7 @@ using COAT.Net.Types;
 using COAT.UI;
 using COAT.UI.Screen;
 
-using static UI.Elements.Rect;
+using static UI.Utils.Rect;
 
 /// <summary> List of all interactions with the level needed by the multiplayer. </summary>
 public class WorldActionsList

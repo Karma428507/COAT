@@ -9,10 +9,10 @@ using UnityEngine.UI;
 
 using COAT.Assets;
 using COAT.Net;
-using COAT.Net.Types;
 using COAT.UI;
 using COAT.UI.Menus;
 using COAT.UI.Screen;
+using COAT.UI.Overlay;
 using System;
 
 /// <summary> Class responsible for additions to control and local display of emotions. </summary>

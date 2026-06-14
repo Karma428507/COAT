@@ -1,7 +1,7 @@
 namespace COAT.UI.Screen;
 
-using static Elements.Pal;
-using static Elements.Rect;
+using static Utils.Pal;
+using static Utils.Rect;
 
 /// <summary> UI for endless mode and 0-S. </summary>
 public class Permadeath : CanvasSingleton<Permadeath> // WHY

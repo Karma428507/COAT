@@ -4,7 +4,7 @@ using COAT.Assets;
 using COAT.Net;
 using COAT.Net.Types;
 using COAT.UI;
-using COAT.UI.Screen;
+using COAT.UI.Overlay;
 using System.Collections;
 using UnityEngine;
 

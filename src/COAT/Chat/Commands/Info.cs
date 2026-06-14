@@ -1,7 +1,7 @@
 ﻿namespace COAT.Chat.Commands;
 
 using COAT.Chat;
-using COAT.UI.Screen;
+using COAT.UI.Overlay;
 
 /// <summary> Information related commands </summary>
 public class Info : ICommandModule

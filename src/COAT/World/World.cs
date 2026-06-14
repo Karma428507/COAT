@@ -69,7 +69,8 @@ public class World
             "Level 0-4",
             "Level 0-5",
             "Level 0-S",
-            "uk_construct"
+            "uk_construct",
+            "CreditsMuseum2"
         };
 
         const string SendToEAEnd = "Level 1-1";
@@ -115,8 +116,7 @@ public class World
                     button.transform.position = vector3;
 
                     // idk why this isn't working
-                    button.onClick.RemoveAllListeners();
-                    button.onClick.m_Calls.Clear();
+                    button.onClick = new Button.ButtonClickedEvent();
                     button.onClick.AddListener(() => Tools.Load("uk_construct"));
                 }
                 else

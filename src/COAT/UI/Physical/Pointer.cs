@@ -6,7 +6,7 @@ using COAT.Assets;
 using COAT.Content;
 using COAT.UI;
 
-using static Elements.Rect;
+using static Utils.Rect;
 
 /// <summary> Player-created pointer, disappears in a few seconds after appearing. </summary>
 public class Pointer : MonoBehaviour

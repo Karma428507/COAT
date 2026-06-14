@@ -6,6 +6,7 @@ using COAT.Sprays;
 using COAT.UI;
 using COAT.UI.Physical;
 using COAT.UI.Menus;
+using COAT.UI.Overlay;
 using COAT.UI.Screen;
 
 using UnityEngine;

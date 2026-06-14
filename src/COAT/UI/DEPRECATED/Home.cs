@@ -11,8 +11,9 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.UI.Extensions;
-using static Elements.Pal;
-using static Elements.Rect;
+
+using static Utils.Pal;
+using static Utils.Rect;
 
 /// <summary> Browser for public lobbies that receives the list via Steam API and displays it in the scrollbar. </summary>
 public class Home : CanvasSingleton<Home>, IMenuInterface

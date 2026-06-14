@@ -10,7 +10,7 @@ using TMPro;
 using static Utils.Rect;
 
 /// <summary> Access to the mod functions through the main menu. </summary>
-public class MainMenuAccess : CanvasSingleton<MainMenuAccess>
+public class EarlyAccessEnd : CanvasSingleton<EarlyAccessEnd>
 {
     /// <summary> Table containing the access buttons. </summary>
     private Transform table;

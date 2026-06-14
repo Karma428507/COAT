@@ -1,4 +1,4 @@
-namespace COAT.UI.Screen;
+namespace COAT.UI.Overlay;
 
 using System.Collections;
 using System.Collections.Generic;
@@ -15,8 +15,8 @@ using COAT.Net.Types;
 using COAT.UI.Menus;
 using Sam;
 
-using static Elements.Pal;
-using static Elements.Rect;
+using static Utils.Pal;
+using static Utils.Rect;
 
 /// <summary> Front end of the chat, back end implemented via Steamworks. </summary>
 public class ChatUI : CanvasSingleton<ChatUI>, IOverlayInterface

@@ -1,12 +1,10 @@
 ﻿namespace COAT.Chat;
 
-using COAT.Content;
-using COAT.Input;
-using COAT.Net;
-using COAT.UI.Elements;
-using COAT.UI.Screen;
-using System;
 using UnityEngine;
+
+using COAT.UI.Overlay;
+
+using static UI.Utils.Pal;
 
 public static class ChatUtils
 {
@@ -68,7 +66,7 @@ public static class ChatUtils
 
     public static void Hello(bool force = false)
     {
-        void Msg(string message) => ChatUI.Instance.Receive(Pal.Darkblue, BOT_PREFIX + "John COAT", message);
+        void Msg(string message) => ChatUI.Instance.Receive(Darkblue, BOT_PREFIX + "John COAT", message);
 
         Msg("Welcome to COAT, for a list of commands, type in /help");
         Msg("If you want to talk without typing /tts for each message, type in /tts-auto");

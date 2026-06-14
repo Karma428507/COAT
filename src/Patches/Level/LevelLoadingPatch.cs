@@ -7,7 +7,7 @@ using COAT;
 using COAT.Assets;
 using COAT.Net;
 
-using static COAT.UI.Elements.Pal;
+using static COAT.UI.Utils.Pal;
 
 [HarmonyPatch]
 public class LevelLoadingPatch

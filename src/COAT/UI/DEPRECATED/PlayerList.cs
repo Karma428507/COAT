@@ -10,9 +10,9 @@ using Steamworks;
 using UnityEngine;
 using UnityEngine.UI;
 
-using static Elements.Pal;
-using static Elements.Rect;
-using Rect = Elements.Rect;
+using static Utils.Pal;
+using static Utils.Rect;
+using Rect = Utils.Rect;
 
 /// <summary> List of all players and teams. </summary>
 public class PlayerList : CanvasSingleton<PlayerList>, IMenuInterface
@@ -234,7 +234,7 @@ public class PlayerList : CanvasSingleton<PlayerList>, IMenuInterface
                 BanButton.GetComponentInChildren<Text>().maskable = false;
 
                 // Kick Button
-                Button KickButton = UIB.Button("Kick", "K", InfoMenu.transform, new(25, 25, 45, 45), Pal.orange, 24, clicked: () => Administration.Kick(member.Id.AccountId));
+                Button KickButton = UIB.Button("Kick", "K", InfoMenu.transform, new(25, 25, 45, 45), orange, 24, clicked: () => Administration.Kick(member.Id.AccountId));
                 KickButton.GetComponent<Image>().maskable = false;
                 KickButton.GetComponentInChildren<Text>().maskable = false;
 

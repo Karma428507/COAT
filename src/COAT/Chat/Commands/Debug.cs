@@ -3,7 +3,7 @@
 using COAT.Chat;
 using COAT.Content;
 using COAT.Net;
-using COAT.UI.Screen;
+using COAT.UI.Overlay;
 
 /// <summary> Commands for debugging </summary>
 public class Debug : ICommandModule

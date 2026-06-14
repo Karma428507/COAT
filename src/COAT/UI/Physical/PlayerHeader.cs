@@ -7,8 +7,8 @@ using COAT.UI.Menus;
 //using System.Numerics;
 using UnityEngine;
 using UnityEngine.UI;
-using static Elements.Pal;
-using static Elements.Rect;
+using static Utils.Pal;
+using static Utils.Rect;
 
 /// <summary> Header containing nickname and health. </summary>
 public class PlayerHeader

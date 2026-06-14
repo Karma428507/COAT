@@ -10,7 +10,7 @@ using COAT.IO;
 using COAT.Net.Types;
 using COAT.Sprays;
 using COAT.World;
-using COAT.UI.Screen;
+using COAT.UI.Overlay;
 
 // Handler for players joining the server
 public class Client : Endpoint, IConnectionManager

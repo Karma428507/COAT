@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 using COAT.Input;
 
-using static Elements.Pal;
+using static Utils.Pal;
 
 /// <summary> In fact, it's just a flash needed to make the teleportation look better. </summary>
 public class Teleporter : CanvasSingleton<Teleporter>

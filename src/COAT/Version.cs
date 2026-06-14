@@ -6,7 +6,7 @@ using UnityEngine.Networking;
 
 using COAT.UI;
 
-using static UI.Elements.Rect;
+using static UI.Utils.Rect;
 
 [Obsolete("Must be reworked at release")]
 public class Version

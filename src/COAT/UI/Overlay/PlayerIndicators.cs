@@ -1,4 +1,4 @@
-namespace COAT.UI.Screen;
+namespace COAT.UI.Overlay;
 
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,7 +10,7 @@ using COAT.Content;
 using COAT.Net;
 using COAT.Net.Types;
 
-using static Elements.Rect;
+using static Utils.Rect;
 
 /// <summary> Indicators showing the location of teammates near the cursor. </summary>
 public class PlayerIndicators : CanvasSingleton<PlayerIndicators>

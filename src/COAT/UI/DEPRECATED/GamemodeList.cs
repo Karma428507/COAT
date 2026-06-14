@@ -6,15 +6,17 @@ using COAT.IO;
 using COAT.Net;
 using COAT.UI;
 using COAT.UI.Elements;
+using COAT.UI.Utils;
 using System;
 using System.Collections.Generic;
 using System.Numerics;
 using UnityEngine;
 using UnityEngine.UI;
 using static COAT.IO.SaveManager;
-using static Elements.Pal;
-using static Elements.Rect;
-using Rect = Elements.Rect;
+
+using static Utils.Pal;
+using static Utils.Rect;
+using Rect = Utils.Rect;
 
 public class ServerCreation : CanvasSingleton<ServerCreation>, IMenuInterface
 {

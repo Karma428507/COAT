@@ -8,7 +8,7 @@ using COAT.Content;
 using COAT.Net;
 using COAT.Net.Types;
 using COAT.UI;
-using COAT.UI.Screen;
+using COAT.UI.Overlay;
 using COAT.Input;
 
 [HarmonyPatch(typeof(NewMovement))]

@@ -12,8 +12,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-using static Elements.Pal;
-using static Elements.Rect;
+using static Utils.Pal;
+using static Utils.Rect;
 using static UnityEngine.ParticleSystem.PlaybackState;
 
 /// <summary> Other setting UI (rework post release). </summary>
@@ -36,7 +36,7 @@ public class GeneralSettings : SettingsPage<GeneralSettings>
             UIB.Image("Settings Border", table, new(0f, 0f, 600f, 800f), null, fill: false);
 
             // All UI below the LineBreak.
-            UIB.Text("General", table, new(10f, 360f, 560f, 40f), Pal.white, 40, TextAnchor.MiddleLeft);
+            UIB.Text("General", table, new(10f, 360f, 560f, 40f), white, 40, TextAnchor.MiddleLeft);
 
             UIB.Button("#settings.reset", table, new(-40f, 310f, 425f, 40f), clicked: ResetGeneral);
 
@@ -51,9 +51,9 @@ public class GeneralSettings : SettingsPage<GeneralSettings>
                 pm.SetBool("jaket.disable-freeze", Settings.DisableFreezeFrames = _);
             }).isOn = Settings.DisableFreezeFrames;
 
-            UIB.Image1("LineBreak", table, new(0f, 190f, 560f, 4f), Pal.white, null, true);
+            UIB.Image1("LineBreak", table, new(0f, 190f, 560f, 4f), white, null, true);
 
-            UIB.Text("Appearance", table, new(10f, 160f, 560f, 40f), Pal.white, 40, TextAnchor.MiddleLeft);
+            UIB.Text("Appearance", table, new(10f, 160f, 560f, 40f), white, 40, TextAnchor.MiddleLeft);
 
             UIB.Text("FEEDBACKER:", table, new(-40f, 120f, 405f, 42f), align: TextAnchor.MiddleLeft);
             feed = UIB.Button("FEEDBACKER:", "", table, Wtf(-280f, 80f), clicked: () =>
@@ -153,7 +153,7 @@ public class ControlSettings : SettingsPage<ControlSettings>
         {
             UIB.Image("Settings Border", table, new(0f, 0f, 600f, 800f), null, fill: false);
 
-            UIB.Text("Controls", table, new(-60f, 360f, 425f, 42f), Pal.white, 48, TextAnchor.MiddleLeft);
+            UIB.Text("Controls", table, new(-60f, 360f, 425f, 42f), white, 48, TextAnchor.MiddleLeft);
 
             UIB.Button("Reset", "#settings.reset", table, new(0f, 310f, 560f, 40f), clicked: ResetControls);
 

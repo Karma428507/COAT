@@ -11,8 +11,8 @@ using COAT.Input;
 using COAT.Net;
 using COAT.Sprays;
 
-using static Elements.Pal;
-using static Elements.Rect;
+using static Utils.Pal;
+using static Utils.Rect;
 
 /// <summary> Global spray settings not related to the lobby. </summary>
 public class SpraySettings : SettingsPage<SpraySettings>

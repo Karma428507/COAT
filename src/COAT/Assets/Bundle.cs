@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using COAT.IO;
-using COAT.UI.Screen;
+using COAT.UI.Overlay;
 
 /// <summary> Class that loads translations from files in the bundles folder and returns translated lines by keys. </summary>
 public class Bundle

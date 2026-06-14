@@ -13,6 +13,7 @@ using COAT.Net;
 using COAT.Input;
 using COAT.UI.Menus;
 using COAT.UI.Menus.Sub;
+using COAT.UI.Overlay;
 using COAT.UI.Screen;
 
 /// <summary> Class that loads and manages the interface of the mod. </summary>

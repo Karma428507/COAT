@@ -1,4 +1,4 @@
-namespace COAT.UI.Screen;
+namespace COAT.UI.Overlay;
 
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,7 +8,7 @@ using COAT.Input;
 
 using ImageType = UnityEngine.UI.Image.Type;
 
-using static Elements.Rect;
+using static Utils.Rect;
 
 /// <summary> Skateboard stamina and speed. </summary>
 public class Skateboard : CanvasSingleton<Skateboard>

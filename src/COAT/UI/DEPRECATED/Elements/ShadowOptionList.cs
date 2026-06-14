@@ -14,8 +14,8 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
 
-using static Pal;
-using static Rect;
+using static Utils.Pal;
+using static Utils.Rect;
 
 public class ShadowOptionList : MonoBehaviour
 {

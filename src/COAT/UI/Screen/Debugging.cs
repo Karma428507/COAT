@@ -9,8 +9,8 @@ using UnityEngine.UI.Extensions;
 using COAT.IO;
 using COAT.Net;
 
-using static Elements.Pal;
-using static Elements.Rect;
+using static Utils.Pal;
+using static Utils.Rect;
 
 /// <summary> Tab containing different information about the load on the network. </summary>
 public class Debugging : CanvasSingleton<Debugging>
