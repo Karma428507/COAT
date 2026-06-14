@@ -42,5 +42,6 @@
 
   <ItemGroup>
     <Folder Include="src\COAT\Net\Types\Enemies\Angel\" />
+    <Folder Include="src\Patches\World\" />
   </ItemGroup>
 </Project>

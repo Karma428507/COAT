@@ -70,6 +70,7 @@ public class Plugin : MonoBehaviour
 
     private void Init()
     {
+        // Could I just remove the input from the event instead?
         if (Initialized) return;
 
         // Initialize the important utilities
