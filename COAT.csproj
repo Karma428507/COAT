@@ -18,6 +18,136 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="assets\bundles\arabic.properties" />
+    <None Remove="assets\bundles\brazilianportuguese.properties" />
+    <None Remove="assets\bundles\english.properties" />
+    <None Remove="assets\bundles\filipino.properties" />
+    <None Remove="assets\bundles\french.properties" />
+    <None Remove="assets\bundles\italian.properties" />
+    <None Remove="assets\bundles\polish.properties" />
+    <None Remove="assets\bundles\russian.properties" />
+    <None Remove="assets\bundles\spanish.properties" />
+    <None Remove="assets\bundles\ukrainian.properties" />
+    <None Remove="assets\cats\cat =3.jpg" />
+    <None Remove="assets\cats\flavor.png" />
+    <None Remove="assets\icons\V3-emoji-0-glow.png" />
+    <None Remove="assets\icons\V3-emoji-0.png" />
+    <None Remove="assets\icons\V3-emoji-1-glow.png" />
+    <None Remove="assets\icons\V3-emoji-1.png" />
+    <None Remove="assets\icons\V3-emoji-10-glow.png" />
+    <None Remove="assets\icons\V3-emoji-10.png" />
+    <None Remove="assets\icons\V3-emoji-11-glow.png" />
+    <None Remove="assets\icons\V3-emoji-11.png" />
+    <None Remove="assets\icons\V3-emoji-2-glow.png" />
+    <None Remove="assets\icons\V3-emoji-2.png" />
+    <None Remove="assets\icons\V3-emoji-3-glow.png" />
+    <None Remove="assets\icons\V3-emoji-3.png" />
+    <None Remove="assets\icons\V3-emoji-4-glow.png" />
+    <None Remove="assets\icons\V3-emoji-4.png" />
+    <None Remove="assets\icons\V3-emoji-5-glow.png" />
+    <None Remove="assets\icons\V3-emoji-5.png" />
+    <None Remove="assets\icons\V3-emoji-6-glow.png" />
+    <None Remove="assets\icons\V3-emoji-6.png" />
+    <None Remove="assets\icons\V3-emoji-7-glow.png" />
+    <None Remove="assets\icons\V3-emoji-7.png" />
+    <None Remove="assets\icons\V3-emoji-8-glow.png" />
+    <None Remove="assets\icons\V3-emoji-8.png" />
+    <None Remove="assets\icons\V3-emoji-9-glow.png" />
+    <None Remove="assets\icons\V3-emoji-9.png" />
+    <None Remove="assets\icons\V3-icon.png" />
+    <None Remove="assets\model\Player Doll Preview.prefab" />
+    <None Remove="assets\model\Player Doll.prefab" />
+    <None Remove="assets\model\sam-audio.mixer" />
+    <None Remove="assets\model\V3-animation-controller.controller" />
+    <None Remove="assets\model\V3-default-mask.mask" />
+    <None Remove="assets\model\V3-hand-mask.mask" />
+    <None Remove="assets\model\V3.blend" />
+    <None Remove="assets\model\V3.blend1" />
+    <None Remove="assets\model\V3.fbx" />
+    <None Remove="assets\model\V3.fbx.meta" />
+    <None Remove="assets\textures\coin.png" />
+    <None Remove="assets\textures\PainTexture.png" />
+    <None Remove="assets\textures\throne-cup.png" />
+    <None Remove="assets\textures\throne-hieroglyphs.png" />
+    <None Remove="assets\textures\throne-stone.png" />
+    <None Remove="assets\textures\V3-blast.png" />
+    <None Remove="assets\textures\V3-body.png" />
+    <None Remove="assets\textures\V3-hand.png" />
+    <None Remove="assets\textures\V3-wings-blue.png" />
+    <None Remove="assets\textures\V3-wings-green.png" />
+    <None Remove="assets\textures\V3-wings-pink.png" />
+    <None Remove="assets\textures\V3-wings-purple.png" />
+    <None Remove="assets\textures\V3-wings-red.png" />
+    <None Remove="assets\textures\V3-wings-yellow.png" />
+    <None Remove="assets\ui\mainMenu.prefab" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="assets\bundles\arabic.properties" />
+    <EmbeddedResource Include="assets\bundles\brazilianportuguese.properties" />
+    <EmbeddedResource Include="assets\bundles\english.properties" />
+    <EmbeddedResource Include="assets\bundles\filipino.properties" />
+    <EmbeddedResource Include="assets\bundles\french.properties" />
+    <EmbeddedResource Include="assets\bundles\italian.properties" />
+    <EmbeddedResource Include="assets\bundles\polish.properties" />
+    <EmbeddedResource Include="assets\bundles\russian.properties" />
+    <EmbeddedResource Include="assets\bundles\spanish.properties" />
+    <EmbeddedResource Include="assets\bundles\ukrainian.properties" />
+    <EmbeddedResource Include="assets\cats\cat =3.jpg" />
+    <EmbeddedResource Include="assets\cats\flavor.png" />
+    <EmbeddedResource Include="assets\icons\V3-emoji-0-glow.png" />
+    <EmbeddedResource Include="assets\icons\V3-emoji-0.png" />
+    <EmbeddedResource Include="assets\icons\V3-emoji-1-glow.png" />
+    <EmbeddedResource Include="assets\icons\V3-emoji-1.png" />
+    <EmbeddedResource Include="assets\icons\V3-emoji-10-glow.png" />
+    <EmbeddedResource Include="assets\icons\V3-emoji-10.png" />
+    <EmbeddedResource Include="assets\icons\V3-emoji-11-glow.png" />
+    <EmbeddedResource Include="assets\icons\V3-emoji-11.png" />
+    <EmbeddedResource Include="assets\icons\V3-emoji-2-glow.png" />
+    <EmbeddedResource Include="assets\icons\V3-emoji-2.png" />
+    <EmbeddedResource Include="assets\icons\V3-emoji-3-glow.png" />
+    <EmbeddedResource Include="assets\icons\V3-emoji-3.png" />
+    <EmbeddedResource Include="assets\icons\V3-emoji-4-glow.png" />
+    <EmbeddedResource Include="assets\icons\V3-emoji-4.png" />
+    <EmbeddedResource Include="assets\icons\V3-emoji-5-glow.png" />
+    <EmbeddedResource Include="assets\icons\V3-emoji-5.png" />
+    <EmbeddedResource Include="assets\icons\V3-emoji-6-glow.png" />
+    <EmbeddedResource Include="assets\icons\V3-emoji-6.png" />
+    <EmbeddedResource Include="assets\icons\V3-emoji-7-glow.png" />
+    <EmbeddedResource Include="assets\icons\V3-emoji-7.png" />
+    <EmbeddedResource Include="assets\icons\V3-emoji-8-glow.png" />
+    <EmbeddedResource Include="assets\icons\V3-emoji-8.png" />
+    <EmbeddedResource Include="assets\icons\V3-emoji-9-glow.png" />
+    <EmbeddedResource Include="assets\icons\V3-emoji-9.png" />
+    <EmbeddedResource Include="assets\icons\V3-icon.png" />
+    <EmbeddedResource Include="assets\model\Player Doll Preview.prefab" />
+    <EmbeddedResource Include="assets\model\Player Doll.prefab" />
+    <EmbeddedResource Include="assets\model\sam-audio.mixer" />
+    <EmbeddedResource Include="assets\model\V3-animation-controller.controller" />
+    <EmbeddedResource Include="assets\model\V3-default-mask.mask" />
+    <EmbeddedResource Include="assets\model\V3-hand-mask.mask" />
+    <EmbeddedResource Include="assets\model\V3.blend" />
+    <EmbeddedResource Include="assets\model\V3.blend1" />
+    <EmbeddedResource Include="assets\model\V3.fbx" />
+    <EmbeddedResource Include="assets\model\V3.fbx.meta" />
+    <EmbeddedResource Include="assets\textures\coin.png" />
+    <EmbeddedResource Include="assets\textures\PainTexture.png" />
+    <EmbeddedResource Include="assets\textures\throne-cup.png" />
+    <EmbeddedResource Include="assets\textures\throne-hieroglyphs.png" />
+    <EmbeddedResource Include="assets\textures\throne-stone.png" />
+    <EmbeddedResource Include="assets\textures\V3-blast.png" />
+    <EmbeddedResource Include="assets\textures\V3-body.png" />
+    <EmbeddedResource Include="assets\textures\V3-hand.png" />
+    <EmbeddedResource Include="assets\textures\V3-wings-blue.png" />
+    <EmbeddedResource Include="assets\textures\V3-wings-green.png" />
+    <EmbeddedResource Include="assets\textures\V3-wings-pink.png" />
+    <EmbeddedResource Include="assets\textures\V3-wings-purple.png" />
+    <EmbeddedResource Include="assets\textures\V3-wings-red.png" />
+    <EmbeddedResource Include="assets\textures\V3-wings-yellow.png" />
+    <EmbeddedResource Include="assets\ui\mainMenu.prefab" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="UnityEngine.Modules" Version="2022.3.29" IncludeAssets="compile" />
 
     <Reference Include="lib\BepInEx.dll" />
@@ -33,7 +163,6 @@
     <Reference Include="lib\UnityEngine.UI.dll" />
     <Reference Include="lib\UnityUIExtensions.dll" />
 
-	<AdditionalFiles Include="assets\embedded.txt" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework.TrimEnd(`0123456789`))' == 'net'">

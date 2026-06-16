@@ -29,20 +29,6 @@ public class Bundle
     /// <summary> Loads the translation specified in the settings. </summary>
     public static void Load()
     {
-        #region r2mm fix
-
-        var bundles = FileManager.MergeDLLPath("bundles");
-        if (!Directory.Exists(bundles)) Directory.CreateDirectory(bundles);
-
-        foreach (var prop in Directory.EnumerateFiles(FileManager.GetDLLRoot(), "*.properties"))
-        {
-            var dest = Path.Combine(bundles, Path.GetFileName(prop));
-
-            File.Delete(dest);
-            File.Move(prop, dest);
-        }
-
-        #endregion
         #region 2NS
 
         Events.OnLoaded += () =>
@@ -55,6 +41,7 @@ public class Bundle
 
         #endregion
 
+        string[] lines;
         var locale = PrefsManager.Instance.GetString("jaket.locale", "en");
         int localeId = Array.IndexOf(Codes, locale);
 
@@ -63,19 +50,16 @@ public class Bundle
             Log.Error($"Couldn't find the bundle for {locale} language code!");
             return;
         }
-
-        var file = FileManager.MergeDLLPath("bundles", $"{Files[localeId]}.properties");
-        string[] lines;
-        try
+        
+        // Gets the embedded localization file
+        lines = AssemblyAssets.GetLinedTextFromEmbedded($"bundles.{Files[localeId]}.properties");
+        if (lines == null)
         {
-            lines = File.ReadAllLines(file);
-        }
-        catch (Exception ex)
-        {
-            Log.Error(new IOException($"Couldn't find the bundle file; path is {file}", ex));
+            Log.Error(new IOException($"Couldn't find the embdedded bundle file '{Files[localeId]}.properties'"));
             return;
         }
-
+        
+        // Processes the lines
         foreach (var line in lines)
         {
             // skip comments and blank lines
