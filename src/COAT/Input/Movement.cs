@@ -30,10 +30,6 @@ public class Movement : MonoSingleton<Movement>
 
     /// <summary> Starting and ending position of third person camera. </summary>
     private readonly Vector3 start = new(0f, 6f, 0f), end = new(0f, .1f, 0f);
-    /// <summary> Third person camera position. </summary>
-    private Vector3 position;
-    /// <summary> Third person camera rotation. </summary>
-    private Vector2 rotation;
     /// <summary> Third person camera target. If an emote is playing, the camera will aim at the local player, otherwise, at a remote player. </summary>
     private int targetPlayer;
 

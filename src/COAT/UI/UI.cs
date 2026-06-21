@@ -41,7 +41,6 @@ public class UI
         Root = Tools.Create("UI").transform;
         
         Home.Build("Lobby List", false, true);
-        MainMenuAccess.Build("Main Menu Access", false, true);
         ChatUI.Build("Chat", true, true, hide: () => ChatUI.Instance.Field?.gameObject.SetActive(ChatUI.Shown = false));
         ServerCreation.Build("Gamemode List", false, true);
         PlayerList.Build("Player List", false, true);
@@ -65,7 +64,8 @@ public class UI
         // For overlay UI only
         OverlayList.Add(ChatUI.Instance);
 
-        MainMenuAccess.Instance.Toggle();
+
+        ReplacementUI.Start();
 
         Events.EveryDozen += UpdateOverlayCondition;
     }

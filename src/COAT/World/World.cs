@@ -38,6 +38,23 @@ public class World
     public static SecuritySystem[] SecuritySystem = new SecuritySystem[7];
     public static Brain Brain;
 
+    private static string[] AllowedLevels = {
+        "Tutorial",
+        "Level 0-1",
+        "Level 0-2",
+        "Level 0-3",
+        "Level 0-4",
+        "Level 0-5",
+        "Level 0-S",
+        "uk_construct",
+        "CreditsMuseum2",
+        // Once I get to 2-S, I'm going to make it an actual level (hopefully)
+        
+        "EarlyAccessEnd"
+    };
+
+    private const string SendToEAEnd = "Level 1-1";
+
     /// <summary> Creates a singleton of world. </summary>
     public static void Load()
     {
@@ -56,7 +73,23 @@ public class World
         Events.OnLobbyEntered += Restore;
         Events.EveryDozen += Optimize;
 
-        Events.OnLoaded += RedirectBlockedLevels;
+        Events.OnLoaded += () =>
+        {
+            if (LobbyController.Online && LobbyController.IsOwner && Tools.Pending != "Main Menu")
+            {
+                // Make sure the allowed levels are skipped
+                foreach (string level in AllowedLevels)
+                    if (Tools.Scene == level)
+                        return;
+
+                // Send to the early access end screen if going to 1-1
+                if (Tools.Pending == SendToEAEnd)
+                    Events.Post(() => Tools.Load("EarlyAccessEnd")); // Wait, if this is not in the allowed levels list, then how does it go there without issue?
+
+                // Else, just go to sandbox
+                Events.Post(() => Tools.Load("uk_construct"));
+            }
+        };
     }
 
     #region data
@@ -291,94 +324,5 @@ public class World
         w.Vector(t.transform.position);
     }, size: 13);
 
-    #endregion
-    #region redirection
-    private static void RedirectBlockedLevels()
-    {
-        string[] AllowedLevels = {
-            "Tutorial",
-            "Level 0-1",
-            "Level 0-2",
-            "Level 0-3",
-            "Level 0-4",
-            "Level 0-5",
-            "Level 0-S",
-            "uk_construct",
-            "CreditsMuseum2"
-
-            // Once I get to 2-S, I'm going to make it an actual level (hopefully)
-        };
-
-        const string SendToEAEnd = "Level 1-1";
-
-        const string ScreenPath = "Canvas/UnderwaterOverlay/Panel/Skippables";
-        const string DiscordPath = $"{ScreenPath}/Panel/Discord";
-        const string TwitterPath = $"{ScreenPath}/Panel/Twitter";
-        const string YoutubePath = $"{ScreenPath}/Panel/Youtube";
-
-        if (LobbyController.Online && Tools.Pending != "Main Menu")
-        {
-            if (Tools.Scene == "EarlyAccessEnd")
-            {
-                GameObject screen = Tools.ObjFindMainScene(ScreenPath);
-                Button button = Tools.ObjFindMainScene($"{ScreenPath}/Quit Mission").GetComponent<Button>();
-
-                // Changes the text to be more COAT centric
-                screen.GetComponentInChildren<TextMeshProUGUI>().text = """
-                    <size=48><b>THANKS FOR PLAYING COAT</b></size>
-
-                    ACT I is being worked on currently with it being released in the next major updates
-                    
-                    For news on it's progress, go to
-                    """;
-
-                // Changes social media links
-                Tools.ObjFindMainScene(DiscordPath).GetComponent<WebButton>().url = "https://discord.gg/DUEmvMXfq2";
-                Tools.ObjFindMainScene(TwitterPath).GetComponent<WebButton>().url = "https://github.com/Karma428507/COAT";
-
-                // Change color/properties/text
-                //Tools.ObjFindMainScene(TwitterPath).GetComponent<Image>().color = new Color(0.1f, 0.1f, 0.1f);
-                Tools.ObjFindMainScene(TwitterPath).GetComponentInChildren<TextMeshProUGUI>().text = "GITHUB";
-                Tools.ObjFindMainScene(YoutubePath).GetComponent<Image>().color = new Color(.7f, 0f, 0f);
-                Tools.ObjFindMainScene(YoutubePath).GetComponent<Button>().interactable = false;
-
-                // Adds buttons for host and client
-                if (LobbyController.IsOwner)
-                {
-                    Button newButton = GameObject.Instantiate(button, screen.transform);
-                    button.GetComponentInChildren<TextMeshProUGUI>().text = "GO TO SANDBOX";
-                    Vector3 vector3 = button.transform.position;
-                    vector3.y += 135f;
-                    button.transform.position = vector3;
-
-                    // idk why this isn't working
-                    button.onClick = new Button.ButtonClickedEvent();
-                    button.onClick.AddListener(() => Tools.Load("uk_construct"));
-                }
-                else
-                {
-                    button.GetComponentInChildren<TextMeshProUGUI>().text = "LEAVE SERVER";
-                }
-
-                return;
-            }
-
-            // Below deals with correcting the levels
-            if (!LobbyController.IsOwner)
-                return;
-
-            // Make sure the allowed levels are skipped
-            foreach (string level in AllowedLevels)
-                if (Tools.Scene == level)
-                    return;
-
-            // Send to the early access end screen if going to 1-1
-            if (Tools.Pending == SendToEAEnd)
-                Events.Post(() => Tools.Load("EarlyAccessEnd"));
-
-            // Else, just go to sandbox
-            Events.Post(() => Tools.Load("uk_construct"));
-        }
-    }
     #endregion
 }
