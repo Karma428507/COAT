@@ -59,92 +59,6 @@ public class World
         Events.OnLoaded += RedirectBlockedLevels;
     }
 
-    private static void RedirectBlockedLevels()
-    {
-        string[] AllowedLevels = {
-            "Tutorial",
-            "Level 0-1",
-            "Level 0-2",
-            "Level 0-3",
-            "Level 0-4",
-            "Level 0-5",
-            "Level 0-S",
-            "uk_construct",
-            "CreditsMuseum2"
-        };
-
-        const string SendToEAEnd = "Level 1-1";
-
-        const string ScreenPath = "Canvas/UnderwaterOverlay/Panel/Skippables";
-        const string DiscordPath = $"{ScreenPath}/Panel/Discord";
-        const string TwitterPath = $"{ScreenPath}/Panel/Twitter";
-        const string YoutubePath = $"{ScreenPath}/Panel/Youtube";
-
-        if (LobbyController.Online && Tools.Pending != "Main Menu")
-        {
-            if (Tools.Scene == "EarlyAccessEnd")
-            {
-                GameObject screen = Tools.ObjFindMainScene(ScreenPath);
-                Button button = Tools.ObjFindMainScene($"{ScreenPath}/Quit Mission").GetComponent<Button>();
-
-                // Changes the text to be more COAT centric
-                screen.GetComponentInChildren<TextMeshProUGUI>().text = """
-                    <size=48><b>THANKS FOR PLAYING COAT</b></size>
-
-                    ACT I is being worked on currently with it being released in the next major updates
-                    
-                    For news on it's progress, go to
-                    """;
-
-                // Changes social media links
-                Tools.ObjFindMainScene(DiscordPath).GetComponent<WebButton>().url = "https://discord.gg/DUEmvMXfq2";
-                Tools.ObjFindMainScene(TwitterPath).GetComponent<WebButton>().url = "https://github.com/Karma428507/COAT";
-                
-                // Change color/properties/text
-                //Tools.ObjFindMainScene(TwitterPath).GetComponent<Image>().color = new Color(0.1f, 0.1f, 0.1f);
-                Tools.ObjFindMainScene(TwitterPath).GetComponentInChildren<TextMeshProUGUI>().text = "GITHUB";
-                Tools.ObjFindMainScene(YoutubePath).GetComponent<Image>().color = new Color(.7f, 0f, 0f);
-                Tools.ObjFindMainScene(YoutubePath).GetComponent<Button>().interactable = false;
-
-                // Adds buttons for host and client
-                if (LobbyController.IsOwner)
-                {
-                    Button newButton = GameObject.Instantiate(button, screen.transform);
-                    button.GetComponentInChildren<TextMeshProUGUI>().text = "GO TO SANDBOX";
-                    Vector3 vector3 = button.transform.position;
-                    vector3.y += 135f;
-                    button.transform.position = vector3;
-
-                    // idk why this isn't working
-                    button.onClick = new Button.ButtonClickedEvent();
-                    button.onClick.AddListener(() => Tools.Load("uk_construct"));
-                }
-                else
-                {
-                    button.GetComponentInChildren<TextMeshProUGUI>().text = "LEAVE SERVER";
-                }
-                
-                return;
-            }
-
-            // Below deals with correcting the levels
-            if (!LobbyController.IsOwner)
-                return;
-
-            // Make sure the allowed levels are skipped
-            foreach (string level in AllowedLevels)
-                if (Tools.Scene == level)
-                    return;
-
-            // Send to the early access end screen if going to 1-1
-            if (Tools.Pending == SendToEAEnd)
-                Events.Post(() => Tools.Load("EarlyAccessEnd"));
-
-            // Else, just go to sandbox
-            Events.Post(() => Tools.Load("uk_construct"));
-        }
-    }
-
     #region data
 
     /// <summary> Writes data about the world such as level, difficulty and triggers fired. </summary>
@@ -168,9 +82,10 @@ public class World
         // if the mod version doesn't match the host's one, then reading the packet is complete, as this may lead to bigger bugs
         if (r.String() != Version.CURRENT)
         {
-            //Version.Notify();
-            //return;
+            Version.Notify();
+            return;
         }
+
         PrefsManager.Instance.SetInt("difficulty", r.Byte());
 
         Activated.Clear();
@@ -273,9 +188,9 @@ public class World
     {
         void Find<T>(Vector3 pos, Action<T> cons) where T : Component => Tools.ResFind(t => t.transform.position == pos, cons);
 
-        switch (r.Byte())
+        switch ((SyncType)r.Byte())
         {
-            case 0:
+            case SyncType.NetAction:
                 byte index = r.Byte();
                 if (Actions[index] is NetAction na)
                 {
@@ -285,7 +200,7 @@ public class World
                 }
                 break;
 
-            case 1:
+            case SyncType.HookPoint:
                 byte indexp = r.Byte();
                 bool hooked = r.Bool();
                 Log.Debug($"[World] Read the new state of point#{indexp}: {hooked}");
@@ -300,7 +215,7 @@ public class World
                 }
                 break;
 
-            case 2:
+            case SyncType.Tram:
                 byte indext = r.Byte();
                 int speed = r.Int();
                 Log.Debug($"[World] Read the new speed of tram#{indext}: {speed}");
@@ -308,18 +223,18 @@ public class World
                 Trams[indext].currentSpeedStep = speed;
                 break;
 
-            case 3: Find<FinalDoor>(r.Vector(), d => d.transform.Find("FinalDoorOpener").gameObject.SetActive(true)); break;
-            case 4: Find<Door>(r.Vector(), d => d.Open()); break;
-            case 7: Find<Flammable>(r.Vector(), d => d.Burn(4.01f)); break;
+            case SyncType.FinalDoorUnlock: Find<FinalDoor>(r.Vector(), d => d.transform.Find("FinalDoorOpener").gameObject.SetActive(true)); break;
+            case SyncType.DoorUnlock: Find<Door>(r.Vector(), d => d.Open()); break;
+            case SyncType.BurnObject: Find<Flammable>(r.Vector(), d => d.Burn(4.01f)); break;
 
-            case 5:
+            case SyncType.ActivateStatue:
                 Find<StatueActivator>(r.Vector(), d =>
                 {
                     d.gameObject.SetActive(true);
                     d.transform.parent.gameObject.SetActive(true);
                 });
                 break;
-            case 6:
+            case SyncType.FillTree:
                 Networking.EachEntity(entity => entity.Type == EntityType.Puppet, entity => entity.EnemyId.InstaKill());
                 Find<BloodFiller>(r.Vector(), f => f.InstaFill());
                 break;
@@ -336,7 +251,7 @@ public class World
             Networking.Send(PacketType.ActivateObject, w =>
             {
                 Activated.Add(index);
-                w.Byte(0);
+                w.Byte((byte)SyncType.NetAction);
                 w.Byte(index);
 
                 Log.Debug($"[World] Sent the activation of the object {na.Name} in {na.Level}");
@@ -346,7 +261,7 @@ public class World
     /// <summary> Synchronizes the state of a hook point. </summary>
     public static void SyncAction(byte index, bool hooked) => Networking.Send(PacketType.ActivateObject, w =>
     {
-        w.Byte(1);
+        w.Byte((byte)SyncType.HookPoint);
         w.Byte(index);
         w.Bool(hooked);
 
@@ -361,7 +276,7 @@ public class World
         var index = (byte)Trams.IndexOf(tram);
         if (index != 255) Networking.Send(PacketType.ActivateObject, w =>
         {
-            w.Byte(2);
+            w.Byte((byte)SyncType.Tram);
             w.Byte(index);
             w.Int(tram.currentSpeedStep);
 
@@ -370,11 +285,100 @@ public class World
     }
 
     /// <summary> Synchronizes actions characterized only by position: opening doors, activation of a stature or tree. </summary>
-    public static void SyncAction(Component t, byte type) => Networking.Send(PacketType.ActivateObject, w =>
+    public static void SyncAction(Component t, SyncType type) => Networking.Send(PacketType.ActivateObject, w =>
     {
-        w.Byte(type);
+        w.Byte((byte)type);
         w.Vector(t.transform.position);
     }, size: 13);
 
+    #endregion
+    #region redirection
+    private static void RedirectBlockedLevels()
+    {
+        string[] AllowedLevels = {
+            "Tutorial",
+            "Level 0-1",
+            "Level 0-2",
+            "Level 0-3",
+            "Level 0-4",
+            "Level 0-5",
+            "Level 0-S",
+            "uk_construct",
+            "CreditsMuseum2"
+
+            // Once I get to 2-S, I'm going to make it an actual level (hopefully)
+        };
+
+        const string SendToEAEnd = "Level 1-1";
+
+        const string ScreenPath = "Canvas/UnderwaterOverlay/Panel/Skippables";
+        const string DiscordPath = $"{ScreenPath}/Panel/Discord";
+        const string TwitterPath = $"{ScreenPath}/Panel/Twitter";
+        const string YoutubePath = $"{ScreenPath}/Panel/Youtube";
+
+        if (LobbyController.Online && Tools.Pending != "Main Menu")
+        {
+            if (Tools.Scene == "EarlyAccessEnd")
+            {
+                GameObject screen = Tools.ObjFindMainScene(ScreenPath);
+                Button button = Tools.ObjFindMainScene($"{ScreenPath}/Quit Mission").GetComponent<Button>();
+
+                // Changes the text to be more COAT centric
+                screen.GetComponentInChildren<TextMeshProUGUI>().text = """
+                    <size=48><b>THANKS FOR PLAYING COAT</b></size>
+
+                    ACT I is being worked on currently with it being released in the next major updates
+                    
+                    For news on it's progress, go to
+                    """;
+
+                // Changes social media links
+                Tools.ObjFindMainScene(DiscordPath).GetComponent<WebButton>().url = "https://discord.gg/DUEmvMXfq2";
+                Tools.ObjFindMainScene(TwitterPath).GetComponent<WebButton>().url = "https://github.com/Karma428507/COAT";
+
+                // Change color/properties/text
+                //Tools.ObjFindMainScene(TwitterPath).GetComponent<Image>().color = new Color(0.1f, 0.1f, 0.1f);
+                Tools.ObjFindMainScene(TwitterPath).GetComponentInChildren<TextMeshProUGUI>().text = "GITHUB";
+                Tools.ObjFindMainScene(YoutubePath).GetComponent<Image>().color = new Color(.7f, 0f, 0f);
+                Tools.ObjFindMainScene(YoutubePath).GetComponent<Button>().interactable = false;
+
+                // Adds buttons for host and client
+                if (LobbyController.IsOwner)
+                {
+                    Button newButton = GameObject.Instantiate(button, screen.transform);
+                    button.GetComponentInChildren<TextMeshProUGUI>().text = "GO TO SANDBOX";
+                    Vector3 vector3 = button.transform.position;
+                    vector3.y += 135f;
+                    button.transform.position = vector3;
+
+                    // idk why this isn't working
+                    button.onClick = new Button.ButtonClickedEvent();
+                    button.onClick.AddListener(() => Tools.Load("uk_construct"));
+                }
+                else
+                {
+                    button.GetComponentInChildren<TextMeshProUGUI>().text = "LEAVE SERVER";
+                }
+
+                return;
+            }
+
+            // Below deals with correcting the levels
+            if (!LobbyController.IsOwner)
+                return;
+
+            // Make sure the allowed levels are skipped
+            foreach (string level in AllowedLevels)
+                if (Tools.Scene == level)
+                    return;
+
+            // Send to the early access end screen if going to 1-1
+            if (Tools.Pending == SendToEAEnd)
+                Events.Post(() => Tools.Load("EarlyAccessEnd"));
+
+            // Else, just go to sandbox
+            Events.Post(() => Tools.Load("uk_construct"));
+        }
+    }
     #endregion
 }
