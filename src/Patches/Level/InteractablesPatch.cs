@@ -16,18 +16,6 @@ using COAT.Content;
 public class InteractablesPatch
 {
     [HarmonyPostfix]
-    [HarmonyPatch(typeof(Breakable), nameof(Breakable.Break), new[] {typeof(float)})]
-    static void Enter(Breakable __instance)
-    {
-        if (LobbyController.Offline)
-            return;
-
-        Vector3 pos = __instance.transform.position;
-
-        Log.Debug($"Broken object at {pos}");
-    }
-
-    [HarmonyPostfix]
     [HarmonyPatch(typeof(ObjectActivator), nameof(ObjectActivator.Activate), new[] { typeof(bool) })]
     static void Activate(ObjectActivator __instance)
     {
@@ -61,9 +49,16 @@ public class InteractablesPatch
 
     [HarmonyPostfix]
     [HarmonyPatch(typeof(Flammable), nameof(Flammable.Burn))]
-    static void Activate(Flammable __instance, float newHeat)
+    static void ActivateBurn(Flammable __instance, float newHeat)
     {
         if (LobbyController.Online && newHeat == 4f) World.SyncAction(__instance, SyncType.BurnObject);
+    }
+
+    [HarmonyPostfix]
+    [HarmonyPatch(typeof(Breakable), nameof(Breakable.Break), new[] { typeof(float) })]
+    static void ActivateBreak(Breakable __instance)
+    {
+        if (LobbyController.Online) World.SyncAction(__instance, SyncType.BurnObject);
     }
 
     [HarmonyPostfix]

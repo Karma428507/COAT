@@ -170,9 +170,5 @@ public static class ReplacementUI
         position = new Vector2(0, 0);
         position.x -= 100;
         sandbox.transform.localPosition = position;
-
-        //Tools.Destroy(container.GetComponent<Image>());
-        //Tools.Destroy(container.GetComponent<Button>());
-        //Tools.Destroy(container.GetComponentInChildren<TextMeshProUGUI>());
     }
 }

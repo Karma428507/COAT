@@ -10,21 +10,20 @@ using COAT.IO;
 using COAT.Net;
 using COAT.Net.Types;
 
+using Version = Version;
 using TMPro;
 using UnityEngine.UI;
 
-/// <summary> Class that manages how doors behave and sync in the levels. </summary>
-public class DoorManager
+/// <summary> Handles special level specific syncs. </summary>
+public class SpecialSyncs
 {
+    /// <summary> Creates a singleton of world. </summary>
     public static void Load()
     {
-        Events.OnLoaded += () => {
-            if (Tools.Scene != "Main Menu")
-                GetDoors();
-        };
+        
     }
 
-    private static void GetDoors()
+    private static void SyncSandbox()
     {
 
     }

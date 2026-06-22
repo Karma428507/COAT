@@ -258,6 +258,8 @@ public class World
 
             case SyncType.FinalDoorUnlock: Find<FinalDoor>(r.Vector(), d => d.transform.Find("FinalDoorOpener").gameObject.SetActive(true)); break;
             case SyncType.DoorUnlock: Find<Door>(r.Vector(), d => d.Open()); break;
+
+            case SyncType.BreakObject: Find<Breakable>(r.Vector(), d => d.Break()); break;
             case SyncType.BurnObject: Find<Flammable>(r.Vector(), d => d.Burn(4.01f)); break;
 
             case SyncType.ActivateStatue:

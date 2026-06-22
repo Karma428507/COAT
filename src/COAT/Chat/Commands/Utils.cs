@@ -89,5 +89,21 @@ public class Utils : ICommandModule
             else
                 chat.Receive("[#FF341C]Layer must be an integer from 0 to 7. Level must be an integer from 1 to 5.");
         });
+
+        ChatHandler.Register("plushy", "<name>", "Spawn a plushy by name", args =>
+        {
+            string name = args.Length == 0 ? null : args[0].ToLower();
+            int index = Array.FindIndex(GameAssets.PlushiesButReadable, plushy => plushy.ToLower() == name);
+
+            if (index == -1)
+                chat.Receive($"[#FF341C]Plushy named {name} not found.");
+            else
+                Tools.Instantiate(Items.Prefabs[EntityType.PlushyOffset + index - EntityType.ItemOffset].gameObject, NewMovement.Instance.transform.position);
+        });
+
+        ChatHandler.Register("cohost", "<player>", "Gives another player playing host abilities", args =>
+        {
+            // :3
+        });
     }
 }

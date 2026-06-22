@@ -26,6 +26,19 @@ public class ArenaPatch
         if (LobbyController.Online) __instance.doors = new Door[0];
     }
 
+    [HarmonyPrefix]
+    [HarmonyPatch(typeof(Arena), "Awake")]
+    static void ArenaAll(Arena __instance)
+    {
+        // do not allow the doors to close because this will cause a lot of desync
+        Log.Debug($"Door count: {__instance.doors.Length}");
+
+        foreach (Door door in __instance.doors)
+        {
+            Log.Debug($"Door: {door.gameObject.transform.position}");
+        }
+    }
+
     [HarmonyPostfix]
     [HarmonyPatch("OnTriggerEnter")]
     static void Enter(ActivateArena __instance, Collider other, ArenaStatus ___astat)

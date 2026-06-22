@@ -1,9 +1,12 @@
 ﻿namespace COAT.Chat.Commands;
 
+using System;
+
 using COAT.Chat;
 using COAT.UI.Overlay;
 
 /// <summary> Information related commands </summary>
+[Obsolete("Fix the credits")]
 public class Info : ICommandModule
 {
     static ChatUI chat => ChatUI.Instance;
