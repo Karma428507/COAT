@@ -103,7 +103,7 @@ public class Tools
     public static GameObject Instantiate(GameObject obj, Vector3 position, Quaternion? rotation = null) => Object.Instantiate(obj, position, rotation ?? Quaternion.identity);
 
     public static void Destroy(Object obj) => Object.Destroy(obj);
-    public static void Destroy(string objName) => Destroy(Tools.ObjFind(objName));
+    public static void Destroy(string objName) => Destroy(ObjFind(objName));
     public static void DestroyImmediate(Object obj) => Object.DestroyImmediate(obj);
 
     public static void SetActive(string objName, bool active) => Tools.ObjFind(objName).SetActive(active);

@@ -11,6 +11,7 @@ using COAT.Net;
 using COAT.Net.Types;
 using COAT.UI.Menus;
 using COAT.IO;
+using COAT.UI;
 
 /// <summary> Class that works with the assets bundle of the mod. </summary>
 public class DollAssets
@@ -59,6 +60,13 @@ public class DollAssets
     public static void Load()
     {
         Bundle = LoadBundle();
+
+        // Dump asset list
+#if DUMP_ASSETS
+        Log.Debug("Assets:");
+        foreach (string asset in Bundle.GetAllAssetNames())
+            Log.Debug($"\t- {asset}");
+#endif
 
         // cache the shader and the wing textures for future use
         Events.Post(LoadAssets);
@@ -128,17 +136,36 @@ public class DollAssets
 
             Preview = prefab;
         });
+
+#if ENABLE_PREFAB_UI
+        // Loads the prefab UI into the prefabUI root
+        LoadAsyncUI("Main Menu.prefab", "Main Menu Coat");
+
+        // After loading the prefab UI, set them up
+        Events.Post(PrefabUI.InitiateCanvas);
+#endif
     }
 
     /// <summary> Finds and loads an assets bundle. </summary>
-    public static AssetBundle LoadBundle() =>
-        AssetBundle.LoadFromMemory(AssemblyAssets.GetDataFromEmbedded("assets.bundle"));
+    private static AssetBundle LoadBundle() =>
+        AssetBundle.LoadFromMemory(AssemblyAssets.GetDataFromEmbedded("coat.bundle"));
 
     /// <summary> Finds and asynchronously loads an asset. </summary>
-    public static void LoadAsync<T>(string name, UnityAction<T> cons) where T : Object
+    private static void LoadAsync<T>(string name, UnityAction<T> cons) where T : Object
     {
         var task = Bundle.LoadAssetAsync<T>(name);
         task.completed += _ => cons(task.asset as T);
+    }
+
+    /// <summary> Finds and load UI prefabs into the prefab UI section. </summary>
+    private static void LoadAsyncUI(string prefabName, string name)
+    {
+        LoadAsync<GameObject>(prefabName, prefab =>
+        {
+            FixMaterials(prefab);
+            prefab.SetActive(false);
+            Tools.Instantiate(prefab, PrefabUI.Root).name = name;
+        });
     }
 
     /// <summary> Changes the colors of materials and their shaders to match the style of the game.. </summary>

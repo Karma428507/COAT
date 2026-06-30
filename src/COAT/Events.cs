@@ -64,8 +64,6 @@ public class Events : MonoSingleton<Events>
     /// <summary> Posts the task for execution in the next frame. </summary>
     public static void Post2(Action task) => Post(() => Post(task));
 
-
-
     private void Dozen() => EveryDozen.Fire();
     private void Second() => EverySecond.Fire();
     private void Tick() => EveryTick.Fire();

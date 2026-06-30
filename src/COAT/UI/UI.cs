@@ -40,11 +40,7 @@ public class UI
     {
         Root = Tools.Create("UI").transform;
         
-        Home.Build("Lobby List", false, true);
         ChatUI.Build("Chat", true, true, hide: () => ChatUI.Instance.Field?.gameObject.SetActive(ChatUI.Shown = false));
-        ServerCreation.Build("Gamemode List", false, true);
-        PlayerList.Build("Player List", false, true);
-        Settings.Build("Settings", false, true);
 
         Debugging.Build("Debugging Menu", false, false);
         PlayerInfo.Build("Player Information", false, false, scene => scene == "Main Menu", () => { if (PlayerInfo.Shown) PlayerInfo.Instance.Toggle(); });
@@ -55,18 +51,17 @@ public class UI
         Teleporter.Build("Teleporter", false, false, hide: () => { });
 
         // Remove when UI overhaul
+        Home.Build("Lobby List", false, true);
+        Settings.Build("Settings", false, true);
+        ServerCreation.Build("Gamemode List", false, true);
+        PlayerList.Build("Player List", false, true);
         GeneralSettings.Build("General Settings", false, true);
         ControlSettings.Build("Control Settings", false, true);
         SpraySettings.Build("Spray Settings", false, true);
         ModerationSettings.Build("Moderation Settings", false, true);
 
-
         // For overlay UI only
         OverlayList.Add(ChatUI.Instance);
-
-
-        ReplacementUI.Start();
-
         Events.EveryDozen += UpdateOverlayCondition;
     }
 

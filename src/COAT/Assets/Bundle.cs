@@ -52,7 +52,7 @@ public class Bundle
         }
         
         // Gets the embedded localization file
-        lines = AssemblyAssets.GetLinedTextFromEmbedded($"bundles.{Files[localeId]}.properties");
+        lines = AssemblyAssets.GetLinedTextFromEmbedded($"Localization.{Files[localeId]}.properties");
         if (lines == null)
         {
             Log.Error(new IOException($"Couldn't find the embdedded bundle file '{Files[localeId]}.properties'"));

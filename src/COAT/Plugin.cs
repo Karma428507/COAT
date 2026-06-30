@@ -18,6 +18,7 @@ using COAT.Sprays;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using COAT.UI;
 
 /// <summary> Bootloader class needed to avoid destroying the mod by the game. </summary>
 [BepInPlugin("Karma.Coat", "COAT", Version.CURRENT)]
@@ -73,8 +74,12 @@ public class Plugin : MonoBehaviour
         // Could I just remove the input from the event instead?
         if (Initialized) return;
 
+        // Update check
+#if UPDATE
+        Version.Check4Update();
+#endif
+
         // Initialize the important utilities
-        //Version.Check4Update();
         Stats.StartRecord();
         Pointers.Load();
         Tools.CacheAccId();
@@ -96,9 +101,11 @@ public class Plugin : MonoBehaviour
         Keybinds.Load();
         Movement.Load();
 
-        // Loads UI
-        UI.UIB.Load();
+        // Loads the UI
+        UIB.Load();
         UI.UI.Load();
+        ReplacementUI.Load();
+        PrefabUI.Load();
 
         // Entities stuff and weapons
         Net.Entities.Load();
@@ -106,9 +113,12 @@ public class Plugin : MonoBehaviour
         Events.Post(Items.Load);
         Events.OnLoaded += Weapons.Initialize;
         
-        // Rest of multiplayer
+        // World management
         World.World.Load();
         WorldActionsList.Load();
+        DoorManager.Load();
+
+        // Rest of multiplayer
         ChatHandler.Load();
         SprayManager.Load();
 

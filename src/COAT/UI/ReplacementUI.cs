@@ -14,7 +14,7 @@ public static class ReplacementUI
     /// <summary> Original sandbox button. </summary>
     private static GameObject sandboxOriginal;
 
-    public static void Start()
+    public static void Load()
     {
         // Saves the sandbox button data
         GameObject sandbox;
@@ -58,6 +58,20 @@ public static class ReplacementUI
         LobbyButton.GetComponentInChildren<Image>().color = Color.white;
         LobbyButton.GetComponentInChildren<Button>().onClick = new();
         LobbyButton.GetComponentInChildren<Button>().onClick.AddListener(() => UI.PushStack(Home.Instance));
+
+#if ENABLE_PREFAB_UI
+        var LobbyButtonM = Tools.Instantiate(leftside.transform.Find("Continue").gameObject, leftside.transform);
+        LobbyButtonM.name = "DEBUG DEBUG DEBUG";
+        LobbyButtonM.transform.localPosition = new(450.5f, -220f, 0f);
+        LobbyButtonM.GetComponent<RectTransform>().sizeDelta = new Vector2(207.5f, 70f);
+        LobbyButtonM.GetComponentInChildren<TMP_Text>().text = "DEBUG";
+        LobbyButtonM.GetComponentInChildren<TMP_Text>().color = Color.red;
+        LobbyButtonM.GetComponentInChildren<Image>().color = Color.white;
+        LobbyButtonM.GetComponentInChildren<Button>().onClick = new();
+        LobbyButtonM.GetComponentInChildren<Button>().onClick.AddListener(
+            () => PrefabUI.EnableUI(PrefabUI.UI_SCREEN_HOME));
+        leftside.GetComponent<ObjectActivateInSequence>().objectsToActivate[5] = LobbyButtonM;
+#endif
 
         // set the lobbybutton as the parent for the continue button so then they activate at the same time
         RectTransform LobbyButtonRect = LobbyButton.GetComponent<RectTransform>();

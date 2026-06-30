@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
     <AssemblyName>COAT</AssemblyName>
-    <Description>A moderated and more advanced version of Jaket.</Description>
+    <Description>An offshoot of JAKET utilizing moderation, QOL features and networking framework.</Description>
     <Version>1.3.42</Version>
     <DebugType>embedded</DebugType>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -15,86 +15,45 @@
     </RestoreAdditionalProjectSources>
     <RootNamespace>COAT</RootNamespace>
     <NoWarn>IDE0028, IDE0044, IDE0062, IDE0130, IDE0290, IDE0300, IDE1006</NoWarn>
+    <BaseOutputPath></BaseOutputPath>
+    <ProduceReferenceAssembly>False</ProduceReferenceAssembly>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DebugType>embedded</DebugType>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DebugType>embedded</DebugType>
+    <DefineConstants>$(DefineConstants);UPDATE</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="assets\assets.bundle" />
-    <None Remove="assets\bundles\arabic.properties" />
-    <None Remove="assets\bundles\brazilianportuguese.properties" />
-    <None Remove="assets\bundles\english.properties" />
-    <None Remove="assets\bundles\filipino.properties" />
-    <None Remove="assets\bundles\french.properties" />
-    <None Remove="assets\bundles\italian.properties" />
-    <None Remove="assets\bundles\polish.properties" />
-    <None Remove="assets\bundles\russian.properties" />
-    <None Remove="assets\bundles\spanish.properties" />
-    <None Remove="assets\bundles\ukrainian.properties" />
+    <None Remove="assets\coat.bundle" />
+    <None Remove="assets\Localization\arabic.properties" />
+    <None Remove="assets\Localization\brazilianportuguese.properties" />
+    <None Remove="assets\Localization\english.properties" />
+    <None Remove="assets\Localization\filipino.properties" />
+    <None Remove="assets\Localization\french.properties" />
+    <None Remove="assets\Localization\italian.properties" />
+    <None Remove="assets\Localization\polish.properties" />
+    <None Remove="assets\Localization\russian.properties" />
+    <None Remove="assets\Localization\spanish.properties" />
+    <None Remove="assets\Localization\ukrainian.properties" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="assets\assets.bundle" />
-    <EmbeddedResource Include="assets\bundles\arabic.properties" />
-    <EmbeddedResource Include="assets\bundles\brazilianportuguese.properties" />
-    <EmbeddedResource Include="assets\bundles\english.properties" />
-    <EmbeddedResource Include="assets\bundles\filipino.properties" />
-    <EmbeddedResource Include="assets\bundles\french.properties" />
-    <EmbeddedResource Include="assets\bundles\italian.properties" />
-    <EmbeddedResource Include="assets\bundles\polish.properties" />
-    <EmbeddedResource Include="assets\bundles\russian.properties" />
-    <EmbeddedResource Include="assets\bundles\spanish.properties" />
-    <EmbeddedResource Include="assets\bundles\ukrainian.properties" />
-    <EmbeddedResource Include="assets\cats\cat =3.jpg" />
-    <EmbeddedResource Include="assets\cats\flavor.png" />
-    <EmbeddedResource Include="assets\icons\V3-emoji-0-glow.png" />
-    <EmbeddedResource Include="assets\icons\V3-emoji-0.png" />
-    <EmbeddedResource Include="assets\icons\V3-emoji-1-glow.png" />
-    <EmbeddedResource Include="assets\icons\V3-emoji-1.png" />
-    <EmbeddedResource Include="assets\icons\V3-emoji-10-glow.png" />
-    <EmbeddedResource Include="assets\icons\V3-emoji-10.png" />
-    <EmbeddedResource Include="assets\icons\V3-emoji-11-glow.png" />
-    <EmbeddedResource Include="assets\icons\V3-emoji-11.png" />
-    <EmbeddedResource Include="assets\icons\V3-emoji-2-glow.png" />
-    <EmbeddedResource Include="assets\icons\V3-emoji-2.png" />
-    <EmbeddedResource Include="assets\icons\V3-emoji-3-glow.png" />
-    <EmbeddedResource Include="assets\icons\V3-emoji-3.png" />
-    <EmbeddedResource Include="assets\icons\V3-emoji-4-glow.png" />
-    <EmbeddedResource Include="assets\icons\V3-emoji-4.png" />
-    <EmbeddedResource Include="assets\icons\V3-emoji-5-glow.png" />
-    <EmbeddedResource Include="assets\icons\V3-emoji-5.png" />
-    <EmbeddedResource Include="assets\icons\V3-emoji-6-glow.png" />
-    <EmbeddedResource Include="assets\icons\V3-emoji-6.png" />
-    <EmbeddedResource Include="assets\icons\V3-emoji-7-glow.png" />
-    <EmbeddedResource Include="assets\icons\V3-emoji-7.png" />
-    <EmbeddedResource Include="assets\icons\V3-emoji-8-glow.png" />
-    <EmbeddedResource Include="assets\icons\V3-emoji-8.png" />
-    <EmbeddedResource Include="assets\icons\V3-emoji-9-glow.png" />
-    <EmbeddedResource Include="assets\icons\V3-emoji-9.png" />
-    <EmbeddedResource Include="assets\icons\V3-icon.png" />
-    <EmbeddedResource Include="assets\model\Player Doll Preview.prefab" />
-    <EmbeddedResource Include="assets\model\Player Doll.prefab" />
-    <EmbeddedResource Include="assets\model\sam-audio.mixer" />
-    <EmbeddedResource Include="assets\model\V3-animation-controller.controller" />
-    <EmbeddedResource Include="assets\model\V3-default-mask.mask" />
-    <EmbeddedResource Include="assets\model\V3-hand-mask.mask" />
-    <EmbeddedResource Include="assets\model\V3.blend" />
-    <EmbeddedResource Include="assets\model\V3.blend1" />
-    <EmbeddedResource Include="assets\model\V3.fbx" />
-    <EmbeddedResource Include="assets\model\V3.fbx.meta" />
-    <EmbeddedResource Include="assets\textures\coin.png" />
-    <EmbeddedResource Include="assets\textures\PainTexture.png" />
-    <EmbeddedResource Include="assets\textures\throne-cup.png" />
-    <EmbeddedResource Include="assets\textures\throne-hieroglyphs.png" />
-    <EmbeddedResource Include="assets\textures\throne-stone.png" />
-    <EmbeddedResource Include="assets\textures\V3-blast.png" />
-    <EmbeddedResource Include="assets\textures\V3-body.png" />
-    <EmbeddedResource Include="assets\textures\V3-hand.png" />
-    <EmbeddedResource Include="assets\textures\V3-wings-blue.png" />
-    <EmbeddedResource Include="assets\textures\V3-wings-green.png" />
-    <EmbeddedResource Include="assets\textures\V3-wings-pink.png" />
-    <EmbeddedResource Include="assets\textures\V3-wings-purple.png" />
-    <EmbeddedResource Include="assets\textures\V3-wings-red.png" />
-    <EmbeddedResource Include="assets\textures\V3-wings-yellow.png" />
-    <EmbeddedResource Include="assets\ui\mainMenu.prefab" />
+    <EmbeddedResource Include="assets\coat.bundle" />
+    <EmbeddedResource Include="assets\Localization\arabic.properties" />
+    <EmbeddedResource Include="assets\Localization\brazilianportuguese.properties" />
+    <EmbeddedResource Include="assets\Localization\english.properties" />
+    <EmbeddedResource Include="assets\Localization\filipino.properties" />
+    <EmbeddedResource Include="assets\Localization\french.properties" />
+    <EmbeddedResource Include="assets\Localization\italian.properties" />
+    <EmbeddedResource Include="assets\Localization\polish.properties" />
+    <EmbeddedResource Include="assets\Localization\russian.properties" />
+    <EmbeddedResource Include="assets\Localization\spanish.properties" />
+    <EmbeddedResource Include="assets\Localization\ukrainian.properties" />
   </ItemGroup>
 
   <ItemGroup>
@@ -118,4 +77,8 @@
   <ItemGroup Condition="'$(TargetFramework.TrimEnd(`0123456789`))' == 'net'">
     <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.2" PrivateAssets="all" />
   </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="echo Copying to plugin folder&#xD;&#xA;copy &quot;$(TargetDir)/COAT.dll&quot; &quot;C:\Program Files (x86)\Steam\steamapps\common\ULTRAKILL\BepInEx\plugins\COAT\COAT.dll&quot;" />
+  </Target>
 </Project>

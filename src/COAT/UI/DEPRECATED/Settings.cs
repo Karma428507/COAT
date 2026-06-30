@@ -120,7 +120,6 @@ public class Settings : CanvasSingleton<Settings>, IMenuInterface
             });
         });*/
 
-        COAT.Version.Label(transform);
         Rebuild();
     }
 

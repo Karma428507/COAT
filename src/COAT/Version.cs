@@ -9,7 +9,6 @@ using COAT.UI;
 
 using static UI.Utils.Rect;
 
-[Obsolete("Have 'Check4Update' run right before release.")]
 public class Version
 {
     /// <summary> Current version of the mod installed by the player. </summary>
@@ -51,12 +50,5 @@ public class Version
         name = result.Substring(nameIndex += NAME.Length, result.IndexOf('"', nameIndex) - nameIndex);
 
         return true;
-    }
-
-    /// <summary> Adds the mod version to the bottom left edge of the screen. </summary>
-    public static void Label(Transform parent)
-    {
-        var r = Blw(36f, 40f);
-        UIB.Table("Version", parent, r, table => UIB.Text($"COAT version is {CURRENT}", table, r.Text, Color.grey));
     }
 }

@@ -110,7 +110,6 @@ public class PlayerList : CanvasSingleton<PlayerList>, IMenuInterface
             clientBlockBase.enabled = false;
         });
 
-        Version.Label(transform);
         Rebuild();
     }
 
