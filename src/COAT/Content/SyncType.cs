@@ -7,7 +7,8 @@ public enum SyncType
     NetAction = 0,
 
     /// <summary> Tells what door should be unlocked. </summary>
-    DoorUnlock,
+    //DoorUnlock,
+    DoorHandler,
     /// <summary> Unlocks the last door. </summary>
     FinalDoorUnlock,
 

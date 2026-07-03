@@ -15,15 +15,11 @@ using COAT.World;
 public class ArenaPatch
 {
     [HarmonyPrefix]
-    [HarmonyPatch(typeof(Door), nameof(Door.Optimize))]
-    static bool Unload() => LobbyController.Offline;
-
-    [HarmonyPrefix]
     [HarmonyPatch(nameof(ActivateArena.Activate))]
     static void Activate(ActivateArena __instance)
     {
         // do not allow the doors to close because this will cause a lot of desync
-        if (LobbyController.Online) __instance.doors = new Door[0];
+        //if (LobbyController.Online) __instance.doors = new Door[0];
     }
 
     [HarmonyPrefix]

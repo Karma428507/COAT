@@ -37,14 +37,14 @@ public class InteractablesPatch
         if (LobbyController.Online && LobbyController.IsOwner &&
            (n.Contains("Glass") || n.Contains("Cover") ||
             n.Contains("Skull") || n.Contains("Quake") ||
-            Tools.Scene == "Level 3-1" || __instance.transform.parent?.parent?.name == "MazeWalls")) World.SyncAction(__instance, SyncType.DoorUnlock);
+            Tools.Scene == "Level 3-1" || __instance.transform.parent?.parent?.name == "MazeWalls")) World.SyncAction(__instance, SyncType.DoorHandler);
     }
 
     [HarmonyPostfix]
     [HarmonyPatch(typeof(Door), nameof(Door.SimpleOpenOverride))]
     static void OpenSpec(Door __instance)
     {
-        if (LobbyController.Online && __instance.name == "BayDoor") World.SyncAction(__instance, SyncType.DoorUnlock);
+        if (LobbyController.Online && __instance.name == "BayDoor") World.SyncAction(__instance, SyncType.DoorHandler);
     }
 
     [HarmonyPostfix]

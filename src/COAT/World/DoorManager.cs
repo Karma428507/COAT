@@ -11,54 +11,103 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.UIElements;
 
 /// <summary> Class that manages how doors behave and sync in the levels. </summary>
 public class DoorManager
 {
+    /// <summary> Status constant for unlocked doors. </summary>
+    public const byte DOOR_STATUS_UNLOCKED = 0x00;
+    /// <summary> Status constant for locked doors. </summary>
+    public const byte DOOR_STATUS_LOCKED = 0x01;
+
+    /// <summary> This is a dictionary to keep track of the door's position and there net status. </summary>
+    public static Dictionary<Vector3, byte> DoorDictionary = new Dictionary<Vector3, byte>();
+
     public static void Load()
     {
-        Events.OnLoaded += () => {
-            if (LobbyController.Online && LobbyController.IsOwner && Tools.Scene != "Main Menu")
-                GetDoors();
-        };
+        // Idk what to put here rn
     }
 
-    private static void GetDoors()
+    public static void GetDoors()
     {
+        // The main scene
         Scene activeScene = SceneManager.GetActiveScene();
-
-        // Find all objects in the scene (including children)
+        // A list of all door objects
         List<GameObject> results = new List<GameObject>();
 
-        foreach (GameObject root in activeScene.GetRootGameObjects())
-            results.AddRange(RecursiveDoorFind(root));
+        // Recursive function to find the doors in a gameobject's parent
+        void RecursiveDoorFind(GameObject parent)
+        {
+            if (parent.gameObject.GetComponent<Door>() != null)
+                results.Add(parent);
 
-        Log.Debug($"Found {results.Count} objects containing '{"door"}'.");
+            for (int i = 0; i < parent.transform.childCount; i++)
+                RecursiveDoorFind(parent.transform.GetChild(i).gameObject);
+        }
+
+        // Clears so it wouldn't get crowded
+        DoorDictionary.Clear();
+
+        // Find all doors and put it in the results array
+        foreach (GameObject root in activeScene.GetRootGameObjects())
+            RecursiveDoorFind(root);
+
+        Log.Debug($"Found {results.Count} doors.");
         foreach (GameObject obj in results)
         {
-            Door hasDoor = obj.GetComponent<Door>();
+            Door door = obj.GetComponent<Door>();
+            Vector3 position = obj.transform.position;
+            bool locked = door.locked;
 
-            if (hasDoor == null)
-                continue;
-
-            //hasDoor.Unlock();
-            Log.Debug(obj.name);
+            DoorDictionary.Add(position, locked ? DOOR_STATUS_LOCKED : DOOR_STATUS_UNLOCKED);
+            Log.Debug($"\t{obj.name} - {door.doorType.ToString()}");
         }
     }
 
-    private static List<GameObject> RecursiveDoorFind(GameObject parent)
+    public static void SendNetStatus(Door __instance, byte status)
     {
-        List<GameObject> results = new List<GameObject>();
+        if (!LobbyController.Online)
+            return;
+        
+        Vector3 position = __instance.gameObject.transform.position;
 
-        // Get all descendants
-        string name = parent.gameObject.name.ToLower();
+        if (!DoorDictionary.ContainsKey(position))
+        {
+            Log.Error("The door is not registered in the level's door manager");
+            return;
+        }
 
-        if (parent.gameObject.GetComponent<Door>() != null)
-            results.Add(parent);
+        DoorDictionary[position] = status;
 
-        for (int i = 0; i < parent.transform.childCount; i++)
-            results.AddRange(RecursiveDoorFind(parent.transform.GetChild(i).gameObject));
+        World.SyncAction(SyncType.DoorHandler, __instance, status);
+    }
 
-        return results;
+    public static void ReceiveNetStatus(Vector3 position, byte status)
+    {
+        Door door = null;
+            
+        if(!DoorDictionary.ContainsKey(position))
+        {
+            Log.Error("The door is not registered in the level's door manager");
+            return;
+        }
+
+        DoorDictionary[position] = status;
+
+        Tools.ResFind<Door>(d => d.transform.position == position, d => door = d);
+
+        if (door == null)
+            return;
+
+        switch (status)
+        {
+            case DOOR_STATUS_UNLOCKED:
+                door.Unlock();
+                break;
+            case DOOR_STATUS_LOCKED:
+                door.Lock();
+                break;
+        }
     }
 }

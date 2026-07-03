@@ -105,6 +105,18 @@ public class World
 
         // synchronize activated actions
         w.Bytes(Activated.ToArray());
+
+        // Door manager stuff
+        DoorManager.GetDoors();
+
+        // Maybe change to a short if there's a level with too many doors
+        w.Byte((byte)DoorManager.DoorDictionary.Count);
+
+        foreach (KeyValuePair<Vector3, byte> door in DoorManager.DoorDictionary)
+        {
+            w.Vector(door.Key);
+            w.Byte(door.Value);
+        }
     }
 
     /// <summary> Reads data about the world: loads the level, sets difficulty and fires triggers. </summary>
@@ -123,6 +135,13 @@ public class World
 
         Activated.Clear();
         Activated.AddRange(r.Bytes(r.length - r.Position));
+
+        // Adds the door list
+        byte doorCount = r.Byte();
+
+        DoorManager.DoorDictionary.Clear();
+        for (int i = 0; i < doorCount; i++)
+            DoorManager.DoorDictionary.Add(r.Vector(), r.Byte());
     }
 
     #endregion
@@ -257,7 +276,7 @@ public class World
                 break;
 
             case SyncType.FinalDoorUnlock: Find<FinalDoor>(r.Vector(), d => d.transform.Find("FinalDoorOpener").gameObject.SetActive(true)); break;
-            case SyncType.DoorUnlock: Find<Door>(r.Vector(), d => d.Open()); break;
+            case SyncType.DoorHandler: DoorManager.ReceiveNetStatus(r.Vector(), r.Byte()); break;
 
             case SyncType.BreakObject: Find<Breakable>(r.Vector(), d => d.Break()); break;
             case SyncType.BurnObject: Find<Flammable>(r.Vector(), d => d.Burn(4.01f)); break;
@@ -325,6 +344,15 @@ public class World
         w.Byte((byte)type);
         w.Vector(t.transform.position);
     }, size: 13);
+
+    // change byte to 'params object[]' later
+    /// <summary> Synchronizes actions characterized by position and a byte. </summary>
+    public static void SyncAction(SyncType type, Component t, byte data) => Networking.Send(PacketType.ActivateObject, w =>
+    {
+        w.Byte((byte)type);
+        w.Vector(t.transform.position);
+        w.Byte(data);
+    }, size: 14);
 
     #endregion
 }
