@@ -148,7 +148,7 @@ public class DollAssets
 
     /// <summary> Finds and loads an assets bundle. </summary>
     private static AssetBundle LoadBundle() =>
-        AssetBundle.LoadFromMemory(AssemblyAssets.GetDataFromEmbedded("coat.bundle"));
+        AssetBundle.LoadFromMemory(AssemblyAssets.GetDataFromEmbedded("assets.bundle"));
 
     /// <summary> Finds and asynchronously loads an asset. </summary>
     private static void LoadAsync<T>(string name, UnityAction<T> cons) where T : Object

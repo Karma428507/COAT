@@ -72,14 +72,11 @@ public class Doll : MonoBehaviour
         Throne = rig.Find("Throne");
         Coin = V3.Find("Coin");
         Skateboard = V3.Find("Skateboard");
-        //PAiN = V3.Find("P A (i) N");
-        //PAiN.
         Suits = V3.Find("Suits");
 
         WingMat = V3.Find("V3").GetComponent<Renderer>().materials[1];
         CoinMat = Coin.GetComponent<Renderer>().material;
         SkateMat = Skateboard.GetComponent<Renderer>().material;
-        //PAiNmat = PAiN.GetComponent<SkinnedMeshRenderer>().material;
         WingTrail = GetComponentInChildren<TrailRenderer>();
         WingLight = GetComponentInChildren<Light>();
         HookWinch = GetComponentInChildren<LineRenderer>(true);
@@ -147,7 +144,6 @@ public class Doll : MonoBehaviour
 
     public void ApplyTeam(Team team)
     {
-        //PAiNmat.mainTexture = DollAssets.PainTexture; // where do i put this?
         WingMat.mainTexture = SkateMat.mainTexture = DollAssets.WingTextures[(int)team];
         CoinMat.color = team.Color();
         if (WingTrail != null) WingTrail.startColor = team.Color() with { a = .5f };

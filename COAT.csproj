@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
@@ -29,6 +29,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="assets\assets.bundle" />
     <None Remove="assets\coat.bundle" />
     <None Remove="assets\Localization\arabic.properties" />
     <None Remove="assets\Localization\brazilianportuguese.properties" />
@@ -43,6 +44,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="assets\assets.bundle" />
     <EmbeddedResource Include="assets\coat.bundle" />
     <EmbeddedResource Include="assets\Localization\arabic.properties" />
     <EmbeddedResource Include="assets\Localization\brazilianportuguese.properties" />

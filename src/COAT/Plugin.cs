@@ -113,6 +113,8 @@ public class Plugin : MonoBehaviour
         Events.Post(Items.Load);
         Events.OnLoaded += Weapons.Initialize;
         
+        // Optimizations
+
         // World management
         World.World.Load();
         WorldActionsList.Load();

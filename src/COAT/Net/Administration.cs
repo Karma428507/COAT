@@ -7,21 +7,13 @@ using COAT.Chat;
 using COAT.Content;
 using COAT.UI.Menus;
 using COAT.UI.Overlay;
+using COAT.Optimizations;
 
 /// <summary> Class dedicated to protecting the lobby from unfavorable people. </summary>
 public class Administration
 {
-    /// <summary> Max amount of bytes a player can send per second. </summary>
-    public const int SPAM_RATE = 32 * 1024;
     /// <summary> Max amount of warnings a player can get before ban. </summary>
     public const int MAX_WARNINGS = 4;
-
-    /// <summary> Max amount of entity bullets per player and common bullets per second. </summary>
-    public const int MAX_BULLETS = 10;
-    /// <summary> Max amount of entities per player. </summary>
-    public const int MAX_ENTITIES = 16;
-    /// <summary> Max amount of plushies per player. </summary>
-    public const int MAX_PLUSHIES = 6;
 
     /// <summary> List of banned player ids. </summary>
     public static List<uint> Banned = new();
@@ -51,7 +43,7 @@ public class Administration
                 if (uint.TryParse(sid, out var id)) Banned.Add(id);
             });
         };
-        Events.OnLobbyEntered += () => { Banned.Clear(); /*entityBullets.Clear(); entities.Clear(); plushies.Clear();*/ };
+        Events.OnLobbyEntered += () => { Banned.Clear(); entityBullets.Clear(); entities.Clear(); plushies.Clear(); };
         Events.EverySecond += spam.Clear;
         Events.EverySecond += commonBullets.Clear;
         Events.EveryDozen += warnings.Clear;
@@ -141,7 +133,7 @@ public class Administration
     }
 
     /// <summary> Whether the player is sending a large amount of data. </summary>
-    public static bool IsSpam(uint id, int amount) => spam.Count(id, amount) >= SPAM_RATE;
+    public static bool IsSpam(uint id, int amount) => spam.Count(id, amount) >= Limits.SPAM_RATE;
 
     /// <summary> Clears the amount of data sent by the given player. </summary>
     public static void ClearSpam(uint id) => spam[id] = int.MinValue;
@@ -150,7 +142,7 @@ public class Administration
     public static bool IsWarned(uint id) => warnings.Count(id, 1) >= MAX_WARNINGS;
 
     /// <summary> Whether the player can spawn another common bullet. </summary>
-    public static bool CanSpawnBullet(uint owner, int amount) => commonBullets.Count(owner, amount) <= MAX_BULLETS;
+    public static bool CanSpawnBullet(uint owner, int amount) => commonBullets.Count(owner, amount) <= Limits.MAX_BULLETS;
 
     /// <summary> Handles the creations of a new entity by a client. If the client exceeds its limit, the old entity will be destroyed. </ Summary>
     public static void Handle(uint owner, Entity entity)
@@ -166,10 +158,10 @@ public class Administration
             // player can only spawn one big enemy at a time
             if (entity.Type.IsBigEnemy() && entities.TryGetValue(owner, out var list)) list.ForEach(e => e.NetKill());
 
-            Default(entities, MAX_ENTITIES);
+            Default(entities, Limits.MAX_ENTITIES);
         }
-        else if (entity.Type.IsPlushy()) Default(plushies, MAX_PLUSHIES);
-        else if (entity.Type.IsBullet()) Default(entityBullets, MAX_BULLETS);
+        else if (entity.Type.IsPlushy()) Default(plushies, Limits.MAX_PLUSHIES);
+        else if (entity.Type.IsBullet()) Default(entityBullets, Limits.MAX_BULLETS);
     }
 
     /// <summary> Counter of abstract actions done by players. </summary>

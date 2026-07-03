@@ -66,7 +66,7 @@ public static class ChatUtils
 
     public static void Hello(bool force = false)
     {
-        void Msg(string message) => ChatUI.Instance.Receive(Darkblue, BOT_PREFIX + "John COAT", message);
+        void Msg(string message) => ChatUI.Instance.Receive(Darkblue, BOT_PREFIX + "Dante", message);
 
         Msg("Welcome to COAT, for a list of commands, type in /help");
         Msg("If you want to talk without typing /tts for each message, type in /tts-auto");

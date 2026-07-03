@@ -37,12 +37,11 @@ public class DoorManager
         foreach (GameObject obj in results)
         {
             Door hasDoor = obj.GetComponent<Door>();
-            
 
             if (hasDoor == null)
                 continue;
 
-            hasDoor.Unlock();
+            //hasDoor.Unlock();
             Log.Debug(obj.name);
         }
     }
@@ -54,13 +53,11 @@ public class DoorManager
         // Get all descendants
         string name = parent.gameObject.name.ToLower();
 
-        // && !(name.Contains("indoor") || name.Contains("outdoor"))
-        if (name.Contains("door"))
+        if (parent.gameObject.GetComponent<Door>() != null)
             results.Add(parent);
 
         for (int i = 0; i < parent.transform.childCount; i++)
-            if (!parent.transform.GetChild(i).gameObject.name.Contains("Enemies"))
-                results.AddRange(RecursiveDoorFind(parent.transform.GetChild(i).gameObject));
+            results.AddRange(RecursiveDoorFind(parent.transform.GetChild(i).gameObject));
 
         return results;
     }
