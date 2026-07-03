@@ -111,7 +111,7 @@ public class TeamCoin : OwnableEntity
         {
             shot = true;
             Reset();
-            Quadruple();
+            Quadruple(false);
         }
     });
 
@@ -173,14 +173,14 @@ public class TeamCoin : OwnableEntity
         mat.mainTexture = null; // the texture has its own color, which is extremely undesirable
     }
 
-    private void Quadruple()
+    private void Quadruple(bool player)
     {
         quadrupled = true;
-        Effect(coin.enemyFlash, 15f);
 
-        //var light = effect.GetComponent<Light>();
-        //light.color = Team.Color();
-        //light.intensity = 10f;
+        if (player)
+            Effect(coin.enemyFlash, 15f);
+        else
+            Effect(coin.flash, 20f);
     }
 
     private void Reset()
@@ -232,8 +232,9 @@ public class TeamCoin : OwnableEntity
         if (isPlayer || isEnemy)
         {
             TakeOwnage();
-            Quadruple();
+            Quadruple(isPlayer);
         }
+
         Invoke("Reflect", (isPlayer ? 1.2f : isEnemy ? .3f : .1f) + offset);
 
         ccc.beenHit.Add(target?.gameObject);
