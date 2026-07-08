@@ -86,7 +86,7 @@ public class DoorManager
     public static void ReceiveNetStatus(Vector3 position, byte status)
     {
         Door door = null;
-            
+        
         if(!DoorDictionary.ContainsKey(position))
         {
             Log.Error("The door is not registered in the level's door manager");

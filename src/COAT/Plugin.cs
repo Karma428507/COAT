@@ -19,6 +19,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using COAT.UI;
+using COAT.Pages;
 
 /// <summary> Bootloader class needed to avoid destroying the mod by the game. </summary>
 [BepInPlugin("Karma.Coat", "COAT", Version.CURRENT)]
@@ -116,13 +117,14 @@ public class Plugin : MonoBehaviour
         // Optimizations
 
         // World management
+        DoorManager.Load();
         World.World.Load();
         WorldActionsList.Load();
-        DoorManager.Load();
 
         // Rest of multiplayer
         ChatHandler.Load();
         SprayManager.Load();
+        PageManager.Load();
 
         // initialize harmony and patch all the necessary classes
         new Harmony("Meow :3").PatchAll();

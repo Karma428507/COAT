@@ -83,6 +83,7 @@ public class World
                         return;
 
                 // Send to the early access end screen if going to 1-1
+                // Clients are still going to 1-1, fix that
                 if (Tools.Pending == SendToEAEnd)
                     Events.Post(() => Tools.Load("EarlyAccessEnd")); // Wait, if this is not in the allowed levels list, then how does it go there without issue?
 
@@ -105,18 +106,6 @@ public class World
 
         // synchronize activated actions
         w.Bytes(Activated.ToArray());
-
-        // Door manager stuff
-        DoorManager.GetDoors();
-
-        // Maybe change to a short if there's a level with too many doors
-        w.Byte((byte)DoorManager.DoorDictionary.Count);
-
-        foreach (KeyValuePair<Vector3, byte> door in DoorManager.DoorDictionary)
-        {
-            w.Vector(door.Key);
-            w.Byte(door.Value);
-        }
     }
 
     /// <summary> Reads data about the world: loads the level, sets difficulty and fires triggers. </summary>
@@ -135,13 +124,6 @@ public class World
 
         Activated.Clear();
         Activated.AddRange(r.Bytes(r.length - r.Position));
-
-        // Adds the door list
-        byte doorCount = r.Byte();
-
-        DoorManager.DoorDictionary.Clear();
-        for (int i = 0; i < doorCount; i++)
-            DoorManager.DoorDictionary.Add(r.Vector(), r.Byte());
     }
 
     #endregion
