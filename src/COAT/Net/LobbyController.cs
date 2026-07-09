@@ -35,7 +35,6 @@ public class LobbyController
     /// <summary> Whether a list of public lobbies is being fetched right now. </summary>
     public static bool FetchingLobbies;
 
-
     /// <summary> Whether PvP is allowed in this lobby. </summary>
     public static bool PvPAllowed => Lobby?.GetData("pvp") == "True";
     /// <summary> Whether cheats are allowed in this lobby. </summary>
@@ -170,7 +169,6 @@ public class LobbyController
         if (!IsOwner && loadMainMenu) Tools.Load("Main Menu");
 
         Networking.Clear();
-        PlayerData.PlayerList.Clear();
         Events.OnLobbyAction.Fire();
     }
 

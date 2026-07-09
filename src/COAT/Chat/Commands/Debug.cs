@@ -18,10 +18,7 @@ public class Debug : ICommandModule
         ChatHandler.Register("list", "list", args =>
         {
             string text = "";
-            foreach (uint id in Networking.COATPLAYERS)
-            {
-                text = text + $"{id}";
-            }
+            Networking.EachPlayer(c => text = text + $"{c.Id}");
             chat.Receive(text);
         });
 

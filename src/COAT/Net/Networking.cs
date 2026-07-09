@@ -33,10 +33,8 @@ public class Networking
     public static Dictionary<uint, Entity> Entities = new();
     /// <summary> Local player singleton. </summary>
     public static LocalPlayer LocalPlayer;
-    /// <summary> The list of COAT players in a lobby </summary>
-    public static List<uint> COATPLAYERS = new();
     /// <summary> The list of muted players in a lobby </summary>
-    public static List<uint> MUTEDPLAYERS = new();
+    public static List<uint> MutedPlayers = new();
 
     /// <summary> Whether a scene is loading right now. </summary>
     public static bool Loading;
@@ -98,11 +96,7 @@ public class Networking
                 // prevent objects from loading before the scene is loaded
                 Loading = true;
 
-                MUTEDPLAYERS.Clear();
-                COATPLAYERS.Clear(); // clear list so then u can update it
-                COATPLAYERS.Add(Tools.AccId); // add yourself to the list
-                Send(PacketType.COAT_Request, w => { w.Id(Tools.AccId); }); // request others id's
-                PlayerData.OnEnter();
+                MutedPlayers.Clear();
             }
 
             Settings.GetDefaultTeam(out Team team);
@@ -126,13 +120,8 @@ public class Networking
             string LobbyBannedData = LobbyController.Lobby?.GetData("banned");
             if (LobbyBannedData.Contains($"{member.Id.AccountId}")) return;
 
-            if (COATPLAYERS.Contains(member.Id.AccountId))
-                COATPLAYERS.Remove(member.Id.AccountId);
-
             Bundle.Msg("player.left", member.Name);
             if (!LobbyController.IsOwner) return;
-
-            PlayerData.PlayerList.Remove(member.Id.AccountId);
 
             // returning the exited player's entities back to the host owner & close the connection
             FindCon(member.Id.AccountId)?.Close();

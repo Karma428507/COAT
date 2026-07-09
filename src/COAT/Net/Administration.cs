@@ -28,7 +28,7 @@ public class Administration
     private static Tree plushies = new();
 
     /// <summary> List of blacklisted mods in the lobby. </summary>
-    //public static string[] BlacklistedMods;
+    public static string[] BlacklistedMods;
 
     /// <summary> Subscribes to events to clear lists. </summary>
     public static void Load()
@@ -81,26 +81,13 @@ public class Administration
         ChatUI.Instance.Send($"<b>{ChatUtils.BOT_PREFIX}</b> Player {Tools.Name(id)} was [#F75][18]\\[ KICKED ][][]");
 
         // check if either the player is on coat, or not. if so, send kick packet. if not, send ban packet.
-        if (Networking.COATPLAYERS.Contains(id))
+        Networking.Send(PacketType.Kick, null, (data, size) =>
         {
-            Networking.Send(PacketType.COAT_Kick, null, (data, size) =>
-            {
-                var con = Networking.FindCon(id);
-                Tools.Send(con, data, size);
-                con?.Flush();
-                Events.Post2(() => con?.Close());
-            });
-        }
-        else
-        {
-            Networking.Send(PacketType.Ban, null, (data, size) =>
-            {
-                var con = Networking.FindCon(id);
-                Tools.Send(con, data, size);
-                con?.Flush();
-                Events.Post2(() => con?.Close());
-            });
-        }
+            var con = Networking.FindCon(id);
+            Tools.Send(con, data, size);
+            con?.Flush();
+            Events.Post2(() => con?.Close());
+        });
     }
 
     public static void BlacklistMod(string name)
@@ -121,15 +108,15 @@ public class Administration
         // send a packet to disable the chat of the muted person
         //Networking.Send(PacketType.COAT_Mute, w => { w.Id(id); w.Bool(mute); });
 
-        if (mute) Networking.MUTEDPLAYERS.Add(id);
-        else Networking.MUTEDPLAYERS.Remove(id);
+        if (mute) Networking.MutedPlayers.Add(id);
+        else Networking.MutedPlayers.Remove(id);
 
-        if (mute) { Networking.MUTEDPLAYERS.Add(id);
+        if (mute) { Networking.MutedPlayers.Add(id);
             ChatUI.Instance.Send($"<b>{ChatUtils.BOT_PREFIX}</b> Player {Tools.Name(id)} was [#F75][18]\\[ MUTED ][][]");
-            LobbyController.Lobby?.SetData("mute", string.Join(" ", Networking.MUTEDPLAYERS)); } else {
-            Networking.MUTEDPLAYERS.Remove(id);
+            LobbyController.Lobby?.SetData("mute", string.Join(" ", Networking.MutedPlayers)); } else {
+            Networking.MutedPlayers.Remove(id);
             ChatUI.Instance.Send($"<b>{ChatUtils.BOT_PREFIX}</b> Player {Tools.Name(id)} was [#F75][18]\\[ UNMUTED ][][]");
-            LobbyController.Lobby?.SetData("mute", string.Join(" ", Networking.MUTEDPLAYERS)); }
+            LobbyController.Lobby?.SetData("mute", string.Join(" ", Networking.MutedPlayers)); }
     }
 
     /// <summary> Whether the player is sending a large amount of data. </summary>

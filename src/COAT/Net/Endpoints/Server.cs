@@ -111,12 +111,6 @@ public class Server : Endpoint, ISocketManager
         });
 
         ListenAndRedirect(PacketType.ActivateObject, World.ReadAction);
-
-        // PUT ALL COAT PACKETS BELOW THIS. JUST SO I DONT HAVE TO SEARCH THE MILKYWAY TO FIND A SINGLE FUCKING LIL GUY!!!
-        
-        // put admin stuff later (me too lazy rn :P)
-        Listen(PacketType.COAT_PlayerPacketSend, PlayerData.Read);
-        Listen(PacketType.COAT_PlayerPacketRequest, PlayerData.WriteRequest);
     }
 
     public override void Update()

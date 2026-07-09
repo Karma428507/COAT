@@ -36,19 +36,8 @@ public enum PacketType
     /// <summary> Any action with CyberGrind, like pattern and wave. </summary>
     CyberGrindAction,
 
-    // PUT ALL COAT PACKETS HERE!!!
-    // If the COAT packets are in between the normal packets then it will make it incompatable
-    // With Jaket
-
-    COAT_Request = 0x80, // this is used when u join a lobby to request the ids of all other coat clients
-    COAT_ClientId, // send ur id to the new client
-
-    COAT_Kick,
-
-    COAT_Mute,
-
-    /// <summary> A 24 byte packet relating to a player's COAT information </summary>
-    COAT_PlayerPacketSend,
-    /// <summary> A request packet to get a player's information (ONLY RUN ONCE) </summary>
-    COAT_PlayerPacketRequest,
+    /// <summary> Soft ban. </summary>
+    Kick,
+    /// <summary> Mutes the player that's being annoying or hurt the host's ego. </summary>
+    Mute,
 }

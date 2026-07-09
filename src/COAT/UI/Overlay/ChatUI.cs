@@ -263,7 +263,6 @@ public class ChatUI : CanvasSingleton<ChatUI>, IOverlayInterface
 
         string FormattedPrefixes = tts ? ChatUtils.TTS_PREFIX : "";
         FormattedPrefixes += author.Id == LobbyController.LastOwner ? ChatUtils.HOST_PREFIX : "";
-        FormattedPrefixes += Networking.COATPLAYERS.Contains(author.Id.AccountId) ? ChatUtils.COAT_PREFIX : "";
 
         Receive($"<b>{FormattedPrefixes}[{FormattedColor}]{FormattedName}[][#F75]:[]</b> {FormattedMsg}");
     }
@@ -281,7 +280,7 @@ public class ChatUI : CanvasSingleton<ChatUI>, IOverlayInterface
         Receive($"<b>[{(color.StartsWith('#') ? color : $"#{color}")}]{username}[][#FF7F50]:[]</b> {Bundle.CutDangerous(msg)}");
     }*/
 
-    static ChatUI chat => ChatUI.Instance;
+    static ChatUI chat => Instance;
 
     /// <summary> Writes a message to the chat, formatting it beforehand. While being static, this is used for telling the user something. </summary>
     public static void StaticReceive(string color, string author, string msg) => chat.Receive($"<b>[#{color}]{author}[][#FF7F50]:[]</b> {msg}");

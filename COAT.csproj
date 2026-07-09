@@ -80,6 +80,10 @@
     <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.2" PrivateAssets="all" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="src\COAT\Net\Pages\SpecialLevel\" />
+  </ItemGroup>
+
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
     <Exec Command="echo Copying to plugin folder&#xD;&#xA;copy &quot;$(TargetDir)/COAT.dll&quot; &quot;C:\Program Files (x86)\Steam\steamapps\common\ULTRAKILL\BepInEx\plugins\COAT\COAT.dll&quot;" />
   </Target>

@@ -238,8 +238,8 @@ public class PlayerList : CanvasSingleton<PlayerList>, IMenuInterface
                 KickButton.GetComponentInChildren<Text>().maskable = false;
 
                 // Mute Button
-                Button MuteButton = UIB.Button("Mute/Unmute", "Mute", InfoMenu.transform, new(0, -25, 95, 45), Color.yellow, 24, clicked: () => Administration.Mute(member.Id.AccountId, !Networking.MUTEDPLAYERS.Contains(member.Id.AccountId)));
-                MuteButton.GetComponentInChildren<Text>().text = $"{(Networking.MUTEDPLAYERS.Contains(member.Id.AccountId) ? "Unmute" : "Mute")}"; // sets the text to "mute" or "unmute" based on if its.. well.. mute or unmute u dumbass
+                Button MuteButton = UIB.Button("Mute/Unmute", "Mute", InfoMenu.transform, new(0, -25, 95, 45), Color.yellow, 24, clicked: () => Administration.Mute(member.Id.AccountId, !Networking.MutedPlayers.Contains(member.Id.AccountId)));
+                MuteButton.GetComponentInChildren<Text>().text = $"{(Networking.MutedPlayers.Contains(member.Id.AccountId) ? "Unmute" : "Mute")}"; // sets the text to "mute" or "unmute" based on if its.. well.. mute or unmute u dumbass
                 MuteButton.GetComponentInChildren<Text>().maskable = false;
                 MuteButton.GetComponent<Image>().maskable = false;
             }
@@ -247,7 +247,7 @@ public class PlayerList : CanvasSingleton<PlayerList>, IMenuInterface
             {
                 // Mute Button
                 UnityEngine.UI.Button MuteButton = UIB.Button("Mute/Unmute", "Mute", InfoMenu.transform, new(0, 0, 95, 95), Color.yellow, 24, clicked: () => Mute(member.Id.AccountId)); // btw, this is a special(like me) mute, client sided.
-                MuteButton.GetComponentInChildren<Text>().text = $"{(Networking.MUTEDPLAYERS.Contains(member.Id.AccountId) ? "Unmute" : "Mute")}"; // sets the text to "mute" or "unmute" based on if its.. well.. mute or unmute u dumbass
+                MuteButton.GetComponentInChildren<Text>().text = $"{(Networking.MutedPlayers.Contains(member.Id.AccountId) ? "Unmute" : "Mute")}"; // sets the text to "mute" or "unmute" based on if its.. well.. mute or unmute u dumbass
                 MuteButton.GetComponentInChildren<Text>().maskable = false;
                 MuteButton.GetComponent<UnityEngine.UI.Image>().maskable = false;
             }
@@ -262,9 +262,9 @@ public class PlayerList : CanvasSingleton<PlayerList>, IMenuInterface
     public void Mute(uint id)
     {
         // it looks kinda bad but this just toggles that player being muted
-        if (Networking.MUTEDPLAYERS.Contains(id))
-            Networking.MUTEDPLAYERS.Remove(id);
+        if (Networking.MutedPlayers.Contains(id))
+            Networking.MutedPlayers.Remove(id);
         else
-            Networking.MUTEDPLAYERS.Add(id);
+            Networking.MutedPlayers.Add(id);
     }
 }

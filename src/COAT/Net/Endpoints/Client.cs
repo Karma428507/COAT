@@ -68,20 +68,17 @@ public class Client : Endpoint, IConnectionManager
 
         // PUT ALL COAT PACKETS BELOW THIS. JUST SO I DONT HAVE TO SEARCH THE MILKYWAY TO FIND A SINGLE FUCKING LIL GUY!!!
 
-        Listen(PacketType.COAT_Kick, r => 
+        Listen(PacketType.Kick, r => 
         {
             ChatUI.StaticReceive("you were kicked...");
             LobbyController.LeaveLobby();
         });
 
-        Listen(PacketType.COAT_Mute, r =>
+        Listen(PacketType.Mute, r =>
         {
-            if (r.Bool()) Networking.MUTEDPLAYERS.Add(r.Id());
-            else Networking.MUTEDPLAYERS.Remove(r.Id());
+            if (r.Bool()) Networking.MutedPlayers.Add(r.Id());
+            else Networking.MutedPlayers.Remove(r.Id());
         });
-
-        Listen(PacketType.COAT_PlayerPacketSend, PlayerData.Read);
-        Listen(PacketType.COAT_PlayerPacketRequest, PlayerData.WriteRequest);
     }
 
     public override void Update()
