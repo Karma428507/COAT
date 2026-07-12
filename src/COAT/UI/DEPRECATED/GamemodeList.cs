@@ -28,37 +28,10 @@ public class ServerCreation : CanvasSingleton<ServerCreation>, IMenuInterface
     private int gamemode = 1;
 
     private Image table;
-    //private Transform normalMenu;
     private Transform gamemodeMenu;
-    
-    //private ShadowOptionList shadowOptionList;
-
-    //private GamemodeTypes selectedGamemode = GamemodeTypes.NormalCampain;
     
     private void Start()
     {
-        /*Dictionary<string, Action> buttons = new Dictionary<string, Action>();
-
-        foreach (GamemodeTypes type in Enum.GetValues(typeof(GamemodeTypes)))
-        {
-            GamemodeManager.GamemodeList.TryGetValue(type, out var list);
-            buttons.Add(list.Name, () =>
-            {
-                if (type == GamemodeTypes.PAiN) gamemode = 0;
-                else if (type == GamemodeTypes.NormalCampain) gamemode = 1;
-                else HudMessageReceiver.Instance?.SendHudMessage("This Gamemode isn't working right now,\nplease fucking deal with it.");
-
-                LoadServerCreator(type);
-                GamemodeManager.GetList(gamemode, GameMode => GameMode.LoadSettings(gamemodeMenu));
-            });
-        }
-
-        UIB.Button("", transform, new Rect(0, 0, 2000, 2000), clicked: Toggle);
-
-        shadowOptionList = ShadowOptionList.Build(transform, "--GAMEMODES--", buttons);
-
-        UIB.Text("[ UNDER CONSTUCTION ]", transform, new(0f, 0f, 1000f, 50f), size: 50).GetComponent<RectTransform>().localRotation = new Quaternion(0f, 0f, .2164f, .9763f);*/
-
         table = UIB.Table("Server Creator", transform, new(0, 0, 900, 500), table =>
         {
             // for an outline
@@ -83,15 +56,13 @@ public class ServerCreation : CanvasSingleton<ServerCreation>, IMenuInterface
                 // Change to player limit slider later with the max of 16
                 difficulty = UIB.Button("WIP", options, Rect.Btn(120));
 
-                pvp = UIB.Toggle("#lobby-tab.allow-pvp", options, Rect.Tgl(160), clicked: allow => Options.pvp = allow);
+                pvp = UIB.Toggle("#lobby-tab.allow-pvp", options, Rect.Tgl(160), clicked: allow => Options.PvP = allow);
                 cheats = UIB.Toggle("#lobby-tab.allow-cheats", options, Rect.Tgl(200), clicked: allow => Options.Cheats = allow);
                 myEnemy = UIB.Toggle("#lobby-tab.allow-mods", options, Rect.Tgl(240), clicked: allow => Options.Mods = allow);
-                bosses = UIB.Toggle("#lobby-tab.heal-bosses", options, Rect.Tgl(280), 20, allow => Options.healBosses = allow);
+                bosses = UIB.Toggle("#lobby-tab.heal-bosses", options, Rect.Tgl(280), 20, allow => Options.HealBosses = allow);
 
                 UIB.Button("Play", options, new Rect(0, -190, 380, 40), Pal.white, 24, clicked: () =>
                 {
-                    //GamemodeManager.GetList(gamemode, GameMode => GameMode.Start());
-
                     Options.Name = field.text;
                     SaveLobby();
                     UI.PushStack(new ServerDiffifcultySelect());
@@ -108,10 +79,10 @@ public class ServerCreation : CanvasSingleton<ServerCreation>, IMenuInterface
             // Load the options
             LoadLobby();
 
-            pvp.isOn = Options.pvp;
+            pvp.isOn = Options.PvP;
             cheats.isOn = Options.Cheats;
             myEnemy.isOn = Options.Mods;
-            bosses.isOn = Options.healBosses;
+            bosses.isOn = Options.HealBosses;
             Rebuild();
         });
     }
@@ -127,13 +98,6 @@ public class ServerCreation : CanvasSingleton<ServerCreation>, IMenuInterface
             _ => "lobby-tab.default"
         });
     }
-        
-    /*private void LoadServerCreator(GamemodeTypes type)
-    {
-        //serverCreatorTable.transform.DetachChildren();
-        //foreach (Transform child in normalMenu) Destroy(child.gameObject);
-        foreach (Transform child in gamemodeMenu) Destroy(child.gameObject);
-    }*/
 
     public void Toggle()
     {

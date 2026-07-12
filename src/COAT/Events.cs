@@ -72,9 +72,6 @@ public class Events : MonoSingleton<Events>
     {
         InvokeRepeating("Dozen", 1f, 12f);
         InvokeRepeating("Second", 1f, 1f);
-
-        // ME COMMETTING THIS WAS THE REASON PACKETS DIDN'T WORK
-        // lmao get guud lil bro
         InvokeRepeating("Tick", 1f, Networking.SNAPSHOTS_SPACING);
     }
 

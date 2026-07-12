@@ -1,10 +1,13 @@
 ﻿namespace COAT.IO;
 
+using COAT.Gamemode;
 using COAT.UI.Menus;
+
 using Discord;
 using Steamworks;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 /// <summary> To manage saved mod data </summary>
@@ -18,11 +21,11 @@ public static class SaveManager
         public bool Mods;
         public short MaxPlayers;
         public byte ServerType;
-        //public GamemodeTypes Gamemode;
+        public string Gamemode;
 
-        // remove when adding gamemodes
-        public bool pvp;
-        public bool healBosses;
+        // Remove when working on gamemodes
+        public bool PvP;
+        public bool HealBosses;
     }
 
     private static Dictionary<string, object> lobbyGeneral = new Dictionary<string, object>()
@@ -32,7 +35,7 @@ public static class SaveManager
         {"mods", true},
         {"maxplayers", 8},
         {"servertype", 2},
-        //{"gamemode", 0},
+        {"gamemode", "COAT:Normal"},
     };
 
     static PrefsManager pm => PrefsManager.Instance;
@@ -40,48 +43,70 @@ public static class SaveManager
     public static void Load()
     {
         LoadLobby();
-
-        if (false)
-            PortOldSave();
-
-        // there's prob a better way of doing this :P
-    }
-
-    private static void PortOldSave()
-    {
-        // work on when reworking how settings is organize
     }
 
     #region Lobby Data
-    public static void SaveLobby()
-    {
-        pm.SetString("name", ServerCreation.Options.Name);
-        pm.SetBool("cheats", ServerCreation.Options.Cheats);
-        pm.SetBool("mods", ServerCreation.Options.Mods);
-        pm.SetInt("maxplayers", ServerCreation.Options.MaxPlayers);
-        pm.SetInt("servertype", ServerCreation.Options.ServerType);
-        //pm.SetInt("gamemode", (int)GamemodeList.Options.Gamemode);
-
-        pm.SetBool("pvp", ServerCreation.Options.pvp);
-        pm.SetBool("heal", ServerCreation.Options.healBosses);
-    }
 
     public static void LoadLobby()
     {
-        ServerCreation.Options.Name = pm.GetString("name", (string)lobbyGeneral["name"]);
-        ServerCreation.Options.Cheats = pm.GetBool("cheats", (bool)lobbyGeneral["cheats"]);
-        ServerCreation.Options.Mods = pm.GetBool("mods", (bool)lobbyGeneral["mods"]);
-        ServerCreation.Options.MaxPlayers = (short)pm.GetInt("maxplayers", (int)lobbyGeneral["maxplayers"]);
-        ServerCreation.Options.ServerType = (byte)pm.GetInt("servertype", (int)lobbyGeneral["servertype"]);
-        //GamemodeList.Options.Gamemode = (GamemodeTypes)pm.GetInt("gamemode", (int)lobbyGeneral["gamemode"]);
+        string[] keyList = lobbyGeneral.Keys.ToArray();
 
-        ServerCreation.Options.pvp = pm.GetBool("pvp", false);
-        ServerCreation.Options.healBosses = pm.GetBool("heal", false);
+        foreach (string keyPartial in keyList)
+        {
+            string key = $"COAT-lobby-{keyPartial}";
+            object obj = lobbyGeneral[keyPartial];
+
+            // I love C# having the weirdest features
+            switch (obj)
+            {
+                case string s:
+                    lobbyGeneral[keyPartial] = pm.GetString(key, (string)lobbyGeneral[keyPartial]);
+                    break;
+                case int i:
+                    lobbyGeneral[keyPartial] = pm.GetInt(key, (int)lobbyGeneral[keyPartial]);
+                    break;
+                case bool b:
+                    lobbyGeneral[keyPartial] = pm.GetBool(key, (bool)lobbyGeneral[keyPartial]);
+                    break;
+                default:
+                    Log.Error($"Read an unexpected value type \"{obj.GetType()}\"");
+                    break;
+            }
+        }
+
+        ServerCreation.Options.PvP = pm.GetBool("pvp", false);
+        ServerCreation.Options.HealBosses = pm.GetBool("heal", false);
     }
 
-    private static void LobbySetData()
+    public static void SaveLobby()
     {
-        //if (pm.)
+        string[] keyList = lobbyGeneral.Keys.ToArray();
+
+        foreach (string keyPartial in keyList)
+        {
+            string key = $"COAT-lobby-{keyPartial}";
+            object obj = lobbyGeneral[keyPartial];
+
+            switch (obj)
+            {
+                case string s:
+                    pm.SetString(key, (string)lobbyGeneral[keyPartial]);
+                    break;
+                case int i:
+                    pm.SetInt(key, (int)lobbyGeneral[keyPartial]);
+                    break;
+                case bool b:
+                    pm.SetBool(key, (bool)lobbyGeneral[keyPartial]);
+                    break;
+                default:
+                    Log.Error($"Read an unexpected value type \"{obj.GetType()}\"");
+                    break;
+            }
+        }
+
+        pm.SetBool("pvp", ServerCreation.Options.PvP);
+        pm.SetBool("heal", ServerCreation.Options.HealBosses);
     }
+
     #endregion
 }

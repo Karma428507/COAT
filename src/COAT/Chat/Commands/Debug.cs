@@ -11,7 +11,11 @@ public class Debug : ICommandModule
     static ChatUI chat => ChatUI.Instance;
 
     // Always true
-    public bool Condition() => Plugin.DebugMode;
+#if DEBUG
+    public bool Condition() => true;
+#else
+    public bool Condition() => false;
+#endif
 
     public void Load()
     {

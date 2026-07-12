@@ -89,10 +89,10 @@ public class PlayerList : CanvasSingleton<PlayerList>, IMenuInterface
                 bosses = UIB.Toggle("#lobby-tab.heal-bosses", server, new(-321f, -320f, 320f, 32f, new(.5f, 1f)), 20, allow =>
                     LobbyController.Lobby?.SetData("heal-bosses", allow ? "True" : "False"));
 
-                pvp.isOn = ServerCreation.Options.pvp;
+                pvp.isOn = ServerCreation.Options.PvP;
                 cheats.isOn = ServerCreation.Options.Cheats;
                 myEnemy.isOn = ServerCreation.Options.Mods;
-                bosses.isOn = ServerCreation.Options.healBosses;
+                bosses.isOn = ServerCreation.Options.HealBosses;
 
                 UIB.Table("WIP", "", server, new(251f, -20f, 462f, 490f), wip =>
                 {

@@ -20,6 +20,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using COAT.UI;
 using COAT.Pages;
+using COAT.Gamemode;
 
 /// <summary> Bootloader class needed to avoid destroying the mod by the game. </summary>
 [BepInPlugin("Karma.Coat", "COAT", Version.CURRENT)]
@@ -40,9 +41,6 @@ public class Plugin : MonoBehaviour
     public bool Initialized;
     /// <summary> Path to the dll file of the mod. </summary>
     public string Location;
-
-    /// <summary> Set this to false in release versions </summary>
-    public const bool DebugMode = true;
 
     /// <summary> List of mods compatible with COAT. </summary>
     public static readonly string[] Compatible = { "COAT", "WesV2", "CrosshairColorFixer", "IntroSkip", "Healthbars", "RcHud", "PluginConfigurator", "AngryLevelLoader" }; // TODO: add more later frfr gang ang
@@ -125,6 +123,7 @@ public class Plugin : MonoBehaviour
         ChatHandler.Load();
         SprayManager.Load();
         PageManager.Load();
+        GamemodeManager.Load();
 
         // initialize harmony and patch all the necessary classes
         new Harmony("Meow :3").PatchAll();

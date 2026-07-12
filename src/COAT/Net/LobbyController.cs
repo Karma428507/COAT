@@ -27,27 +27,15 @@ public class LobbyController
     /// <summary> Whether the player owns the lobby. </summary>
     public static bool IsOwner;
 
-    /// <summary> Current lobby name (for hosts only) </summary>
-    public static string ServerName;
-
     /// <summary> Whether a lobby is creating right now. </summary>
     public static bool CreatingLobby;
     /// <summary> Whether a list of public lobbies is being fetched right now. </summary>
     public static bool FetchingLobbies;
 
-    /// <summary> Whether PvP is allowed in this lobby. </summary>
-    public static bool PvPAllowed => Lobby?.GetData("pvp") == "True";
-    /// <summary> Whether cheats are allowed in this lobby. </summary>
-    public static bool CheatsAllowed => Lobby?.GetData("cheats") == "True";
-    /// <summary> Whether mods are allowed in this lobby. </summary>
-    public static bool ModsAllowed => Lobby?.GetData("mods") == "True";
-    /// <summary> Whether bosses must be healed after death in this lobby. </summary>
-    public static bool HealBosses => Lobby?.GetData("heal-bosses") == "True";
-    /// <summary> Number of percentages that will be added to the boss's health for each player. </summary>
-    public static float PPP;
-
-    /// <summary> Scales health to increase difficulty. </summary>
-    public static void ScaleHealth(ref float health) => health *= 1f + Math.Min(Lobby?.MemberCount - 1 ?? 1, 1) * PPP;
+    /// <summary> Current lobby name (for hosts only). </summary>
+    public static string ServerName;
+    /// <summary> The max amount of players for a server (2 - 16). </summary>
+    public static int MaxPlayers = 8;
 
     /// <summary> Creates the necessary listeners for proper work. </summary>
     public static void Load()
@@ -70,6 +58,7 @@ public class LobbyController
                 HudMessageReceiver.Instance?.SendHudMessage($"Server is an {client.ToLower()} server");
             }
         };
+
         // and leave the lobby if the owner has left it
         SteamMatchmaking.OnLobbyMemberLeave += (lobby, member) =>
         {
@@ -103,6 +92,22 @@ public class LobbyController
     /// <summary> Returns the index of the local player in the lits of members. </summary>
     public static int IndexOfLocal() => Lobby?.Members.ToList().FindIndex(member => member.IsMe) ?? 0;
 
+    #region server properties
+
+    /// <summary> Whether PvP is allowed in this lobby. </summary>
+    public static bool PvPAllowed => Lobby?.GetData("pvp") == "True";
+    /// <summary> Whether cheats are allowed in this lobby. </summary>
+    public static bool CheatsAllowed => Lobby?.GetData("cheats") == "True";
+    /// <summary> Whether mods are allowed in this lobby. </summary>
+    public static bool ModsAllowed => Lobby?.GetData("mods") == "True";
+    /// <summary> Whether bosses must be healed after death in this lobby. </summary>
+    public static bool HealBosses => Lobby?.GetData("heal-bosses") == "True";
+    /// <summary> Number of percentages that will be added to the boss's health for each player. </summary>
+    public static float PPP;
+    /// <summary> Scales health to increase difficulty. </summary>
+    public static void ScaleHealth(ref float health) => health *= 1f + Math.Min(Lobby?.MemberCount - 1 ?? 1, 1) * PPP;
+
+    #endregion
     #region control
 
     /// <summary> Asynchronously creates a new lobby with custom settings and connects to it. </summary>
@@ -111,20 +116,20 @@ public class LobbyController
         if (Lobby != null || CreatingLobby) return;
         CreatingLobby = true;
 
-        SteamMatchmaking.CreateLobbyAsync(8).ContinueWith(task =>
+        SteamMatchmaking.CreateLobbyAsync(ServerCreation.Options.MaxPlayers).ContinueWith(task =>
         {
             CreatingLobby = false; IsOwner = true;
             Lobby = task.Result;
 
             Lobby?.SetJoinable(true);
 
-            // activate this when the server is built for coat only features
+            // Standardized way to differentiate different clients
             Lobby?.SetData("client", "COAT");
 
             // general non-savable data
             Lobby?.SetData("banned", "");
             Lobby?.SetData("mute", "");
-            Lobby?.SetData("blacklistedMods", string.Join(' ', Settings.PersonalBlacklistedMods));
+            Lobby?.SetData("blacklisted-mods", string.Join(' ', Settings.PersonalBlacklistedMods));
 
             // have this data be added manually in the manager
             switch (ServerCreation.Options.ServerType)
@@ -141,23 +146,21 @@ public class LobbyController
             Lobby?.SetData("mods", ServerCreation.Options.Mods ? "True" : "False");
 
             // Only normal gamemodes would display the level
-            if (true)
-                Lobby?.SetData("level", MapMap(Tools.Scene));
+            Lobby?.SetData("level", MapMap(Tools.Scene));
 
             // normal campaign savable data
-            Lobby?.SetData("pvp", ServerCreation.Options.pvp ? "True" : "False");
-            Lobby?.SetData("heal-bosses", ServerCreation.Options.healBosses ? "True" : "False");
-            
+            Lobby?.SetData("pvp", ServerCreation.Options.PvP ? "True" : "False");
+            Lobby?.SetData("heal-bosses", ServerCreation.Options.HealBosses ? "True" : "False");
         });
     }
 
     /// <summary> Leaves the lobby. If the player is the owner, then all other players will be thrown into the main menu. </summary>
     public static void LeaveLobby(bool loadMainMenu = true)
     {
-        Log.Debug("Leaving the lobby...");
-
         if (Online) // free up resources allocated for packets that have not been sent
         {
+            Log.Debug("Leaving the lobby...");
+            
             Networking.Server.Close();
             Networking.Client.Close();
 
@@ -216,7 +219,7 @@ public class LobbyController
     }
 
     #endregion
-    #region browser
+    #region browser utilities
 
     /// <summary> Asynchronously fetches a list of public lobbies. </summary>
     public static void FetchLobbies(Action<Lobby[]> done)

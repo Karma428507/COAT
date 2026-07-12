@@ -103,8 +103,10 @@ public class Keybinds : MonoSingleton<Keybinds>
 
         if (Input.GetKeyDown(ChatKey)) ChatUI.Instance.Toggle();
 
+#if DEBUG
         if (Input.GetKeyDown(KeyCode.F4)) Debugging.Instance.Toggle();
         if (Input.GetKeyDown(KeyCode.C) && Debugging.Shown) Debugging.Instance.Clear();
+#endif
 
         if (Input.GetKeyDown(PlayerIndicatorsKey)) PlayerIndicators.Instance.Toggle();
         if (Input.GetKeyDown(PlayerInfoKey)) PlayerInfo.Instance.Toggle();

@@ -180,11 +180,11 @@ public class Tools
     }
 
     /// <summary> Wait a certain amount of seconds. </summary>
-    public static async Task WaitSeconds(float seconds)
+    /*public static async Task WaitSeconds(float seconds)
     {
         int Seconds = (int)seconds * 1000;
         await Task.Delay(Seconds);
-    }
+    }*/
 
     #endregion
 }

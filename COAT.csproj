@@ -82,6 +82,7 @@
 
   <ItemGroup>
     <Folder Include="src\COAT\Net\Pages\SpecialLevel\" />
+    <Folder Include="src\COAT\Utils\" />
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
