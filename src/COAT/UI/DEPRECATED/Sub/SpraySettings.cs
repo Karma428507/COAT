@@ -99,7 +99,7 @@ public class SpraySettings : SettingsPage<SpraySettings>
                     Current = spray.Name;
                 });
             else
-                UIB.Button(n, sprays, r, red, align: TextAnchor.MiddleLeft, clicked: () => Bundle.Hud("sprays.invalid"));
+                UIB.Button(n, sprays, r, red, align: TextAnchor.MiddleLeft, clicked: () => Localization.Hud("sprays.invalid"));
         }
         if (SprayManager.Loaded.Count < 6) UIB.Button("+", sprays, Btn(28f + 48f * SprayManager.Loaded.Count), grey, clicked: OpenFolder);
 
@@ -141,13 +141,13 @@ public class SpraySettings : SettingsPage<SpraySettings>
         {
             Administration.BannedSprays.Add(member.Id.AccountId);
             Rebuild();
-            if (member.IsMe) Bundle.Hud("sprays.blacklist-yourself");
+            if (member.IsMe) Localization.Hud("sprays.blacklist-yourself");
         });
         BuildList("BLACKLIST:", blacklist, red, member =>
         {
             Administration.BannedSprays.Remove(member.Id.AccountId);
             Rebuild();
-            if (member.IsMe) Bundle.Hud("sprays.whitelist-yourself");
+            if (member.IsMe) Localization.Hud("sprays.whitelist-yourself");
         });
 
         #endregion

@@ -5,10 +5,11 @@ using COAT.Content;
 using COAT.IO;
 using COAT.Net;
 using COAT.Net.Types;
+using COAT.Utils;
+
 using Sandbox;
 using System;
 using System.Collections.Generic;
-using System.Xml.Linq;
 using UnityEngine;
 
 /// <summary> List of all enemies in the game and some useful methods. </summary>
@@ -116,33 +117,33 @@ public class Enemies
 
         // worry about syncing later
         // levels 2-4, 5-4, 7-1 and 7-4 contain unique bosses that needs to be dealt with separately
-        /*if (Tools.Scene == "Level 2-4" && enemyId.name == "MinosArm")
+        /*if (Mapping.Scene == "Level 2-4" && enemyId.name == "MinosArm")
         {
             enemyId.gameObject.AddComponent<Hand>();
             return true;
         }
 
         // there is no need to sync the fake, since the coins are synced
-        if (Tools.Scene == "Level 5-2" && enemyId.name == "FerrymanIntro") return true;
+        if (Mapping.Scene == "Level 5-2" && enemyId.name == "FerrymanIntro") return true;
 
-        if (Tools.Scene == "Level 5-4" && enemyId.name == "Leviathan")
+        if (Mapping.Scene == "Level 5-4" && enemyId.name == "Leviathan")
         {
             enemyId.gameObject.AddComponent<Leviathan>();
             return true;
         }
 
-        if (Tools.Scene == "Level 7-1" && enemyId.name == "MinotaurChase")
+        if (Mapping.Scene == "Level 7-1" && enemyId.name == "MinotaurChase")
         {
             enemyId.gameObject.AddComponent<Minotaur>();
             return true;
         }
 
         // the security system is a complex enemy consisting of several subenemies
-        if (Tools.Scene == "Level 7-4" && enemyId.GetComponentInParent<CombinedBossBar>() != null) return true;
+        if (Mapping.Scene == "Level 7-4" && enemyId.GetComponentInParent<CombinedBossBar>() != null) return true;
 
-        if (Tools.Scene == "Level 7-4" && enemyId.name == "KillAllEnemiesChecker") return true; // what is that?!
+        if (Mapping.Scene == "Level 7-4" && enemyId.name == "KillAllEnemiesChecker") return true; // what is that?!
 
-        if (Tools.Scene == "Level 7-4" && enemyId.name == "Brain")
+        if (Mapping.Scene == "Level 7-4" && enemyId.name == "Brain")
         {
             enemyId.gameObject.AddComponent<Brain>();
             return true;

@@ -1,10 +1,11 @@
 namespace COAT.Net.Types;
 
-using System;
-using UnityEngine;
-
 using COAT.IO;
 using COAT.Entities;
+using COAT.Utils;
+
+using System;
+using UnityEngine;
 
 /// <summary> Entity whose ownership can be transferred to another client at any time. </summary>
 public abstract class OwnableEntity : Entity

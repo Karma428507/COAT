@@ -1,11 +1,12 @@
 namespace COAT.Net.Endpoints;
 
+using COAT.Content;
+using COAT.IO;
+using COAT.Utils;
+
 using Steamworks.Data;
 using System;
 using System.Collections.Generic;
-
-using COAT.Content;
-using COAT.IO;
 
 /// <summary> Network connection endpoint that contains listeners for different packet types. </summary>
 public abstract class Endpoint

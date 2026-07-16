@@ -4,6 +4,7 @@ using COAT.Assets;
 using COAT.Content;
 using COAT.Entities;
 using COAT.Net.Types;
+using COAT.Utils;
 using COAT.World;
 using System;
 using System.Collections.Generic;
@@ -23,7 +24,7 @@ public class Entities
     public static void Load()
     {
         // Add the thing for players ONCE DollAssets.cs is fixed
-        Providers.Add(EntityType.Player, DollAssets.CreateDoll);
+        Providers.Add(EntityType.Player, AssetUtils.CreateDoll);
 
         for (var type = EntityType.Filth; type <= EntityType.Puppet; type++)
         {

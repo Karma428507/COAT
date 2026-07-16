@@ -1,10 +1,11 @@
 namespace COAT.Net.Types;
 
-using UnityEngine;
-using UnityEngine.AI;
-
 using COAT.Entities;
 using COAT.IO;
+using COAT.Utils;
+
+using UnityEngine;
+using UnityEngine.AI;
 using System.Reflection;
 
 public class MaliciousEnemy : Enemy
@@ -23,7 +24,7 @@ public class MaliciousEnemy : Enemy
     private void Start()
     {
         SpawnEffect();
-        Boss(Tools.Scene == "Level 0-1", 25f);
+        Boss(Mapping.Scene == "Level 0-1", 25f);
 
         transform.parent.position = transform.position + Vector3.down * 10f; // teleport the spawn effect
         Events.Post2(() =>

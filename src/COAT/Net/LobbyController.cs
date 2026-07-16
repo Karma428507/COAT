@@ -13,6 +13,7 @@ using COAT.UI;
 using COAT.UI.Menus;
 using COAT.IO;
 using COAT.Net.Types;
+using COAT.Utils;
 
 /// <summary> Lobby controller with several useful methods and properties. </summary>
 public class LobbyController
@@ -50,7 +51,7 @@ public class LobbyController
             if (lobby.GetData("banned").Contains(Tools.AccId.ToString()))
             {
                 LeaveLobby();
-                Bundle.Hud2NS("lobby.banned");
+                Localization.Hud2NS("lobby.banned");
             }
             if (!IsCoatClient(lobby, ref client))
             {
@@ -66,7 +67,7 @@ public class LobbyController
         };
 
         // put the level name in the lobby data so that it can be seen in the public lobbies list
-        Events.OnLoaded += () => Lobby?.SetData("level", MapMap(Tools.Scene));
+        Events.OnLoaded += () => Lobby?.SetData("level", Mapping.MapMap(Mapping.Scene));
         // if the player exits to the main menu, then this is equivalent to leaving the lobby
         Events.OnMainMenuLoaded += () => LeaveLobby(false);
         // creates a server if specified
@@ -146,7 +147,7 @@ public class LobbyController
             Lobby?.SetData("mods", ServerCreation.Options.Mods ? "True" : "False");
 
             // Only normal gamemodes would display the level
-            Lobby?.SetData("level", MapMap(Tools.Scene));
+            Lobby?.SetData("level", Mapping.MapMap(Mapping.Scene));
 
             // normal campaign savable data
             Lobby?.SetData("pvp", ServerCreation.Options.PvP ? "True" : "False");
@@ -169,7 +170,7 @@ public class LobbyController
         }
 
         // load the main menu if the client has left the lobby
-        if (!IsOwner && loadMainMenu) Tools.Load("Main Menu");
+        if (!IsOwner && loadMainMenu) Mapping.Load("Main Menu");
 
         Networking.Clear();
         Events.OnLobbyAction.Fire();
@@ -181,8 +182,8 @@ public class LobbyController
     /// <summary> Asynchronously connects the player to the given lobby. </summary>
     public static void JoinLobby(Lobby lobby)
     {
-        if (lobby.GetData("banned").Contains(Tools.AccId.ToString())) { Bundle.Hud2NS("lobby.banned"); return; } // check if ur banned first so u dont accidentally leave the lobby ur in for no reason
-        if (Lobby?.Id == lobby.Id) { Bundle.Hud("lobby.join-yourself"); return; }
+        if (lobby.GetData("banned").Contains(Tools.AccId.ToString())) { Localization.Hud2NS("lobby.banned"); return; } // check if ur banned first so u dont accidentally leave the lobby ur in for no reason
+        if (Lobby?.Id == lobby.Id) { Localization.Hud("lobby.join-yourself"); return; }
         Log.Debug("Joining a lobby...");
 
         // leave the previous lobby before join the new, but don't load the main menu
@@ -208,14 +209,14 @@ public class LobbyController
     public static void CopyCode()
     {
         GUIUtility.systemCopyBuffer = Lobby?.Id.ToString();
-        if (Online) Bundle.Hud("lobby.copied");
+        if (Online) Localization.Hud("lobby.copied");
     }
 
     /// <summary> Joins by the lobby code from the clipboard. </summary>
     public static void JoinByCode()
     {
         if (ulong.TryParse(GUIUtility.systemCopyBuffer, out var code)) JoinLobby(new(code));
-        else Bundle.Hud("lobby.failed");
+        else Localization.Hud("lobby.failed");
     }
 
     #endregion
@@ -231,16 +232,6 @@ public class LobbyController
             done(task.Result.ToArray());
         });
     }
-
-    /// <summary> Maps the map name so that it is more understandable to an average player. </summary>
-    public static string MapMap(string map) => map switch
-    {
-        "Tutorial" => "Tutorial",
-        "uk_construct" => "Sandbox",
-        "Endless" => "Cyber Grind",
-        "CreditsMuseum2" => "Museum",
-        _ => map.Substring("Level ".Length)
-    };
 
     /// <summary> Detects the server's client and gives a string for custom clients. </summary>
     public static bool IsCoatClient(Lobby lobby, ref string client)

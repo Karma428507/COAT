@@ -1,13 +1,10 @@
 ﻿namespace COAT.Assets;
 
-using HarmonyLib;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
-using System.Text;
 
-public class AssemblyAssets
+public class EmbeddedManager
 {
     /// <summary> Quick way to access the DLL assembly. </summary>
     private static Assembly assembly;
@@ -24,7 +21,7 @@ public class AssemblyAssets
 
         foreach (string name in res)
         {
-            string cut = name.Substring("COAT.assets.".Length);
+            string cut = name["COAT.assets.".Length..];
             assetNames.Add(cut);
         }
     }

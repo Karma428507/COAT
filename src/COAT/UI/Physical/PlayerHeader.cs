@@ -1,10 +1,9 @@
 namespace COAT.UI.Physical;
 
-using COAT;
 using COAT.Assets;
 using COAT.UI;
-using COAT.UI.Menus;
-//using System.Numerics;
+using COAT.Utils;
+
 using UnityEngine;
 using UnityEngine.UI;
 using static Utils.Pal;
@@ -45,7 +44,7 @@ public class PlayerHeader
                     avatar.transform.rotation *= Quaternion.Euler(0, 0, 180);
                     avatar.transform.localScale = new Vector3(-1, 1, 1);
                 }
-                else avatar.GetComponentInChildren<RawImage>().texture = DollAssets.Icon.texture;
+                else avatar.GetComponentInChildren<RawImage>().texture = ModAssets.Icon.texture;
             });
             Text.transform.localScale /= 10f;
 

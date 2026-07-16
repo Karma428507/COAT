@@ -3,6 +3,8 @@
 using COAT.Content;
 using COAT.Entities;
 using COAT.IO;
+using COAT.Utils;
+
 using System;
 using UnityEngine;
 

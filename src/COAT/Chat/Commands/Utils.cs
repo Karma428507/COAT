@@ -6,6 +6,8 @@ using COAT.Content;
 using COAT.Entities;
 using COAT.Net;
 using COAT.UI.Overlay;
+using COAT.Utils;
+
 using System;
 
 /// <summary> Commands for utilities (levels and plushies rn) </summary>
@@ -46,17 +48,17 @@ public class Utils : ICommandModule
 
             else if (args.Length >= 1 && (args[0].ToLower() == "sandbox" || args[0].ToLower() == "sand"))
             {
-                Tools.Load("uk_construct");
+                Mapping.Load("uk_construct");
                 chat.Receive("[#32CD32]Sandbox is loading.");
             }
             else if (args.Length >= 1 && (args[0].ToLower().Contains("cyber") || args[0].ToLower().Contains("grind") || args[0].ToLower() == "cg"))
             {
-                Tools.Load("Endless");
+                Mapping.Load("Endless");
                 chat.Receive("[#32CD32]The Cyber Grind is loading.");
             }
             else if (args.Length >= 1 && (args[0].ToLower().Contains("credits") || args[0].ToLower() == "museum"))
             {
-                Tools.Load("CreditsMuseum2");
+                Mapping.Load("CreditsMuseum2");
                 chat.Receive("[#32CD32]The Credits Museum is loading.");
             }
             else if (args.Length < 2)
@@ -68,22 +70,22 @@ public class Utils : ICommandModule
                 (level == 5 ? layer == 0 : true) && (layer == 3 || layer == 6 ? level <= 2 : true)
             )
             {
-                Tools.Load($"Level {layer}-{level}");
+                Mapping.Load($"Level {layer}-{level}");
                 chat.Receive($"[#32CD32]Level {layer}-{level} is loading.");
             }
             else if (args[1].ToUpper() == "S" && int.TryParse(args[0], out level) && level >= 0 && level <= 7 && level != 3 && level != 6)
             {
-                Tools.Load($"Level {level}-S");
+                Mapping.Load($"Level {level}-S");
                 chat.Receive($"[#32CD32]Secret level {level}-S is loading.");
             }
             else if (args[1].ToUpper() == "E" && int.TryParse(args[0], out level) && level >= 0 && level <= 1)
             {
-                Tools.Load($"Level {level}-E");
+                Mapping.Load($"Level {level}-E");
                 chat.Receive($"[#32CD32]Encore level {level}-E is loading.");
             }
             else if (args[0].ToUpper() == "P" && int.TryParse(args[1], out level) && level >= 1 && level <= 2)
             {
-                Tools.Load($"Level P-{level}");
+                Mapping.Load($"Level P-{level}");
                 chat.Receive($"[#32CD32]Prime level P-{level} is loading.");
             }
             else

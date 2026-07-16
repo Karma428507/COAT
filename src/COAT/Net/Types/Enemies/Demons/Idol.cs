@@ -2,6 +2,7 @@ namespace COAT.Net.Types;
 
 using COAT.Entities;
 using COAT.IO;
+using COAT.Utils;
 
 /// <summary> Representation of an idol. </summary>
 public class Idol : Enemy
@@ -29,7 +30,7 @@ public class Idol : Enemy
         transform.position = new(x.Target, y.Target, z.Target);
         if (lastTargetId != target.Id)
         {
-            if (Tools.Scene == "Level 5-2") fakeFerry = Tools.ObjFind("FerrymanIntro")?.GetComponent<EnemyIdentifier>();
+            if (Mapping.Scene == "Level 5-2") fakeFerry = Tools.ObjFind("FerrymanIntro")?.GetComponent<EnemyIdentifier>();
 
             lastTargetId = target.Id;
             EnemyId.idol.ChangeOverrideTarget(fakeFerry && Tools.Within(fakeFerry.transform, transform, 100f) ? fakeFerry : target.Value?.EnemyId);

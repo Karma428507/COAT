@@ -1,10 +1,11 @@
 namespace COAT.World;
 
-using System;
-using UnityEngine;
-
 using COAT.Assets;
 using COAT.Net;
+using COAT.Utils;
+
+using System;
+using UnityEngine;
 
 /// <summary> Abstract action performed in the world. </summary>
 public class WorldAction
@@ -19,7 +20,7 @@ public class WorldAction
     /// <summary> Runs the action if the level matches the desired one. </summary>
     public void Run()
     {
-        if (Tools.Scene == Level) Action();
+        if (Mapping.Scene == Level) Action();
     }
 }
 

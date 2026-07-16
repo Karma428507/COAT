@@ -5,6 +5,8 @@ using COAT.Net;
 using COAT.Net.Types;
 using COAT.UI;
 using COAT.UI.Overlay;
+using COAT.Utils;
+
 using System.Collections;
 using UnityEngine;
 
@@ -28,7 +30,7 @@ public class Emotes : MonoSingleton<Emotes>
     /// <summary> Environmental mask needed to prevent the skateboard from riding on water and camera from falling trough the ground. </summary>
     private readonly int mask = LayerMaskDefaults.Get(LMD.Environment);
     /// <summary> Whether the death must be fake on this level. </summary>
-    private static bool fakeDeath => nm.endlessMode || Tools.Scene == "Level 0-S";
+    private static bool fakeDeath => nm.endlessMode || Mapping.Scene == "Level 0-S";
 
     /// <summary> Speed at which the skateboard moves. </summary>
     public float SkateboardSpeed;
@@ -146,7 +148,7 @@ public class Emotes : MonoSingleton<Emotes>
         }
 
         // ultrasoap
-        if (Tools.Scene != "Main Menu" && !nm.dead)
+        if (!Mapping.MainMenu && !nm.dead)
             nm.rb.constraints = UI.AnyDialog
                 ? RigidbodyConstraints.FreezeAll
                 : Instance.Emoji == 0xFF || Instance.Emoji == 0x0B // skateboard
@@ -199,7 +201,7 @@ public class Emotes : MonoSingleton<Emotes>
         StartThirdPerson();
         SkateboardSpeed = 0f;
 
-        Bundle.Hud("emoji", true); // telling how to interrupt an emotion
+        Localization.Hud("emoji", true); // telling how to interrupt an emotion
         StopCoroutine("ClearEmoji");
         if (emojiLength[id] != -1f) StartCoroutine("ClearEmoji");
     }

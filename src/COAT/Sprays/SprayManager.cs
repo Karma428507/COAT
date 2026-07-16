@@ -8,6 +8,7 @@ using COAT.Assets;
 using COAT.Net;
 using COAT.UI.Menus.Sub;
 using COAT.UI.Physical;
+using COAT.Utils;
 
 /// <summary> Saves sprays of players and loads sprays of the local player. </summary>
 public class SprayManager
@@ -106,7 +107,7 @@ public class SprayManager
     {
         if (CurrentSpray == null)
         {
-            Bundle.Hud("sprays.empty"); // You haven't chosen a spray. Please, choose on in settings.
+            Localization.Hud("sprays.empty"); // You haven't chosen a spray. Please, choose on in settings.
             return null;
         }
         return Spawn(Tools.AccId, position, direction);

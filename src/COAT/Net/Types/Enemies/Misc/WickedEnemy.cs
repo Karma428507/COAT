@@ -1,6 +1,7 @@
 namespace COAT.Net.Types;
 
 using COAT.Entities;
+using COAT.Utils;
 
 /// <summary> Representation of Something Wicked. </summary>
 public class WickedEnemy : SimpleEnemy
@@ -16,7 +17,7 @@ public class WickedEnemy : SimpleEnemy
 
     protected override void Start()
     {
-        if (Tools.Scene == "Level 7-4") gameObject.SetActive(false);
+        if (Mapping.Scene == "Level 7-4") gameObject.SetActive(false);
         InvokeRepeating("UpdateTarget", .1f, .1f);
     }
 

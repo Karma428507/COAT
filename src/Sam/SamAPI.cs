@@ -38,7 +38,7 @@ public class SamAPI
     {
         try
         {
-            source.clip = Clip(Bundle.CutColors(text));
+            source.clip = Clip(Localization.CutColors(text));
             source.Play();
         }
         catch (Exception) { } // in fact, anything can happen, that's why try catch is needed

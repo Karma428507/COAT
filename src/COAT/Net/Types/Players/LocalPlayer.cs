@@ -7,6 +7,8 @@ using COAT.Input;
 using COAT.IO;
 using COAT.UI;
 using COAT.UI.Overlay;
+using COAT.Utils;
+
 using UnityEngine;
 
 public class LocalPlayer : Entity
@@ -76,19 +78,19 @@ public class LocalPlayer : Entity
     public void UpdateWeapons()
     {
         weapon = Weapons.Type();
-        is44 = Tools.Scene == "Level 4-4";
+        is44 = Mapping.Scene == "Level 4-4";
 
         if (LobbyController.Online) SyncSuit();
 
         // according to the lore, the player plays for V3, so we need to paint the hands
         var punch = fc.transform.Find("Arm Blue(Clone)");
-        if (punch) punch.GetComponentInChildren<SkinnedMeshRenderer>().material.mainTexture = DollAssets.HandTexture();
+        if (punch) punch.GetComponentInChildren<SkinnedMeshRenderer>().material.mainTexture = ModAssets.HandTexture();
 
         var right = cw?.transform.GetChild(0).Find("RightArm");
-        if (right) right.GetComponentInChildren<SkinnedMeshRenderer>().material.mainTexture = DollAssets.HandTexture();
+        if (right) right.GetComponentInChildren<SkinnedMeshRenderer>().material.mainTexture = ModAssets.HandTexture();
 
         var knuckle = fc.transform.Find("Arm Red(Clone)");
-        if (knuckle) knuckle.GetComponentInChildren<SkinnedMeshRenderer>().material.mainTexture = DollAssets.HandTexture(false);
+        if (knuckle) knuckle.GetComponentInChildren<SkinnedMeshRenderer>().material.mainTexture = ModAssets.HandTexture(false);
     }
 
     #endregion

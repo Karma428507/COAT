@@ -1,11 +1,12 @@
 namespace COAT.Net.Types;
 
-using HarmonyLib;
-using UnityEngine;
-
 using COAT.Assets;
 using COAT.Entities;
 using COAT.IO;
+using COAT.Utils;
+
+using HarmonyLib;
+using UnityEngine;
 
 /// <summary> Representation of an insurrectionist. </summary>
 public class Insurrectionist : Enemy
@@ -33,11 +34,11 @@ public class Insurrectionist : Enemy
     private void Start()
     {
         SpawnEffect();
-        Boss(Tools.Scene == "Level 4-2", 110f, 1);
-        Boss(Tools.Scene == "Level 6-1", 100f, 1, (angryOrRude = !angryOrRude) ? "INSURRECTIONIST \"ANGRY\"" : "INSURRECTIONIST \"RUDE\"");
+        Boss(Mapping.Scene == "Level 4-2", 110f, 1);
+        Boss(Mapping.Scene == "Level 6-1", 100f, 1, (angryOrRude = !angryOrRude) ? "INSURRECTIONIST \"ANGRY\"" : "INSURRECTIONIST \"RUDE\"");
 
-        if (Tools.Scene == "Level 4-2") GetComponentsInChildren<SkinnedMeshRenderer>().Do(r => r.material.color = new(1f, .9f, .4f));
-        if (Tools.Scene == "Level 6-1") GameAssets.SisyMaterial(angryOrRude ? "SisyphusRed" : "SisyphusBlue", GetComponentsInChildren<SkinnedMeshRenderer>());
+        if (Mapping.Scene == "Level 4-2") GetComponentsInChildren<SkinnedMeshRenderer>().Do(r => r.material.color = new(1f, .9f, .4f));
+        if (Mapping.Scene == "Level 6-1") GameAssets.SisyMaterial(angryOrRude ? "SisyphusRed" : "SisyphusBlue", GetComponentsInChildren<SkinnedMeshRenderer>());
 
         if (!IsOwner) Cooldown(4200f);
     }

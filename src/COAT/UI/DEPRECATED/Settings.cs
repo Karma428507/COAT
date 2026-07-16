@@ -46,7 +46,7 @@ public class Settings : CanvasSingleton<Settings>, IMenuInterface
         get => pm.GetInt("jaket.tts.volume", 60);
         set
         {
-            DollAssets.Mixer?.SetFloat("Volume", value / 2f - 30f); // the value should be between -30 and 20 decibels
+            ModAssets.Mixer?.SetFloat("Volume", value / 2f - 30f); // the value should be between -30 and 20 decibels
             pm.SetInt("jaket.tts.volume", value);
         }
     }
@@ -80,7 +80,7 @@ public class Settings : CanvasSingleton<Settings>, IMenuInterface
     public static void Load()
     {
         // General settings
-        Language = Bundle.LoadedLocale;
+        Language = Localization.LoadedLocale;
         FeedColor = pm.GetInt("jaket.feed-color");
         KnuckleColor = pm.GetInt("jaket.knkl-color");
         DefaultTeam = pm.GetInt("COAT.default-team");
@@ -89,7 +89,7 @@ public class Settings : CanvasSingleton<Settings>, IMenuInterface
         // Moderation settings
         EnableModeration = pm.GetBool("COAT.enable-moderation", true);
 
-        DollAssets.Mixer?.SetFloat("Volume", TTSVolume / 2f - 30f);
+        ModAssets.Mixer?.SetFloat("Volume", TTSVolume / 2f - 30f);
     }
 
     private void Start()

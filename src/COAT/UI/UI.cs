@@ -1,12 +1,5 @@
 namespace COAT.UI;
 
-using System.Collections.Generic;
-using System.Threading.Tasks;
-
-using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.UI;
-
 using COAT;
 using COAT.Patches;
 using COAT.Net;
@@ -15,6 +8,14 @@ using COAT.UI.Menus;
 using COAT.UI.Menus.Sub;
 using COAT.UI.Overlay;
 using COAT.UI.Screen;
+using COAT.Utils;
+
+using System.Collections.Generic;
+using System.Threading.Tasks;
+
+using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 /// <summary> Class that loads and manages the interface of the mod. </summary>
 public class UI
@@ -83,7 +84,7 @@ public class UI
     /// <summary> Pushes a menu onto the stack (will check flags) </summary>
     public static void PushStack(IMenuInterface Current)
     {
-        if (MenuStack.Count == 0 && Tools.Scene == "Main Menu")
+        if (MenuStack.Count == 0 && Mapping.MainMenu)
             Tools.ObjFindMainScene("Canvas/Main Menu (1)").SetActive(false);
         else if (MenuStack.Count != 0)
             MenuStack[^1].Toggle();
@@ -101,12 +102,12 @@ public class UI
         MenuStack[^1].Toggle();
         MenuStack.RemoveAt(MenuStack.Count - 1);
 
-        if (MenuStack.Count == 0 && Tools.Scene == "Main Menu")
+        if (MenuStack.Count == 0 && Mapping.MainMenu)
             Tools.ObjFindMainScene("Canvas/Main Menu (1)").SetActive(true);
         else if (MenuStack.Count != 0)
             MenuStack[^1].Toggle();
 
-        if (Tools.Scene != "Main Menu")
+        if (!Mapping.MainMenu)
             OptionsManagerPatch.InUI = true;
     }
 
@@ -140,7 +141,7 @@ public class UI
 
     protected static void UpdateOverlayCondition()
     {
-        if (Tools.Scene == "Main Menu" || LobbyController.Offline)
+        if (Mapping.MainMenu || LobbyController.Offline)
             return;
     }
 }

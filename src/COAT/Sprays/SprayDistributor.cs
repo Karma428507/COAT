@@ -1,15 +1,16 @@
 namespace COAT.Sprays;
 
+using COAT.Content;
+using COAT.IO;
+using COAT.Net;
+using COAT.UI.Menus.Sub;
+using COAT.Utils;
+
 using Steamworks.Data;
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using UnityEngine;
-
-using COAT.Content;
-using COAT.IO;
-using COAT.Net;
-using COAT.UI.Menus.Sub;
 
 /// <summary> Class responsible for distributing sprays between clients. </summary>
 public static class SprayDistributor

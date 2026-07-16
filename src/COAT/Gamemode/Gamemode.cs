@@ -1,8 +1,9 @@
 ﻿namespace COAT.Gamemode;
 
 using COAT;
+using COAT.Utils;
+
 using System.Collections.Generic;
-using UnityEngine;
 
 /// <summary> The class involved for different gamemodes. </summary>
 public abstract class Gamemode
@@ -28,7 +29,7 @@ public abstract class Gamemode
 
     private void AddSetting(string name, object obj)
     {
-        if (Tools.Scene == "Main Menu")
+        if (Mapping.MainMenu)
             Settings.Add(name, obj);
     }
 

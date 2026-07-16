@@ -1,8 +1,9 @@
 namespace COAT.Net.Types;
 
-using UnityEngine;
-
 using COAT.Entities;
+using COAT.Utils;
+
+using UnityEngine;
 
 /// <summary> Representation of both encounters with V2. </summary>
 public class V2 : SimpleEnemy
@@ -19,9 +20,9 @@ public class V2 : SimpleEnemy
     protected override void Start()
     {
         SpawnEffect();
-        Boss(Tools.Scene == "Level 1-4" || Tools.Scene == "Level 4-4" || Tools.Scene == "Level 7-1", v2.secondEncounter ? 80f : 40f, v2.secondEncounter ? 2 : 1);
+        Boss(Mapping.Scene == "Level 1-4" || Mapping.Scene == "Level 4-4" || Mapping.Scene == "Level 7-1", v2.secondEncounter ? 80f : 40f, v2.secondEncounter ? 2 : 1);
 
-        if (Tools.Scene == "Level 4-4")
+        if (Mapping.Scene == "Level 4-4")
         {
             v2.knockOutHealth = EnemyId.machine.health / 2f;
             v2.escapeTarget = Tools.ObjFind("ExitTarget").transform;
@@ -55,7 +56,7 @@ public class V2 : SimpleEnemy
             // the second call of StartFade on the host-side can cause NullReferenceException
             if (Tools.ObjFind("Music - Versus").TryGetComponent(out Crossfade fade) && !fade.inProgress) fade.StartFade();
         }
-        if (Tools.Scene == "Level 7-1")
+        if (Mapping.Scene == "Level 7-1")
         {
             Tools.ObjFind("AltarStuff").transform.Find("Altar").gameObject.SetActive(true);
             Tools.ObjFind("BigJohnatronMusic").SetActive(false);

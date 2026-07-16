@@ -10,7 +10,7 @@ using COAT.IO;
 using COAT.UI.Overlay;
 
 /// <summary> Class that loads translations from files in the bundles folder and returns translated lines by keys. </summary>
-public class Bundle
+public class Localization
 {
     /// <summary> Language codes used in settings. </summary>
     public static readonly string[] Codes = { "ar", "pt", "en", "fl", "fr", "it", "pl", "ru", "es", "uk" };
@@ -52,7 +52,7 @@ public class Bundle
         }
         
         // Gets the embedded localization file
-        lines = AssemblyAssets.GetLinedTextFromEmbedded($"Localization.{Files[localeId]}.properties");
+        lines = EmbeddedManager.GetLinedTextFromEmbedded($"Localization.{Files[localeId]}.properties");
         if (lines == null)
         {
             Log.Error(new IOException($"Couldn't find the embdedded bundle file '{Files[localeId]}.properties'"));

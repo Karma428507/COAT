@@ -25,12 +25,12 @@ using COAT.IO;
     private void Start()
     {
         SpawnEffect();
-        Boss(Tools.Scene == "Level 3-2" || Tools.Scene == "Level 6-2", 100f, 2);
+        Boss(Mapping.Scene == "Level 3-2" || Mapping.Scene == "Level 6-2", 100f, 2);
 
         if (gabriel1) gabriel1.phaseChangeHealth = EnemyId.machine.health / 2f;
         if (gabriel2) gabriel2.phaseChangeHealth = EnemyId.machine.health / 2f;
 
-        if (gabriel2 && Tools.Scene == "Level 6-2")
+        if (gabriel2 && Mapping.Scene == "Level 6-2")
         {
             var root = Tools.ObjFind("GabrielOutroParent").transform.parent;
             GameObject Find(string name) => root.Find(name).gameObject;
@@ -118,7 +118,7 @@ using COAT.IO;
     public override void OnDied()
     {
         base.OnDied();
-        bool l3 = Tools.Scene == "Level 3-2", l6 = Tools.Scene == "Level 6-2";
+        bool l3 = Mapping.Scene == "Level 3-2", l6 = Mapping.Scene == "Level 6-2";
 
         if (l3 || l6)
         {

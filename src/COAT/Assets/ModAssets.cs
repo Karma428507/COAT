@@ -12,9 +12,10 @@ using COAT.Net.Types;
 using COAT.UI.Menus;
 using COAT.IO;
 using COAT.UI;
+using COAT.Utils;
 
 /// <summary> Class that works with the assets bundle of the mod. </summary>
-public class DollAssets
+public class ModAssets
 {
     // idk if i should remove this
     public const string V1 = "36abcaae9708abc4d9e89e6ec73a2846";
@@ -148,7 +149,7 @@ public class DollAssets
 
     /// <summary> Finds and loads an assets bundle. </summary>
     private static AssetBundle LoadBundle() =>
-        AssetBundle.LoadFromMemory(AssemblyAssets.GetDataFromEmbedded("assets.bundle"));
+        AssetBundle.LoadFromMemory(EmbeddedManager.GetDataFromEmbedded("assets.bundle"));
 
     /// <summary> Finds and asynchronously loads an asset. </summary>
     private static void LoadAsync<T>(string name, UnityAction<T> cons) where T : Object
@@ -193,63 +194,6 @@ public class DollAssets
         "Forward" => "Head",
         _ => tag
     };
-
-    /// <summary> Creates a new player doll from the prefab. </summary>
-    public static RemotePlayer CreateDoll()
-    {
-        // create a doll from the prefab obtained from the bundle
-        var obj = Entities.Mark(Doll);
-
-        // add components
-        var enemyId = obj.AddComponent<EnemyIdentifier>();
-        var machine = obj.AddComponent<Machine>();
-
-        enemyId.enemyClass = EnemyClass.Machine;
-        enemyId.enemyType = EnemyType.V2;
-        enemyId.dontCountAsKills = true;
-        enemyId.weaknesses = new string[0];
-        enemyId.burners = new();
-        enemyId.activateOnDeath = new GameObject[0];
-        machine.destroyOnDeath = new GameObject[0];
-        machine.hurtSounds = new AudioClip[0];
-
-        // add enemy identifier to all doll parts so that bullets can hit it
-        foreach (var rigidbody in obj.transform.GetChild(0).GetComponentsInChildren<Rigidbody>())
-        {
-            rigidbody.gameObject.AddComponent<EnemyIdentifierIdentifier>();
-            rigidbody.tag = MapTag(rigidbody.gameObject.tag);
-        }
-
-        // add a script to further control the doll
-        return obj.AddComponent<RemotePlayer>();
-    }
-
-
-    static LocalPlayer localPlayer = new();
-    static Dictionary<uint, Entity> ents => Networking.Entities;
-    /// <summary> Creates a new player doll from the prefab. </summary>
-    public static void ProduceDoll()
-    {
-        // create a doll from the prefab obtained from the bundle
-        // the instance is created on these coordinates so as not to collide with anything after the spawn
-        RemotePlayer remotePlayer = new();
-        Writer.Write(w =>
-        {
-            w.Id(localPlayer.Id);
-            w.Enum(localPlayer.Type);
-            localPlayer.DumWrite(w);
-        }, (Memory, Length) =>
-        {
-            Reader.Read(Memory, Length, r =>
-            {
-                var id = r.Id();
-                var type = r.Enum<EntityType>();
-
-                if (!ents.ContainsKey(id) || ents[id] == null) ents[id] = Entities.Get(id, type);
-                ents[id]?.Read(r);
-            });
-        }, 48);
-    }
 
     /// <summary> Returns the hand texture currently in use. Depends on whether the player is in the lobby or not. </summary>
     public static Texture HandTexture(bool feedbacker = true)

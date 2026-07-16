@@ -1,5 +1,7 @@
 namespace COAT.UI;
 
+using COAT.Utils;
+
 using System;
 using UnityEngine.UI;
 
@@ -25,7 +27,7 @@ public abstract class CanvasSingleton<T> : MonoSingleton<T> where T : CanvasSing
         
         // Ignore this, this is when I make the UI manager more advanced
         void Check() {
-            if (hideCond(Tools.Scene))
+            if (hideCond(Mapping.Scene))
                 hide();
         }
 

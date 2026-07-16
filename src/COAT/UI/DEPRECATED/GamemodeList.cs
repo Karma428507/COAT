@@ -2,14 +2,10 @@
 
 using COAT;
 using COAT.Assets;
-using COAT.IO;
-using COAT.Net;
 using COAT.UI;
-using COAT.UI.Elements;
 using COAT.UI.Utils;
-using System;
-using System.Collections.Generic;
-using System.Numerics;
+using COAT.Utils;
+
 using UnityEngine;
 using UnityEngine.UI;
 using static COAT.IO.SaveManager;
@@ -90,7 +86,7 @@ public class ServerCreation : CanvasSingleton<ServerCreation>, IMenuInterface
     private void Rebuild()
     {
         // Rebuild UI element
-        accessibility.GetComponentInChildren<Text>().text = Bundle.Get(Options.ServerType switch
+        accessibility.GetComponentInChildren<Text>().text = Localization.Get(Options.ServerType switch
         {
             0 => "lobby-tab.private",
             1 => "lobby-tab.fr-only",
@@ -111,7 +107,7 @@ public class ServerDiffifcultySelect : IMenuInterface
 
     public void Toggle()
     {
-        if (Tools.Scene != "Main Menu")
+        if (!Mapping.MainMenu)
             return;
 
         loadViaServer = !Tools.ObjFindMainScene("Canvas/Difficulty Select (1)").activeSelf;

@@ -1,14 +1,14 @@
 namespace Patches.Mechanics;
 
-using HarmonyLib;
-using UnityEngine;
-
 using COAT;
 using COAT.Content;
 using COAT.Entities;
 using COAT.Net;
 using COAT.Net.Types;
-using System;
+using COAT.Utils;
+
+using HarmonyLib;
+using UnityEngine;
 
 [HarmonyPatch]
 public class CommonBulletsPatch

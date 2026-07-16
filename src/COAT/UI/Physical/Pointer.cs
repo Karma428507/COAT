@@ -1,10 +1,11 @@
 namespace COAT.UI.Physical;
 
-using UnityEngine;
-
 using COAT.Assets;
 using COAT.Content;
 using COAT.UI;
+using COAT.Utils;
+
+using UnityEngine;
 
 using static Utils.Rect;
 
@@ -42,7 +43,7 @@ public class Pointer : MonoBehaviour
     {
         if (player != null) line = UIB.Component<LineRenderer>(gameObject, line =>
         {
-            line.material.shader = DollAssets.Shader;
+            line.material.shader = ModAssets.Shader;
             line.startColor = line.endColor = color;
             line.widthMultiplier = 0f;
         });

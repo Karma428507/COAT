@@ -10,8 +10,8 @@ using COAT.Entities;
 using COAT.Input;
 using COAT.IO;
 using COAT.Net;
-using COAT.Net.Types;
 using COAT.World;
+using COAT.Utils;
 
 using HarmonyLib;
 using COAT.Sprays;
@@ -87,9 +87,9 @@ public class Plugin : MonoBehaviour
         PageManager.Load();
 
         // Loadable assets and files
-        AssemblyAssets.Load();
-        Bundle.Load();
-        DollAssets.Load();
+        EmbeddedManager.Load();
+        Localization.Load();
+        ModAssets.Load();
         SaveManager.Load();
 
         // Player services

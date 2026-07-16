@@ -9,6 +9,7 @@ using COAT.Content;
 using COAT.IO;
 using COAT.Net;
 using COAT.Net.Types;
+using COAT.Utils;
 
 using Version = Version;
 using TMPro;
@@ -60,7 +61,7 @@ public class World
     {
         Events.OnLoadingStarted += () =>
         {
-            if (LobbyController.Online && LobbyController.IsOwner && Tools.Pending != "Main Menu")
+            if (LobbyController.Online && LobbyController.IsOwner && !Mapping.MainMenu)
             {
                 Activated.Clear();
                 Networking.Send(PacketType.Level, WriteData, size: 256);
@@ -75,20 +76,20 @@ public class World
 
         Events.OnLoaded += () =>
         {
-            if (LobbyController.Online && LobbyController.IsOwner && Tools.Pending != "Main Menu")
+            if (LobbyController.Online && LobbyController.IsOwner && Mapping.MainMenu)
             {
                 // Make sure the allowed levels are skipped
                 foreach (string level in AllowedLevels)
-                    if (Tools.Scene == level)
+                    if (Mapping.Scene == level)
                         return;
 
                 // Send to the early access end screen if going to 1-1
                 // Clients are still going to 1-1, fix that
-                if (Tools.Pending == SendToEAEnd)
-                    Events.Post(() => Tools.Load("EarlyAccessEnd")); // Wait, if this is not in the allowed levels list, then how does it go there without issue?
+                if (Mapping.Pending == SendToEAEnd)
+                    Events.Post(() => Mapping.Load("EarlyAccessEnd")); // Wait, if this is not in the allowed levels list, then how does it go there without issue?
 
                 // Else, just go to sandbox
-                Events.Post(() => Tools.Load("uk_construct"));
+                Events.Post(() => Mapping.Load("uk_construct"));
             }
         };
     }
@@ -98,7 +99,7 @@ public class World
     /// <summary> Writes data about the world such as level, difficulty and triggers fired. </summary>
     public static void WriteData(Writer w)
     {
-        w.String(Tools.Pending ?? Tools.Scene);
+        w.String(Mapping.Pending ?? Mapping.Scene);
 
         // the version is needed for a warning about incompatibility
         w.String(Version.CURRENT);
@@ -111,7 +112,7 @@ public class World
     /// <summary> Reads data about the world: loads the level, sets difficulty and fires triggers. </summary>
     public static void ReadData(Reader r)
     {
-        Tools.Load(r.String()); // scene
+        Mapping.Load(r.String()); // scene
 
         // if the mod version doesn't match the host's one, then reading the packet is complete, as this may lead to bigger bugs
         if (r.String() != Version.CURRENT)
@@ -196,7 +197,7 @@ public class World
     {
         if (LobbyController.Offline) return;
 
-        bool cg = Tools.Scene == "Endless";
+        bool cg = Mapping.Scene == "Endless";
         bool FarEnough(Transform t) => !Tools.Within(t, NewMovement.Instance.transform, 100f) || cg;
 
         // clear gore zones located further than 100 units from the player
@@ -307,7 +308,7 @@ public class World
     /// <summary> Synchronizes the tram speed. </summary>
     public static void SyncTram(TramControl tram)
     {
-        if (LobbyController.Offline || Tools.Scene == "Level 7-1") return;
+        if (LobbyController.Offline || Mapping.Scene == "Level 7-1") return;
 
         var index = (byte)Trams.IndexOf(tram);
         if (index != 255) Networking.Send(PacketType.ActivateObject, w =>

@@ -1,10 +1,11 @@
 namespace COAT.Net;
 
-using System.Collections.Generic;
-using UnityEngine;
-
 using COAT.Content;
 using COAT.Net.Types;
+using COAT.Utils;
+
+using System.Collections.Generic;
+using UnityEngine;
 
 /// <summary> List of all living coins and methods for finding targets. </summary>
 public class Coins

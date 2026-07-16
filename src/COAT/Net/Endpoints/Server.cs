@@ -1,18 +1,16 @@
 ﻿namespace COAT.Net.Endpoints;
 
-using Steamworks;
-using Steamworks.Data;
-using System;
-
 using COAT.Content;
 using COAT.Entities;
 using COAT.IO;
 using COAT.Net.Types;
 using COAT.Sprays;
 using COAT.World;
-using System.Net;
-using Unity.Audio;
-using GameConsole.Commands;
+using COAT.Utils;
+
+using Steamworks;
+using Steamworks.Data;
+using System;
 
 // Handler for the host of a server
 public class Server : Endpoint, ISocketManager

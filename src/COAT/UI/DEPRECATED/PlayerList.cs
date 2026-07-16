@@ -4,8 +4,8 @@ using COAT.Assets;
 using COAT.Content;
 using COAT.Input;
 using COAT.Net;
-using COAT.Net.Types;
-using COAT.UI.Elements;
+using COAT.Utils;
+
 using Steamworks;
 using UnityEngine;
 using UnityEngine.UI;
@@ -134,7 +134,7 @@ public class PlayerList : CanvasSingleton<PlayerList>, IMenuInterface
         // Set the server information
         field.text = LobbyController.ServerName;
 
-        accessibility.GetComponentInChildren<Text>().text = Bundle.Get(ServerCreation.Options.ServerType switch
+        accessibility.GetComponentInChildren<Text>().text = Localization.Get(ServerCreation.Options.ServerType switch
         {
             0 => "lobby-tab.private",
             1 => "lobby-tab.fr-only",

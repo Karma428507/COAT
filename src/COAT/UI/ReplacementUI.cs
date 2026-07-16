@@ -1,8 +1,9 @@
 namespace COAT.UI;
 
 using COAT.Net;
-using COAT.Patches;
 using COAT.UI.Menus;
+using COAT.Utils;
+
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -29,7 +30,7 @@ public static class ReplacementUI
 
         Events.OnLoaded += () =>
         {
-            if (Tools.Scene == "EarlyAccessEnd" && LobbyController.Online)
+            if (Mapping.Scene == "EarlyAccessEnd" && LobbyController.Online)
                 RebuildEarlyAccessEnd();
         };
     }
@@ -127,7 +128,7 @@ public static class ReplacementUI
 
             // idk why this isn't working
             button.onClick = new Button.ButtonClickedEvent();
-            button.onClick.AddListener(() => Tools.Load("uk_construct"));
+            button.onClick.AddListener(() => Mapping.Load("uk_construct"));
         }
         else
         {
@@ -178,7 +179,7 @@ public static class ReplacementUI
         museum.name = "Museum";
 
         museum.GetComponent<Button>().onClick = new Button.ButtonClickedEvent();
-        museum.GetComponent<Button>().onClick.AddListener(() => Tools.Load("CreditsMuseum2"));
+        museum.GetComponent<Button>().onClick.AddListener(() => Mapping.Load("CreditsMuseum2"));
         museum.GetComponentInChildren<TextMeshProUGUI>().text = "MUSEUM";
 
         position = new Vector2(0, 0);

@@ -1,9 +1,10 @@
 namespace COAT.UI.Screen;
 
+using COAT.Input;
+using COAT.Utils;
+
 using UnityEngine;
 using UnityEngine.UI;
-
-using COAT.Input;
 
 using static Utils.Pal;
 
@@ -51,6 +52,6 @@ public class Teleporter : CanvasSingleton<Teleporter>
         Instance.Flash();
 
         // load the necessary locations so that the player doesn't get into the out of bounds
-        if (Tools.Scene == "Level 7-4") Tools.ObjFind(insideEarthmover ? "InsideActivator" : "OutsideActivator").GetComponent<ObjectActivator>().Activate();
+        if (Mapping.Scene == "Level 7-4") Tools.ObjFind(insideEarthmover ? "InsideActivator" : "OutsideActivator").GetComponent<ObjectActivator>().Activate();
     }
 }

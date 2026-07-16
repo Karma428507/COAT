@@ -1,11 +1,12 @@
 ﻿namespace COAT.World;
 
-using UnityEngine;
-
 using COAT.Content;
 using COAT.Input;
 using COAT.IO;
 using COAT.Net;
+using COAT.Utils;
+
+using UnityEngine;
 
 /// <summary> Class responsible for Cyber Grind synchronization. </summary>
 public class CyberGrind

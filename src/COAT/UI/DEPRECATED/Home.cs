@@ -104,7 +104,7 @@ public class Home : CanvasSingleton<Home>, IMenuInterface
     /// <summary> Rebuilds the lobby list to match the list on Steam servers. </summary>
     public void Rebuild()
     {
-        refresh.GetComponentInChildren<Text>().text = Bundle.Get(LobbyController.FetchingLobbies ? "lobby-list.wait" : "lobby-list.refresh");
+        refresh.GetComponentInChildren<Text>().text = Localization.Get(LobbyController.FetchingLobbies ? "lobby-list.wait" : "lobby-list.refresh");
 
         if (LobbyController.Online)
         {

@@ -4,6 +4,8 @@ using COAT.Assets;
 using COAT.Content;
 using COAT.IO;
 using COAT.UI;
+using COAT.Utils;
+
 using System;
 using UnityEngine;
 
@@ -45,7 +47,7 @@ public class Doll : MonoBehaviour
 
     /// <summary> Spawns a preview of the given emoji. </summary>
     public static Doll Spawn(Transform parent, Team team, byte emoji, byte rps) =>
-        UIB.Component<Doll>(Instantiate(DollAssets.Preview, parent), doll =>
+        UIB.Component<Doll>(Instantiate(ModAssets.Preview, parent), doll =>
         {
             doll.transform.localPosition = new(0f, -1.5f);
             doll.transform.localScale = Vector3.one * 2.18f;
@@ -143,7 +145,7 @@ public class Doll : MonoBehaviour
 
     public void ApplyTeam(Team team)
     {
-        WingMat.mainTexture = SkateMat.mainTexture = DollAssets.WingTextures[(int)team];
+        WingMat.mainTexture = SkateMat.mainTexture = ModAssets.WingTextures[(int)team];
         CoinMat.color = team.Color();
         if (WingTrail != null) WingTrail.startColor = team.Color() with { a = .5f };
         if (WingLight != null) WingLight.color = team.Color() with { a = 1f };

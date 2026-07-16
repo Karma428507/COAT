@@ -2,6 +2,7 @@ namespace COAT.Net.Types;
 
 using COAT.Entities;
 using COAT.IO;
+using COAT.Utils;
 
 /// <summary> Representation of a turret. </summary>
 public class Turret : Enemy

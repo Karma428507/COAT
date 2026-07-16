@@ -1,16 +1,11 @@
 ﻿namespace Patches.Level;
 
-using HarmonyLib;
-using UnityEngine;
-
-using System;
-using System.Collections.Generic;
-
-using COAT;
-using COAT.Input;
 using COAT.Net;
 using COAT.World;
 using COAT.Content;
+using COAT.Utils;
+
+using HarmonyLib;
 
 [HarmonyPatch]
 public class InteractablesPatch
@@ -37,7 +32,7 @@ public class InteractablesPatch
         if (LobbyController.Online && LobbyController.IsOwner &&
            (n.Contains("Glass") || n.Contains("Cover") ||
             n.Contains("Skull") || n.Contains("Quake") ||
-            Tools.Scene == "Level 3-1" || __instance.transform.parent?.parent?.name == "MazeWalls")) World.SyncAction(__instance, SyncType.DoorHandler);
+            Mapping.Scene == "Level 3-1" || __instance.transform.parent?.parent?.name == "MazeWalls")) World.SyncAction(__instance, SyncType.DoorHandler);
     }
 
     [HarmonyPostfix]
@@ -84,7 +79,7 @@ public class TramPatch
     static void FightStart(TramControl __instance)
     {
         // find the cart in which the player will appear after respawn
-        if (LobbyController.Online && Tools.Scene == "Level 7-1") World.TunnelRoomba = __instance.transform.parent;
+        if (LobbyController.Online && Mapping.Scene == "Level 7-1") World.TunnelRoomba = __instance.transform.parent;
     }
 
     [HarmonyPostfix]

@@ -62,7 +62,7 @@ public class RankPatch
         if (Networking.WasMultiplayerUsed)
         {
             __instance.totalRank.transform.parent.GetComponent<Image>().color = pink;
-            __instance.totalRank.text = Bundle.CutColors(__instance.totalRank.text);
+            __instance.totalRank.text = Localization.CutColors(__instance.totalRank.text);
         }
     }
 }

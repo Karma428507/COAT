@@ -4,6 +4,8 @@ using COAT.Assets;
 using COAT.Content;
 using COAT.Net;
 using COAT.Net.Types;
+using COAT.Utils;
+
 using HarmonyLib;
 using System.Collections.Generic;
 using System.Linq;

@@ -1,12 +1,13 @@
 namespace COAT;
 
+using COAT.Net;
+using COAT.Utils;
+
 using Steamworks;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
-using COAT.Net;
 
 /// <summary> List of events used by the mod. Some of them are combined into one for simplicity. </summary>
 public class Events : MonoSingleton<Events>
@@ -38,7 +39,7 @@ public class Events : MonoSingleton<Events>
         SceneManager.sceneLoaded += (scene, mode) =>
         {
             OnLoaded.Fire();
-            if (Tools.Scene == "Main Menu") OnMainMenuLoaded.Fire();
+            if (Mapping.MainMenu) OnMainMenuLoaded.Fire();
         };
 
         SteamMatchmaking.OnLobbyMemberLeave += (lobby, member) => Post(OnTeamChanged.Fire);
@@ -51,8 +52,8 @@ public class Events : MonoSingleton<Events>
         OnLobbyAction += () =>
         {
             // update the discord & steam activity so everyone can know I've been working hard
-            DiscordController.Instance.FetchSceneActivity(Tools.Scene);
-            SteamController.Instance.FetchSceneActivity(Tools.Scene);
+            DiscordController.Instance.FetchSceneActivity(Mapping.Scene);
+            SteamController.Instance.FetchSceneActivity(Mapping.Scene);
 
             // enable the ability of the game to run in the background, because multiplayer requires it
             Application.runInBackground = LobbyController.Online;

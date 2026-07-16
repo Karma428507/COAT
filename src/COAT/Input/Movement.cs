@@ -14,6 +14,7 @@ using COAT.UI.Menus;
 using COAT.UI.Screen;
 using COAT.UI.Overlay;
 using System;
+using COAT.Utils;
 
 /// <summary> Class responsible for additions to control and local display of emotions. </summary>
 public class Movement : MonoSingleton<Movement>
@@ -26,7 +27,7 @@ public class Movement : MonoSingleton<Movement>
     static CheatsManager cm => CheatsManager.Instance;
     
     /// <summary> Whether the death must be fake on this level. </summary>
-    private static bool fakeDeath => nm.endlessMode || Tools.Scene == "Level 0-S";
+    private static bool fakeDeath => nm.endlessMode || Mapping.Scene == "Level 0-S";
 
     /// <summary> Starting and ending position of third person camera. </summary>
     private readonly Vector3 start = new(0f, 6f, 0f), end = new(0f, .1f, 0f);
@@ -42,7 +43,7 @@ public class Movement : MonoSingleton<Movement>
         void LevelHandler()
         {
             // disable hook and jump at 0-S
-            if (Tools.Scene == "Level 0-S")
+            if (Mapping.Scene == "Level 0-S")
             {
                 // have this option be setting based
                 // because I hate this
@@ -95,7 +96,7 @@ public class Movement : MonoSingleton<Movement>
         {
             LobbyController.Lobby?.SendChatString("[#FF7F50][14]\\[BOT][][] FUCK OFF!");
             LobbyController.LeaveLobby();
-            Bundle.Hud2NS("lobby.mods");
+            Localization.Hud2NS("lobby.mods");
         }
 
         // leave lobby if you have a blacklisted mod 
@@ -103,7 +104,7 @@ public class Movement : MonoSingleton<Movement>
         {
             LobbyController.Lobby?.SendChatString("[#FF7F50][14]\\[BOT][][] FUCK OFF!");
             LobbyController.LeaveLobby();
-            Bundle.Hud2NS("lobby.mods");
+            Localization.Hud2NS("lobby.mods");
         }
 
         // fake Cyber Grind///0-S death
@@ -121,7 +122,7 @@ public class Movement : MonoSingleton<Movement>
         cm.transform.GetChild(0).GetChild(0).gameObject.SetActive(false);
 
         (Tools.Get("idToCheat", cm) as Dictionary<string, ICheat>).Values.Do(cm.DisableCheat);
-        if (Hud) Bundle.Hud("lobby.cheats");
+        if (Hud) Localization.Hud("lobby.cheats");
     }
 
     private void GridUpdate()
@@ -132,7 +133,7 @@ public class Movement : MonoSingleton<Movement>
         nm.youDiedText.text = Bundle.Format("spect", alive.ToString(), EndlessGrid.Instance ? "#spect.cg" : "#spect.0s");
 
         if (alive > 0) return;
-        if (Tools.Scene == "Level 0-S") StatsManager.Instance.Restart();
+        if (Mapping.Scene == "Level 0-S") StatsManager.Instance.Restart();
         else
         {
             var final = nm.GetComponentInChildren<FinalCyberRank>();

@@ -1,17 +1,16 @@
 namespace COAT.World;
 
-using HarmonyLib;
-using System;
-using System.Collections.Generic;
-using System.Reflection;
-using UnityEngine;
-
 using COAT.Content;
 using COAT.Input;
 using COAT.Net;
 using COAT.Net.Types;
 using COAT.UI;
 using COAT.UI.Screen;
+using COAT.Utils;
+
+using HarmonyLib;
+using System;
+using UnityEngine;
 
 using static UI.Utils.Rect;
 

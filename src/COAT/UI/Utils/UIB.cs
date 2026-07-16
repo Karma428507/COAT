@@ -1,6 +1,12 @@
-using COAT.UI.Utils;
-
 namespace COAT.UI;
+
+using COAT;
+using COAT.Assets;
+using COAT.Content;
+using COAT.Input;
+using COAT.Net;
+using COAT.UI.Menus;
+using COAT.Utils;
 
 using Steamworks;
 using System;
@@ -12,17 +18,10 @@ using UnityEngine.UI.Extensions;
 
 using ScaleMode = UnityEngine.UI.CanvasScaler.ScaleMode;
 using ImageType = UnityEngine.UI.Image.Type;
-using Rect = Rect;
+using Rect = COAT.UI.Utils.Rect;
 
-using COAT;
-using COAT.Assets;
-using COAT.Content;
-using COAT.Input;
-using COAT.Net;
-using COAT.UI.Menus;
-
-using static Pal;
-using static Rect;
+using static COAT.UI.Utils.Pal;
+using static COAT.UI.Utils.Rect;
 
 
 // NOTE: This will be cut down significantly after the new UI is added
@@ -45,7 +44,7 @@ public class UIB
         Action fix;
         Events.OnLoaded += fix = () => Events.Post(() =>
         {
-            HudMessageReceiver.Instance.text.font = DollAssets.FontTMP;
+            HudMessageReceiver.Instance.text.font = ModAssets.FontTMP;
             //NewMovement.Instance.youDiedText.font = DollAssets.Font;
 
             // fix the sorting order to display hud messages on top of other interface fragments
@@ -163,9 +162,9 @@ public class UIB
     public static Text Text(string name, Transform parent, Rect r, Color? color = null, int size = 24, TextAnchor align = TextAnchor.MiddleCenter) =>
         Component<Text>(Rect("Text", parent, r).gameObject, text =>
         {
-            text.text = name.StartsWith("#") ? Bundle.Get(name.Substring(1)) : name;
+            text.text = name.StartsWith("#") ? Localization.Get(name.Substring(1)) : name;
             text.color = color ?? white;
-            text.font = DollAssets.Font;
+            text.font = ModAssets.Font;
             text.fontSize = size;
             text.alignment = align;
         });
@@ -174,9 +173,9 @@ public class UIB
     public static Text KeyText(string name, Transform parent, Rect r, int size = 24, TextAnchor align = TextAnchor.MiddleCenter) =>
         Component<Text>(Rect("Text", parent, r).gameObject, text =>
         {
-            text.text = text.name = name.StartsWith("#") ? Bundle.Get(name.Substring(1)) : name;
+            text.text = text.name = name.StartsWith("#") ? Localization.Get(name.Substring(1)) : name;
             text.color = white;
-            text.font = DollAssets.Font;
+            text.font = ModAssets.Font;
             text.fontSize = size;
             text.alignment = align;
         });
@@ -184,9 +183,9 @@ public class UIB
     public static Text ButtonText(string name, Transform parent, Rect r, Color? color = null, int size = 24, TextAnchor align = TextAnchor.MiddleCenter, Action leftclick = null, Action rightclick = null) =>
     Component<Text>(Rect("Text", parent, r).gameObject, text =>
     {
-        text.text = name.StartsWith("#") ? Bundle.Get(name.Substring(1)) : name;
+        text.text = name.StartsWith("#") ? Localization.Get(name.Substring(1)) : name;
         text.color = color ?? white;
-        text.font = DollAssets.Font;
+        text.font = ModAssets.Font;
         text.fontSize = size;
         text.alignment = align;
 

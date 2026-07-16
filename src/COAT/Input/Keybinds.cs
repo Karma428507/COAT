@@ -8,6 +8,7 @@ using COAT.UI.Physical;
 using COAT.UI.Menus;
 using COAT.UI.Overlay;
 using COAT.UI.Screen;
+using COAT.Utils;
 
 using UnityEngine;
 
@@ -78,18 +79,18 @@ public class Keybinds : MonoSingleton<Keybinds>
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             // YOU CAN ESCAPE
-            if (Tools.Scene == "Main Menu" && UI.CanUseMenu())
+            if (Mapping.MainMenu && UI.CanUseMenu())
             {
                 UI.PopStack();
             }
-            else if (Tools.Scene != "Main Menu" && UI.CanUseIngame())
+            else if (!Mapping.MainMenu && UI.CanUseIngame())
             {
                 UI.PopStack();
                 Movement.UpdateState();
             }
         }
 
-        if (Tools.Scene == "Main Menu" || LobbyController.Offline) return;
+        if (Mapping.MainMenu || LobbyController.Offline) return;
 
         // Uncomment this when you're working on settings and other UI
         if (Input.GetKeyDown(LobbyTabKey)) UI.ToggleUI(Home.Instance);

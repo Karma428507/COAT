@@ -64,6 +64,6 @@ public class Skateboard : CanvasSingleton<Skateboard>
         stamina.transform.localPosition = new(Mathf.Cos(angle) * 160f - 210f, Mathf.Sin(angle) * 160f, 0f);
 
         // speed
-        speed.text = Bundle.Format("skateboard", ColorUtility.ToHtmlStringRGB(gradient.Evaluate(mm.SkateboardSpeed / 60f)), ((int)mm.SkateboardSpeed).ToString());
+        speed.text = Localization.Format("skateboard", ColorUtility.ToHtmlStringRGB(gradient.Evaluate(mm.SkateboardSpeed / 60f)), ((int)mm.SkateboardSpeed).ToString());
     }
 }

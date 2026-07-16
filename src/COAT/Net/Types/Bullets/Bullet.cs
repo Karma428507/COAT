@@ -1,9 +1,10 @@
 namespace COAT.Net.Types;
 
-using UnityEngine;
-
 using COAT.Entities;
 using COAT.IO;
+using COAT.Utils;
+
+using UnityEngine;
 
 /// <summary> Representation of a rocket or cannonball. </summary>
 public class Bullet : OwnableEntity

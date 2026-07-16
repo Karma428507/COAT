@@ -12,7 +12,7 @@ public static class ChatParser
     /// <returns> The parsed message. </returns>
     public static string Parse(string message)
     {
-        return Bundle.CutColors(message);
+        return Localization.CutColors(message);
     }
 
     /// <summary> Handles the message and runs the corresponding command. </summary>

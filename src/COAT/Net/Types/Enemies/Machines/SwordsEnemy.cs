@@ -1,9 +1,10 @@
 namespace COAT.Net.Types;
 
-using UnityEngine;
-
 using COAT.Assets;
 using COAT.Entities;
+using COAT.Utils;
+
+using UnityEngine;
 
 /// <summary> Representation of a swordsmachine. </summary>
 public class SwordsEnemy : SimpleEnemy
@@ -25,10 +26,10 @@ public class SwordsEnemy : SimpleEnemy
     protected override void Start()
     {
         bool intro = swords.transform.position.y <= 320;
-        bool prelude = (Tools.Scene == "Level 0-2" && !intro) || Tools.Scene == "Level 0-3";
-        bool castleVein = Tools.Scene == "Level 1-3";
+        bool prelude = (Mapping.Scene == "Level 0-2" && !intro) || Mapping.Scene == "Level 0-3";
+        bool castleVein = Mapping.Scene == "Level 1-3";
 
-        if (intro && Tools.Scene == "Level 0-2")
+        if (intro && Mapping.Scene == "Level 0-2")
             EnemyId.machine.health = 300;
 
         SpawnEffect();
@@ -55,7 +56,7 @@ public class SwordsEnemy : SimpleEnemy
             GameAssets.SwordsMaterial(agonyOrTundra ? "SwordsMachineAgonySword" : "SwordsMachineTundraSword", transform.GetChild(0).GetChild(1).GetComponent<Renderer>());
         }
 
-        if (Tools.Scene == "Level 0-3" && transform.position.y < 0f)
+        if (Mapping.Scene == "Level 0-3" && transform.position.y < 0f)
         {
             firstPhase = this; // save the object so that when you meet the enemy again, the swordsmachine has only one hand
             swords.secondPhasePosTarget = Tools.ObjFind("EnemyTracker").transform; // no matter what to put here, this is only necessary to start animation

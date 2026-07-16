@@ -1,10 +1,11 @@
 namespace COAT.Net.Types;
 
-using UnityEngine;
-
 using COAT.Content;
 using COAT.IO;
 using COAT.World;
+using COAT.Utils;
+
+using UnityEngine;
 
 /// <summary> Representation of Minotaur. </summary>
 public class Minotaur : Enemy

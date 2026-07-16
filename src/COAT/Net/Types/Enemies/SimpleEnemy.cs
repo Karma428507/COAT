@@ -3,6 +3,7 @@ namespace COAT.Net.Types;
 using COAT.Content;
 using COAT.Entities;
 using COAT.IO;
+using COAT.Utils;
 
 /// <summary> Representation of most enemies. Synchronizes only the position of an enemy. </summary>
 public class SimpleEnemy : Enemy
@@ -17,8 +18,8 @@ public class SimpleEnemy : Enemy
     {
         SpawnEffect();
         Boss(Type == EntityType.TheCorpseOfKingMinos, 160f, 2);
-        Boss(Type == EntityType.Ferryman && Tools.Scene == "Level 5-2", 90f, 2);
-        Boss(Type == EntityType.Minotaur && Tools.Scene == "Level 7-1", 80f, 1);
+        Boss(Type == EntityType.Ferryman && Mapping.Scene == "Level 5-2", 90f, 2);
+        Boss(Type == EntityType.Minotaur && Mapping.Scene == "Level 7-1", 80f, 1);
 
         if (Type == EntityType.TheCorpseOfKingMinos)
         {

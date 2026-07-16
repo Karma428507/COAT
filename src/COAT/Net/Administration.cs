@@ -1,13 +1,14 @@
 namespace COAT.Net;
 
-using HarmonyLib;
-using System.Collections.Generic;
-
 using COAT.Chat;
 using COAT.Content;
 using COAT.UI.Menus;
 using COAT.UI.Overlay;
 using COAT.Optimizations;
+using COAT.Utils;
+
+using HarmonyLib;
+using System.Collections.Generic;
 
 /// <summary> Class dedicated to protecting the lobby from unfavorable people. </summary>
 public class Administration

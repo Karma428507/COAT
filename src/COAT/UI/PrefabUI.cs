@@ -1,13 +1,10 @@
 namespace COAT.UI;
 
-using COAT.Assets;
-using COAT.Net;
-using COAT.Patches;
-using COAT.UI.Menus;
-using TMPro;
+using COAT.Utils;
+
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
+
 using static Utils.Rect;
 
 /// <summary> Handles the pre-built UI. </summary>
@@ -59,7 +56,7 @@ public static class PrefabUI
                         obj.SetActive(true);
 
                         // I only did this to disable the main menu, idk if there's a better way
-                        if (Tools.Scene == "Main Menu")
+                        if (Mapping.MainMenu)
                         {
                             MenuEsc menuEsc = obj.GetComponent<MenuEsc>();
                             menuEsc.previousPage = Tools.ObjFindMainScene("Canvas/Main Menu (1)");

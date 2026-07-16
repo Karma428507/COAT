@@ -1,8 +1,9 @@
 namespace COAT.Net.Types;
 
-using UnityEngine;
-
 using COAT.IO;
+using COAT.Utils;
+
+using UnityEngine;
 
 /// <summary> Common to all enemies in the game class. Performs a small number of functions. </summary>
 public class Enemy : OwnableEntity

@@ -68,6 +68,7 @@ public class GameAssets
         "Cameron", "Gianni", "Salad", "Mandy", "Joy", "Weyte", "Heckteck", "Hakita", "Lenval", "CabalCrow",
         "Quetzal", "John", "Pitr", "BJ", "Francis", "Vvizard", "Lucas", "Scott", "KGC", "V1"
     };
+
     #region tools
 
     private static GameObject Prefab(string name) => AssetHelper.LoadPrefab($"Assets/Prefabs/{name}.prefab");
@@ -117,31 +118,5 @@ public class GameAssets
     /// <summary> Loads a Gabriel voice line by name. </summary>
     //public static void GabLine(string name, Cons<AudioClip> output) => Sound($"Voices/Gabriel/{name}.ogg", output);
 
-    #endregion
-    #region debug
-    public static List<GameObject> gameObjects = new List<GameObject>();
-
-    /// <summary> A debug function to fill a list of asset addresses </summary>
-    public static void LoadAddresses()
-    {
-        string path = FileManager.MergeDLLPath("Assets.txt");
-        List<string> ToWrite = new();
-
-        foreach (var locator in Addressables.ResourceLocators)
-        {
-            foreach (var key in locator.Keys)
-            {
-                if (locator.Locate(key, typeof(object), out IList<IResourceLocation> locations))
-                {
-                    foreach (var location in locations)
-                    {
-                        ToWrite.Add(location.PrimaryKey);
-                    }
-                }
-            }
-        }
-
-        FileManager.CreateAppendFile(path, ToWrite);
-    }
     #endregion
 }

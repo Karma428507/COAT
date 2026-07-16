@@ -1,10 +1,8 @@
 namespace COAT.Net.Types;
 
-using UnityEngine;
-using UnityEngine.AI;
-
 using COAT.Entities;
 using COAT.IO;
+using COAT.Utils;
 
 public class CerberusEnemy : Enemy
 {
@@ -19,7 +17,7 @@ public class CerberusEnemy : Enemy
     private void Start()
     {
         SpawnEffect();
-        Boss(Tools.Scene == "Level 0-5", 80f);
+        Boss(Mapping.Scene == "Level 0-5", 80f);
     }
 
     private void Update() => Stats.MTE(() =>

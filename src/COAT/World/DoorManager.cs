@@ -1,17 +1,12 @@
 ﻿namespace COAT.World;
 
 using COAT.Content;
-using COAT.IO;
 using COAT.Net;
-using COAT.Net.Types;
-using HarmonyLib;
-using System;
+using COAT.Utils;
+
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
-using UnityEngine.UIElements;
 
 /// <summary> Class that manages how doors behave and sync in the levels. </summary>
 public class DoorManager

@@ -2,6 +2,7 @@ namespace COAT.Net.Types;
 
 using COAT.Entities;
 using COAT.IO;
+using COAT.Utils;
 
 /// <summary> Representation of a hideous mass. </summary>
 public class Shrimp : Enemy
@@ -15,8 +16,8 @@ public class Shrimp : Enemy
     private void Start()
     {
         SpawnEffect();
-        Boss(Tools.Scene == "Level 1-3", 175f, 1);
-        Boss(Tools.Scene == "Level 6-1", 60f, 1);
+        Boss(Mapping.Scene == "Level 1-3", 175f, 1);
+        Boss(Mapping.Scene == "Level 6-1", 60f, 1);
 
         GetComponent<Mass>().crazyModeHealth = EnemyId.statue.health * .2f;
     }

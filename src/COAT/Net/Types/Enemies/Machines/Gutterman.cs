@@ -1,6 +1,7 @@
 namespace COAT.Net.Types;
 
 using COAT.Entities;
+using COAT.Utils;
 
 /// <summary> Representation of a gutterman. </summary>
 public class Gutterman : SimpleEnemy
@@ -17,7 +18,7 @@ public class Gutterman : SimpleEnemy
     protected override void Start()
     {
         SpawnEffect();
-        Boss(Tools.Scene == "Level 7-2" && transform.position.z < 400f, 30f);
+        Boss(Mapping.Scene == "Level 7-2" && transform.position.z < 400f, 30f);
     }
 
     #region entity

@@ -86,7 +86,7 @@ public class ChatUI : CanvasSingleton<ChatUI>, IOverlayInterface
         // get a list of players typing in the chat
         List<string> list = new();
 
-        if (Shown) list.Add(Bundle.Get("chat.you"));
+        if (Shown) list.Add(Localization.Get("chat.you"));
         Networking.EachPlayer(player =>
         {
             if (player.Typing) list.Add(player.Header.Name);
@@ -98,13 +98,13 @@ public class ChatUI : CanvasSingleton<ChatUI>, IOverlayInterface
         if (list.Count != 0)
         {
             if (list.Count == 1 && Shown)
-                typing.text = Bundle.Get("chat.only-you");
+                typing.text = Localization.Get("chat.only-you");
             else
             {
                 typing.text = string.Join(", ", list.ToArray(), 0, Mathf.Min(list.Count, 3));
-                if (list.Count > 3) typing.text += Bundle.Get("chat.other");
+                if (list.Count > 3) typing.text += Localization.Get("chat.other");
 
-                typing.text += Bundle.Get(list.Count == 1 ? "chat.single" : "chat.multiple");
+                typing.text += Localization.Get(list.Count == 1 ? "chat.single" : "chat.multiple");
             }
 
             float width = typing.preferredWidth + 16f;
@@ -203,7 +203,7 @@ public class ChatUI : CanvasSingleton<ChatUI>, IOverlayInterface
     public void Receive(string msg, bool format = true)
     {
         // add the given message to the list
-        if (format) msg = Bundle.ParseColors(msg);
+        if (format) msg = Localization.ParseColors(msg);
         var text = UIB.Text(msg, list, Msg(WIDTH - 16f), null, 16, TextAnchor.MiddleLeft);
         //Text text = null;
         //text = UIB.ButtonText(msg, list, Msg(WIDTH - 16f), null, 16, TextAnchor.MiddleLeft, () => CopyText(msg.Substring(msg.IndexOf("[][#FF7F50]:[]</b> ")), text), () => DropUpMenu(msg.Substring(msg.IndexOf("[][#FF7F50]:[]</b> ")), msg.Substring(msg.IndexOf(']'), msg.IndexOf("[][#FF7F50]:[]</b> ")), text));
@@ -250,7 +250,7 @@ public class ChatUI : CanvasSingleton<ChatUI>, IOverlayInterface
     }
 
     /// <summary> Writes a message to the chat, formatting it beforehand. </summary>
-    public void Receive(string color, string author, string msg) => Receive($"<b>[{(color.StartsWith('#') ? color : $"#{color}")}]{author}[][#FF7F50]:[]</b> {Moderation.ParseMessage(Bundle.CutDangerous(msg))}");
+    public void Receive(string color, string author, string msg) => Receive($"<b>[{(color.StartsWith('#') ? color : $"#{color}")}]{author}[][#FF7F50]:[]</b> {Moderation.ParseMessage(Localization.CutDangerous(msg))}");
 
 
     public void NewReceive(string color, Friend author, string msg) => NewReceive(color, author, Moderation.ParseMessage(msg), false);
@@ -259,7 +259,7 @@ public class ChatUI : CanvasSingleton<ChatUI>, IOverlayInterface
     {
         string FormattedColor = (color.StartsWith('#') ? color : $"#{color}");
         string FormattedName = author.Name.Replace("[", "\\[");
-        string FormattedMsg = Moderation.ParseMessage(Bundle.CutDangerous(msg));
+        string FormattedMsg = Moderation.ParseMessage(Localization.CutDangerous(msg));
 
         string FormattedPrefixes = tts ? ChatUtils.TTS_PREFIX : "";
         FormattedPrefixes += author.Id == LobbyController.LastOwner ? ChatUtils.HOST_PREFIX : "";

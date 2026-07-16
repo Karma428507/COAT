@@ -42,7 +42,7 @@ public class GeneralSettings : SettingsPage<GeneralSettings>
 
             lang = UIB.Button("Language", table, new(-40f, 260f, 425f, 40f), clicked: () => // this may look like a ctrl+c ctrl+v but.. its actually not. i only realised after that its 1:1
             {
-                pm.SetString("jaket.locale", Bundle.Codes[Settings.Language = ++Settings.Language % Bundle.Codes.Length]);
+                pm.SetString("jaket.locale", Localization.Codes[Settings.Language = ++Settings.Language % Localization.Codes.Length]);
                 Rebuild();
             });
 
@@ -95,7 +95,7 @@ public class GeneralSettings : SettingsPage<GeneralSettings>
 
     public void Rebuild()
     {
-        string Mode(int mode) => Bundle.Get(mode switch
+        string Mode(int mode) => Localization.Get(mode switch
         {
             0 => "settings.default",
             1 => "settings.green",
@@ -103,7 +103,7 @@ public class GeneralSettings : SettingsPage<GeneralSettings>
             _ => "lobby-tab.default"
         });
 
-        lang.GetComponentInChildren<Text>().text = Bundle.Locales[Settings.Language];
+        lang.GetComponentInChildren<Text>().text = Localization.Locales[Settings.Language];
         feed.GetComponentInChildren<Text>().text = Mode(Settings.FeedColor);
         knkl.GetComponentInChildren<Text>().text = Mode(Settings.KnuckleColor);
 
@@ -118,7 +118,7 @@ public class GeneralSettings : SettingsPage<GeneralSettings>
 
     private void ResetGeneral()
     {
-        pm.SetString("jaket.locale", Bundle.Codes[Bundle.LoadedLocale]);
+        pm.SetString("jaket.locale", Localization.Codes[Localization.LoadedLocale]);
         pm.DeleteKey("jaket.disable-freeze");
 
         Settings.Load();

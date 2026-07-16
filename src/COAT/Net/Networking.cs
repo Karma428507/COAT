@@ -1,12 +1,5 @@
 namespace COAT.Net;
 
-using HarmonyLib;
-using Steamworks;
-using Steamworks.Data;
-using System;
-using System.Collections.Generic;
-using UnityEngine;
-
 using COAT.Assets;
 using COAT.Content;
 using COAT.IO;
@@ -14,7 +7,15 @@ using COAT.Net.Endpoints;
 using COAT.Net.Types;
 using COAT.UI.Menus;
 using COAT.UI.Overlay;
+using COAT.Utils;
+
+using HarmonyLib;
+using Steamworks;
+using Steamworks.Data;
+using System;
+using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 /// <summary> Class responsible for updating endpoints, transmitting packets and managing entities. </summary>
 public class Networking
@@ -112,7 +113,7 @@ public class Networking
             string LobbyBannedData = LobbyController.Lobby?.GetData("banned");
             if (LobbyBannedData.Contains($"{member.Id.AccountId}")) return;
             
-            Bundle.Msg("player.joined", member.Name);
+            Localization.Msg("player.joined", member.Name);
         };
 
         SteamMatchmaking.OnLobbyMemberLeave += (lobby, member) =>
@@ -120,7 +121,7 @@ public class Networking
             string LobbyBannedData = LobbyController.Lobby?.GetData("banned");
             if (LobbyBannedData.Contains($"{member.Id.AccountId}")) return;
 
-            Bundle.Msg("player.left", member.Name);
+            Localization.Msg("player.left", member.Name);
             if (!LobbyController.IsOwner) return;
 
             // returning the exited player's entities back to the host owner & close the connection
@@ -144,7 +145,7 @@ public class Networking
 
                 if (message == "#/d")
                 {
-                    Bundle.Msg("player.died", member.Name);
+                    Localization.Msg("player.died", member.Name);
                     /*if (LobbyController.HealBosses) EachEntity(entity =>
                     {
                         if (entity is Enemy enemy && enemy.IsBoss && !enemy.Dead) enemy.HealBoss();
@@ -157,14 +158,14 @@ public class Networking
                     //Administration.Banned.AddRange(LobbyController.Lobby?.GetData("banned").Split(' ').Select(s => uint.TryParse(s, out uint value) ? value : 0).ToArray());
                     LobbyBannedData = LobbyController.Lobby?.GetData("banned");
                     List<uint> ClientBannedData = Administration.Banned;
-                    if (LobbyBannedData.Contains($"{id}")) Bundle.Msg("player.banned", Tools.Name(id));
+                    if (LobbyBannedData.Contains($"{id}")) Localization.Msg("player.banned", Tools.Name(id));
                     else return;
                     ClientBannedData.Clear();
                     ClientBannedData.AddRange(LobbyBannedData.Split(' ').Select(s => uint.TryParse(s, out uint value) ? value : 0));
                 }
                 else if (message.StartsWith("#/s") && byte.TryParse(message.Substring(3), out byte team))
                 {
-                    if (LocalPlayer.Team == (Team)team) StyleHUD.Instance.AddPoints(Mathf.RoundToInt(250f * StyleCalculator.Instance.airTime), Bundle.ParseColors("[#3C3]FRATRICIDE"));
+                    if (LocalPlayer.Team == (Team)team) StyleHUD.Instance.AddPoints(Mathf.RoundToInt(250f * StyleCalculator.Instance.airTime), Localization.ParseColors("[#3C3]FRATRICIDE"));
                 }
                 else if (message.StartsWith("#/r") && byte.TryParse(message.Substring(3), out byte rps))
                     ChatUI.Instance.Receive($"[#FFA500]{member.Name} has chosen {rps switch { 0 => "rock", 1 => "paper", 2 => "scissors", _ => "nothing" }}");

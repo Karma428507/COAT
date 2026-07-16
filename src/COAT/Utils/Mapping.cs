@@ -13,7 +13,6 @@ using Object = UnityEngine.Object;
 
 using COAT.IO;
 using static UnityEngine.GraphicsBuffer;
-using UnityEngine.SceneManagement;
 
 /// <summary> Deals with changing scenes. </summary>
 public class Mapping
@@ -23,7 +22,21 @@ public class Mapping
     /// <summary> Name of the loading scene. </summary>
     public static string Pending => SceneHelper.PendingScene;
 
+    /// <summary> Name of the current scene. </summary>
+    public static bool MainMenu => Scene == "Main Menu";
+    /// <summary> Name of the loading scene. </summary>
+    public static bool MainMenuPending => Pending == "Main Menu";
+
     /// <summary> Loads the given scene. </summary>
     public static void Load(string scene) => SceneHelper.LoadScene(scene);
 
+    /// <summary> Maps the map name so that it is more understandable to an average player. </summary>
+    public static string MapMap(string map) => map switch
+    {
+        "Tutorial" => "Tutorial",
+        "uk_construct" => "Sandbox",
+        "Endless" => "Cyber Grind",
+        "CreditsMuseum2" => "Museum",
+        _ => map.Substring("Level ".Length)
+    };
 }

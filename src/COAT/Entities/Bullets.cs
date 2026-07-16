@@ -1,13 +1,14 @@
 namespace COAT.Entities;
 
-using System;
-using System.Collections.Generic;
-using UnityEngine;
-
 using COAT.Content;
 using COAT.IO;
 using COAT.Net;
 using COAT.Net.Types;
+using COAT.Utils;
+
+using System;
+using System.Collections.Generic;
+using UnityEngine;
 
 /// <summary> List of all bullets in the game and some useful methods. </summary>
 public class Bullets

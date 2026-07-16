@@ -66,7 +66,7 @@ public class TeamCoin : OwnableEntity
                 mat ??= GetComponentInChildren<MeshRenderer>().material;
                 trail ??= GetComponent<TrailRenderer>();
 
-                mat.mainTexture = DollAssets.CoinTexture;
+                mat.mainTexture = ModAssets.CoinTexture;
                 mat.color = Team.Color();
                 trail.startColor = Team.Color() with { a = .5f };
             }
@@ -404,7 +404,7 @@ public class TeamCoin : OwnableEntity
         Coins.Alive.Remove(this);
 
         mat = GetComponent<Renderer>().material;
-        mat.mainTexture = DollAssets.CoinTexture;
+        mat.mainTexture = ModAssets.CoinTexture;
         mat.color = Team.Color();
     }
 
