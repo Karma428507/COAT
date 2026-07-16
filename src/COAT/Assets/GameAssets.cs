@@ -75,6 +75,8 @@ public class GameAssets
 
     private static void Material(string name, Action<Material> cons) => Addressables.LoadAssetAsync<Material>($"Assets/Models/{name}.mat").Task.ContinueWith(t => cons(t.Result));
 
+    private static void Sound(string name, Action<AudioClip> cons) => Addressables.LoadAssetAsync<AudioClip>($"Assets/Sounds/{name}.ogg").Task.ContinueWith(t => cons(t.Result));
+
     #endregion
     #region loading
 
@@ -116,7 +118,7 @@ public class GameAssets
     public static void SisyMaterial(string name, Renderer[] output) => Material($"Enemies/Sisyphus/{name}", mat => output[0].material = output[1].material = mat);
 
     /// <summary> Loads a Gabriel voice line by name. </summary>
-    //public static void GabLine(string name, Cons<AudioClip> output) => Sound($"Voices/Gabriel/{name}.ogg", output);
+    public static void GabLine(string name, Action<AudioClip> output) => Sound($"Voices/Gabriel/{name}.ogg", output);
 
     #endregion
 }

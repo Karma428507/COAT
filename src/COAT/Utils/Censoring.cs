@@ -1,11 +1,12 @@
-﻿namespace COAT.Chat;
+﻿namespace COAT.Utils;
 
 using COAT.UI.Menus;
+
 using System.Collections.Generic;
 using System.Linq;
 
 // I never been so uncomfortable coding something before
-public static class Moderation
+public static class Censoring
 {
     // I really don't want to have a list of slurs in plain text
     private static readonly ulong[] EncryptedList =

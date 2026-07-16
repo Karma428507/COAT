@@ -77,7 +77,7 @@ public class Plugin : MonoBehaviour
         Tools.CacheAccId();
 
         // Networking
-        Moderation.Load();
+        Censoring.Load();
         Administration.Load();
         LobbyController.Load();
         Networking.Load();
@@ -117,7 +117,7 @@ public class Plugin : MonoBehaviour
         WorldActionsList.Load();
 
         // Rest of multiplayer
-        ChatHandler.Load();
+        ChatManager.Load();
         SprayManager.Load();
 
         // initialize harmony and patch all the necessary classes

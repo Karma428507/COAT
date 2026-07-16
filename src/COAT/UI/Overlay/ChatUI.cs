@@ -17,8 +17,11 @@ using Sam;
 
 using static Utils.Pal;
 using static Utils.Rect;
+using System;
+using COAT.Utils;
 
 /// <summary> Front end of the chat, back end implemented via Steamworks. </summary>
+[Obsolete("MAKE IT EASIER TO WRITE MESSAGES TO THINGS IN TOOLS.")]
 public class ChatUI : CanvasSingleton<ChatUI>, IOverlayInterface
 {
     /// <summary> Maximum length of chat message. </summary>
@@ -55,7 +58,7 @@ public class ChatUI : CanvasSingleton<ChatUI>, IOverlayInterface
 
     private void Start()
     {
-        Events.OnLobbyEntered += () => ChatUtils.Hello(); // send some useful information to the chat so that players know about the mod's features
+        Events.OnLobbyEntered += () => ChatManager.Hello(); // send some useful information to the chat so that players know about the mod's features
         AutoTTS = Settings.AutoTTS;
 
         list = UIB.Table("List", transform, Blh(WIDTH)).rectTransform;
@@ -135,9 +138,9 @@ public class ChatUI : CanvasSingleton<ChatUI>, IOverlayInterface
         msg = msg.Trim(); // remove extra spaces from the message before formatting
 
         // if the message is not empty, then send it to other players and remember it
-        if (ChatParser.Parse(msg).Trim() != "")
+        if (ChatManager.Parse(msg).Trim() != "")
         {
-            if (!ChatParser.IsCommand(msg)) LobbyController.Lobby?.SendChatString(AutoTTS ? "/tts " + msg : msg);
+            if (!ChatManager.IsCommand(msg)) LobbyController.Lobby?.SendChatString(AutoTTS ? "/tts " + msg : msg);
             messages.Insert(0, msg);
         }
 
@@ -250,19 +253,19 @@ public class ChatUI : CanvasSingleton<ChatUI>, IOverlayInterface
     }
 
     /// <summary> Writes a message to the chat, formatting it beforehand. </summary>
-    public void Receive(string color, string author, string msg) => Receive($"<b>[{(color.StartsWith('#') ? color : $"#{color}")}]{author}[][#FF7F50]:[]</b> {Moderation.ParseMessage(Localization.CutDangerous(msg))}");
+    public void Receive(string color, string author, string msg) => Receive($"<b>[{(color.StartsWith('#') ? color : $"#{color}")}]{author}[][#FF7F50]:[]</b> {Censoring.ParseMessage(Localization.CutDangerous(msg))}");
 
 
-    public void NewReceive(string color, Friend author, string msg) => NewReceive(color, author, Moderation.ParseMessage(msg), false);
+    public void NewReceive(string color, Friend author, string msg) => NewReceive(color, author, Censoring.ParseMessage(msg), false);
 
     public void NewReceive(string color, Friend author, string msg, bool tts)
     {
         string FormattedColor = (color.StartsWith('#') ? color : $"#{color}");
         string FormattedName = author.Name.Replace("[", "\\[");
-        string FormattedMsg = Moderation.ParseMessage(Localization.CutDangerous(msg));
+        string FormattedMsg = Censoring.ParseMessage(Localization.CutDangerous(msg));
 
-        string FormattedPrefixes = tts ? ChatUtils.TTS_PREFIX : "";
-        FormattedPrefixes += author.Id == LobbyController.LastOwner ? ChatUtils.HOST_PREFIX : "";
+        string FormattedPrefixes = tts ? ChatManager.TTS_PREFIX : "";
+        FormattedPrefixes += author.Id == LobbyController.LastOwner ? ChatManager.HOST_PREFIX : "";
 
         Receive($"<b>{FormattedPrefixes}[{FormattedColor}]{FormattedName}[][#F75]:[]</b> {FormattedMsg}");
     }
@@ -292,7 +295,7 @@ public class ChatUI : CanvasSingleton<ChatUI>, IOverlayInterface
     public void ReceiveTTS(string color, Friend author, string msg)
     {
         // Censor the message
-        msg = Moderation.ParseMessage(msg);
+        msg = Censoring.ParseMessage(msg);
 
         // play the message in the local player's position if he is its author
         if (author.IsMe)

@@ -140,4 +140,14 @@ public class Tools
     public static bool Within(GameObject a, GameObject b, float dst = 1f) => Within(a.transform.position, b.transform.position, dst);
 
     #endregion
+    #region string handling
+
+    public static string ColorToHex(UnityEngine.Color color)
+    {
+        return $"#{Mathf.RoundToInt(color.r * 255):X2}" +
+               $"{Mathf.RoundToInt(color.g * 255):X2}" +
+               $"{Mathf.RoundToInt(color.b * 255):X2}";
+    }
+
+    #endregion
 }

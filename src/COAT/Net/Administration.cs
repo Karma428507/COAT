@@ -79,7 +79,7 @@ public class Administration
         //SteamMatchmaking.OnLobbyMemberKicked.Invoke(LobbyController.Lobby, );
 
         // send a kick msg so jaket users also see it
-        ChatUI.Instance.Send($"<b>{ChatUtils.BOT_PREFIX}</b> Player {Tools.Name(id)} was [#F75][18]\\[ KICKED ][][]");
+        ChatUI.Instance.Send($"<b>{ChatManager.BOT_PREFIX}</b> Player {Tools.Name(id)} was [#F75][18]\\[ KICKED ][][]");
 
         // check if either the player is on coat, or not. if so, send kick packet. if not, send ban packet.
         Networking.Send(PacketType.Kick, null, (data, size) =>
@@ -113,10 +113,10 @@ public class Administration
         else Networking.MutedPlayers.Remove(id);
 
         if (mute) { Networking.MutedPlayers.Add(id);
-            ChatUI.Instance.Send($"<b>{ChatUtils.BOT_PREFIX}</b> Player {Tools.Name(id)} was [#F75][18]\\[ MUTED ][][]");
+            ChatUI.Instance.Send($"<b>{ChatManager.BOT_PREFIX}</b> Player {Tools.Name(id)} was [#F75][18]\\[ MUTED ][][]");
             LobbyController.Lobby?.SetData("mute", string.Join(" ", Networking.MutedPlayers)); } else {
             Networking.MutedPlayers.Remove(id);
-            ChatUI.Instance.Send($"<b>{ChatUtils.BOT_PREFIX}</b> Player {Tools.Name(id)} was [#F75][18]\\[ UNMUTED ][][]");
+            ChatUI.Instance.Send($"<b>{ChatManager.BOT_PREFIX}</b> Player {Tools.Name(id)} was [#F75][18]\\[ UNMUTED ][][]");
             LobbyController.Lobby?.SetData("mute", string.Join(" ", Networking.MutedPlayers)); }
     }
 
