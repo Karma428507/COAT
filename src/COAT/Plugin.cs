@@ -37,8 +37,6 @@ public class Plugin : MonoBehaviour
 {
     /// <summary> Plugin instance available everywhere. </summary>
     public static Plugin Instance;
-    /// <summary> Whether the plugin has been initialized. </summary>
-    public bool Initialized;
     /// <summary> Path to the dll file of the mod. </summary>
     public string Location;
 
@@ -63,16 +61,11 @@ public class Plugin : MonoBehaviour
         // adds an event listener to the scene loading
         Events.Load();
         // interface components and assets bundle can only be loaded from the main menu
-        Events.OnMainMenuLoaded += Init;
+        Events.OnMainMenuLoaded *= Init;
     }
-
-    private void OnApplicationQuit() => Log.Flush();
 
     private void Init()
     {
-        // Could I just remove the input from the event instead?
-        if (Initialized) return;
-
         // Update check
 #if UPDATE
         Version.Check4Update();
@@ -89,7 +82,11 @@ public class Plugin : MonoBehaviour
         LobbyController.Load();
         Networking.Load();
 
-        // Loads the asset
+        // Registerable components
+        GamemodeManager.Load();
+        PageManager.Load();
+
+        // Loadable assets and files
         AssemblyAssets.Load();
         Bundle.Load();
         DollAssets.Load();
@@ -122,18 +119,17 @@ public class Plugin : MonoBehaviour
         // Rest of multiplayer
         ChatHandler.Load();
         SprayManager.Load();
-        PageManager.Load();
-        GamemodeManager.Load();
 
         // initialize harmony and patch all the necessary classes
-        new Harmony("Meow :3").PatchAll();
+        new Harmony("COAT Harmony").PatchAll();
 
         // check if there is any incompatible mods
         HasIncompatibility = Chainloader.PluginInfos.Values.Any(info => !Compatible.Contains(info.Metadata.Name));
         //HasBlacklisted = Chainloader.PluginInfos.Values.Any(info => !Blacklisted.Contains(info.Metadata.Name));
 
         // mark the plugin as initialized and log a message about it
-        Initialized = true;
         Log.Info("COAT initialized!");
     }
+
+    private void OnApplicationQuit() => Log.Flush();
 }

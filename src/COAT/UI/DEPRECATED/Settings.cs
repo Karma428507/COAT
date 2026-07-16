@@ -168,14 +168,14 @@ public class Settings : CanvasSingleton<Settings>, IMenuInterface
     private void OnFocusLost(string text)
     {
         // this code is so cooked so i hid it behind a method lmao
-        Tools.OnFocusLost(
+        /*Tools.OnFocusLost(
         () => // OnEnter
         {
             Administration.BlacklistMod(text);
             //PersonalBlacklistedMods.Add("d: " + text);
             Field.text = "TYPE MOD NAME HERE";
             Rebuild();
-        });
+        });*/
     }
 
     /// <summary> Rebuilds the settings to update some labels. </summary>

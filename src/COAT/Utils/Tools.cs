@@ -1,4 +1,4 @@
-﻿namespace COAT;
+﻿namespace COAT.Utils;
 
 using HarmonyLib;
 using Steamworks;
@@ -6,21 +6,14 @@ using Steamworks.Data;
 using System;
 using System.Linq;
 using System.Reflection;
-using System.Net.Security;
 using UnityEngine;
 using UnityEngine.Events;
 
 using Object = UnityEngine.Object;
 
-using COAT.Assets;
 using COAT.IO;
-using System.Threading.Tasks;
 using static UnityEngine.GraphicsBuffer;
 using UnityEngine.SceneManagement;
-using COAT.Net.Types;
-using COAT.Net;
-using COAT.Content;
-using System.Net;
 
 /// <summary> Set of different tools for simplifying life and systematization of code. </summary>
 public class Tools
@@ -54,14 +47,6 @@ public class Tools
 
     #endregion
     #region scene
-
-    /// <summary> Name of the current scene. </summary>
-    public static string Scene => SceneHelper.CurrentScene;
-    /// <summary> Name of the loading scene. </summary>
-    public static string Pending => SceneHelper.PendingScene;
-
-    /// <summary> Loads the given scene. </summary>
-    public static void Load(string scene) => SceneHelper.LoadScene(scene);
 
     /// <summary> Whether the given object is on a scene or is it just an asset. </summary>
     public static bool IsReal(GameObject obj) => obj.scene.name != null; // REAAAAAAAAALLLLLLL!!!!!!!
@@ -106,7 +91,7 @@ public class Tools
     public static void Destroy(string objName) => Destroy(ObjFind(objName));
     public static void DestroyImmediate(Object obj) => Object.DestroyImmediate(obj);
 
-    public static void SetActive(string objName, bool active) => Tools.ObjFind(objName).SetActive(active);
+    public static void SetActive(string objName, bool active) => ObjFind(objName).SetActive(active);
 
     #endregion
     #region resources
@@ -153,38 +138,6 @@ public class Tools
     public static bool Within(Transform a, Transform b, float dst = 1f) => Within(a.position, b.position, dst);
     public static bool Within(GameObject a, Vector3 b, float dst = 1f) => Within(a.transform.position, b, dst);
     public static bool Within(GameObject a, GameObject b, float dst = 1f) => Within(a.transform.position, b.transform.position, dst);
-
-    #endregion
-    #region extras ig
-
-    public static void OnFocusLost(Action OnEnter = null, Action OnFocusOff = null, Action OnEither = null)
-    {
-        // focus lost because the player entered a message
-        if (OnEnter != null && (UnityEngine.Input.GetKeyDown(KeyCode.Return) || UnityEngine.Input.GetKeyDown(KeyCode.KeypadEnter)))
-            OnEnter();
-
-        // focus lost for some other reason
-        else if (OnFocusLost != null)
-            OnFocusOff();
-
-        // basicallyyyy... if it doesnt care what smt is then.... like.... uhhhhhhhhhhhh- oh yeaaaaa i remember nowww... uhh- OH YEA!!- okay so if it doesnt care what smt is then it does this!!! :DDD
-        else if (OnEither != null)
-            OnEither();
-    }
-
-    /// <summary> Spawn a Dummy entity, and copies the players data. </summary>
-    public static void Dummy(uint id)
-    {
-        Log.Info($"Creating Dummy with id: {id}");
-        DollAssets.ProduceDoll();
-    }
-
-    /// <summary> Wait a certain amount of seconds. </summary>
-    /*public static async Task WaitSeconds(float seconds)
-    {
-        int Seconds = (int)seconds * 1000;
-        await Task.Delay(Seconds);
-    }*/
 
     #endregion
 }

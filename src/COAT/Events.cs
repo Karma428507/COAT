@@ -85,8 +85,10 @@ public class Events : MonoSingleton<Events>
 /// <summary> Safe event that will output all exceptions to the Unity console and guarantee the execution of each listener, regardless of errors. </summary>
 public class SafeEvent
 {
-    /// <summary> List of all event listeners. </summary>
+    /// <summary> List of all main event listeners. </summary>
     private List<Action> listeners = new();
+    /// <summary> List of temporary event listeners. </summary>
+    private List<Action> listenersTemp = new();
 
     /// <summary> Fires the event, i.e. fires its listeners, ensuring that they all will be executed regardless of exceptions. </summary>
     public void Fire()
@@ -96,6 +98,14 @@ public class SafeEvent
             try { listeners[i](); }
             catch (Exception ex) { Log.Error(ex); }
         }
+
+        for (int i = 0; i < listenersTemp.Count; i++)
+        {
+            try { listenersTemp[i](); }
+            catch (Exception ex) { Log.Error(ex); }
+
+            listenersTemp.Remove(listeners[i]);
+        }
     }
 
     /// <summary> Subscribes to the safe event: the listener can throw exceptions safely. </summary>
@@ -103,4 +113,7 @@ public class SafeEvent
 
     /// <summary> Unsubscribes from the safe event if it finds the listener in the list. </summary>
     public static SafeEvent operator -(SafeEvent e, Action listener) { e.listeners.Remove(listener); return e; }
+
+    /// <summary> Subscribes to the temporary safe event: the listener can throw exceptions safely. </summary>
+    public static SafeEvent operator *(SafeEvent e, Action listener) { e.listenersTemp.Add(listener); return e; }
 }

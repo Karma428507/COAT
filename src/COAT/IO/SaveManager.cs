@@ -38,6 +38,8 @@ public static class SaveManager
         {"gamemode", "COAT:Normal"},
     };
 
+    private static Dictionary<string, object> gamemodeSettings;
+
     static PrefsManager pm => PrefsManager.Instance;
 
     public static void Load()
