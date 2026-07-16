@@ -33,6 +33,10 @@ public static class ReplacementUI
             if (Mapping.Scene == "EarlyAccessEnd" && LobbyController.Online)
                 RebuildEarlyAccessEnd();
         };
+
+        // Do this since we're already loaded into the menu
+        RebuildMainMenu();
+        DisplaySecondOption(false);
     }
 
     /// <summary> Creates the menu button </summary>

@@ -22,14 +22,12 @@ public abstract class CommandHandler
         }
 
         /// <summary> Handles the command call and its arguments. </summary>
-        public void Handle(string args)
+        public void Handle(string[] args)
         {
-            args = args.Trim();
-
-            if (args == "")
+            if (args.Length == 0)
                 Handler(new string[0]);
             else
-                Handler(args.Split(' '));
+                Handler(args);
         }
     }
 
@@ -42,11 +40,18 @@ public abstract class CommandHandler
     public abstract void Load();
 
     /// <summary> Runs a command that shares the same name. </summary>
-    public void RunCommand(string name, string arg)
+    public bool RunCommand(string name, string[] arg)
     {
         foreach (var cmd in Commands)
+        {
             if (cmd.Name == name)
+            {
                 cmd.Handle(arg);
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /// <summary> Returns the command list (might rework later). </summary>

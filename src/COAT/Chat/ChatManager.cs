@@ -5,7 +5,7 @@ using COAT.UI.Overlay;
 
 using System;
 using System.Collections.Generic;
-
+using System.Linq;
 using static UI.Utils.Pal;
 
 /// <summary> Handler for chat processing </summary>
@@ -21,7 +21,7 @@ public static class ChatManager
     public const string COAT_PREFIX = "[#FE7][14]\\[COAT][][]";
 
     /// <summary> A list of command handlers for other mods to add there own commands to. </summary>
-    public static List<CommandHandler> ExternalCommands;
+    public static List<CommandHandler> ExternalCommands = new List<CommandHandler>();
     /// <summary> For all of the general purpose commands a normal player would use. </summary>
     public static CommandHandler NormalCommands { get; private set; }
     /// <summary> Commands specific for debugging, only available in debug builds. </summary>
@@ -39,6 +39,10 @@ public static class ChatManager
         NormalCommands = new CommandNormal();
         DebugCommands = new CommandDebug();
         ExperimentalCommands = new CommandExperimental();
+
+        NormalCommands.Load();
+        DebugCommands.Load();
+        ExperimentalCommands.Load();
     }
 
     public static void Hello(bool force = false)
@@ -60,28 +64,45 @@ public static class ChatManager
     /// <returns> True if the command is found and run, or false if the command is not found or the message is not a command. </returns>
     public static bool IsCommand(string message)
     {
+        bool result = false;
+
         // the message is not a command, because they start with /
         if (!message.StartsWith("/")) return false;
         message = message.Substring(1).Trim();
+
+        string[] command = message.Split(' ');
 
         // find a command by name and run it
         string name = (message.Contains(" ") ? message[..message.IndexOf(' ')] : message).ToLower();
 
         // Replace false with the game setting
-        if (name == "experimental" && true)
+        if (command[0] == "experimental" && true)
         {
-            string newName = message[name.Length..];
-            name = (message.Contains(" ") ? message[..message.IndexOf(' ')] : message).ToLower();
+            string newName = message[(name.Length + 1)..];
 
-            Log.Debug($"Name: [{newName}], [{name}]");
-
-            ExperimentalCommands.RunCommand(name, message[name.Length..]);
+            result = ExperimentalCommands.RunCommand(command[1], command.Skip(2).ToArray());
+            if (result) return true;
         }
 
-        foreach (var ext in ExternalCommands)
-            ext.RunCommand(name, message[name.Length..]);
+#if DEBUG
+        if (name == "debug")
+        {
+            string newName = message[(name.Length + 1)..];
 
-        // the command was not found
+            result = DebugCommands.RunCommand(newName, command.Skip(2).ToArray());
+            if (result) return true;
+        }
+#endif
+
+        result = NormalCommands.RunCommand(name, command.Skip(1).ToArray());
+        if (result) return true;
+
+        foreach (var ext in ExternalCommands)
+        {
+            result = ext.RunCommand(name, command.Skip(1).ToArray());
+            if (result) return true;
+        }
+
         return false;
     }
 }

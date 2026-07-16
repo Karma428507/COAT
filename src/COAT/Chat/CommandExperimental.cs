@@ -45,7 +45,7 @@ public class CommandExperimental : CommandHandler
 
         Register("cohost", "<player>", "Gives another player host abilities", args =>
         {
-            // :3
+            Log.Debug("COHOST command found");
         });
     }
 }

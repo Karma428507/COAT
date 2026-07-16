@@ -8,6 +8,7 @@ using COAT.Utils;
 
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 /// <summary> The normal commands. </summary>
 [Obsolete("Fix the credits")]
@@ -95,6 +96,36 @@ public class CommandNormal : CommandHandler
             }
             else
                 Chat.Receive("[#FF341C]Layer must be an integer from 0 to 7. Level must be an integer from 1 to 5.");
+        });
+
+        Register("tts-volume", "\\[0-100]", "Set Sam's volume to keep your ears comfortable", args =>
+        {
+            if (args.Length == 0)
+                Chat.Receive($"[#FFA500]TTS volume is {UI.Menus.Settings.TTSVolume}.");
+            else if (int.TryParse(args[0], out int value))
+            {
+                int clamped = Mathf.Clamp(value, 0, 100);
+                UI.Menus.Settings.TTSVolume = clamped;
+
+                Chat.Receive($"[#32CD32]TTS volume is set to {clamped}.");
+            }
+            else
+                Chat.Receive("[#FF341C]Failed to parse value. It must be an integer in the range from 0 to 100.");
+        });
+
+        Register("tts-auto", "\\[on/off]", "Turn auto reading of all messages", args =>
+        {
+            bool enable = args.Length == 0 ? !Chat.AutoTTS : (args[0] == "on" || (args[0] == "off" ? false : !Chat.AutoTTS));
+            if (enable)
+            {
+                UI.Menus.Settings.AutoTTS = Chat.AutoTTS = true;
+                Chat.Receive("[#32CD32]Auto TTS enabled.");
+            }
+            else
+            {
+                UI.Menus.Settings.AutoTTS = Chat.AutoTTS = false;
+                Chat.Receive("[#FF341C]Auto TTS disabled.");
+            }
         });
 
         Register("authors", "Display the list of the mod developers", args =>
