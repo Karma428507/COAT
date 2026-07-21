@@ -11,6 +11,8 @@ internal class OilPaint : Gamemode
 
     public override void Initialize()
     {
+        AddSetting("flamable", false);
+
         Log.Debug("DEBUG GAMEMODE");
     }
 }

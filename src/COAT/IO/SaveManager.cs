@@ -44,7 +44,19 @@ public static class SaveManager
 
     public static void Load()
     {
+        // Get the normal lobby info
         LoadLobby();
+
+        // Detect the gamemode and load it's data
+        string[] gamemodeInfo = ((string)lobbyGeneral["gamemode"]).Split(":");
+        Log.Debug($"Mod: {gamemodeInfo[0]}, Name: {gamemodeInfo[1]}");
+
+        if (gamemodeInfo[0] == "COAT")
+        {
+
+        }
+        else
+            Log.Error("Third party gamemodes are not supported at this time");
     }
 
     #region Lobby Data
@@ -75,9 +87,6 @@ public static class SaveManager
                     break;
             }
         }
-
-        ServerCreation.Options.PvP = pm.GetBool("pvp", false);
-        ServerCreation.Options.HealBosses = pm.GetBool("heal", false);
     }
 
     public static void SaveLobby()
@@ -105,9 +114,6 @@ public static class SaveManager
                     break;
             }
         }
-
-        pm.SetBool("pvp", ServerCreation.Options.PvP);
-        pm.SetBool("heal", ServerCreation.Options.HealBosses);
     }
 
     #endregion

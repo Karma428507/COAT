@@ -58,10 +58,10 @@ public abstract class CommandHandler
     public List<CommandData> GetCommands() => Commands;
 
     /// <summary> Registers a new command. </summary>
-    public void Register(string name, string args, string desc, Action<string[]> handler) =>
+    protected void Register(string name, string args, string desc, Action<string[]> handler) =>
         Commands.Add(new(name, args, desc, handler));
 
     /// <summary> Registers a new command with no arguments. </summary>
-    public void Register(string name, string desc, Action<string[]> handler) =>
+    protected void Register(string name, string desc, Action<string[]> handler) =>
         Commands.Add(new(name, null, desc, handler));
 }

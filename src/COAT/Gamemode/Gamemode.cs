@@ -25,9 +25,10 @@ public abstract class Gamemode
         }
 
         Mod = modName;
+        Settings = new Dictionary<string, object>();
     }
 
-    private void AddSetting(string name, object obj)
+    protected void AddSetting(string name, object obj)
     {
         if (Mapping.MainMenu)
             Settings.Add(name, obj);
