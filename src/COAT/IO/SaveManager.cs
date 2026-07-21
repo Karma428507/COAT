@@ -13,22 +13,7 @@ using System.Text;
 /// <summary> To manage saved mod data </summary>
 public static class SaveManager
 {
-    public struct ServerOptions
-    {
-        // General
-        public string Name;
-        public bool Cheats;
-        public bool Mods;
-        public short MaxPlayers;
-        public byte ServerType;
-        public string Gamemode;
-
-        // Remove when working on gamemodes
-        public bool PvP;
-        public bool HealBosses;
-    }
-
-    private static Dictionary<string, object> lobbyGeneral = new Dictionary<string, object>()
+    public static Dictionary<string, object> LobbyGeneral = new Dictionary<string, object>()
     {
         {"name", $"{SteamClient.Name}'s Lobby"},
         {"cheats", false},
@@ -36,6 +21,9 @@ public static class SaveManager
         {"maxplayers", 8},
         {"servertype", 2},
         {"gamemode", "COAT:Normal"},
+
+        {"pvp-temp", false},
+        {"heal-temp", false},
     };
 
     private static Dictionary<string, object> gamemodeSettings;
@@ -47,40 +35,32 @@ public static class SaveManager
         // Get the normal lobby info
         LoadLobby();
 
-        // Detect the gamemode and load it's data
-        string[] gamemodeInfo = ((string)lobbyGeneral["gamemode"]).Split(":");
-        Log.Debug($"Mod: {gamemodeInfo[0]}, Name: {gamemodeInfo[1]}");
-
-        if (gamemodeInfo[0] == "COAT")
-        {
-
-        }
-        else
-            Log.Error("Third party gamemodes are not supported at this time");
+        // Load the gamemode information
+        ReloadGamemodeSettings();
     }
 
     #region Lobby Data
 
     public static void LoadLobby()
     {
-        string[] keyList = lobbyGeneral.Keys.ToArray();
+        string[] keyList = LobbyGeneral.Keys.ToArray();
 
         foreach (string keyPartial in keyList)
         {
             string key = $"COAT-lobby-{keyPartial}";
-            object obj = lobbyGeneral[keyPartial];
+            object obj = LobbyGeneral[keyPartial];
 
             // I love C# having the weirdest features
             switch (obj)
             {
                 case string s:
-                    lobbyGeneral[keyPartial] = pm.GetString(key, (string)lobbyGeneral[keyPartial]);
+                    LobbyGeneral[keyPartial] = pm.GetString(key, (string)LobbyGeneral[keyPartial]);
                     break;
                 case int i:
-                    lobbyGeneral[keyPartial] = pm.GetInt(key, (int)lobbyGeneral[keyPartial]);
+                    LobbyGeneral[keyPartial] = pm.GetInt(key, (int)LobbyGeneral[keyPartial]);
                     break;
                 case bool b:
-                    lobbyGeneral[keyPartial] = pm.GetBool(key, (bool)lobbyGeneral[keyPartial]);
+                    LobbyGeneral[keyPartial] = pm.GetBool(key, (bool)LobbyGeneral[keyPartial]);
                     break;
                 default:
                     Log.Error($"Read an unexpected value type \"{obj.GetType()}\"");
@@ -91,29 +71,52 @@ public static class SaveManager
 
     public static void SaveLobby()
     {
-        string[] keyList = lobbyGeneral.Keys.ToArray();
+        string[] keyList = LobbyGeneral.Keys.ToArray();
 
         foreach (string keyPartial in keyList)
         {
             string key = $"COAT-lobby-{keyPartial}";
-            object obj = lobbyGeneral[keyPartial];
+            object obj = LobbyGeneral[keyPartial];
 
             switch (obj)
             {
                 case string s:
-                    pm.SetString(key, (string)lobbyGeneral[keyPartial]);
+                    pm.SetString(key, (string)LobbyGeneral[keyPartial]);
                     break;
                 case int i:
-                    pm.SetInt(key, (int)lobbyGeneral[keyPartial]);
+                    pm.SetInt(key, (int)LobbyGeneral[keyPartial]);
                     break;
                 case bool b:
-                    pm.SetBool(key, (bool)lobbyGeneral[keyPartial]);
+                    pm.SetBool(key, (bool)LobbyGeneral[keyPartial]);
                     break;
                 default:
                     Log.Error($"Read an unexpected value type \"{obj.GetType()}\"");
                     break;
             }
         }
+    }
+
+    #endregion
+    #region Gamemode Data
+
+    public static void ReloadGamemodeSettings()
+    {
+        string[] gamemodeInfo = ((string)LobbyGeneral["gamemode"]).Split(":");
+        Log.Debug($"Mod: {gamemodeInfo[0]}, Name: {gamemodeInfo[1]}");
+
+        if (gamemodeInfo[0] == "COAT")
+        {
+            foreach (Gamemode gm in GamemodeManager.RegisteredGamemodes)
+            {
+                if (gm.Name == gamemodeInfo[1])
+                {
+                    gm.GetSettingsCopied();
+                    break;
+                }
+            }
+        }
+        else
+            Log.Error("Third party gamemodes are not supported at this time");
     }
 
     #endregion

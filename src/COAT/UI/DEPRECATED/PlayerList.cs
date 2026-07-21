@@ -3,10 +3,12 @@ namespace COAT.UI.Menus;
 using COAT.Assets;
 using COAT.Content;
 using COAT.Input;
+using COAT.IO;
 using COAT.Net;
 using COAT.Utils;
 
 using Steamworks;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -68,12 +70,15 @@ public class PlayerList : CanvasSingleton<PlayerList>, IMenuInterface
             {
                 UIB.Image("Server Settings Border", server, new(0, 0, 1004f, 570f), null, fill: false);
 
+                Dictionary<string, object> saveData = SaveManager.LobbyGeneral;
+
                 field = UIB.Field("#lobby-tab.name", server, new(-321f, -60f, 320f, 32f, new(.5f, 1f)), cons: name =>
                     LobbyController.Lobby?.SetData("name", "<color=#20AAFF>[COAT]</color> " + (LobbyController.ServerName = name)));
 
                 accessibility = UIB.Button("#lobby-tab.private", server, new(-321f, -120f, 320f, 40f, new(.5f, 1f)), clicked: () =>
                 {
-                    ServerCreation.Options.ServerType = (byte)((int)(++ServerCreation.Options.ServerType) % 3);
+                    byte s = (byte)SaveManager.LobbyGeneral["servertype"];
+                    SaveManager.LobbyGeneral["servertype"] = (byte)((++s) % 3);
                     Rebuild();
                 });
 
@@ -89,10 +94,10 @@ public class PlayerList : CanvasSingleton<PlayerList>, IMenuInterface
                 bosses = UIB.Toggle("#lobby-tab.heal-bosses", server, new(-321f, -320f, 320f, 32f, new(.5f, 1f)), 20, allow =>
                     LobbyController.Lobby?.SetData("heal-bosses", allow ? "True" : "False"));
 
-                pvp.isOn = ServerCreation.Options.PvP;
-                cheats.isOn = ServerCreation.Options.Cheats;
-                myEnemy.isOn = ServerCreation.Options.Mods;
-                bosses.isOn = ServerCreation.Options.HealBosses;
+                pvp.isOn = (bool)saveData["pvp-temp"];
+                cheats.isOn = (bool)saveData["cheats"];
+                myEnemy.isOn = (bool)saveData["mods"];
+                bosses.isOn = (bool)saveData["heal-temp"];
 
                 UIB.Table("WIP", "", server, new(251f, -20f, 462f, 490f), wip =>
                 {
@@ -134,7 +139,7 @@ public class PlayerList : CanvasSingleton<PlayerList>, IMenuInterface
         // Set the server information
         field.text = LobbyController.ServerName;
 
-        accessibility.GetComponentInChildren<Text>().text = Localization.Get(ServerCreation.Options.ServerType switch
+        accessibility.GetComponentInChildren<Text>().text = Localization.Get((byte)SaveManager.LobbyGeneral["servertype"] switch
         {
             0 => "lobby-tab.private",
             1 => "lobby-tab.fr-only",
@@ -143,7 +148,7 @@ public class PlayerList : CanvasSingleton<PlayerList>, IMenuInterface
         });
 
         // this is SO spaghetti
-        switch (ServerCreation.Options.ServerType)
+        switch ((byte)SaveManager.LobbyGeneral["servertype"])
         {
             case 0: LobbyController.Lobby?.SetPrivate(); break;
             case 1: LobbyController.Lobby?.SetFriendsOnly(); break;

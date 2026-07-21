@@ -2,13 +2,13 @@
 
 using COAT;
 using COAT.Assets;
+using COAT.IO;
 using COAT.UI;
 using COAT.UI.Utils;
 using COAT.Utils;
-
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using static COAT.IO.SaveManager;
 
 using static Utils.Pal;
 using static Utils.Rect;
@@ -16,8 +16,6 @@ using Rect = Utils.Rect;
 
 public class ServerCreation : CanvasSingleton<ServerCreation>, IMenuInterface
 {
-    public static ServerOptions Options;
-
     private Toggle pvp, cheats, myEnemy, bosses;
     private Button accessibility, difficulty;
     private InputField field;
@@ -28,6 +26,8 @@ public class ServerCreation : CanvasSingleton<ServerCreation>, IMenuInterface
     
     private void Start()
     {
+        Dictionary<string, object> saveData = SaveManager.LobbyGeneral;
+
         table = UIB.Table("Server Creator", transform, new(0, 0, 900, 500), table =>
         {
             // for an outline
@@ -38,29 +38,31 @@ public class ServerCreation : CanvasSingleton<ServerCreation>, IMenuInterface
             {
                 UIB.Image(name, options, new(0, 0, 400, 450), null, fill: false);
 
-                field = UIB.Field("#lobby-tab.name", options, Rect.Tgl(40), cons: name => Options.Name = name);
-                field.text = Options.Name;
+                field = UIB.Field("#lobby-tab.name", options, Rect.Tgl(40), cons: name => saveData["name"] = name);
+                field.text = (string)saveData["name"];
 
                 accessibility = UIB.Button("#lobby-tab.private", options, Rect.Btn(80), clicked: () =>
                 {
-                    Log.Info($"Server type before: {Options.ServerType}");
-                    Options.ServerType = (byte)((int)(++Options.ServerType) % 3);
-                    Log.Info($"Server type after: {Options.ServerType}");
+                    byte serverType = (byte)saveData["servertype"];
+
+                    Log.Info($"Server type before: {serverType}");
+                    SaveManager.LobbyGeneral["servertype"] = (byte)(++serverType % 3);
+                    Log.Info($"Server type after: {serverType}");
                     Rebuild();
                 });
 
                 // Change to player limit slider later with the max of 16
                 difficulty = UIB.Button("WIP", options, Rect.Btn(120));
 
-                pvp = UIB.Toggle("#lobby-tab.allow-pvp", options, Rect.Tgl(160), clicked: allow => Options.PvP = allow);
-                cheats = UIB.Toggle("#lobby-tab.allow-cheats", options, Rect.Tgl(200), clicked: allow => Options.Cheats = allow);
-                myEnemy = UIB.Toggle("#lobby-tab.allow-mods", options, Rect.Tgl(240), clicked: allow => Options.Mods = allow);
-                bosses = UIB.Toggle("#lobby-tab.heal-bosses", options, Rect.Tgl(280), 20, allow => Options.HealBosses = allow);
+                pvp = UIB.Toggle("#lobby-tab.allow-pvp", options, Rect.Tgl(160), clicked: allow => SaveManager.LobbyGeneral["pvp-temp"] = allow);
+                cheats = UIB.Toggle("#lobby-tab.allow-cheats", options, Rect.Tgl(200), clicked: allow => SaveManager.LobbyGeneral["cheats"] = allow);
+                myEnemy = UIB.Toggle("#lobby-tab.allow-mods", options, Rect.Tgl(240), clicked: allow => SaveManager.LobbyGeneral["mods"] = allow);
+                bosses = UIB.Toggle("#lobby-tab.heal-bosses", options, Rect.Tgl(280), 20, allow => SaveManager.LobbyGeneral["heal-temp"] = allow);
 
                 UIB.Button("Play", options, new Rect(0, -190, 380, 40), Pal.white, 24, clicked: () =>
                 {
-                    Options.Name = field.text;
-                    SaveLobby();
+                    SaveManager.LobbyGeneral["name"] = field.text;
+                    SaveManager.SaveLobby();
                     UI.PushStack(new ServerDiffifcultySelect());
                 });
             });
@@ -72,13 +74,10 @@ public class ServerCreation : CanvasSingleton<ServerCreation>, IMenuInterface
                 UIB.Text("WIP", wip, new(0f, 0f, 550f, 56f), size: 50);
             }).color = Color.gray * 0.5f;
 
-            // Load the options
-            LoadLobby();
-
-            pvp.isOn = Options.PvP;
-            cheats.isOn = Options.Cheats;
-            myEnemy.isOn = Options.Mods;
-            bosses.isOn = Options.HealBosses;
+            pvp.isOn = (bool)saveData["pvp-temp"];
+            cheats.isOn = (bool)saveData["cheats"];
+            myEnemy.isOn = (bool)saveData["mods"];
+            bosses.isOn = (bool)saveData["heal-temp"];
             Rebuild();
         });
     }
@@ -86,7 +85,7 @@ public class ServerCreation : CanvasSingleton<ServerCreation>, IMenuInterface
     private void Rebuild()
     {
         // Rebuild UI element
-        accessibility.GetComponentInChildren<Text>().text = Localization.Get(Options.ServerType switch
+        accessibility.GetComponentInChildren<Text>().text = Localization.Get(SaveManager.LobbyGeneral["servertype"] switch
         {
             0 => "lobby-tab.private",
             1 => "lobby-tab.fr-only",

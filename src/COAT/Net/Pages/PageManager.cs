@@ -3,10 +3,12 @@
 namespace COAT.Pages;
 
 /// <summary> Handles different "pages" or long term net data like world and player info. </summary>
-public class PageManager
+public class Page
 {
-    /// <summary> Page for every players including the client. </summary>
-    public static List<PlayerPage> Player;
+    /// <summary> Page for every players excluding the client. </summary>
+    public static List<PlayerPage> Players;
+    /// <summary> The client's player page. </summary>
+    public static PlayerPage Player;
     /// <summary> Page for the main world settings (doors, deactive arenas). </summary>
     public static WorldPage World;
     /// <summary> Page for information in specific levels. </summary>
@@ -28,5 +30,11 @@ public class PageManager
     public void Initialize()
     {
 
+    }
+
+    /// <summary> Converts the name used for organizing data to a 16 bit number. </summary>
+    public short GetDataID()
+    {
+        return 0x0000;
     }
 }

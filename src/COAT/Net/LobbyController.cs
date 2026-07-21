@@ -115,9 +115,10 @@ public class LobbyController
     public static void CreateLobby()
     {
         if (Lobby != null || CreatingLobby) return;
+        Dictionary<string, object> saveData = SaveManager.LobbyGeneral;
         CreatingLobby = true;
 
-        SteamMatchmaking.CreateLobbyAsync(ServerCreation.Options.MaxPlayers).ContinueWith(task =>
+        SteamMatchmaking.CreateLobbyAsync((int)saveData["maxplayers"]).ContinueWith(task =>
         {
             CreatingLobby = false; IsOwner = true;
             Lobby = task.Result;
@@ -133,7 +134,7 @@ public class LobbyController
             Lobby?.SetData("blacklisted-mods", string.Join(' ', Settings.PersonalBlacklistedMods));
 
             // have this data be added manually in the manager
-            switch (ServerCreation.Options.ServerType)
+            switch ((int)saveData["servertype"])
             {
                 case 0: Lobby?.SetPrivate(); break;
                 case 1: Lobby?.SetFriendsOnly(); break;
@@ -141,17 +142,17 @@ public class LobbyController
             }
 
             // general savable data
-            ServerName = ServerCreation.Options.Name;
-            Lobby?.SetData("name", "<color=#20AAFF>[COAT]</color> " + ServerCreation.Options.Name);
-            Lobby?.SetData("cheats", ServerCreation.Options.Cheats ? "True" : "False");
-            Lobby?.SetData("mods", ServerCreation.Options.Mods ? "True" : "False");
+            ServerName = (string)saveData["name"];
+            Lobby?.SetData("name", "<color=#20AAFF>[COAT]</color> " + (string)saveData["name"]);
+            Lobby?.SetData("cheats", (bool)saveData["cheats"] ? "True" : "False");
+            Lobby?.SetData("mods", (bool)saveData["mods"] ? "True" : "False");
 
             // Only normal gamemodes would display the level
             Lobby?.SetData("level", Mapping.MapMap(Mapping.Scene));
 
             // normal campaign savable data
-            Lobby?.SetData("pvp", ServerCreation.Options.PvP ? "True" : "False");
-            Lobby?.SetData("heal-bosses", ServerCreation.Options.HealBosses ? "True" : "False");
+            Lobby?.SetData("pvp", (bool)saveData["pvp-temp"] ? "True" : "False");
+            Lobby?.SetData("heal-bosses", (bool)saveData["heal-temp"] ? "True" : "False");
         });
     }
 

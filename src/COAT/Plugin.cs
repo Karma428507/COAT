@@ -84,7 +84,7 @@ public class Plugin : MonoBehaviour
 
         // Registerable components
         GamemodeManager.Load();
-        PageManager.Load();
+        Page.Load();
 
         // Loadable assets and files
         EmbeddedManager.Load();

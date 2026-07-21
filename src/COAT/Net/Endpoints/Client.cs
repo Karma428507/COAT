@@ -66,8 +66,6 @@ public class Client : Endpoint, IConnectionManager
 
         Listen(PacketType.CyberGrindAction, CyberGrind.LoadPattern); 
 
-        // PUT ALL COAT PACKETS BELOW THIS. JUST SO I DONT HAVE TO SEARCH THE MILKYWAY TO FIND A SINGLE FUCKING LIL GUY!!!
-
         Listen(PacketType.Kick, r => 
         {
             ChatUI.StaticReceive("you were kicked...");
@@ -79,6 +77,12 @@ public class Client : Endpoint, IConnectionManager
             if (r.Bool()) Networking.MutedPlayers.Add(r.Id());
             else Networking.MutedPlayers.Remove(r.Id());
         });
+
+        // Paging
+        void pageHandler(Reader r, PacketType packetType)
+        {
+
+        }
     }
 
     public override void Update()
