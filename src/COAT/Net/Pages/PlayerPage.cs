@@ -3,8 +3,8 @@
 /// <summary> Handles different "pages" or long term net data like world and player info. </summary>
 public class PlayerPage : Page
 {
-    public PlayerPage()
+    public PlayerPage() : base(PageManager.PAGE_INDEX_PLAYER)
     {
-        Initialize();
+        Log.Debug("Player page loaded");
     }
 }

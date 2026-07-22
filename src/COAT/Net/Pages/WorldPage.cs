@@ -8,8 +8,7 @@ public class WorldPage : Page
 {
     public List<KeyValuePair<Vector3, byte>> DoorList;
 
-    public WorldPage()
+    public WorldPage() : base(PageManager.PAGE_INDEX_WORLD)
     {
-        Initialize();
     }
 }

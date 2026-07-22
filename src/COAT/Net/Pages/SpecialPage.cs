@@ -5,9 +5,8 @@ public class SpecialPage : Page
 {
     public virtual bool Condition { get; set; }
 
-    public SpecialPage()
+    public SpecialPage() : base(PageManager.PAGE_INDEX_SPECIAL)
     {
-        Initialize();
     }
 
 

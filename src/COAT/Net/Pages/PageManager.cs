@@ -1,12 +1,27 @@
-﻿using System.Collections.Generic;
+﻿using COAT.IO;
+using Steamworks;
+using System.Collections.Generic;
 
 namespace COAT.Pages;
 
 /// <summary> Handles different "pages" or long term net data like world and player info. </summary>
-public class Page
+public class PageManager
 {
+    /// <summary> Index for the player page. </summary>
+    public const int PAGE_INDEX_PLAYER = 0x01;
+    /// <summary> Index for the world page. </summary>
+    public const int PAGE_INDEX_WORLD = 0x01;
+    /// <summary> Index for the special page. </summary>
+    public const int PAGE_INDEX_SPECIAL = 0x01;
+    /// <summary> Index for the enemies page. </summary>
+    public const int PAGE_INDEX_ENEMIES = 0x01;
+    /// <summary> Index for the sandbox enemies page. </summary>
+    public const int PAGE_INDEX_SANDBOX_ENEMIES = 0x01;
+    /// <summary> Index for the sandbox page. </summary>
+    public const int PAGE_INDEX_SANDBOX = 0x01;
+
     /// <summary> Page for every players excluding the client. </summary>
-    public static List<PlayerPage> Players;
+    public static Dictionary<Friend, PlayerPage> Players;
     /// <summary> The client's player page. </summary>
     public static PlayerPage Player;
     /// <summary> Page for the main world settings (doors, deactive arenas). </summary>
@@ -16,25 +31,28 @@ public class Page
 
     // Pages to work on later
     /// <summary> Page for the enemies. </summary>
-    public static object Enemies;
+    public static Page Enemies;
     /// <summary> Page for sandbox enemies specifically. </summary>
-    public static object SandboxEnemies;
+    public static Page SandboxEnemies;
     /// <summary> Page for sandbox creations and settings. </summary>
-    public static object Sandbox;
+    public static Page Sandbox;
 
     public static void Load()
     {
-        
+        Player = new PlayerPage();
     }
 
-    public void Initialize()
+    public static void Read(Reader r)
     {
+        byte pageIndex = r.Byte();
 
+        switch (pageIndex)
+        {
+        }
     }
 
-    /// <summary> Converts the name used for organizing data to a 16 bit number. </summary>
-    public short GetDataID()
+    public static void Write(Writer w)
     {
-        return 0x0000;
+
     }
 }
