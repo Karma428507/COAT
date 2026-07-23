@@ -4,10 +4,10 @@ using COAT.Content;
 using COAT.Entities;
 using COAT.IO;
 using COAT.Net.Types;
+using COAT.Pages;
 using COAT.Sprays;
-using COAT.World;
 using COAT.Utils;
-
+using COAT.World;
 using Steamworks;
 using Steamworks.Data;
 using System;
@@ -109,6 +109,19 @@ public class Server : Endpoint, ISocketManager
         });
 
         ListenAndRedirect(PacketType.ActivateObject, World.ReadAction);
+
+        // Paging (but not as fun as actual paging)
+        Listen(PacketType.RequestPlayerPage, (con, sender, r) =>
+        {
+            Log.Debug($"Sending request to {sender}");
+            Networking.Send(PacketType.ReceivePlayerPage,
+                PageManager.Player.Write, (data, size) => Tools.Send(con, data, size));
+        });
+
+        Listen(PacketType.ReceivePlayerPage, (con, sender, r) =>
+        {
+            Log.Debug("Writing player page data");
+        });
     }
 
     public override void Update()
@@ -189,6 +202,7 @@ public class Server : Endpoint, ISocketManager
     {
         Log.Info("Player Connecting");
         Networking.Send(PacketType.Level, World.WriteData, (data, size) => Tools.Send(connection, data, size), size: 256);
+        Networking.Send(PacketType.RequestPlayerPage, null, (data, size) => Tools.Send(connection, data, size));
     }
 
     public void OnDisconnected(Connection connection, ConnectionInfo info)

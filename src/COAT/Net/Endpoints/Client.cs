@@ -1,16 +1,17 @@
 ﻿namespace COAT.Net.Endpoints;
 
-using Steamworks;
-using Steamworks.Data;
-using System;
-
 using COAT.Content;
 using COAT.Entities;
 using COAT.IO;
 using COAT.Net.Types;
+using COAT.Pages;
 using COAT.Sprays;
-using COAT.World;
 using COAT.UI.Overlay;
+using COAT.Utils;
+using COAT.World;
+using Steamworks;
+using Steamworks.Data;
+using System;
 
 // Handler for players joining the server
 public class Client : Endpoint, IConnectionManager
@@ -78,11 +79,18 @@ public class Client : Endpoint, IConnectionManager
             else Networking.MutedPlayers.Remove(r.Id());
         });
 
-        // Paging
-        void pageHandler(Reader r, PacketType packetType)
+        // Paging (but not as fun as actual paging)
+        Listen(PacketType.RequestPlayerPage, (con, sender, r) =>
         {
+            Log.Debug($"Sending request to {sender}");
+            Networking.Send(PacketType.ReceivePlayerPage,
+                PageManager.Player.Write, (data, size) => Tools.Send(con, data, size));
+        });
 
-        }
+        Listen(PacketType.ReceivePlayerPage, (con, sender, r) =>
+        {
+            Log.Debug("Writing player page data");
+        });
     }
 
     public override void Update()
@@ -113,7 +121,11 @@ public class Client : Endpoint, IConnectionManager
 
     public void OnConnecting(ConnectionInfo info) => Log.Info("Player is Connecting");
 
-    public void OnConnected(ConnectionInfo info) => Log.Info("Player Connecting");
+    public void OnConnected(ConnectionInfo info)
+    {
+        Log.Info("Player Connecting");
+        Networking.Send(PacketType.ReceivePlayerPage, null, null, 0);
+    }
 
     public void OnDisconnected(ConnectionInfo info) => Log.Info("Player Disconnected");
 

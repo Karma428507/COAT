@@ -40,4 +40,13 @@ public enum PacketType
     Kick,
     /// <summary> Mutes the player that's being annoying or hurt the host's ego. </summary>
     Mute,
+
+    /// <summary> Request data for a new player's page or specific properties. </summary>
+    RequestPlayerPage,
+    /// <summary> Sends data for any property of a player page. </summary>
+    ReceivePlayerPage,
+    /// <summary> Asks the host to change a property in a non player page (impliment later). </summary>
+    RequestPageChange,
+    /// <summary> Changes a non player page property. </summary>
+    ReceivePageChange,
 }

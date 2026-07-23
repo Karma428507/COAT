@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using COAT.IO;
+using COAT.Net;
+using System.Collections.Generic;
 
 namespace COAT.Pages;
 
@@ -31,9 +33,27 @@ public abstract class Page
         Properties[name] = obj;
     }
 
+    /// <summary> Adds a property to the page. </summary>
+    protected void ChangeProperty(string name, object obj)
+    {
+        // Check if the player is allowed to change the property (change later)
+        if (Index != PageManager.PAGE_INDEX_PLAYER)
+            return;
+
+        // If the player is editing a player page, make sure it's theres
+
+        Properties[name] = obj;
+        Networking.Send(Content.PacketType.ReceivePlayerPage, Write);
+    }
+
     /// <summary> A function for the initial page loading logic. </summary>
     private void Initialize()
     {
 
+    }
+
+    public void Write(Writer w)
+    {
+        w.Byte((byte)Index);
     }
 }

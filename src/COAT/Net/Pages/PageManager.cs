@@ -50,9 +50,4 @@ public class PageManager
         {
         }
     }
-
-    public static void Write(Writer w)
-    {
-
-    }
 }
