@@ -1,8 +1,9 @@
-﻿using COAT.IO;
-using COAT.Net;
-using System.Collections.Generic;
+﻿namespace COAT.Pages;
 
-namespace COAT.Pages;
+using COAT.IO;
+using COAT.Net;
+
+using System.Collections.Generic;
 
 /// <summary> The container class for all of the pages (long term server data). </summary>
 public abstract class Page
@@ -43,17 +44,11 @@ public abstract class Page
         // If the player is editing a player page, make sure it's theres
 
         Properties[name] = obj;
-        Networking.Send(Content.PacketType.ReceivePlayerPage, Write);
     }
 
     /// <summary> A function for the initial page loading logic. </summary>
     private void Initialize()
     {
 
-    }
-
-    public void Write(Writer w)
-    {
-        w.Byte((byte)Index);
     }
 }

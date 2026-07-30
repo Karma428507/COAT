@@ -3,6 +3,7 @@
 using COAT.Content;
 using COAT.Entities;
 using COAT.IO;
+using COAT.Net.Files;
 using COAT.Net.Sprays;
 using COAT.Net.Types;
 using COAT.Pages;
@@ -62,7 +63,7 @@ public class Client : Endpoint, IConnectionManager
 
         Listen(PacketType.Spray, r => SprayManager.Spawn(r.Id(), r.Vector(), r.Vector()));
 
-        Listen(PacketType.NetFileChunk, SprayDistributor.Download);
+        Listen(PacketType.NetFileChunk, NetLoader.Download);
 
         Listen(PacketType.ActivateObject, World.ReadAction);
 

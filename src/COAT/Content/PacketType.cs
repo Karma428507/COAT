@@ -7,8 +7,6 @@ public enum PacketType
     Snapshot,
     /// <summary> Initializes a loading of the level requested by the host. </summary>
     Level,
-    /// <summary> Hey Client, could you leave the lobby please? The host asks you to leave the lobby because you were banned... Cheers~ :heart: </summary>
-    Ban,
 
     /// <summary> Data of the bullet spawned by a player. </summary>
     SpawnBullet,
@@ -37,8 +35,13 @@ public enum PacketType
     /// <summary> Any action with CyberGrind, like pattern and wave. </summary>
     CyberGrindAction,
 
+    /// <summary> Hey Client, could you leave the lobby please? The host asks you to leave the lobby because you were banned... Cheers~ :heart: </summary>
+    Ban,
     /// <summary> Soft ban. </summary>
     Kick,
     /// <summary> Mutes the player that's being annoying or hurt the host's ego. </summary>
     Mute,
+
+    /// <summary> Edits the information of general pages. </summary>
+    PageDataEdit
 }

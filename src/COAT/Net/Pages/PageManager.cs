@@ -41,13 +41,4 @@ public class PageManager
     {
         Player = new PlayerPage();
     }
-
-    public static void Read(Reader r)
-    {
-        byte pageIndex = r.Byte();
-
-        switch (pageIndex)
-        {
-        }
-    }
 }

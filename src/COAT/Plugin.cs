@@ -1,26 +1,26 @@
 ﻿namespace COAT;
 
-using BepInEx;
-using BepInEx.Bootstrap;
-
 using COAT.Assets;
 using COAT.Chat;
 using COAT.Content;
 using COAT.Entities;
+using COAT.Gamemode;
 using COAT.Input;
 using COAT.IO;
 using COAT.Net;
-using COAT.World;
+using COAT.Net.Sprays;
+using COAT.Pages;
+using COAT.UI;
 using COAT.Utils;
+using COAT.World;
 
+using BepInEx;
+using BepInEx.Bootstrap;
 using HarmonyLib;
-using COAT.Sprays;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using COAT.UI;
-using COAT.Pages;
-using COAT.Gamemode;
+using COAT.Net.Files;
 
 /// <summary> Bootloader class needed to avoid destroying the mod by the game. </summary>
 [BepInPlugin("Karma.Coat", "COAT", Version.CURRENT)]
@@ -76,9 +76,7 @@ public class Plugin : MonoBehaviour
         Pointers.Load();
         Tools.CacheAccId();
 
-        // Networking
-        Censoring.Load();
-        Administration.Load();
+        // Genral networking
         LobbyController.Load();
         Networking.Load();
 
@@ -97,28 +95,33 @@ public class Plugin : MonoBehaviour
         Keybinds.Load();
         Movement.Load();
 
+        // Net downloadables
+        NetRequester.Load();
+        SprayManager.Load();
+
         // Loads the UI
         UIB.Load();
         UI.UI.Load();
         ReplacementUI.Load();
         PrefabUI.Load();
 
+        // Messaging services
+        ChatManager.Load();
+        Censoring.Load();
+
         // Entities stuff and weapons
         Net.Entities.Load();
         Events.Post(Enemies.Load);
         Events.Post(Items.Load);
         Events.OnLoaded += Weapons.Initialize;
-        
+
         // Optimizations
+        Administration.Load();
 
         // World management
         DoorManager.Load();
         World.World.Load();
         WorldActionsList.Load();
-
-        // Rest of multiplayer
-        ChatManager.Load();
-        SprayManager.Load();
 
         // initialize harmony and patch all the necessary classes
         new Harmony("COAT Harmony").PatchAll();

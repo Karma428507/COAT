@@ -1,7 +1,8 @@
-﻿using COAT.Content;
-using Steamworks;
+﻿namespace COAT.Pages;
 
-namespace COAT.Pages;
+using COAT.Content;
+
+using Steamworks;
 
 /// <summary> Handles different "pages" or long term net data like world and player info. </summary>
 public class PlayerPage : Page

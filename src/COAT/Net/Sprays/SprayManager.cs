@@ -1,14 +1,15 @@
 namespace COAT.Net.Sprays;
 
-using System.Collections.Generic;
-using System.IO;
-using UnityEngine;
-
 using COAT.Assets;
 using COAT.Net;
 using COAT.UI.Menus.Sub;
 using COAT.UI.Physical;
 using COAT.Utils;
+using COAT.Net.Files;
+
+using System.Collections.Generic;
+using System.IO;
+using UnityEngine;
 
 /// <summary> Saves sprays of players and loads sprays of the local player. </summary>
 public class SprayManager
@@ -47,14 +48,13 @@ public class SprayManager
             foreach (var spray in Sprays.Values)
                 if (spray != null) spray.Lifetime = 60f;
         };
+
         Events.OnLobbyEntered += () =>
         {
             Uploaded = LobbyController.IsOwner;
             Cache.Clear();
             Cache.Add(Tools.AccId, CurrentSpray);
         };
-
-        Events.EverySecond += SprayDistributor.ProcessRequests;
     }
 
     /// <summary> Loads sprays from the sprays folder. </summary>
@@ -94,7 +94,7 @@ public class SprayManager
             if (owner == Tools.AccId) // seems like the player is in offline game
                 Cache.Add(owner, CurrentSpray);
             else
-                SprayDistributor.Request(owner);
+                NetRequester.Request(NetFile.NET_FILE_TYPE_SPRAY, owner);
         }
 
         spray = Spray.Spawn(owner, position, direction);
@@ -122,10 +122,20 @@ public class SprayManager
             return;
 
         // there is no point in sending the spray to the distributor if you haven't changed it
-        if (SprayManager.Uploaded || SprayManager.CurrentSpray == null) return;
+        if (Uploaded || CurrentSpray == null) return;
         Log.Info("Uploading the current spray...");
 
-        Upload(Tools.AccId, SprayManager.CurrentSpray.Data);
-        SprayManager.Uploaded = true;
+        NetLoader.Upload(Tools.AccId, CurrentSpray.Data);
+        Uploaded = true;
+    }
+
+    /// <summary> Handles the downloaded spray and decides where to send it next. </summary>
+    public static void HandleSpray(uint owner, byte[] data)
+    {
+        Cache.Remove(owner);
+        Cache.Add(owner, new(data));
+
+        // update the existing spray if there is one
+        if (Sprays.TryGetValue(owner, out var spray)) spray.UpdateSprite();
     }
 }

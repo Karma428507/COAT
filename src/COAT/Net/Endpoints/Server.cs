@@ -3,6 +3,7 @@
 using COAT.Content;
 using COAT.Entities;
 using COAT.IO;
+using COAT.Net.Files;
 using COAT.Net.Sprays;
 using COAT.Net.Types;
 using COAT.Pages;
@@ -90,19 +91,19 @@ public class Server : Endpoint, ISocketManager
                 return;
             }
 
-            SprayDistributor.Download(r);
+            NetLoader.Download(r);
             Redirect(r, con);
         });
 
         Listen(PacketType.NetFileRequest, (con, sender, r) =>
         {
             var owner = r.Id();
-            if (SprayDistributor.Requests.TryGetValue(owner, out var list)) list.Add(con);
+            if (NetRequester.Requests.TryGetValue(owner, out var list)) list.Add(con);
             else
             {
                 list = new();
                 list.Add(con);
-                SprayDistributor.Requests.Add(owner, list);
+                NetRequester.Requests.Add(owner, list);
             }
 
             Log.Debug($"[Server] Got an image request for spray#{owner}. Count: {list.Count}");
@@ -189,7 +190,6 @@ public class Server : Endpoint, ISocketManager
     {
         Log.Info("Player Connecting");
         Networking.Send(PacketType.Level, World.WriteData, (data, size) => Tools.Send(connection, data, size), size: 256);
-        Networking.Send(PacketType.RequestPlayerPage, null, (data, size) => Tools.Send(connection, data, size));
     }
 
     public void OnDisconnected(Connection connection, ConnectionInfo info)
