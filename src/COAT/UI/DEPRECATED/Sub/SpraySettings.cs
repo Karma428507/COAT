@@ -9,7 +9,7 @@ using UnityEngine.UI;
 using COAT.Assets;
 using COAT.Input;
 using COAT.Net;
-using COAT.Sprays;
+using COAT.Net.Sprays;
 
 using static Utils.Pal;
 using static Utils.Rect;
@@ -73,7 +73,7 @@ public class SpraySettings : SettingsPage<SpraySettings>
     public override void Toggle()
     {
         if (Shown && transform.childCount > 0) Rebuild();
-        if (!Shown) SprayDistributor.UploadLocal();
+        if (!Shown) SprayManager.UploadLocal();
     }
 
     /// <summary> Rebuilds the spray settings to update the list of sprays and players. </summary>

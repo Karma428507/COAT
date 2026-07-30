@@ -11,7 +11,7 @@ using System.Collections.Generic;
 public class NetRequester
 {
     /// <summary> List of requests for spray by id. </summary>
-    public static Dictionary<uint, List<Connection>> Requests = new();
+    public static Dictionary<NetQueue, List<Connection>> Requests = new();
 
     public static void Load()
     {
@@ -23,8 +23,8 @@ public class NetRequester
     {
         foreach (var owner in Requests.Keys)
         {
-            if (SprayManager.Cache.TryGetValue(owner, out var spray))
-                NetLoader.Upload(owner, spray.Data, (data, size) => Requests[owner].ForEach(con => Tools.Send(con, data, size)));
+            if (SprayManager.Cache.TryGetValue(owner.ID, out var spray))
+                NetLoader.Upload(owner.ID, owner.Type, spray.Data, (data, size) => Requests[owner].ForEach(con => Tools.Send(con, data, size)));
             else
                 Log.Error($"Couldn't find the requested spray. Spray id is {owner}");
         }

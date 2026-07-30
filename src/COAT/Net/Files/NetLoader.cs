@@ -3,6 +3,7 @@
 using COAT.Content;
 using COAT.IO;
 using COAT.Net;
+using COAT.Net.Sprays;
 using COAT.UI.Menus.Sub;
 
 using System;
@@ -15,8 +16,16 @@ public class NetLoader
 {
     /// <summary> Size of the packet that contains an net file chunk. </summary>
     public const int CHUNK_SIZE = 512;
-    /// <summary> List of all streams for spray loading. </summary>
+    /// <summary> List of all streams for net file loading. </summary>
     public static Dictionary<NetQueue, Writer> Streams = new();
+    /// <summary> A list of actions for differnt net file types. </summary>
+    public static Dictionary<byte, Action<uint, byte[]>> DownloadEvents = new();
+
+    /// <summary> Mainly defines the download events. </summary>
+    public static void Load()
+    {
+        DownloadEvents[NetFile.NET_FILE_TYPE_SPRAY] = SprayManager.HandleSpray;
+    }
 
     /// <summary> Uploads a net file to the clients or server. </summary>
     public static void Upload(uint owner, byte type, byte[] data, Action<IntPtr, int> result = null)
@@ -43,31 +52,30 @@ public class NetLoader
     /// <summary> Loads a spray from the client or server. </summary>
     public static void Download(Reader r)
     {
-        var id = r.Id(); // id of the net file owner
+        var id = r.Id();
         byte type = r.Byte();
-
         NetQueue queue = new NetQueue(id, type);
 
         if (r.Bool()) // Initial packet
         {
             if (type == NetFile.NET_FILE_TYPE_SPRAY && !SpraySettings.Enabled) return;
 
-            if (Streams.TryGetValue(id, out var stream))
+            if (Streams.TryGetValue(queue, out var stream))
             {
                 Log.Warning("Overriding the old stream");
                 Marshal.FreeHGlobal(stream.memory);
             }
-            Log.Info("Downloading spray#" + id);
+            Log.Info("Downloading net file#" + id);
 
             int length = r.Int();
-            Streams[id] = new(Marshal.AllocHGlobal(length), length);
+            Streams[queue] = new(Marshal.AllocHGlobal(length), length);
             return;
         }
         else // Data packet
         {
             if (type == NetFile.NET_FILE_TYPE_SPRAY && !SpraySettings.Enabled) return;
 
-            if (!Streams.TryGetValue(id, out var stream))
+            if (!Streams.TryGetValue(queue, out var stream))
             {
                 Log.Error("Stream's initial packet was lost!");
                 return;
@@ -77,10 +85,10 @@ public class NetLoader
             if (stream.Position >= stream.length)
             {
                 // handle the downloaded spray
-                Reader.Read(stream.memory, stream.length, r => HandleSpray(id, r.Bytes(r.length)));
+                Reader.Read(stream.memory, stream.length, r => DownloadEvents[type](id, r.Bytes(r.length)));
 
                 Marshal.FreeHGlobal(stream.memory);
-                Streams.Remove(id);
+                Streams.Remove(queue);
             }
 
 #if DEBUG

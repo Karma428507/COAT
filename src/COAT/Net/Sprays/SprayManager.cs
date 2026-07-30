@@ -125,7 +125,7 @@ public class SprayManager
         if (Uploaded || CurrentSpray == null) return;
         Log.Info("Uploading the current spray...");
 
-        NetLoader.Upload(Tools.AccId, CurrentSpray.Data);
+        NetLoader.Upload(Tools.AccId, NetFile.NET_FILE_TYPE_SPRAY, CurrentSpray.Data);
         Uploaded = true;
     }
 

@@ -4,8 +4,9 @@ using COAT.Assets;
 using COAT.Content;
 using COAT.Input;
 using COAT.Net;
-using COAT.Sprays;
+using COAT.Net.Sprays;
 using COAT.UI.Elements;
+
 using Steamworks;
 using System;
 using System.Collections.Generic;

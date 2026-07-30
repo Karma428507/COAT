@@ -97,6 +97,7 @@ public class Plugin : MonoBehaviour
 
         // Net downloadables
         NetRequester.Load();
+        NetLoader.Load();
         SprayManager.Load();
 
         // Loads the UI

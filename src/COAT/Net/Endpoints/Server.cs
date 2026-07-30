@@ -97,16 +97,19 @@ public class Server : Endpoint, ISocketManager
 
         Listen(PacketType.NetFileRequest, (con, sender, r) =>
         {
-            var owner = r.Id();
-            if (NetRequester.Requests.TryGetValue(owner, out var list)) list.Add(con);
+            var id = r.Id();
+            byte type = r.Byte();
+            NetQueue queue = new NetQueue(id, type);
+
+            if (NetRequester.Requests.TryGetValue(queue, out var list)) list.Add(con);
             else
             {
                 list = new();
                 list.Add(con);
-                NetRequester.Requests.Add(owner, list);
+                NetRequester.Requests.Add(queue, list);
             }
 
-            Log.Debug($"[Server] Got an image request for spray#{owner}. Count: {list.Count}");
+            Log.Debug($"[Server] Got an image request for spray#{queue.ID}. Count: {list.Count}");
         });
 
         ListenAndRedirect(PacketType.ActivateObject, World.ReadAction);

@@ -2,7 +2,7 @@
 
 using COAT.Content;
 using COAT.Net;
-using COAT.Sprays;
+using COAT.Net.Sprays;
 using COAT.UI;
 using COAT.UI.Physical;
 using COAT.UI.Menus;
