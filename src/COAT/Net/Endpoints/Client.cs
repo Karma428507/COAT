@@ -3,12 +3,13 @@
 using COAT.Content;
 using COAT.Entities;
 using COAT.IO;
+using COAT.Net.Sprays;
 using COAT.Net.Types;
 using COAT.Pages;
-using COAT.Sprays;
 using COAT.UI.Overlay;
 using COAT.Utils;
 using COAT.World;
+
 using Steamworks;
 using Steamworks.Data;
 using System;
@@ -61,7 +62,7 @@ public class Client : Endpoint, IConnectionManager
 
         Listen(PacketType.Spray, r => SprayManager.Spawn(r.Id(), r.Vector(), r.Vector()));
 
-        Listen(PacketType.ImageChunk, SprayDistributor.Download);
+        Listen(PacketType.NetFileChunk, SprayDistributor.Download);
 
         Listen(PacketType.ActivateObject, World.ReadAction);
 
@@ -77,19 +78,6 @@ public class Client : Endpoint, IConnectionManager
         {
             if (r.Bool()) Networking.MutedPlayers.Add(r.Id());
             else Networking.MutedPlayers.Remove(r.Id());
-        });
-
-        // Paging (but not as fun as actual paging)
-        Listen(PacketType.RequestPlayerPage, (con, sender, r) =>
-        {
-            Log.Debug($"Sending request to {sender}");
-            Networking.Send(PacketType.ReceivePlayerPage,
-                PageManager.Player.Write, (data, size) => Tools.Send(con, data, size));
-        });
-
-        Listen(PacketType.ReceivePlayerPage, (con, sender, r) =>
-        {
-            Log.Debug("Writing player page data");
         });
     }
 
@@ -121,11 +109,7 @@ public class Client : Endpoint, IConnectionManager
 
     public void OnConnecting(ConnectionInfo info) => Log.Info("Player is Connecting");
 
-    public void OnConnected(ConnectionInfo info)
-    {
-        Log.Info("Player Connecting");
-        Networking.Send(PacketType.ReceivePlayerPage, null, null, 0);
-    }
+    public void OnConnected(ConnectionInfo info) => Log.Info("Player Connecting");
 
     public void OnDisconnected(ConnectionInfo info) => Log.Info("Player Disconnected");
 

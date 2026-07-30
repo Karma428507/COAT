@@ -242,6 +242,11 @@ public class Networking
     });
 
     #endregion
+    #region page tools
+
+
+
+    #endregion
     #region tools
 
     /// <summary> Returns the team of the given friend. </summary>

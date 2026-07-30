@@ -1,4 +1,4 @@
-namespace COAT.Sprays;
+namespace COAT.Net.Sprays;
 
 using System.Collections.Generic;
 using System.IO;
@@ -42,7 +42,7 @@ public class SprayManager
         Events.OnLoaded += () =>
         {
             if (LobbyController.Offline) Cache.Clear();
-            else SprayDistributor.UploadLocal();
+            else UploadLocal();
 
             foreach (var spray in Sprays.Values)
                 if (spray != null) spray.Lifetime = 60f;
@@ -53,6 +53,7 @@ public class SprayManager
             Cache.Clear();
             Cache.Add(Tools.AccId, CurrentSpray);
         };
+
         Events.EverySecond += SprayDistributor.ProcessRequests;
     }
 
@@ -111,5 +112,20 @@ public class SprayManager
             return null;
         }
         return Spawn(Tools.AccId, position, direction);
+    }
+
+    /// <summary> Uploads the current spray to the server. </summary>
+    public static void UploadLocal()
+    {
+        // It was that easy?
+        if (LobbyController.Offline)
+            return;
+
+        // there is no point in sending the spray to the distributor if you haven't changed it
+        if (SprayManager.Uploaded || SprayManager.CurrentSpray == null) return;
+        Log.Info("Uploading the current spray...");
+
+        Upload(Tools.AccId, SprayManager.CurrentSpray.Data);
+        SprayManager.Uploaded = true;
     }
 }

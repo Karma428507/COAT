@@ -26,10 +26,11 @@ public enum PacketType
 
     /// <summary> Player sprayed something. </summary>
     Spray,
-    /// <summary> Image chunk from the sprayer. </summary>
-    ImageChunk,
-    /// <summary> Player asked the host to give him someone's spray data. </summary>
-    RequestImage,
+
+    /// <summary> Net file chunk from another player. </summary>
+    NetFileChunk,
+    /// <summary> Ask the host to request a net file from a player. </summary>
+    NetFileRequest,
 
     /// <summary> Need to activate a certain object. It can be anything, because there are a lot of different stuff in the game. </summary>
     ActivateObject,
@@ -40,13 +41,4 @@ public enum PacketType
     Kick,
     /// <summary> Mutes the player that's being annoying or hurt the host's ego. </summary>
     Mute,
-
-    /// <summary> Request data for a new player's page or specific properties. </summary>
-    RequestPlayerPage,
-    /// <summary> Sends data for any property of a player page. </summary>
-    ReceivePlayerPage,
-    /// <summary> Asks the host to change a property in a non player page (impliment later). </summary>
-    RequestPageChange,
-    /// <summary> Changes a non player page property. </summary>
-    ReceivePageChange,
 }

@@ -3,9 +3,9 @@
 using COAT.Content;
 using COAT.Entities;
 using COAT.IO;
+using COAT.Net.Sprays;
 using COAT.Net.Types;
 using COAT.Pages;
-using COAT.Sprays;
 using COAT.Utils;
 using COAT.World;
 using Steamworks;
@@ -78,7 +78,7 @@ public class Server : Endpoint, ISocketManager
 
         ListenAndRedirect(PacketType.Spray, r => SprayManager.Spawn(r.Id(), r.Vector(), r.Vector()));
 
-        Listen(PacketType.ImageChunk, (con, sender, r) =>
+        Listen(PacketType.NetFileChunk, (con, sender, r) =>
         {
             var owner = r.Id(); r.Position = 1; // extract the spray owner
 
@@ -94,7 +94,7 @@ public class Server : Endpoint, ISocketManager
             Redirect(r, con);
         });
 
-        Listen(PacketType.RequestImage, (con, sender, r) =>
+        Listen(PacketType.NetFileRequest, (con, sender, r) =>
         {
             var owner = r.Id();
             if (SprayDistributor.Requests.TryGetValue(owner, out var list)) list.Add(con);
@@ -109,19 +109,6 @@ public class Server : Endpoint, ISocketManager
         });
 
         ListenAndRedirect(PacketType.ActivateObject, World.ReadAction);
-
-        // Paging (but not as fun as actual paging)
-        Listen(PacketType.RequestPlayerPage, (con, sender, r) =>
-        {
-            Log.Debug($"Sending request to {sender}");
-            Networking.Send(PacketType.ReceivePlayerPage,
-                PageManager.Player.Write, (data, size) => Tools.Send(con, data, size));
-        });
-
-        Listen(PacketType.ReceivePlayerPage, (con, sender, r) =>
-        {
-            Log.Debug("Writing player page data");
-        });
     }
 
     public override void Update()
