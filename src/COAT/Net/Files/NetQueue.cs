@@ -21,7 +21,21 @@ public class NetQueue
 
     public NetQueue GetSelf(uint ID, byte Type) => Compare(ID, Type) ? this : null;
 
-    public override bool Equals(object obj) => Equals(obj as NetQueue);
+    public static bool operator ==(NetQueue a, NetQueue b) {
+        if (ReferenceEquals(a, b))
+            return true;
 
-    public bool Equals(NetQueue queue) => queue.ID == ID && queue.Type == Type;
+        if (ReferenceEquals(a, null))
+            return false;
+
+        if (ReferenceEquals(b, null))
+            return false;
+
+        Log.Debug($"ID: {a.ID} == {b.ID}");
+        Log.Debug($"Type: {a.Type} == {b.Type}");
+
+        return a.ID == b.ID && a.Type == b.Type;
+    }
+
+    public static bool operator !=(NetQueue a, NetQueue b) => !(a == b);
 }

@@ -56,10 +56,10 @@ public class NetLoader
         byte type = r.Byte();
         NetQueue queue = new NetQueue(id, type);
 
+        if (type == NetFile.NET_FILE_TYPE_SPRAY && !SpraySettings.Enabled) return;
+
         if (r.Bool()) // Initial packet
         {
-            if (type == NetFile.NET_FILE_TYPE_SPRAY && !SpraySettings.Enabled) return;
-
             if (Streams.TryGetValue(queue, out var stream))
             {
                 Log.Warning("Overriding the old stream");
@@ -73,8 +73,6 @@ public class NetLoader
         }
         else // Data packet
         {
-            if (type == NetFile.NET_FILE_TYPE_SPRAY && !SpraySettings.Enabled) return;
-
             if (!Streams.TryGetValue(queue, out var stream))
             {
                 Log.Error("Stream's initial packet was lost!");
