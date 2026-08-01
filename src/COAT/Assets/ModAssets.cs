@@ -149,7 +149,7 @@ public class ModAssets
 
     /// <summary> Finds and loads an assets bundle. </summary>
     private static AssetBundle LoadBundle() =>
-        AssetBundle.LoadFromMemory(EmbeddedManager.GetDataFromEmbedded("assets.bundle"));
+        AssetBundle.LoadFromMemory(EmbeddedManager.GetDataFromEmbedded("coat.bundle"));
 
     /// <summary> Finds and asynchronously loads an asset. </summary>
     private static void LoadAsync<T>(string name, UnityAction<T> cons) where T : Object
