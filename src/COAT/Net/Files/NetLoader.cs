@@ -24,6 +24,7 @@ public class NetLoader
     /// <summary> Mainly defines the download events. </summary>
     public static void Load()
     {
+        DownloadEvents[NetFile.NET_FILE_TYPE_NULL] = HandleNull;
         DownloadEvents[NetFile.NET_FILE_TYPE_SPRAY] = SprayManager.HandleSpray;
     }
 
@@ -94,5 +95,12 @@ public class NetLoader
 #endif
         }
 
+    }
+
+    /// <summary> Only prints debug information of a complete net file after </summary>
+    private static void HandleNull(uint owner, byte[] data)
+    {
+        Log.Debug("Null net file download completed.");
+        Log.Debug($"\t- Owner: {owner}, Data length: {(data != null ? data.Length : "N/A")}");
     }
 }

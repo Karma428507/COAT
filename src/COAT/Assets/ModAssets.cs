@@ -57,6 +57,8 @@ public class ModAssets
     /// <summary> Icons for the emoji selection wheel. </summary>
     public static Sprite[] EmojiIcons, EmojiGlows;
 
+    public static AudioClip SpraySound;
+
     /// <summary> Loads assets bundle and other necessary stuff. </summary>
     public static void Load()
     {
@@ -88,6 +90,8 @@ public class ModAssets
         LoadAsync<Texture>("PainTexture", tex => PainTexture = tex);
 
         LoadAsync<Texture>("coin", tex => CoinTexture = tex);
+
+        LoadAsync<AudioClip>("spray", clip => SpraySound = clip);
 
         // load icons for emoji wheel
         EmojiIcons = new Sprite[12];

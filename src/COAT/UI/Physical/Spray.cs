@@ -1,5 +1,6 @@
 namespace COAT.UI.Physical;
 
+using COAT.Assets;
 using COAT.Net;
 using COAT.Net.Sprays;
 using COAT.UI.Menus.Sub;
@@ -39,8 +40,7 @@ public class Spray : MonoBehaviour
         transform.position = position + direction.normalized * .01f;
         transform.rotation = Quaternion.LookRotation(direction) * Quaternion.Euler(0, 180, 0);
 
-        // Fix later (commeted out to prevent spam)
-        //AudioSource.PlayClipAtPoint(SprayManager.puh, position);
+        AudioSource.PlayClipAtPoint(ModAssets.SpraySound, position);
         SpawnDust();
     }
 

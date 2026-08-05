@@ -79,6 +79,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="assets\Bundles\COAT\sounds\" />
     <Folder Include="src\COAT\Net\Pages\SpecialLevel\" />
   </ItemGroup>
 

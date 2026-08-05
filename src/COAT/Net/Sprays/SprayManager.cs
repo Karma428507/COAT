@@ -28,16 +28,11 @@ public class SprayManager
     /// <summary> Cached sprays of other players. </summary>
     public static Dictionary<uint, SprayFile> Cache = new();
 
-    /// <summary> Sound that is played when creating a spray. </summary>
-    public static AudioClip puh;
-
     /// <summary> Subscribes to various events to synchronize sprays or clear cache. </summary>
     public static void Load()
     {
         LoadSprayFiles();
         SpraySettings.Load();
-
-        Tools.ResFind<AudioClip>(clip => clip.name == "Explosion Harmless", clip => puh = clip);
 
         // clear the cache in offline game & upload the current spray if it was changed
         Events.OnLoaded += () =>
