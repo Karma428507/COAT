@@ -51,9 +51,6 @@ public class ModAssets
     /// <summary> Coin texture used by team coins. </summary>
     public static Texture CoinTexture;
 
-    /// <summary> Pain texture used by team coins. </summary>
-    public static Texture PainTexture;
-
     /// <summary> Icons for the emoji selection wheel. </summary>
     public static Sprite[] EmojiIcons, EmojiGlows;
 
@@ -86,8 +83,6 @@ public class ModAssets
 
         LoadAsync<Texture>("V3-hand", tex => HandTextures[1] = tex);
         LoadAsync<Texture>("V3-blast", tex => HandTextures[3] = tex);
-
-        LoadAsync<Texture>("PainTexture", tex => PainTexture = tex);
 
         LoadAsync<Texture>("coin", tex => CoinTexture = tex);
 
