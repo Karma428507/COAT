@@ -21,7 +21,6 @@ using System;
 using COAT.Utils;
 
 /// <summary> Front end of the chat, back end implemented via Steamworks. </summary>
-[Obsolete("MAKE IT EASIER TO WRITE MESSAGES TO THINGS IN TOOLS.")]
 public class ChatUI : CanvasSingleton<ChatUI>, IOverlayInterface
 {
     /// <summary> Maximum length of chat message. </summary>

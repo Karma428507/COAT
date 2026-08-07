@@ -54,11 +54,12 @@ public static class ChatManager
     }
 
     /// <summary> Parses the recieved message for the user. </summary>
-    /// <returns> The parsed message. </returns>
     public static string Parse(string message)
     {
         return Localization.CutColors(message);
     }
+
+
 
     /// <summary> Handles the message and runs the corresponding command. </summary>
     /// <returns> True if the command is found and run, or false if the command is not found or the message is not a command. </returns>
