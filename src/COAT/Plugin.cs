@@ -123,6 +123,7 @@ public class Plugin : MonoBehaviour
         DoorManager.Load();
         World.World.Load();
         WorldActionsList.Load();
+        //Terminal.Load(); shhhh
 
         // initialize harmony and patch all the necessary classes
         new Harmony("COAT Harmony").PatchAll();

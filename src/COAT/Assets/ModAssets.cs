@@ -29,6 +29,9 @@ public class ModAssets
     /// <summary> Player doll and its preview prefabs. </summary>
     public static GameObject Doll, Preview;
 
+    /// <summary> :3 </summary>
+    public static GameObject MultiplayerTerminal;
+
     /// <summary> Player doll icon. </summary>
     public static Sprite Icon;
 
@@ -135,6 +138,14 @@ public class ModAssets
             FixMaterials(prefab);
 
             Preview = prefab;
+        });
+
+        LoadAsync<GameObject>("Multiplayer Sandbox Shop.prefab", prefab =>
+        {
+            Object.DontDestroyOnLoad(prefab);
+            FixMaterials(prefab);
+
+            MultiplayerTerminal = prefab;
         });
 
 #if ENABLE_PREFAB_UI
