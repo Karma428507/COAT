@@ -5,6 +5,7 @@ using COAT.Content;
 using COAT.IO;
 using COAT.Net.Endpoints;
 using COAT.Net.Types;
+using COAT.Optimizations;
 using COAT.UI.Menus;
 using COAT.UI.Overlay;
 using COAT.Utils;

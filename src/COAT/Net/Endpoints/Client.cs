@@ -6,7 +6,7 @@ using COAT.IO;
 using COAT.Net.Files;
 using COAT.Net.Sprays;
 using COAT.Net.Types;
-using COAT.Pages;
+using COAT.Net.Pages;
 using COAT.UI.Overlay;
 using COAT.Utils;
 using COAT.World;

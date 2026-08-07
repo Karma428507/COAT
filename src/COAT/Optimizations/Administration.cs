@@ -1,10 +1,10 @@
-namespace COAT.Net;
+namespace COAT.Optimizations;
 
 using COAT.Chat;
 using COAT.Content;
+using COAT.Net;
 using COAT.UI.Menus;
 using COAT.UI.Overlay;
-using COAT.Optimizations;
 using COAT.Utils;
 
 using HarmonyLib;

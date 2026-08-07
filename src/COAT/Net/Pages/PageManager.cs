@@ -1,8 +1,9 @@
-﻿using COAT.IO;
+﻿namespace COAT.Net.Pages;
+
+using COAT.IO;
+
 using Steamworks;
 using System.Collections.Generic;
-
-namespace COAT.Pages;
 
 /// <summary> Handles different "pages" or long term net data like world and player info. </summary>
 public class PageManager

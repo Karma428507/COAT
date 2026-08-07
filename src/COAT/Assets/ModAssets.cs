@@ -17,9 +17,6 @@ using COAT.Utils;
 /// <summary> Class that works with the assets bundle of the mod. </summary>
 public class ModAssets
 {
-    // idk if i should remove this
-    public const string V1 = "36abcaae9708abc4d9e89e6ec73a2846";
-
     static NewMovement nm => NewMovement.Instance;
     static FistControl fc => FistControl.Instance;
 

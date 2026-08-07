@@ -1,8 +1,8 @@
 namespace COAT.UI.Physical;
 
 using COAT.Assets;
-using COAT.Net;
 using COAT.Net.Sprays;
+using COAT.Optimizations;
 using COAT.UI.Menus.Sub;
 using COAT.Utils;
 

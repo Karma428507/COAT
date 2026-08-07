@@ -9,7 +9,7 @@ using UnityEngine.UI;
 using COAT.Assets;
 using COAT.Content;
 using COAT.Input;
-using COAT.Net;
+using COAT.Optimizations;
 using COAT.UI.Elements;
 using COAT.UI.Menus.Sub;
 

@@ -5,6 +5,7 @@ using COAT.Content;
 using COAT.Input;
 using COAT.IO;
 using COAT.Net;
+using COAT.Optimizations;
 using COAT.Utils;
 
 using Steamworks;

@@ -1,4 +1,4 @@
-﻿namespace COAT.Pages;
+﻿namespace COAT.Net.Pages;
 
 using COAT.IO;
 using COAT.Net;
