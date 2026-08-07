@@ -201,7 +201,7 @@ public class Emotes : MonoSingleton<Emotes>
         StartThirdPerson();
         SkateboardSpeed = 0f;
 
-        Localization.Hud("emoji", true); // telling how to interrupt an emotion
+        Message.HudLocal("emoji", true); // telling how to interrupt an emotion
         StopCoroutine("ClearEmoji");
         if (emojiLength[id] != -1f) StartCoroutine("ClearEmoji");
     }

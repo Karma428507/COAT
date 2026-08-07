@@ -1,11 +1,9 @@
 namespace COAT;
 
-using System;
-using UnityEngine;
-using UnityEngine.Networking;
+using COAT.Utils;
 
-using COAT.Assets;
-using COAT.UI;
+using System;
+using UnityEngine.Networking;
 
 using static UI.Utils.Rect;
 
@@ -21,12 +19,12 @@ public class Version
     public const string TAG = "\"tag_name\": \"V", NAME = "\"name\": \"";
 
     /// <summary> Notifies the player that their version of the mod doesn't match the host's one. </summary>
-    public static void Notify() => Localization.Hud2NS("version.host-outdated");
+    public static void Notify() => Message.Hud2NSLocal("version.host-outdated");
 
     /// <summary> Checks for updates using Github and notifies the player about it. </summary>
     public static void Check4Update() => Fetch((done, result) =>
     {
-        if (done && Parse(result, out var latest, out var name) && latest != CURRENT) Localization.Hud("version.outdated", false, CURRENT, latest, name);
+        if (done && Parse(result, out var latest, out var name) && latest != CURRENT) Message.HudLocal("version.outdated", false, CURRENT, latest, name);
     });
 
     /// <summary> Fetches a json file with all versions of the mod from GitHub. </summary>

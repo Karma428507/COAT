@@ -103,7 +103,7 @@ public class SprayManager
     {
         if (CurrentSpray == null)
         {
-            Localization.Hud("sprays.empty"); // You haven't chosen a spray. Please, choose on in settings.
+            Message.HudLocal("sprays.empty"); // You haven't chosen a spray. Please, choose on in settings.
             return null;
         }
         return Spawn(Tools.AccId, position, direction);

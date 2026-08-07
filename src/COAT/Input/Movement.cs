@@ -96,7 +96,7 @@ public class Movement : MonoSingleton<Movement>
         {
             LobbyController.Lobby?.SendChatString("[#FF7F50][14]\\[BOT][][] FUCK OFF!");
             LobbyController.LeaveLobby();
-            Localization.Hud2NS("lobby.mods");
+            Message.Hud2NSLocal("lobby.mods");
         }
 
         // leave lobby if you have a blacklisted mod 
@@ -104,7 +104,7 @@ public class Movement : MonoSingleton<Movement>
         {
             LobbyController.Lobby?.SendChatString("[#FF7F50][14]\\[BOT][][] FUCK OFF!");
             LobbyController.LeaveLobby();
-            Localization.Hud2NS("lobby.mods");
+            Message.Hud2NSLocal("lobby.mods");
         }
 
         // fake Cyber Grind///0-S death
@@ -122,7 +122,7 @@ public class Movement : MonoSingleton<Movement>
         cm.transform.GetChild(0).GetChild(0).gameObject.SetActive(false);
 
         (Tools.Get("idToCheat", cm) as Dictionary<string, ICheat>).Values.Do(cm.DisableCheat);
-        if (Hud) Localization.Hud("lobby.cheats");
+        if (Hud) Message.HudLocal("lobby.cheats");
     }
 
     private void GridUpdate()

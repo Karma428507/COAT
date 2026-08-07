@@ -5,6 +5,7 @@ using COAT.Content;
 using COAT.IO;
 using COAT.Net;
 using COAT.Net.Types;
+using COAT.UI.Overlay;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,10 +15,31 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.ResourceLocations;
 
+using static COAT.Assets.Localization;
+
 /// <summary> Tools for sending messages. </summary>
 public class Message
 {
     #region receiving message
+
+    /// <summary> Sends a localized message to the HUD. </summary>
+    public static void HudLocal(string key, bool silent = false) => HudMessageReceiver.Instance?.SendHudMessage(Get(key), silent: silent);
+
+    /// <summary> Sends a localized & formatted message to the HUD. </summary>
+    public static void HudLocal(string key, bool silent, params string[] args) => HudMessageReceiver.Instance?.SendHudMessage(Format(key, args), silent: silent);
+
+    /// <summary> Sends a localized message to the HUD after scene loading. </summary>
+    public static void Hud2NSLocal(string key) => text2Show = Get(key);
+
+    /// <summary> Sends a localized & formatted message to the HUD after scene loading. </summary>
+    public static void Hud2NSLocal(string key, params string[] args) => text2Show = Format(key, args);
+
+    /// <summary> Sends a localized message to the chat. </summary>
+    public static void MsgLocal(string key) => ChatUI.Instance.Receive(Get(key), false);
+
+    /// <summary> Sends a localized & formatted message to the chat. </summary>
+    public static void MsgLocal(string key, params string[] args) => ChatUI.Instance.Receive(Format(key, args), false);
+
     #endregion
     #region chat specific
     #endregion

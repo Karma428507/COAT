@@ -8,6 +8,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using COAT.IO;
 using COAT.UI.Overlay;
+using COAT.Utils;
 
 /// <summary> Class that loads translations from files in the bundles folder and returns translated lines by keys. </summary>
 public class Localization
@@ -24,7 +25,7 @@ public class Localization
     /// <summary> Dictionary with all lines of loaded localization. </summary>
     private static Dictionary<string, string> props = new();
     /// <summary> Text that will be shown in the hud after scene loading. </summary>
-    private static string text2Show;
+    internal static string text2Show;
 
     /// <summary> Loads the translation specified in the settings. </summary>
     public static void Load()
@@ -66,7 +67,7 @@ public class Localization
             if (line == "" || line.StartsWith("#")) continue;
 
             var pair = line.Split('=');
-            props.Add(pair[0].Trim(), locale == "ar" ? ParseArabic(pair[1].Trim()) : ParseColors(pair[1].Trim()));
+            props.Add(pair[0].Trim(), locale == "ar" ? Message.ParseArabic(pair[1].Trim()) : Message.ParseColors(pair[1].Trim()));
         }
 
         LoadedLocale = localeId;
@@ -84,22 +85,4 @@ public class Localization
 
         return string.Format(Get(key), args);
     }
-
-    /// <summary> Sends a localized message to the HUD. </summary>
-    public static void Hud(string key, bool silent = false) => HudMessageReceiver.Instance?.SendHudMessage(Get(key), silent: silent);
-
-    /// <summary> Sends a localized & formatted message to the HUD. </summary>
-    public static void Hud(string key, bool silent, params string[] args) => HudMessageReceiver.Instance?.SendHudMessage(Format(key, args), silent: silent);
-
-    /// <summary> Sends a localized message to the HUD after scene loading. </summary>
-    public static void Hud2NS(string key) => text2Show = Get(key);
-
-    /// <summary> Sends a localized & formatted message to the HUD after scene loading. </summary>
-    public static void Hud2NS(string key, params string[] args) => text2Show = Format(key, args);
-
-    /// <summary> Sends a localized message to the chat. </summary>
-    public static void Msg(string key) => ChatUI.Instance.Receive(Get(key), false);
-
-    /// <summary> Sends a localized & formatted message to the chat. </summary>
-    public static void Msg(string key, params string[] args) => ChatUI.Instance.Receive(Format(key, args), false);
 }

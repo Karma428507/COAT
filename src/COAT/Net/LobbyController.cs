@@ -51,7 +51,7 @@ public class LobbyController
             if (lobby.GetData("banned").Contains(Tools.AccId.ToString()))
             {
                 LeaveLobby();
-                Localization.Hud2NS("lobby.banned");
+                Message.Hud2NSLocal("lobby.banned");
             }
             if (!IsCoatClient(lobby, ref client))
             {
@@ -183,8 +183,8 @@ public class LobbyController
     /// <summary> Asynchronously connects the player to the given lobby. </summary>
     public static void JoinLobby(Lobby lobby)
     {
-        if (lobby.GetData("banned").Contains(Tools.AccId.ToString())) { Localization.Hud2NS("lobby.banned"); return; } // check if ur banned first so u dont accidentally leave the lobby ur in for no reason
-        if (Lobby?.Id == lobby.Id) { Localization.Hud("lobby.join-yourself"); return; }
+        if (lobby.GetData("banned").Contains(Tools.AccId.ToString())) { Message.Hud2NSLocal("lobby.banned"); return; } // check if ur banned first so u dont accidentally leave the lobby ur in for no reason
+        if (Lobby?.Id == lobby.Id) { Message.HudLocal("lobby.join-yourself"); return; }
         Log.Debug("Joining a lobby...");
 
         // leave the previous lobby before join the new, but don't load the main menu
@@ -210,14 +210,14 @@ public class LobbyController
     public static void CopyCode()
     {
         GUIUtility.systemCopyBuffer = Lobby?.Id.ToString();
-        if (Online) Localization.Hud("lobby.copied");
+        if (Online) Message.HudLocal("lobby.copied");
     }
 
     /// <summary> Joins by the lobby code from the clipboard. </summary>
     public static void JoinByCode()
     {
         if (ulong.TryParse(GUIUtility.systemCopyBuffer, out var code)) JoinLobby(new(code));
-        else Localization.Hud("lobby.failed");
+        else Message.HudLocal("lobby.failed");
     }
 
     #endregion

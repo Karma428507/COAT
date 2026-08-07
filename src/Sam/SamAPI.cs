@@ -4,6 +4,7 @@ using System;
 using UnityEngine;
 
 using COAT.Assets;
+using COAT.Utils;
 
 /// <summary> Auxiliary class of the SAM TTS Engine. Needed to simplify working with the engine. </summary>
 public class SamAPI
@@ -38,7 +39,7 @@ public class SamAPI
     {
         try
         {
-            source.clip = Clip(Localization.CutColors(text));
+            source.clip = Clip(Message.CutColors(text));
             source.Play();
         }
         catch (Exception) { } // in fact, anything can happen, that's why try catch is needed

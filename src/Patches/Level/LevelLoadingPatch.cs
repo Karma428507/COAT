@@ -1,12 +1,11 @@
 namespace Patches.Level;
 
-using HarmonyLib;
-using UnityEngine.UI;
-
 using COAT;
 using COAT.Assets;
 using COAT.Net;
-
+using COAT.Utils;
+using HarmonyLib;
+using UnityEngine.UI;
 using static COAT.UI.Utils.Pal;
 
 [HarmonyPatch]
@@ -62,7 +61,7 @@ public class RankPatch
         if (Networking.WasMultiplayerUsed)
         {
             __instance.totalRank.transform.parent.GetComponent<Image>().color = pink;
-            __instance.totalRank.text = Localization.CutColors(__instance.totalRank.text);
+            __instance.totalRank.text = Message.CutColors(__instance.totalRank.text);
         }
     }
 }

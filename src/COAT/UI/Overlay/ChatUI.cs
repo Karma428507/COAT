@@ -205,7 +205,7 @@ public class ChatUI : CanvasSingleton<ChatUI>, IOverlayInterface
     public void Receive(string msg, bool format = true)
     {
         // add the given message to the list
-        if (format) msg = Localization.ParseColors(msg);
+        if (format) msg = Message.ParseColors(msg);
         var text = UIB.Text(msg, list, Msg(WIDTH - 16f), null, 16, TextAnchor.MiddleLeft);
         //Text text = null;
         //text = UIB.ButtonText(msg, list, Msg(WIDTH - 16f), null, 16, TextAnchor.MiddleLeft, () => CopyText(msg.Substring(msg.IndexOf("[][#FF7F50]:[]</b> ")), text), () => DropUpMenu(msg.Substring(msg.IndexOf("[][#FF7F50]:[]</b> ")), msg.Substring(msg.IndexOf(']'), msg.IndexOf("[][#FF7F50]:[]</b> ")), text));
@@ -252,7 +252,7 @@ public class ChatUI : CanvasSingleton<ChatUI>, IOverlayInterface
     }
 
     /// <summary> Writes a message to the chat, formatting it beforehand. </summary>
-    public void Receive(string color, string author, string msg) => Receive($"<b>[{(color.StartsWith('#') ? color : $"#{color}")}]{author}[][#FF7F50]:[]</b> {Censoring.ParseMessage(Localization.CutDangerous(msg))}");
+    public void Receive(string color, string author, string msg) => Receive($"<b>[{(color.StartsWith('#') ? color : $"#{color}")}]{author}[][#FF7F50]:[]</b> {Censoring.ParseMessage(Message.CutDangerous(msg))}");
 
 
     public void NewReceive(string color, Friend author, string msg) => NewReceive(color, author, Censoring.ParseMessage(msg), false);
@@ -261,7 +261,7 @@ public class ChatUI : CanvasSingleton<ChatUI>, IOverlayInterface
     {
         string FormattedColor = (color.StartsWith('#') ? color : $"#{color}");
         string FormattedName = author.Name.Replace("[", "\\[");
-        string FormattedMsg = Censoring.ParseMessage(Localization.CutDangerous(msg));
+        string FormattedMsg = Censoring.ParseMessage(Message.CutDangerous(msg));
 
         string FormattedPrefixes = tts ? ChatManager.TTS_PREFIX : "";
         FormattedPrefixes += author.Id == LobbyController.LastOwner ? ChatManager.HOST_PREFIX : "";

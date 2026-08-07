@@ -2,7 +2,7 @@
 
 using COAT.Assets;
 using COAT.UI.Overlay;
-
+using COAT.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -56,10 +56,8 @@ public static class ChatManager
     /// <summary> Parses the recieved message for the user. </summary>
     public static string Parse(string message)
     {
-        return Localization.CutColors(message);
+        return Message.CutColors(message);
     }
-
-
 
     /// <summary> Handles the message and runs the corresponding command. </summary>
     /// <returns> True if the command is found and run, or false if the command is not found or the message is not a command. </returns>
