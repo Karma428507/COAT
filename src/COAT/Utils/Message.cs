@@ -1,12 +1,10 @@
 ﻿namespace COAT.Utils;
 
-using COAT.Assets;
 using COAT.Chat;
-using COAT.Content;
-using COAT.IO;
 using COAT.Net;
 using COAT.Net.Types;
 using COAT.UI.Overlay;
+
 using Sam;
 using Steamworks;
 using System;
@@ -14,9 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using UnityEngine;
-using UnityEngine.AddressableAssets;
-using UnityEngine.ResourceManagement.ResourceLocations;
+
 using static COAT.Assets.Localization;
 
 /// <summary> Tools for sending messages. </summary>
@@ -62,7 +58,7 @@ public class Message
     }
 
     /// <summary> Speaks the message before writing it. </summary>
-    public void ReceiveTTS(string color, Friend author, string msg)
+    public static void ReceiveTTS(string msg, Friend author, string color)
     {
         // Censor the message
         msg = Censoring.ParseMessage(msg);
@@ -76,7 +72,7 @@ public class Message
             SamAPI.TryPlay(msg, player.Voice);
 
         //AudioSource.PlayClipAtPoint(SamAPI.Clip, NewMovement.Instance.transform.position);
-        Receive(color, author, msg, true);
+        Receive(msg, author, color, true);
     }
 
     #endregion

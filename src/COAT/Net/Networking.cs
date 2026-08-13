@@ -171,7 +171,7 @@ public class Networking
                 else if (message.StartsWith("#/r") && byte.TryParse(message.Substring(3), out byte rps))
                     Message.Receive($"[#FFA500]{member.Name} has chosen {rps switch { 0 => "rock", 1 => "paper", 2 => "scissors", _ => "nothing" }}");
                 else if (message.StartsWith("/tts "))
-                    Message.Receive(message.Substring(5), member, GetTeamColor(member));
+                    Message.ReceiveTTS(message.Substring(5), member, GetTeamColor(member));
                 else
                     Message.Receive(message, member, GetTeamColor(member));
             }
