@@ -35,7 +35,7 @@ public class Client : Endpoint, IConnectionManager
         Listen(PacketType.Ban, (con, sender, r) =>
         {
             if (sender != LobbyController.LastOwner.AccountId)
-            ChatUI.StaticReceive("you were banned...");
+            Message.Receive("you were banned...");
             LobbyController.LeaveLobby();
         });
         Listen(PacketType.SpawnBullet, Bullets.CInstantiate);
@@ -71,7 +71,7 @@ public class Client : Endpoint, IConnectionManager
 
         Listen(PacketType.Kick, r => 
         {
-            ChatUI.StaticReceive("you were kicked...");
+            Message.Receive("you were kicked...");
             LobbyController.LeaveLobby();
         });
 

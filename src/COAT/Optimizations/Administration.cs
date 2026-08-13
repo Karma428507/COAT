@@ -54,7 +54,7 @@ public class Administration
     public static void Ban(uint id)
     {
         // who does the client think he is?!
-        if (!LobbyController.IsOwner) { ChatUI.StaticReceive("\"yo buddy u aint host, dont push it.\" - Bryan(dev)"); return; }
+        if (!LobbyController.IsOwner) { Message.Receive("\"yo buddy u aint host, dont push it.\" - Bryan(dev)"); return; }
 
         Networking.Send(PacketType.Ban, null, (data, size) =>
         {
@@ -73,7 +73,7 @@ public class Administration
     public static void Kick(uint id)
     {
         // who does the client think he is?!
-        if (!LobbyController.IsOwner) { ChatUI.StaticReceive("\"yo buddy u aint host, dont push it.\" - Bryan(dev)"); return; }
+        if (!LobbyController.IsOwner) { Message.Receive("\"yo buddy u aint host, dont push it.\" - Bryan(dev)"); return; }
 
         // send a SteamMatchMaking event for when players are kicked
         //SteamMatchmaking.OnLobbyMemberKicked.Invoke(LobbyController.Lobby, );
@@ -104,7 +104,7 @@ public class Administration
     public static void Mute(uint id, bool mute)
     {
         // who does the client think he is?!
-        if (!LobbyController.IsOwner) { ChatUI.StaticReceive("\"yo buddy u aint host, dont push it.\" - Bryan(dev)"); return; }
+        if (!LobbyController.IsOwner) { Message.Receive("\"yo buddy u aint host, dont push it.\" - Bryan(dev)"); return; }
 
         // send a packet to disable the chat of the muted person
         //Networking.Send(PacketType.COAT_Mute, w => { w.Id(id); w.Bool(mute); });

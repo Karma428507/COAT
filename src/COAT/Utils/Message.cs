@@ -1,11 +1,14 @@
 ﻿namespace COAT.Utils;
 
 using COAT.Assets;
+using COAT.Chat;
 using COAT.Content;
 using COAT.IO;
 using COAT.Net;
 using COAT.Net.Types;
 using COAT.UI.Overlay;
+using Sam;
+using Steamworks;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +17,6 @@ using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.ResourceLocations;
-
 using static COAT.Assets.Localization;
 
 /// <summary> Tools for sending messages. </summary>
@@ -42,6 +44,41 @@ public class Message
 
     #endregion
     #region chat specific
+
+    /// <summary> Writes a message to chat directly. </summary>
+    public static void Receive(string msg, bool format = true) => ChatUI.Instance.Receive(msg, format);
+
+    /// <summary> Writes a message for a player. </summary>
+    public static void Receive(string msg, Friend author, string color, bool tts = false)
+    {
+        string FormattedColor = (color.StartsWith('#') ? color : $"#{color}");
+        string FormattedName = author.Name.Replace("[", "\\[");
+        string FormattedMsg = Censoring.ParseMessage(CutDangerous(msg));
+
+        string FormattedPrefixes = tts ? ChatManager.TTS_PREFIX : "";
+        FormattedPrefixes += author.Id == LobbyController.LastOwner ? ChatManager.HOST_PREFIX : "";
+
+        Receive($"<b>{FormattedPrefixes}[{FormattedColor}]{FormattedName}[][#F75]:[]</b> {FormattedMsg}");
+    }
+
+    /// <summary> Speaks the message before writing it. </summary>
+    public void ReceiveTTS(string color, Friend author, string msg)
+    {
+        // Censor the message
+        msg = Censoring.ParseMessage(msg);
+
+        // play the message in the local player's position if he is its author
+        if (author.IsMe)
+            SamAPI.TryPlay(msg, Networking.LocalPlayer.Voice);
+
+        // or find the author among the other players and play the sound from them
+        else if (Networking.Entities.TryGetValue(author.Id.AccountId, out var entity) && entity is RemotePlayer player)
+            SamAPI.TryPlay(msg, player.Voice);
+
+        //AudioSource.PlayClipAtPoint(SamAPI.Clip, NewMovement.Instance.transform.position);
+        Receive(color, author, msg, true);
+    }
+
     #endregion
     #region parsing utilities
 
