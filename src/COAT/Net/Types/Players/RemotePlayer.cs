@@ -67,6 +67,7 @@ public class RemotePlayer : Entity
         tag = "Enemy";
 
         EnemyId.weakPoint = Doll.Head.gameObject;
+        // ERROR HERE
         Doll.HookWinch.material = HookArm.Instance.GetComponent<LineRenderer>().material;
         ClearTrail(Doll.WingTrail, x, y, z);
 
@@ -119,8 +120,8 @@ public class RemotePlayer : Entity
         Doll.Hook.LookAt(transform);
         Doll.Hook.Rotate(Vector3.up * 180f, Space.Self);
 
-        Doll.HookWinch.SetPosition(0, Doll.HookRoot.position);
-        Doll.HookWinch.SetPosition(1, Doll.Hook.position);
+        //Doll.HookWinch.SetPosition(0, Doll.HookRoot.position);
+        //Doll.HookWinch.SetPosition(1, Doll.Hook.position);
     });
 
     private void GoLimp()

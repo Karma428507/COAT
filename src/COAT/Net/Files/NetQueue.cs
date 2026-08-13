@@ -21,6 +21,11 @@ public class NetQueue
 
     public NetQueue GetSelf(uint ID, byte Type) => Compare(ID, Type) ? this : null;
 
+    public override string ToString()
+    {
+        return $"ID: {ID}, Type: {Type}";
+    }
+
     public static bool operator ==(NetQueue a, NetQueue b) {
         if (ReferenceEquals(a, b))
             return true;

@@ -35,8 +35,8 @@ public class NetLoader
         Networking.Send(PacketType.NetFileChunk, w =>
         {
             w.Id(owner);
+            w.Byte(0);
             w.Byte(type);
-            w.Bool(true);
             w.Int(data.Length);
         }, result, 10);
 
@@ -44,8 +44,8 @@ public class NetLoader
         for (int i = 0; i < data.Length; i += CHUNK_SIZE) Networking.Send(PacketType.NetFileChunk, w =>
         {
             w.Id(owner);
+            w.Byte((byte)(i + 1)); // 1 - 255
             w.Byte(type);
-            w.Bool(false);
             w.Bytes(data, i, Mathf.Min(CHUNK_SIZE, data.Length - i));
         }, result, CHUNK_SIZE + 6);
     }
@@ -54,12 +54,13 @@ public class NetLoader
     public static void Download(Reader r)
     {
         var id = r.Id();
+        byte index = r.Byte();
         byte type = r.Byte();
         NetQueue queue = new NetQueue(id, type);
 
         if (type == NetFile.NET_FILE_TYPE_SPRAY && !SpraySettings.Enabled) return;
 
-        if (r.Bool()) // Initial packet
+        if (index == 0) // Initial packet
         {
             if (Streams.TryGetValue(queue, out var stream))
             {
@@ -76,7 +77,7 @@ public class NetLoader
         {
             if (!Streams.TryGetValue(queue, out var stream))
             {
-                Log.Error("Stream's initial packet was lost!");
+                Log.Error($"Stream's initial packet was lost! i={index}");
                 return;
             }
 
