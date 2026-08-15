@@ -35,8 +35,8 @@ public class NetLoader
         Networking.Send(PacketType.NetFileChunk, w =>
         {
             w.Id(owner);
-            w.Byte(0);
             w.Byte(type);
+            w.Bool(false);
             w.Int(data.Length);
         }, result, 10);
 
@@ -44,8 +44,8 @@ public class NetLoader
         for (int i = 0; i < data.Length; i += CHUNK_SIZE) Networking.Send(PacketType.NetFileChunk, w =>
         {
             w.Id(owner);
-            w.Byte((byte)(i + 1)); // 1 - 255
             w.Byte(type);
+            w.Bool(true);
             w.Bytes(data, i, Mathf.Min(CHUNK_SIZE, data.Length - i));
         }, result, CHUNK_SIZE + 6);
     }
@@ -54,30 +54,32 @@ public class NetLoader
     public static void Download(Reader r)
     {
         var id = r.Id();
-        byte index = r.Byte();
         byte type = r.Byte();
         NetQueue queue = new NetQueue(id, type);
 
+        Log.Debug($"ID: {id}, Type: {type}");
+
         if (type == NetFile.NET_FILE_TYPE_SPRAY && !SpraySettings.Enabled) return;
 
-        if (index == 0) // Initial packet
+        if (!r.Bool()) // Initial packet
         {
-            if (Streams.TryGetValue(queue, out var stream))
+            if (TryGetStream(queue, out var stream))
             {
                 Log.Warning("Overriding the old stream");
                 Marshal.FreeHGlobal(stream.memory);
             }
+
             Log.Info("Downloading net file#" + id);
 
             int length = r.Int();
+            Log.Debug($"Length: {length}, Clusters: {length / 512}, Extra: {length % 512}");
             Streams[queue] = new(Marshal.AllocHGlobal(length), length);
-            return;
         }
         else // Data packet
         {
-            if (!Streams.TryGetValue(queue, out var stream))
+            if (!TryGetStream(queue, out var stream))
             {
-                Log.Error($"Stream's initial packet was lost! i={index}");
+                Log.Error("Stream's initial packet was lost!");
                 return;
             }
 
@@ -103,5 +105,22 @@ public class NetLoader
     {
         Log.Debug("Null net file download completed.");
         Log.Debug($"\t- Owner: {owner}, Data length: {(data != null ? data.Length : "N/A")}");
+    }
+
+    /// <summary> Returns if there's a key from the streams dictionary. </summary>
+    private static bool TryGetStream(NetQueue queue, out Writer writer)
+    {
+        writer = null; // Set for now.
+
+        foreach (KeyValuePair<NetQueue, Writer> pair in Streams)
+        {
+            if (pair.Key == queue)
+            {
+                writer = pair.Value;
+                return true;
+            }
+        }
+
+        return false;
     }
 }

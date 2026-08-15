@@ -36,9 +36,6 @@ public class NetQueue
         if (ReferenceEquals(b, null))
             return false;
 
-        Log.Debug($"ID: {a.ID} == {b.ID}");
-        Log.Debug($"Type: {a.Type} == {b.Type}");
-
         return a.ID == b.ID && a.Type == b.Type;
     }
 
