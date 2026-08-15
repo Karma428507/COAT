@@ -1,6 +1,8 @@
 ﻿namespace COAT.IO;
 
+using COAT.Content;
 using COAT.Gamemode;
+using COAT.Net;
 using COAT.UI.Menus;
 
 using Discord;
@@ -9,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UnityEngine;
 
 /// <summary> To manage saved mod data </summary>
 public static class SaveManager
@@ -94,6 +97,33 @@ public static class SaveManager
                     break;
             }
         }
+    }
+
+    public static void LoadPlayerData()
+    {
+        // <key, initial output>, this is used for keeping setting the player data
+        Dictionary<string, string> memberData = new Dictionary<string, string>()
+        {
+            {"username", ""},
+            {"team", Team.Yellow.ToString() },
+            {"team-color", ColorUtility.ToHtmlStringRGBA(TeamExtensions.Color(Team.Yellow))}
+        };
+
+        foreach (KeyValuePair<string, string> member in memberData)
+            LobbyController.Lobby?.SetMemberData(member.Key,
+                pm.GetString($"COAT-player-data-{member.Key}", member.Value));
+
+        foreach (KeyValuePair<string, string> member in memberData)
+            Log.Debug($"COAT-player-data-{member.Key}: {pm.GetString($"COAT-player-data-{member.Key}", member.Value)}")
+                ;
+    }
+
+    public static void SetPlayerData(string key, string value)
+    {
+        pm.SetString($"COAT-player-data-{key}", value);
+
+        if (LobbyController.Online)
+            LobbyController.Lobby?.SetMemberData(key, value);
     }
 
     #endregion

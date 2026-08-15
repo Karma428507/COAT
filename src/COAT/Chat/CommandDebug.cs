@@ -2,6 +2,8 @@ namespace COAT.Chat;
 
 using COAT.Content;
 using COAT.Net;
+using Steamworks;
+using System.Linq;
 
 /// <summary> The normal commands. </summary>
 public class CommandDebug : CommandHandler

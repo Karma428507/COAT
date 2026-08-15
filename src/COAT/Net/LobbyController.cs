@@ -1,5 +1,12 @@
 namespace COAT.Net;
 
+using COAT.Assets;
+using COAT.Content;
+using COAT.IO;
+using COAT.Net.Types;
+using COAT.UI;
+using COAT.UI.Menus;
+using COAT.Utils;
 using Steamworks;
 using Steamworks.Data;
 using System;
@@ -7,13 +14,6 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
-
-using COAT.Assets;
-using COAT.UI;
-using COAT.UI.Menus;
-using COAT.IO;
-using COAT.Net.Types;
-using COAT.Utils;
 
 /// <summary> Lobby controller with several useful methods and properties. </summary>
 public class LobbyController
@@ -27,6 +27,8 @@ public class LobbyController
     public static SteamId LastOwner;
     /// <summary> Whether the player owns the lobby. </summary>
     public static bool IsOwner;
+    /// <summary> Returns the clients 'Friend' class. </summary>
+    public static Friend? Self => Online ? Lobby?.Members.FirstOrDefault(f => f.IsMe) : null;
 
     /// <summary> Whether a lobby is creating right now. </summary>
     public static bool CreatingLobby;
@@ -53,11 +55,14 @@ public class LobbyController
                 LeaveLobby();
                 Message.Hud2NSLocal("lobby.banned");
             }
+
             if (!IsCoatClient(lobby, ref client))
             {
                 LeaveLobby();
                 HudMessageReceiver.Instance?.SendHudMessage($"Server is an {client.ToLower()} server");
             }
+
+            SaveManager.LoadPlayerData();
         };
 
         // and leave the lobby if the owner has left it
@@ -199,11 +204,7 @@ public class LobbyController
             }
             else Log.Warning($"Couldn't join a lobby. Result is {task.Result}");
         });
-
-        AddProperty("team", Team.Yellow);
-        AddProperty("team color", TeamExtensions.Color(Team.Yellow));
-        AddProperty("username", SteamClient.Name);
-
+        
         SaveManager.SaveLobby();
     }
 

@@ -47,12 +47,19 @@ public class Message
     /// <summary> Writes a message for a player. </summary>
     public static void Receive(string msg, Friend author, string color, bool tts = false)
     {
+        string username = LobbyController.Lobby?.GetMemberData(author, "username");
+        
         string FormattedColor = (color.StartsWith('#') ? color : $"#{color}");
-        string FormattedName = author.Name.Replace("[", "\\[");
         string FormattedMsg = Censoring.ParseMessage(CutDangerous(msg));
+        string FormattedName;
 
         string FormattedPrefixes = tts ? ChatManager.TTS_PREFIX : "";
         FormattedPrefixes += author.Id == LobbyController.LastOwner ? ChatManager.HOST_PREFIX : "";
+
+        if (username != "")
+            FormattedName = $"{username} ({author.Name})".Replace("[", "\\[");
+        else
+            FormattedName = author.Name.Replace("[", "\\[");
 
         Receive($"<b>{FormattedPrefixes}[{FormattedColor}]{FormattedName}[][#F75]:[]</b> {FormattedMsg}");
     }
