@@ -84,9 +84,10 @@ public class SprayManager
             spray.Lifetime = 58f;
             Sprays.Remove(owner);
         }
+
         if (!Cache.ContainsKey(owner))
         {
-            if (owner == Tools.AccId) // seems like the player is in offline game
+            if (owner == Tools.AccId)
                 Cache.Add(owner, CurrentSpray);
             else
                 NetRequester.Request(NetFile.NET_FILE_TYPE_SPRAY, owner);

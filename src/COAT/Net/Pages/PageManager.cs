@@ -4,12 +4,13 @@ using COAT.IO;
 
 using Steamworks;
 using System.Collections.Generic;
+using System.Linq;
 
 /// <summary> Handles different "pages" or long term net data like world and player info. </summary>
 public class PageManager
 {
-    /// <summary> Index for the player page. </summary>
-    public const int PAGE_INDEX_PLAYER = 0x01;
+    /// <summary> Null index. </summary>
+    public const int PAGE_INDEX_NULL = 0x00;
     /// <summary> Index for the world page. </summary>
     public const int PAGE_INDEX_WORLD = 0x01;
     /// <summary> Index for the special page. </summary>
@@ -21,10 +22,6 @@ public class PageManager
     /// <summary> Index for the sandbox page. </summary>
     public const int PAGE_INDEX_SANDBOX = 0x01;
 
-    /// <summary> Page for every players excluding the client. </summary>
-    public static Dictionary<Friend, PlayerPage> Players;
-    /// <summary> The client's player page. </summary>
-    public static PlayerPage Player;
     /// <summary> Page for the main world settings (doors, deactive arenas). </summary>
     public static WorldPage World;
     /// <summary> Page for information in specific levels. </summary>
@@ -40,6 +37,5 @@ public class PageManager
 
     public static void Load()
     {
-        Player = new PlayerPage();
     }
 }

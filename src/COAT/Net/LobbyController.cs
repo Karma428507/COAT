@@ -200,6 +200,10 @@ public class LobbyController
             else Log.Warning($"Couldn't join a lobby. Result is {task.Result}");
         });
 
+        AddProperty("team", Team.Yellow);
+        AddProperty("team color", TeamExtensions.Color(Team.Yellow));
+        AddProperty("username", SteamClient.Name);
+
         SaveManager.SaveLobby();
     }
 

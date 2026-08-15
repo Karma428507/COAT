@@ -70,7 +70,6 @@ public class NetLoader
             Log.Info("Downloading net file#" + id);
 
             int length = r.Int();
-            Log.Debug($"Length: {length}, Clusters: {length / 512}, Extra: {length % 512}");
             Streams[queue] = new(Marshal.AllocHGlobal(length), length);
         }
         else // Data packet

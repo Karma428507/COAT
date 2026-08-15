@@ -37,12 +37,6 @@ public abstract class Page
     /// <summary> Adds a property to the page. </summary>
     protected void ChangeProperty(string name, object obj)
     {
-        // Check if the player is allowed to change the property (change later)
-        if (Index != PageManager.PAGE_INDEX_PLAYER)
-            return;
-
-        // If the player is editing a player page, make sure it's theres
-
         Properties[name] = obj;
     }
 
