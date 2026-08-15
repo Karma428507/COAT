@@ -57,8 +57,6 @@ public class NetLoader
         byte type = r.Byte();
         NetQueue queue = new NetQueue(id, type);
 
-        Log.Debug($"ID: {id}, Type: {type}");
-
         if (type == NetFile.NET_FILE_TYPE_SPRAY && !SpraySettings.Enabled) return;
 
         if (!r.Bool()) // Initial packet
@@ -83,7 +81,7 @@ public class NetLoader
                 return;
             }
 
-            stream.Bytes(r.Bytes(r.length - 6));
+            stream.Bytes(r.Bytes(r.length - 7));
             if (stream.Position >= stream.length)
             {
                 // handle the downloaded spray
@@ -93,9 +91,7 @@ public class NetLoader
                 Streams.Remove(queue);
             }
 
-#if DEBUG
-            Log.Debug($"Downloaded {100f * stream.Position / stream.length:0.00}%");
-#endif
+            //Log.Debug($"Downloaded {100f * stream.Position / stream.length:0.00}%");
         }
 
     }
