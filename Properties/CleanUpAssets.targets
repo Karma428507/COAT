@@ -1,0 +1,29 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	
+  <PropertyGroup>
+			<CoatAssetsFolder>$(MSBuildProjectDirectory)\assets</CoatAssetsFolder>
+		</PropertyGroup>
+	
+  <Target Name="CleanUpAssets" BeforeTargets="Build" 
+		  Condition="'$(CleanUpAssets)' == 'true' And Exists('$(CoatAssetsFolder)\coatassets')">
+	
+		<Message Importance="high" Text="Cleaning up the assets folder..." />
+
+		<Delete Files="$(CoatAssetsFolder)\assets"/>
+		<Delete Files="$(CoatAssetsFolder)\assets.manifest"/>
+		<Delete Files="$(CoatAssetsFolder)\coat.bundle"/>
+		<Delete Files="$(CoatAssetsFolder)\coatassets.manifest"/>
+
+		<Move
+			SourceFiles="$(CoatAssetsFolder)\coatassets"
+			DestinationFiles="$(CoatAssetsFolder)\coat.bundle" />
+
+		<ItemGroup>
+			<None Remove="$(CoatAssetsFolder)\coat.bundle" />
+			<EmbeddedResource Include="$(CoatAssetsFolder)\coat.bundle" />
+		</ItemGroup>
+
+		<Message Importance="high" Text="Clean up complete." />
+  </Target>
+  
+</Project>

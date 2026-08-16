@@ -147,7 +147,7 @@ public class ModAssets
 
 #if ENABLE_PREFAB_UI
         // Loads the prefab UI into the prefabUI root
-        LoadAsyncUI("Main Menu.prefab", "Main Menu Coat");
+        LoadAsyncUI("COATUI.prefab", "Main Menu Coat");
 
         // After loading the prefab UI, set them up
         Events.Post(PrefabUI.InitiateCanvas);

@@ -1,89 +1,93 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
-    <AssemblyName>COAT</AssemblyName>
-    <Description>An offshoot of JAKET utilizing moderation, QOL features and networking framework.</Description>
-    <Version>1.3.42</Version>
-    <DebugType>embedded</DebugType>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <LangVersion>latest</LangVersion>
-    <RestoreAdditionalProjectSources>
-      https://api.nuget.org/v3/index.json;
-      https://nuget.bepinex.dev/v3/index.json;
-      https://nuget.samboy.dev/v3/index.json
-    </RestoreAdditionalProjectSources>
-    <RootNamespace>COAT</RootNamespace>
-    <NoWarn>IDE0028, IDE0044, IDE0062, IDE0130, IDE0290, IDE0300, IDE1006</NoWarn>
-    <BaseOutputPath></BaseOutputPath>
-    <ProduceReferenceAssembly>False</ProduceReferenceAssembly>
+	<TargetFramework>netstandard2.1</TargetFramework>
+	<AssemblyName>COAT</AssemblyName>
+	<Description>An offshoot of JAKET utilizing moderation, QOL features and networking framework.</Description>
+	<Version>1.3.42</Version>
+	<DebugType>embedded</DebugType>
+	<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+	<LangVersion>latest</LangVersion>
+	<RestoreAdditionalProjectSources>
+	  https://api.nuget.org/v3/index.json;
+	  https://nuget.bepinex.dev/v3/index.json;
+	  https://nuget.samboy.dev/v3/index.json
+	</RestoreAdditionalProjectSources>
+	<RootNamespace>COAT</RootNamespace>
+	<NoWarn>IDE0028, IDE0044, IDE0062, IDE0130, IDE0290, IDE0300, IDE1006</NoWarn>
+	<CopyToBepInExPluginsDir>true</CopyToBepInExPluginsDir>
+	<ProduceReferenceAssembly>False</ProduceReferenceAssembly>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DebugType>embedded</DebugType>
+	<DebugType>embedded</DebugType>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DebugType>embedded</DebugType>
-    <DefineConstants>$(DefineConstants);UPDATE</DefineConstants>
+	<DebugType>embedded</DebugType>
+	<DefineConstants>$(DefineConstants);UPDATE</DefineConstants>
   </PropertyGroup>
 
-  <ItemGroup>
-    <None Remove="assets\coat.bundle" />
-    <None Remove="assets\Localization\arabic.properties" />
-    <None Remove="assets\Localization\brazilianportuguese.properties" />
-    <None Remove="assets\Localization\english.properties" />
-    <None Remove="assets\Localization\filipino.properties" />
-    <None Remove="assets\Localization\french.properties" />
-    <None Remove="assets\Localization\italian.properties" />
-    <None Remove="assets\Localization\polish.properties" />
-    <None Remove="assets\Localization\russian.properties" />
-    <None Remove="assets\Localization\spanish.properties" />
-    <None Remove="assets\Localization\ukrainian.properties" />
+	<Import Project="Properties/DeployToPlugins.targets"></Import>
+	<Import Project="Properties/CleanUpAssets.targets"></Import>
+
+
+	<ItemGroup>
+	<None Remove="assets\coat.bundle" />
+	<None Remove="assets\Localization\arabic.properties" />
+	<None Remove="assets\Localization\brazilianportuguese.properties" />
+	<None Remove="assets\Localization\english.properties" />
+	<None Remove="assets\Localization\filipino.properties" />
+	<None Remove="assets\Localization\french.properties" />
+	<None Remove="assets\Localization\italian.properties" />
+	<None Remove="assets\Localization\polish.properties" />
+	<None Remove="assets\Localization\russian.properties" />
+	<None Remove="assets\Localization\spanish.properties" />
+	<None Remove="assets\Localization\ukrainian.properties" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="assets\coat.bundle" />
-    <EmbeddedResource Include="assets\Localization\arabic.properties" />
-    <EmbeddedResource Include="assets\Localization\brazilianportuguese.properties" />
-    <EmbeddedResource Include="assets\Localization\english.properties" />
-    <EmbeddedResource Include="assets\Localization\filipino.properties" />
-    <EmbeddedResource Include="assets\Localization\french.properties" />
-    <EmbeddedResource Include="assets\Localization\italian.properties" />
-    <EmbeddedResource Include="assets\Localization\polish.properties" />
-    <EmbeddedResource Include="assets\Localization\russian.properties" />
-    <EmbeddedResource Include="assets\Localization\spanish.properties" />
-    <EmbeddedResource Include="assets\Localization\ukrainian.properties" />
+	<EmbeddedResource Include="assets\coat.bundle" />
+	<EmbeddedResource Include="assets\Localization\arabic.properties" />
+	<EmbeddedResource Include="assets\Localization\brazilianportuguese.properties" />
+	<EmbeddedResource Include="assets\Localization\english.properties" />
+	<EmbeddedResource Include="assets\Localization\filipino.properties" />
+	<EmbeddedResource Include="assets\Localization\french.properties" />
+	<EmbeddedResource Include="assets\Localization\italian.properties" />
+	<EmbeddedResource Include="assets\Localization\polish.properties" />
+	<EmbeddedResource Include="assets\Localization\russian.properties" />
+	<EmbeddedResource Include="assets\Localization\spanish.properties" />
+	<EmbeddedResource Include="assets\Localization\ukrainian.properties" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="UnityEngine.Modules" Version="2022.3.29" IncludeAssets="compile" />
+	<PackageReference Include="UnityEngine.Modules" Version="2022.3.29" IncludeAssets="compile" />
 
-    <Reference Include="lib\BepInEx.dll" />
-    <Reference Include="lib\0Harmony.dll" />
+	<Reference Include="lib\BepInEx.dll" />
+	<Reference Include="lib\0Harmony.dll" />
 
-    <Reference Include="lib\Assembly-CSharp.dll" />
-    <Reference Include="lib\Facepunch.Steamworks.Win64.dll" />
-    <Reference Include="lib\plog.dll" />
+	<Reference Include="lib\Assembly-CSharp.dll" />
+	<Reference Include="lib\Facepunch.Steamworks.Win64.dll" />
+	<Reference Include="lib\plog.dll" />
 
-    <Reference Include="lib\Unity.Addressables.dll" />
-    <Reference Include="lib\Unity.ResourceManager.dll" />
-    <Reference Include="lib\Unity.TextMeshPro.dll" />
-    <Reference Include="lib\UnityEngine.UI.dll" />
-    <Reference Include="lib\UnityUIExtensions.dll" />
+	<Reference Include="lib\Unity.Addressables.dll" />
+	<Reference Include="lib\Unity.ResourceManager.dll" />
+	<Reference Include="lib\Unity.TextMeshPro.dll" />
+	<Reference Include="lib\UnityEngine.UI.dll" />
+	<Reference Include="lib\UnityUIExtensions.dll" />
 
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework.TrimEnd(`0123456789`))' == 'net'">
-    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.2" PrivateAssets="all" />
+	<PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.2" PrivateAssets="all" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="assets\Bundles\COAT\sounds\" />
-    <Folder Include="src\COAT\Net\Pages\SpecialLevel\" />
+	<Folder Include="assets\Bundles\COAT\sounds\" />
+	<Folder Include="src\COAT\Net\Pages\SpecialLevel\" />
   </ItemGroup>
 
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="echo Copying to plugin folder&#xD;&#xA;copy &quot;$(TargetDir)/COAT.dll&quot; &quot;C:\Program Files (x86)\Steam\steamapps\common\ULTRAKILL\BepInEx\plugins\COAT\COAT.dll&quot;" />
-  </Target>
+  <ItemGroup>
+	<None Include="COAT.csproj.user" />
+  </ItemGroup>
 </Project>
