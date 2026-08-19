@@ -31,8 +31,10 @@
 	<Import Project="Properties/DeployToPlugins.targets"></Import>
 	<Import Project="Properties/CleanUpAssets.targets"></Import>
 
+	
 
-	<ItemGroup>
+
+  <ItemGroup>
 	<None Remove="assets\coat.bundle" />
 	<None Remove="assets\Localization\arabic.properties" />
 	<None Remove="assets\Localization\brazilianportuguese.properties" />

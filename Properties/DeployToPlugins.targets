@@ -4,7 +4,8 @@
           Condition="'$(CopyToBepInExPluginsDir)' == 'true'">
     
     <PropertyGroup>
-      <BepInExPluginsDir>$(UltrakillDir)BepInEx/plugins/</BepInExPluginsDir>
+      <UltrakillDir>C:/Program Files (x86)/Steam/steamapps/common/ULTRAKILL/</UltrakillDir>
+	  <BepInExPluginsDir>$(UltrakillDir)BepInEx/plugins/</BepInExPluginsDir>
       <SourceDir>$(MSBuildProjectDirectory)\$(OutputPath)</SourceDir>
       <DestinationDir>$(BepInExPluginsDir)$(AssemblyName)/</DestinationDir>
     </PropertyGroup>
