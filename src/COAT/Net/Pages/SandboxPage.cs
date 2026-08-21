@@ -6,4 +6,8 @@ public class SandboxPage : Page
     public SandboxPage() : base(PageManager.PAGE_INDEX_SANDBOX)
     {
     }
+
+    public override void Reload()
+    {
+    }
 }

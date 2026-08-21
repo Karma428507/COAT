@@ -23,26 +23,43 @@ public abstract class Page
     }
 
     /// <summary> Converts the name used for organizing data into a int. </summary>
-    public int GetPropertyID(string name) => EntryIDs.IndexOf(name);
+    public int GetPropertyID(string key) => EntryIDs.IndexOf(key);
     /// <summary> Converts the index into it's name. </summary>
     public string GetPropertyName(int index) => EntryIDs[index];
     
     /// <summary> Adds a property to the page. </summary>
-    protected void AddProperty(string name, object obj)
+    protected void AddProperty(string key, object obj)
     {
-        EntryIDs.Add(name);
-        Properties[name] = obj;
+        EntryIDs.Add(key);
+        Properties[key] = obj;
     }
 
-    /// <summary> Adds a property to the page. </summary>
-    protected void ChangeProperty(string name, object obj)
+    /// <summary> Sets a property to the page (host only). </summary>
+    protected void SetProperty(string key, object obj) => Properties[key] = obj;
+
+    /// <summary> Adds a property to the page and submits it to the main page. </summary>
+    public void ChangeProperty(string key, object obj)
     {
-        Properties[name] = obj;
+        Properties[key] = obj;
+
+        if (LobbyController.IsOwner)
+        {
+
+        }
+        else
+        {
+
+        }
     }
+
+    /// <summary> Gets a property from the page. </summary>
+    public object GetProperty(string key) => Properties[key];
 
     /// <summary> A function for the initial page loading logic. </summary>
     private void Initialize()
     {
 
     }
+
+    public abstract void Reload();
 }

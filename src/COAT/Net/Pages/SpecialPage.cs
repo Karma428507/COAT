@@ -9,9 +9,12 @@ public class SpecialPage : Page
     {
     }
 
-
     public virtual void Load()
     {
 
+    }
+
+    public override void Reload()
+    {
     }
 }
