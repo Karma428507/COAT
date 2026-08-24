@@ -1,6 +1,7 @@
 namespace COAT;
 
 using COAT.Net;
+using COAT.Net.Files;
 using COAT.Utils;
 
 using Steamworks;
@@ -30,6 +31,11 @@ public class Events : MonoSingleton<Events>
     /// <summary> Events that fire every net tick, second and dozen seconds. </summary>
     public static SafeEvent EveryTick = new(), EverySecond = new(), EveryDozen = new();
 
+    /// <summary> When a page file is downloaded. </summary>
+    public static SafeFileEvent OnDownload = new();
+    /// <summary> When a page file is downloaded. </summary>
+    public static SafeFileEvent OnPageDownload = new();
+
     /// <summary> Subscribes to some events to fire some safe events. </summary>
     public static void Load()
     {
@@ -57,6 +63,12 @@ public class Events : MonoSingleton<Events>
 
             // enable the ability of the game to run in the background, because multiplayer requires it
             Application.runInBackground = LobbyController.Online;
+        };
+
+        OnDownload += (type) =>
+        {
+            if (type >= NetFile.NET_FILE_TYPE_PAGE_NULL && type <= NetFile.NET_FILE_TYPE_PAGE_END)
+                OnPageDownload.Fire(type);
         };
     }
 
@@ -117,4 +129,27 @@ public class SafeEvent
 
     /// <summary> Subscribes to the temporary safe event: the listener can throw exceptions safely. </summary>
     public static SafeEvent operator *(SafeEvent e, Action listener) { e.listenersTemp.Add(listener); return e; }
+}
+
+/// <summary> Safe events that handles on download events for net files. </summary>
+public class SafeFileEvent
+{
+    /// <summary> List of all main event listeners. </summary>
+    private List<Action<byte>> listeners = new();
+
+    /// <summary> Fires the event, i.e. fires its listeners, ensuring that they all will be executed regardless of exceptions. </summary>
+    public void Fire(byte type)
+    {
+        for (int i = 0; i < listeners.Count; i++)
+        {
+            try { listeners[i](type); }
+            catch (Exception ex) { Log.Error(ex); }
+        }
+    }
+
+    /// <summary> Subscribes to the safe event: the listener can throw exceptions safely. </summary>
+    public static SafeFileEvent operator +(SafeFileEvent e, Action<byte> listener) { e.listeners.Add(listener); return e; }
+
+    /// <summary> Unsubscribes from the safe event if it finds the listener in the list. </summary>
+    public static SafeFileEvent operator -(SafeFileEvent e, Action<byte> listener) { e.listeners.Remove(listener); return e; }
 }

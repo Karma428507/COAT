@@ -88,6 +88,7 @@ public class NetLoader
 
                 Marshal.FreeHGlobal(stream.memory);
                 Streams.Remove(queue);
+                Events.OnDownload.Fire(type);
             }
 
             //Log.Debug($"Downloaded {100f * stream.Position / stream.length:0.00}%");
