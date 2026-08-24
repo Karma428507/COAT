@@ -133,9 +133,6 @@ public class PageManager
     {
         World = null;
         Special = null;
-
-        // Debug
-        Log.Debug($"Debug property: {GetData(NetFile.NET_FILE_TYPE_PAGE_WORLD, "debug")}");
     }
 
     private static void RequestPages()
