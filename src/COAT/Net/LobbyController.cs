@@ -3,6 +3,7 @@ namespace COAT.Net;
 using COAT.Assets;
 using COAT.Content;
 using COAT.IO;
+using COAT.Net.Pages;
 using COAT.Net.Types;
 using COAT.UI;
 using COAT.UI.Menus;

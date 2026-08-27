@@ -18,14 +18,24 @@ public class NetLoader
     public const int CHUNK_SIZE = 512;
     /// <summary> List of all streams for net file loading. </summary>
     public static Dictionary<NetQueue, Writer> Streams = new();
-    /// <summary> A list of actions for differnt net file types. </summary>
-    public static Dictionary<byte, Action<uint, byte[]>> DownloadEvents = new();
 
     /// <summary> Mainly defines the download events. </summary>
     public static void Load()
     {
-        DownloadEvents[NetFile.NET_FILE_TYPE_NULL] = HandleNull;
-        DownloadEvents[NetFile.NET_FILE_TYPE_SPRAY] = SprayManager.HandleSpray;
+        Events.OnDownload += (type, owner, data) =>
+        {
+            switch (type)
+            {
+                case NetFile.NET_FILE_TYPE_NULL:
+                    HandleNull(owner, data);
+                    break;
+                case NetFile.NET_FILE_TYPE_SPRAY:
+                    SprayManager.HandleSpray(owner, data);
+                    break;
+            }
+
+            Log.Debug($"Downloaded net file type of: {type}");
+        };
     }
 
     /// <summary> Uploads a net file to the clients or server. </summary>
@@ -84,11 +94,9 @@ public class NetLoader
             if (stream.Position >= stream.length)
             {
                 // handle the downloaded spray
-                Reader.Read(stream.memory, stream.length, r => DownloadEvents[type](id, r.Bytes(r.length)));
-
+                Events.OnDownload.Fire(type, id, r.Bytes(r.length));
                 Marshal.FreeHGlobal(stream.memory);
                 Streams.Remove(queue);
-                Events.OnDownload.Fire(type);
             }
 
             //Log.Debug($"Downloaded {100f * stream.Position / stream.length:0.00}%");

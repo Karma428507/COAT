@@ -65,10 +65,10 @@ public class Events : MonoSingleton<Events>
             Application.runInBackground = LobbyController.Online;
         };
 
-        OnDownload += (type) =>
+        OnDownload += (type, owner, data) =>
         {
             if (type >= NetFile.NET_FILE_TYPE_PAGE_NULL && type <= NetFile.NET_FILE_TYPE_PAGE_END)
-                OnPageDownload.Fire(type);
+                OnPageDownload.Fire(type, owner, data);
         };
     }
 
@@ -135,21 +135,21 @@ public class SafeEvent
 public class SafeFileEvent
 {
     /// <summary> List of all main event listeners. </summary>
-    private List<Action<byte>> listeners = new();
+    private List<Action<byte, uint, byte[]>> listeners = new();
 
     /// <summary> Fires the event, i.e. fires its listeners, ensuring that they all will be executed regardless of exceptions. </summary>
-    public void Fire(byte type)
+    public void Fire(byte type, uint owner, byte[] data)
     {
         for (int i = 0; i < listeners.Count; i++)
         {
-            try { listeners[i](type); }
+            try { listeners[i](type, owner, data); }
             catch (Exception ex) { Log.Error(ex); }
         }
     }
 
     /// <summary> Subscribes to the safe event: the listener can throw exceptions safely. </summary>
-    public static SafeFileEvent operator +(SafeFileEvent e, Action<byte> listener) { e.listeners.Add(listener); return e; }
+    public static SafeFileEvent operator +(SafeFileEvent e, Action<byte, uint, byte[]> listener) { e.listeners.Add(listener); return e; }
 
     /// <summary> Unsubscribes from the safe event if it finds the listener in the list. </summary>
-    public static SafeFileEvent operator -(SafeFileEvent e, Action<byte> listener) { e.listeners.Remove(listener); return e; }
+    public static SafeFileEvent operator -(SafeFileEvent e, Action<byte, uint, byte[]> listener) { e.listeners.Remove(listener); return e; }
 }

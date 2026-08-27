@@ -53,6 +53,24 @@ public class PageManager
             else
                 ClientReset();
         };
+
+        Events.OnPageDownload += (type, owner, data) =>
+        {
+            Log.Debug($"Page type: {type}");
+
+            switch (type)
+            {
+                case NetFile.NET_FILE_TYPE_PAGE_WORLD:
+                    Log.Debug("Downloading world page file");
+                    break;
+                case NetFile.NET_FILE_TYPE_PAGE_SPECIAL:
+                    Log.Debug("Downloading special page file");
+                    break;
+                default:
+                    Log.Debug("Treating as null page.");
+                    break;
+            }
+        };
     }
 
     public static object? GetData(byte pageIndex, string key)
@@ -126,16 +144,19 @@ public class PageManager
         Special.Reload();
 
         // Fill the request table with the newly updated pages
-        RequestPages();
+        RefreshPageRequests();
     }
 
     private static void ClientReset()
     {
         World = null;
         Special = null;
+
+        NetRequester.Request(NetFile.NET_FILE_TYPE_PAGE_WORLD);
+        NetRequester.Request(NetFile.NET_FILE_TYPE_PAGE_SPECIAL);
     }
 
-    private static void RequestPages()
+    private static void RefreshPageRequests()
     {
         Networking.EachConnection(cons =>
         {

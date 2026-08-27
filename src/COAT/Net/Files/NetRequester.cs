@@ -23,10 +23,15 @@ public class NetRequester
     {
         foreach (var owner in Requests.Keys)
         {
+            // Upload spray files
             if (SprayManager.Cache.TryGetValue(owner.ID, out var spray))
+            {
                 NetLoader.Upload(owner.ID, owner.Type, spray.Data, (data, size) => Requests[owner].ForEach(con => Tools.Send(con, data, size)));
-            else
-                Log.Error($"Couldn't find the requested spray. Spray id is {owner}");
+                continue;
+            }
+
+
+            Log.Error($"Unable to upload file with the type of {owner.Type} to {owner.ID}");
         }
 
         Requests.Clear(); // clear all requests, because they are processed
