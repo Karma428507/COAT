@@ -1,7 +1,9 @@
 ﻿namespace COAT.Net.Files;
 
 using COAT.Content;
+using COAT.Net.Pages;
 using COAT.Net.Sprays;
+using COAT.UI.Physical;
 using COAT.Utils;
 
 using Steamworks.Data;
@@ -23,15 +25,39 @@ public class NetRequester
     {
         foreach (var owner in Requests.Keys)
         {
-            // Upload spray files
-            if (SprayManager.Cache.TryGetValue(owner.ID, out var spray))
+            void pageUpload(Page page)
             {
-                NetLoader.Upload(owner.ID, owner.Type, spray.Data, (data, size) => Requests[owner].ForEach(con => Tools.Send(con, data, size)));
-                continue;
+                if (page == null)
+                {
+                    Log.Error("Error, unknown page being uploaded.");
+                    return;
+                }
+
+                NetLoader.Upload(owner.ID, owner.Type, page.GetFile(), (data, size) => Requests[owner].ForEach(con => Tools.Send(con, data, size)));
             }
 
+            // NetFile types
+            switch (owner.Type)
+            {
+                // Upload spray files
+                case NetFile.NET_FILE_TYPE_SPRAY:
+                    if (SprayManager.Cache.TryGetValue(owner.ID, out var spray))
+                        NetLoader.Upload(owner.ID, owner.Type, spray.Data, (data, size) => Requests[owner].ForEach(con => Tools.Send(con, data, size)));
+                    
+                    break;
 
-            Log.Error($"Unable to upload file with the type of {owner.Type} to {owner.ID}");
+                // Pages
+                case NetFile.NET_FILE_TYPE_PAGE_WORLD:
+                    pageUpload(PageManager.World);
+                    break;
+                case NetFile.NET_FILE_TYPE_PAGE_SPECIAL:
+                    pageUpload(PageManager.Special);
+                    break;
+
+                default:
+                    Log.Error($"Unable to upload file with the type of {owner.Type} to {owner.ID}");
+                    break;
+            }
         }
 
         Requests.Clear(); // clear all requests, because they are processed

@@ -67,7 +67,7 @@ public class Events : MonoSingleton<Events>
 
         OnDownload += (type, owner, data) =>
         {
-            if (type >= NetFile.NET_FILE_TYPE_PAGE_NULL && type <= NetFile.NET_FILE_TYPE_PAGE_END)
+            if (NetFile.IsPageRange(type))
                 OnPageDownload.Fire(type, owner, data);
         };
     }

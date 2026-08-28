@@ -62,4 +62,46 @@ public abstract class Page
     }
 
     public abstract void Reload();
+
+    public byte[] GetFile()
+    {
+        List<byte> data = new();
+
+        for (int i = 0; i < Properties.Count; i++)
+        {
+            object value = Properties[EntryIDs[i]];
+
+            Log.Debug($"i = {i}; Obj: {value}, Type: {value.GetType()}");
+
+            switch (value)
+            {
+                case string s:
+                    data.Add((byte)(s.Length & 0xFF));
+                    data.Add((byte)((s.Length >> 8) & 0xFF));
+                    data.Add((byte)((s.Length >> 16) & 0xFF));
+                    data.Add((byte)((s.Length >> 24) & 0xFF));
+
+                    foreach (char c in s)
+                        data.Add((byte)c);
+                    
+                    break;
+
+                case char c:
+                    data.Add((byte)c);
+                    break;
+
+                case byte b:
+                    data.Add(b);
+                    break;
+
+                default:
+
+
+                    break;
+            }
+
+        }
+
+        return data.ToArray();
+    }
 }

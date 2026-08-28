@@ -2,6 +2,7 @@ namespace COAT.Chat;
 
 using COAT.Content;
 using COAT.Net;
+using COAT.Net.Pages;
 using Steamworks;
 using System.Linq;
 
@@ -23,6 +24,11 @@ public class CommandDebug : CommandHandler
             {
                 Chat.Receive($"\t{Entities.Providers.ContainsKey((EntityType)i)}\n");
             }
+        });
+
+        Register("world", "Prints the world data", args =>
+        {
+            PageManager.World.GetFile();
         });
     }
 }

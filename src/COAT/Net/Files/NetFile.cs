@@ -48,4 +48,6 @@ public class NetFile
         Name = Path = "Net";
         this.data = data;
     }
+
+    public static bool IsPageRange(byte type) => type >= NET_FILE_TYPE_PAGE_NULL && type <= NET_FILE_TYPE_PAGE_END;
 }
