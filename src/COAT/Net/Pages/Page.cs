@@ -13,13 +13,15 @@ public abstract class Page
 
     /// <summary> The entries for the page with a name and object defining each property. </summary>
     private Dictionary<string, object> Properties = new Dictionary<string, object>();
+    /// <summary> References of the objects of the properties, used when reading the data. </summary>
+    private Dictionary<string, object> PropertiesObjects = new Dictionary<string, object>();
     /// <summary> List of names used in the page to be converted into a number by it's index. </summary>
     private List<string> EntryIDs = new List<string>();
 
     protected Page(int index)
     {
         Index = index;
-        Initialize();
+        Events.Post(Initialize);
     }
 
     /// <summary> Converts the name used for organizing data into a int. </summary>
@@ -58,7 +60,13 @@ public abstract class Page
     /// <summary> A function for the initial page loading logic. </summary>
     private void Initialize()
     {
+        foreach (KeyValuePair<string, object> kvp in Properties)
+        {
+            PropertiesObjects.Add(kvp.Key, kvp.Value.GetType());
+        }
 
+        foreach (KeyValuePair<string, object> kvp in PropertiesObjects)
+            Log.Debug($"\t- [{kvp.Key}]: {kvp.Value}");
     }
 
     public abstract void Reload();
@@ -94,9 +102,54 @@ public abstract class Page
                     data.Add(b);
                     break;
 
+                case short s:
+                    data.Add((byte)(s & 0xFF));
+                    data.Add((byte)((s >> 8) & 0xFF));
+                    break;
+
+                case ushort s:
+                    data.Add((byte)(s & 0xFF));
+                    data.Add((byte)((s >> 8) & 0xFF));
+                    break;
+
+                case int I:
+                    data.Add((byte)(I & 0xFF));
+                    data.Add((byte)((I >> 8) & 0xFF));
+                    data.Add((byte)((I >> 16) & 0xFF));
+                    data.Add((byte)((I >> 24) & 0xFF));
+                    break;
+
+                case uint I:
+                    data.Add((byte)(I & 0xFF));
+                    data.Add((byte)((I >> 8) & 0xFF));
+                    data.Add((byte)((I >> 16) & 0xFF));
+                    data.Add((byte)((I >> 24) & 0xFF));
+                    break;
+
+                case long l:
+                    data.Add((byte)(l & 0xFF));
+                    data.Add((byte)((l >> 8) & 0xFF));
+                    data.Add((byte)((l >> 16) & 0xFF));
+                    data.Add((byte)((l >> 24) & 0xFF));
+                    data.Add((byte)((l >> 32) & 0xFF));
+                    data.Add((byte)((l >> 40) & 0xFF));
+                    data.Add((byte)((l >> 48) & 0xFF));
+                    data.Add((byte)((l >> 56) & 0xFF));
+                    break;
+
+                case ulong l:
+                    data.Add((byte)(l & 0xFF));
+                    data.Add((byte)((l >> 8) & 0xFF));
+                    data.Add((byte)((l >> 16) & 0xFF));
+                    data.Add((byte)((l >> 24) & 0xFF));
+                    data.Add((byte)((l >> 32) & 0xFF));
+                    data.Add((byte)((l >> 40) & 0xFF));
+                    data.Add((byte)((l >> 48) & 0xFF));
+                    data.Add((byte)((l >> 56) & 0xFF));
+                    break;
+
                 default:
-
-
+                    Log.Error("Unknown type");
                     break;
             }
 

@@ -18,6 +18,9 @@ public class WorldPage : Page
     public override void Reload()
     {
         SetProperty("debug", Mapping.Scene);
+        SetProperty("more than nothing", (ushort)10);
+        SetProperty("3", 3);
+        SetProperty("LONGGGG", (long)1);
 
         // Important debugging text
         Log.Debug("AAAAAAAAAAA");
