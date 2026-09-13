@@ -16,7 +16,7 @@ public abstract class Page
     /// <summary> The entries for the page with a name and object defining each property. </summary>
     private Dictionary<string, object> Properties = new Dictionary<string, object>();
     /// <summary> References of the objects of the properties, used when reading the data. </summary>
-    private static Dictionary<string, object> PropertiesObjects = new Dictionary<string, object>();
+    private static Dictionary<string, Type> PropertiesObjects = new Dictionary<string, Type>();
     /// <summary> List of names used in the page to be converted into a number by it's index. </summary>
     private List<string> EntryIDs = new List<string>();
 
@@ -71,7 +71,7 @@ public abstract class Page
     /// <summary> A function for the initial page loading logic. </summary>
     private void Initialize()
     {
-        foreach (KeyValuePair<string, object> kvp in PropertiesObjects)
+        foreach (KeyValuePair<string, Type> kvp in PropertiesObjects)
             Log.Debug($"\t- [{kvp.Key}]: {kvp.Value}");
     }
 
@@ -174,14 +174,18 @@ public abstract class Page
 
         for (int i = 0; i < Properties.Count; i++)
         {
-            Type type = PropertiesObjects[EntryIDs[i]].GetType();
+            Type type = PropertiesObjects[EntryIDs[i]];
 
             if (type == typeof(string))
             {
                 int len = data[index++] | (data[index++] << 8)
                          | (data[index++] << 16) | (data[index++] << 24);
-                Log.Debug($"String length: {len}");
-                Properties[EntryIDs[i]] = data[index++];
+                string val = "";
+
+                for (int j = 0; j < len; j++)
+                    val += data[index++];
+
+                Properties[EntryIDs[i]] = val;
             }
             else if (type == typeof(char))
                 Properties[EntryIDs[i]] = data[index++];
@@ -205,21 +209,21 @@ public abstract class Page
             }
             else if (type == typeof(uint))
             {
-                int val4 = (data[index++] | (data[index++] << 8)
+                uint val4 = (uint)(data[index++] | (data[index++] << 8)
                                 | (data[index++] << 16) | (data[index++] << 24));
                 Properties[EntryIDs[i]] = val4;
             }
-            else if (type == typeof(uint))
+            else if (type == typeof(long))
             {
-                int val5 = (data[index++] | (data[index++] << 8)
+                long val5 = (long)(data[index++] | (data[index++] << 8)
                                 | (data[index++] << 16) | (data[index++] << 24)
                                 | (data[index++] << 32) | (data[index++] << 40)
                                 | (data[index++] << 48) | (data[index++] << 56));
                 Properties[EntryIDs[i]] = val5;
             }
-            else if (type == typeof(uint))
+            else if (type == typeof(ulong))
             {
-                int val6 = (data[index++] | (data[index++] << 8)
+                ulong val6 = (ulong)(data[index++] | (data[index++] << 8)
                                 | (data[index++] << 16) | (data[index++] << 24)
                                 | (data[index++] << 32) | (data[index++] << 40)
                                 | (data[index++] << 48) | (data[index++] << 56));
@@ -232,13 +236,6 @@ public abstract class Page
             }
 
             Log.Debug($"i = {i}; Obj: {Properties[EntryIDs[i]]}, Type: {Properties[EntryIDs[i]].GetType()}");
-        }
-
-        for (int i = 0; i < Properties.Count; i++)
-        {
-            object value = Properties[EntryIDs[i]];
-
-            Log.Debug($"i = {i}; Obj: {value}, Type: {value.GetType()}");
         }
     }
 }
