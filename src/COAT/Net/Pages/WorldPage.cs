@@ -30,7 +30,5 @@ public class WorldPage : Page
         SetProperty("3", 3);
         SetProperty("deadbeef", 0xDEADBEEF);
         SetProperty("LONGGGG", (long)1);
-        // Important debugging text
-        Log.Debug("AAAAAAAAAAA");
     }
 }

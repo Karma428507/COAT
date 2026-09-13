@@ -4,6 +4,7 @@ using COAT.Content;
 using COAT.Net;
 using COAT.Net.Pages;
 using Steamworks;
+using System.Collections.Generic;
 using System.Linq;
 
 /// <summary> The normal commands. </summary>
@@ -29,9 +30,6 @@ public class CommandDebug : CommandHandler
         Register("world", "Prints the world data", args =>
         {
             byte[] data = PageManager.World.GetFile();
-
-            Chat.Receive($"File size: {data.Length}");
-
             PageManager.World.SetPage(data);
         });
     }

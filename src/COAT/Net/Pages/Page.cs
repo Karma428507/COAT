@@ -89,8 +89,6 @@ public abstract class Page
         {
             object value = Properties[EntryIDs[i]];
 
-            Log.Debug($"i = {i}; Obj: {value}, Type: {value.GetType()}");
-
             switch (value)
             {
                 case string s:
@@ -162,7 +160,6 @@ public abstract class Page
                     Log.Error("Unknown type");
                     return null;
             }
-
         }
 
         return data.ToArray();
@@ -234,8 +231,6 @@ public abstract class Page
                 Log.Error("Unknown type");
                 return;
             }
-
-            Log.Debug($"i = {i}; Obj: {Properties[EntryIDs[i]]}, Type: {Properties[EntryIDs[i]].GetType()}");
         }
     }
 }
