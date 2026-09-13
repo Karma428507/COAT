@@ -7,6 +7,11 @@ public class SandboxPage : Page
     {
     }
 
+    public override void LoadProperties()
+    {
+        throw new System.NotImplementedException();
+    }
+
     public override void Reload()
     {
     }

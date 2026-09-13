@@ -27,9 +27,9 @@ public class PageManager
     public const int PAGE_INDEX_SANDBOX = 0x01;
 
     /// <summary> Page for the main world settings (doors, deactive arenas). </summary>
-    public static WorldPage? World;
+    public static WorldPage? World = new WorldPage();
     /// <summary> Page for information in specific levels. </summary>
-    public static SpecialPage? Special;
+    public static SpecialPage? Special = new SpecialPage();
 
     /* Pages to work on later
     /// <summary> Page for the enemies. </summary>
@@ -41,8 +41,6 @@ public class PageManager
 
     public static void Load()
     {
-        Special = new SpecialPage();
-
         Events.OnLoaded += () =>
         {
             if (LobbyController.Offline)

@@ -17,4 +17,9 @@ public class SpecialPage : Page
     public override void Reload()
     {
     }
+
+    public override void LoadProperties()
+    {
+        throw new System.NotImplementedException();
+    }
 }

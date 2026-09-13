@@ -28,7 +28,11 @@ public class CommandDebug : CommandHandler
 
         Register("world", "Prints the world data", args =>
         {
-            PageManager.World.GetFile();
+            byte[] data = PageManager.World.GetFile();
+
+            Chat.Receive($"File size: {data.Length}");
+
+            PageManager.World.SetPage(data);
         });
     }
 }
