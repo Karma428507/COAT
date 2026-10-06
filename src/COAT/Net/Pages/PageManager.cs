@@ -60,68 +60,17 @@ public class PageManager
             {
                 case NetFile.NET_FILE_TYPE_PAGE_WORLD:
                     Log.Debug("Downloading world page file");
+                    World.SetPage(data);
                     break;
                 case NetFile.NET_FILE_TYPE_PAGE_SPECIAL:
                     Log.Debug("Downloading special page file");
+                    Special.SetPage(data);
                     break;
                 default:
                     Log.Debug("Treating as null page.");
                     break;
             }
         };
-    }
-
-    public static object? GetData(byte pageIndex, string key)
-    {
-        Page waitForRequest()
-        {
-            NetRequester.Request(pageIndex);
-
-            while (true)
-            {
-                switch (pageIndex)
-                {
-                    case NetFile.NET_FILE_TYPE_PAGE_WORLD:
-                        if (World != null)
-                            return World;
-
-                        break;
-                    case NetFile.NET_FILE_TYPE_PAGE_SPECIAL:
-                        if (Special != null)
-                            return Special;
-
-                        break;
-                }
-
-                // maybe add a counter for this to not be an infinite loop?
-            }
-        }
-
-        Page? page;
-
-        // Request the page
-        switch (pageIndex)
-        {
-            case NetFile.NET_FILE_TYPE_PAGE_WORLD:
-                page = World;
-                break;
-            case NetFile.NET_FILE_TYPE_PAGE_SPECIAL:
-                page = Special;
-                break;
-            default:
-                return null;
-        }
-
-        // Wait for it if the player does not already have it
-        if (page == null)
-            page = waitForRequest();
-
-        return page.GetProperty(key);
-    }
-
-    public static void SetData(Page page, string key, object value)
-    {
-
     }
 
     private static void CreatePages()
@@ -154,7 +103,7 @@ public class PageManager
         NetRequester.Request(NetFile.NET_FILE_TYPE_PAGE_SPECIAL);
     }
 
-    private static void RefreshPageRequests()
+    public static void RefreshPageRequests()
     {
         Networking.EachConnection(cons =>
         {

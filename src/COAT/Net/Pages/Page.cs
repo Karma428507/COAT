@@ -169,6 +169,9 @@ public abstract class Page
     {
         int index = 0;
 
+        foreach (KeyValuePair<string, object> kvp in Properties)
+            Log.Debug($"\t- [{kvp.Key}]: {kvp.Value}");
+
         for (int i = 0; i < Properties.Count; i++)
         {
             Type type = PropertiesObjects[EntryIDs[i]];
@@ -232,5 +235,10 @@ public abstract class Page
                 return;
             }
         }
+
+        Log.Debug("Post install");
+
+        foreach (KeyValuePair<string, object> kvp in Properties)
+            Log.Debug($"\t- [{kvp.Key}]: {kvp.Value}");
     }
 }
